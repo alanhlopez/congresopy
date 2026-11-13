@@ -58,11 +58,17 @@ Sitio en local: `python3 -m http.server -d site 8000`
 .venv/bin/python -m pytest          # ~1 min; el test de reparseo se saltea si no está bronze/
 ```
 
-- `test_dashboard_igual_a_referencia`: corre `analisis.py` sobre silver/ (escribe en un directorio temporal
-  vía `CONGRESOPY_SALIDAS`) y compara con `tests/referencia/dashboard_data_votometro.json.gz`, el JSON del
-  prototipo. Exacto en todo. La matriz `heat` se compara como pares (legislador, legislador) -> valor,
-  porque el orden de sus filas sale de ordenar por d1 y hay legisladores empatados (en Diputados, vista
-  `resto`, tres que solo difieren en el 16.º decimal, que es ruido de numpy).
+Los dos primeros tests corren `analisis.py` sobre silver/ y escriben en un directorio temporal vía
+`CONGRESOPY_SALIDAS`, así que no pisan `salidas/`.
+
+- `test_dashboard_byte_a_byte`: el sha256 del `dashboard_data.json` generado tiene que ser `SALIDA_SHA256`
+  (= `salidas/votometro/dashboard_data.json` en git). Es igual en pandas 2.2/numpy 1.26, pandas 2.3/numpy
+  2.3 y pandas 3.1/numpy 2.5. Si un cambio lo modifica a propósito, se actualiza el hash y se explica en el commit.
+- `test_dashboard_igual_a_referencia`: compara con `tests/referencia/dashboard_data_votometro.json.gz`, el
+  JSON original del prototipo. Exacto en todo. La matriz `heat` se compara como pares
+  (legislador, legislador) -> valor, porque en el prototipo el orden de sus filas dependía de un empate en
+  d1 (en Diputados, vista `resto`, tres legisladores que solo difieren en el 16.º decimal). Desde el commit
+  "Orden determinístico de la matriz heat", `analisis.py` redondea d1 a 10 decimales y desempata por id.
 - `test_codificar_reproduce_silver`: `codificar.py` regenera exactamente `codificacion_sugerida.csv`.
 - `test_reparsear_reproduce_silver`: parsear bronze/ da las mismas filas que silver/ (sin importar el
   orden) y todas cuadran con el sumario.

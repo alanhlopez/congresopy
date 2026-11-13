@@ -175,7 +175,9 @@ def analizar(camara, v_all, vt_all, cod, L, filtro, sin_vetos=False):
 
     # 5. Matriz (todas las votaciones del filtro con Sí/No)
     M2 = v.assign(x=v.voto.map(SIGNO)).pivot_table(index="id_legislador", columns="id_votacion", values="x")
-    orden = list(pi.sort_values("d1").index)
+    # Orden por d1 con desempate determinístico: hay legisladores empatados en d1 que solo
+    # difieren en el ~16.º decimal (ruido de numpy/BLAS), así que se redondea y se desempata por id.
+    orden = list(pi.assign(_d1=pi.d1.round(10), _id=pi.index).sort_values(["_d1", "_id"]).index)
     H = coincidencias(M2.reindex(orden).values)
 
     part = v.groupby("id_legislador").emitido.mean()

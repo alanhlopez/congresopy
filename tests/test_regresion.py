@@ -29,6 +29,10 @@ import config  # noqa: E402
 
 REF = Path(__file__).parent / "referencia" / "dashboard_data_votometro.json.gz"
 REF_SHA256 = "984e0d7b21afb7895a6af0329bc45b8cf53d5fd387064c18ac531bcbea6b0115"
+# sha256 del dashboard_data.json que genera analisis.py hoy (= salidas/votometro/dashboard_data.json).
+# Desde el desempate determinístico del orden de `heat` es igual byte a byte en cualquier versión
+# de pandas/numpy probada. Si cambia a propósito, actualizalo y explicá por qué en el commit.
+SALIDA_SHA256 = "e9e3846eed7aae3ddf422215868f602514cf140660300adf8b2b1b91c07e6291"
 
 
 def normalizar(d):
@@ -75,11 +79,16 @@ def salida(tmp_path_factory):
     env = {**os.environ, "CONGRESOPY_SALIDAS": str(destino)}
     subprocess.run([sys.executable, str(RAIZ / "pipeline" / "analisis.py")],
                    env=env, check=True, capture_output=True)
-    return json.loads((destino / "dashboard_data.json").read_text(encoding="utf-8"))
+    return (destino / "dashboard_data.json").read_bytes()
+
+
+def test_dashboard_byte_a_byte(salida):
+    assert hashlib.sha256(salida).hexdigest() == SALIDA_SHA256, (
+        "dashboard_data.json cambió. Si es a propósito, actualizá SALIDA_SHA256 y explicá el cambio.")
 
 
 def test_dashboard_igual_a_referencia(referencia, salida):
-    ref, nuevo = normalizar(referencia), normalizar(salida)
+    ref, nuevo = normalizar(referencia), normalizar(json.loads(salida))
     difs = diferencias(ref, nuevo)
     assert not difs, "dashboard_data.json difiere de la referencia:\n" + "\n".join(difs)
 
