@@ -20,6 +20,9 @@ SALIDAS = Path(os.environ.get("CONGRESOPY_SALIDAS", RAIZ / "salidas" / "votometr
 CAMARAS = {"S": "senado", "D": "diputados"}
 # IDs de período: compartidos por las dos cámaras.
 PERIODOS = {100217: "2023-24", 100237: "2024-25", 100257: "2025-26", 100267: "2026-27"}
+# Período en curso: su listado de votaciones sigue creciendo. Es el único que se puede refrescar
+# (silpy_votos.py --refrescar), y cada refresco se guarda como snapshot fechado en bronze/.
+PERIODO_ABIERTO = 100267
 
 # --- SILpy ---
 BASE = "https://silpy.congreso.gov.py/web"

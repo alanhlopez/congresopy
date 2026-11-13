@@ -49,9 +49,16 @@ Con red. El contacto del User-Agent no va en el código: sale de la variable `CO
 ```bash
 cp .env.example .env            # completar CONGRESOPY_CONTACTO (.env no se versiona)
 set -a && . ./.env && set +a
-$P pipeline/silpy_votos.py listar --camara S --periodo 100267 > silver/senado/ids_100267.txt
+# Actualizar el período abierto (config.PERIODO_ABIERTO): snapshot nuevo del listado, detalle de lo nuevo, fechas
+$P pipeline/silpy_votos.py listar --camara S --periodo 100267 --refrescar > silver/senado/ids_100267.txt
 $P pipeline/silpy_votos.py detalle --camara S --ids silver/senado/ids_100267.txt
+$P pipeline/silpy_votos.py fechas --camara S --periodos 100217 100237 100257 100267
+$P pipeline/silpy_votos.py reparsear --camara S
 ```
+
+`listar` y `fechas` leen el listado guardado en bronze/ y solo descargan si no existe. Con `--refrescar`, y
+solo para el período abierto, bajan un snapshot `listado_{S|D}_{periodo}_{AAAA-MM-DD}.html` (uno por día; nunca
+pisa los anteriores) y desde ahí usan siempre el más reciente. En un período cerrado `--refrescar` se ignora.
 
 `legisladores.py` exige `--out` y no sobrescribe archivos. Nunca lo apuntes a `silver/{camara}/legisladores.csv`:
 los dos tienen `nombre_corto` cargado a mano y el de Diputados se armó entero a mano.
@@ -78,6 +85,8 @@ Los dos primeros tests corren `analisis.py` sobre silver/ y escriben en un direc
 - `test_codificar_reproduce_silver`: `codificar.py` regenera exactamente `codificacion_sugerida.csv`.
 - `test_reparsear_reproduce_silver`: parsear bronze/ da las mismas filas que silver/ (sin importar el
   orden) y todas cuadran con el sumario.
+- `test_listados.py`: política de listados (cerrado nunca se rebaja; abierto con snapshot fechado diario;
+  sin contacto no hay request), con una sesión falsa, sin red.
 - `test_validacion.py`: con un HTML real de SILpy (`tests/fixtures/silpy/104208.html`) y una copia con un voto
   alterado, verifica que la votación que no cuadra con el sumario no llega a silver/ y que `reparsear` falla.
 
@@ -108,7 +117,9 @@ Los dos primeros tests corren `analisis.py` sobre silver/ y escriben en un direc
 
 - robots.txt de SILpy no autoriza automatización: mínimo 1,5 s entre requests (`config.DELAY`), User-Agent
   identificado con contacto (`config.USER_AGENT`, con el contacto desde `CONGRESOPY_CONTACTO`; nunca escribirlo
-  en el código), y nunca volver a descargar algo que ya está en bronze/.
+  en el código), y nunca volver a descargar algo que ya está en bronze/. Única excepción: el listado del
+  período abierto (`config.PERIODO_ABIERTO`), que se refresca a pedido con `--refrescar` como snapshot fechado
+  nuevo, uno por día como máximo. El detalle de una votación ya guardada no se vuelve a bajar nunca.
 - Cada votación parseada se valida contra el sumario (suma de votos por tipo == totales publicados). Si no
   coincide, no se escribe en silver/ y se reporta. Implementado en `silpy_votos.parsear_bronze()`:
   `reparsear` escribe solo las válidas, lista las rechazadas en stderr y termina con código 1; `detalle` las
@@ -133,9 +144,9 @@ Los dos primeros tests corren `analisis.py` sobre silver/ y escriben en un direc
 
 - Los CSV de silver/ salen de `reparsear` en orden de id de votación. Los del prototipo estaban ordenados
   a mano por fecha; tienen las mismas filas.
-- El listado del período abierto (`bronze/silpy/{camara}/listado_{S|D}_100267.html`) quedó viejo. Para
-  actualizar fechas hay que volver a bajarlo, lo que choca con "nunca volver a descargar". Antes de hacerlo,
-  definir la política (por ejemplo, guardar los listados de períodos abiertos con fecha en el nombre).
+- El listado guardado del período abierto (`listado_{S|D}_100267.html`) es del 21-22/10/2026. Para traer
+  votaciones nuevas, usar `--refrescar` (ver Comandos). Cuando empiece un período nuevo, actualizar
+  `config.PERIODO_ABIERTO` y `config.PERIODOS`.
 - El parser busca `formMain:j_idt93:tabDetalle`, un id autogenerado por JSF que puede cambiar. Si no lo
   encuentra, usa la página entera; la validación contra el sumario lo detectaría.
 - Diputados vota casi todo por unanimidad y no registra "no vota". Las muestras para el índice del

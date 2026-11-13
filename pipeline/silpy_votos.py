@@ -2,8 +2,9 @@
 Extractor de votaciones nominales/electrónicas de SILpy (Congreso del Paraguay).
 
 Uso:
-  # 1) Listar IDs de votación de un período (Senado = S, Diputados = D)
-  python pipeline/silpy_votos.py listar --camara S --periodo 100267 > silver/senado/ids_100267.txt
+  # 1) Listar IDs de votación de un período (Senado = S, Diputados = D). Usa el listado guardado en
+  #    bronze/; --refrescar baja un snapshot nuevo (solo para el período abierto, uno por día).
+  python pipeline/silpy_votos.py listar --camara S --periodo 100267 --refrescar > silver/senado/ids_100267.txt
 
   # 2) Descargar y parsear el detalle de cada votación
   python pipeline/silpy_votos.py detalle --camara S --ids silver/senado/ids_100267.txt
@@ -34,6 +35,7 @@ import csv
 import re
 import sys
 import time
+from datetime import date
 from pathlib import Path
 
 import requests
@@ -136,10 +138,52 @@ def parsear_detalle(html: str, id_votacion: int):
     return meta, votos
 
 
-def listar_ids(camara: str, periodo: int, sess: requests.Session):
-    r = sess.get(f"{BASE}/votaciones/{camara}/{periodo}", headers=config.headers(), timeout=60)
+# --- Listados por período ---
+# bronze/silpy/{camara}/listado_{S|D}_{periodo}.html             listado de un período (se baja una vez)
+# bronze/silpy/{camara}/listado_{S|D}_{periodo}_{AAAA-MM-DD}.html  snapshot del período abierto (--refrescar)
+# Nunca se pisa un listado guardado. Solo el período abierto (config.PERIODO_ABIERTO) admite snapshots
+# nuevos, y como máximo uno por día. Se lee siempre el más reciente.
+
+def ruta_listado(camara: str, periodo: int, fecha: str | None = None) -> Path:
+    sufijo = f"_{fecha}" if fecha else ""
+    return config.bronze_dir(camara) / f"listado_{camara.upper()}_{periodo}{sufijo}.html"
+
+
+def listado_guardado(camara: str, periodo: int) -> Path | None:
+    """El listado más reciente en bronze/: el último snapshot fechado o, si no hay, el original."""
+    fechados = sorted(config.bronze_dir(camara).glob(f"listado_{camara.upper()}_{periodo}_*.html"))
+    if fechados:
+        return fechados[-1]
+    f = ruta_listado(camara, periodo)
+    return f if f.exists() else None
+
+
+def obtener_listado(camara: str, periodo: int, sess: requests.Session | None = None, refrescar: bool = False) -> str:
+    """HTML del listado de un período. Solo hace una request si no hay nada guardado, o si se pide
+    refrescar el período abierto y todavía no hay snapshot de hoy."""
+    guardado = listado_guardado(camara, periodo)
+    abierto = periodo == config.PERIODO_ABIERTO
+    if refrescar and not abierto:
+        print(f"[AVISO] {periodo} es un período cerrado: no se refresca, se usa el listado guardado.", file=sys.stderr)
+    if guardado and not (refrescar and abierto):
+        return guardado.read_text(encoding="utf-8")
+    destino = ruta_listado(camara, periodo, date.today().isoformat() if abierto else None)
+    if destino.exists():   # ya hay snapshot de hoy
+        return destino.read_text(encoding="utf-8")
+    sess = sess or requests.Session()
+    r = sess.get(f"{BASE}/votaciones/{camara.upper()}/{periodo}", headers=config.headers(), timeout=60)
     r.raise_for_status()
-    ids = sorted({int(x) for x in re.findall(r"/votacion/(\d+)", r.text)})
+    destino.parent.mkdir(parents=True, exist_ok=True)
+    destino.write_text(r.text, encoding="utf-8")
+    print(f"listado guardado en {destino.relative_to(config.RAIZ) if destino.is_relative_to(config.RAIZ) else destino}",
+          file=sys.stderr)
+    time.sleep(DELAY)
+    return r.text
+
+
+def listar_ids(camara: str, periodo: int, sess: requests.Session | None = None, refrescar: bool = False):
+    html = obtener_listado(camara, periodo, sess, refrescar)
+    ids = sorted({int(x) for x in re.findall(r"/votacion/(\d+)", html)})
     return ids
 
 
@@ -202,10 +246,12 @@ def main():
     p = argparse.ArgumentParser()
     sub = p.add_subparsers(dest="cmd", required=True)
     a = sub.add_parser("listar"); a.add_argument("--camara", default="S"); a.add_argument("--periodo", type=int, required=True)
+    a.add_argument("--refrescar", action="store_true", help="bajar un snapshot nuevo del listado del período abierto")
     b = sub.add_parser("detalle"); b.add_argument("--ids", required=True); b.add_argument("--camara", required=True)
     c = sub.add_parser("parsear-local"); c.add_argument("html")
     f_ = sub.add_parser("fechas", help="Fecha y sesión de cada votación, desde los listados por período")
     f_.add_argument("--camara", default="S"); f_.add_argument("--periodos", type=int, nargs="+", required=True)
+    f_.add_argument("--refrescar", action="store_true", help="bajar un snapshot nuevo del listado del período abierto")
     r_ = sub.add_parser("reparsear", help="Reconstruye los CSV desde bronze/silpy/{camara} sin hacer requests")
     r_.add_argument("--camara", required=True)
     args = p.parse_args()
@@ -222,15 +268,12 @@ def main():
         return
 
     if args.cmd == "fechas":
-        out = config.silver_dir(args.camara); raw = config.bronze_dir(args.camara); raw.mkdir(parents=True, exist_ok=True)
+        out = config.silver_dir(args.camara)
         sess = requests.Session(); filas = []
         for per in args.periodos:
-            f = raw / f"listado_{args.camara}_{per}.html"
-            if not f.exists():
-                config.requerir_contacto()   # fechas solo descarga si el listado no está en bronze/
-                r = sess.get(f"{BASE}/votaciones/{args.camara}/{per}", headers=config.headers(), timeout=60)
-                r.raise_for_status(); f.write_text(r.text, encoding="utf-8"); time.sleep(DELAY)
-            html = f.read_text(encoding="utf-8")
+            # Solo descarga (y exige CONGRESOPY_CONTACTO, vía config.headers) si el listado no está en bronze/
+            # o si se pidió --refrescar el período abierto.
+            html = obtener_listado(args.camara, per, sess, args.refrescar)
             # Cada fila: link a /votacion/{id}, luego la fecha dd/mm/aaaa y el nombre de la sesión
             hits = [(m.start(), int(m.group(1))) for m in re.finditer(r"/votacion/(\d+)", html)]
             vistos = []
@@ -267,12 +310,14 @@ def main():
             sys.exit(1)
         return
 
-    config.requerir_contacto()   # listar y detalle descargan de SILpy
     sess = requests.Session()
     if args.cmd == "listar":
-        for i in listar_ids(args.camara, args.periodo, sess):
+        # Descarga (y exige CONGRESOPY_CONTACTO) solo si el listado no está en bronze/ o con --refrescar.
+        for i in listar_ids(args.camara, args.periodo, sess, args.refrescar):
             print(i)
         return
+
+    config.requerir_contacto()   # detalle descarga de SILpy
 
     out = config.silver_dir(args.camara); raw = config.bronze_dir(args.camara); raw.mkdir(parents=True, exist_ok=True)
     ids = [int(x) for x in Path(args.ids).read_text().split()]
