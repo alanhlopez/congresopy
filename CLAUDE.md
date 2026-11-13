@@ -1,7 +1,8 @@
 # CLAUDE.md — congresopy
 
-Monitor del Congreso paraguayo (votaciones, asistencia y, más adelante, proyectos) con datos de SILpy
-(silpy.congreso.gov.py). Responder en español, con voseo. Ser crítico y no complaciente.
+**Monitoreo Congreso del Paraguay** (nombre público del sitio; el repo es `congresopy`): votaciones, asistencia y,
+más adelante, proyectos, con datos de SILpy (silpy.congreso.gov.py). "Votómetro" es el nombre del prototipo y de su
+dashboard heredado en `salidas/votometro/`; no se usa en el sitio. Responder en español, con voseo. Ser crítico y no complaciente.
 
 Contexto y decisiones de producto: `docs/CONTINUAR.md`. Prototipo original (no tocar, sirve de referencia):
 `../VotometroCongresoPy/`.
