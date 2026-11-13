@@ -73,6 +73,9 @@ Sitio en local: `python3 -m http.server -d site 8000`
 .venv/bin/python -m pytest          # ~1 min; el test de reparseo se saltea si no está bronze/
 ```
 
+CI: `.github/workflows/tests.yml` corre la misma suite en cada push (sin bronze/, así que se saltean los 2 tests
+de reparseo). Ningún test hace requests a SILpy.
+
 Los dos primeros tests corren `analisis.py` sobre silver/ y escriben en un directorio temporal vía
 `CONGRESOPY_SALIDAS`, así que no pisan `salidas/`.
 
