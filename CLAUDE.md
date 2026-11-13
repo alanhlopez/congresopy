@@ -67,6 +67,32 @@ los dos tienen `nombre_corto` cargado a mano y el de Diputados se armó entero a
 
 Sitio en local: `python3 -m http.server -d site 8000`
 
+## Sitio
+
+| Página | Qué muestra | Estado en el #hash |
+|---|---|---|
+| `index.html` | Resumen de cada cámara y últimas votaciones | — |
+| `camaras.html` | Composición actual: hemiciclo por partido o agrupado por bancada | `camara`, `vista` |
+| `legisladores.html` | Listado de las dos cámaras con búsqueda y filtros | `q`, `camara`, `partido`, `estado`, `orden` |
+| `legislador.html` | Perfil: presencia, conteo de votos, votos por año, similitud de voto, historial | `camara`, `id`, `q`, `voto`, `tipo`, `anio` |
+| `votaciones.html` | Votaciones de una cámara con buscador y filtros | `camara`, `q`, `tipo`, `anio`, `res` |
+| `votacion.html` | Detalle: textos, totales, hemiciclo por voto, votos por partido y lista nominal | `camara`, `id` |
+| `proyectos.html` | En preparación (fase 1b: expedientes y autoría) | — |
+| `datos.html` | Datos abiertos: archivos del manifiesto, formato y licencia | — |
+
+JS en `site/assets/js/congreso/`: `main.js` (tema y fecha de datos, en todas las páginas), `lib/` (módulos
+compartidos: `dom.js` arma nodos sin HTML como texto, `estado.js` el #hash, `datos.js` la carga de JSON,
+`formato.js` formatos y catálogos de votos y partidos, `hemiciclo.js` el SVG, `componentes.js` piezas comunes)
+y `paginas/<pagina>.js` (uno por página). Colores: cada clase `.p-*` (partido) y `.v-*` (voto) define `--c`, y
+los componentes solo leen `--c`; los valores por tema están en los tokens de `congreso.css`.
+
+- El menú está copiado igual en las 8 páginas entre `<!-- MENU: ... -->` y `<!-- /MENU -->`. Si se cambia, se
+  cambia en todas (lo verifica `test_menu_identico_en_cada_pagina`).
+- Decisiones a revisar: sin fotos (avatar con iniciales coloreado por partido) hasta resolver la licencia; la
+  «presencia» es no figurar como AUSENTE en votaciones nominales (en el Senado «no vota» cuenta como presente);
+  el hemiciclo ordena oposición a la izquierda y ANR a la derecha; la sigla `IA` del Senado se muestra tal cual
+  porque no está claro qué partido es. No se publica nada del índice del Ejecutivo ni la disciplina de bloque.
+
 ## Tests
 
 ```bash
@@ -93,6 +119,10 @@ Los dos primeros tests corren `analisis.py` sobre silver/ y escriben en un direc
 - `test_exportar.py`: `site/datos/congreso/` está al día con silver/, el manifiesto coincide con los archivos
   (sha256, bytes, filas), las cadenas de `votos.json` son idénticas al `vc` de `analisis.py`, los conteos
   cierran con los totales y ningún JSON del sitio trae campos del índice del Ejecutivo.
+- `test_sitio.py`: reglas del sitio sobre cada archivo de `site/`: CSP exacta en cada HTML; nada inline (script,
+  style, `style=""`, `onX`), nada externo y nada `data:`/`blob:`; rutas locales que existen; menú idéntico en
+  todas las páginas; bloque de fuente, método y límites; JS sin `innerHTML`/`eval`/imports o fetch externos y
+  localStorage solo dentro de try/catch; CSS sin `@import` ni `url()` externos.
 - `test_listados.py`: política de listados (cerrado nunca se rebaja; abierto con snapshot fechado diario;
   sin contacto no hay request), con una sesión falsa, sin red.
 - `test_validacion.py`: con un HTML real de SILpy (`tests/fixtures/silpy/104208.html`) y una copia con un voto

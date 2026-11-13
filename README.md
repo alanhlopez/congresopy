@@ -4,8 +4,9 @@
 2023-2028, votación por votación. Los datos salen de [SILpy](https://silpy.congreso.gov.py/), el Sistema de
 Información Legislativa del Congreso Nacional.
 
-Estado: **Fase 1, tarea 1.1**. Base del repo y pipeline migrados desde el prototipo `VotometroCongresoPy`.
-El sitio todavía es una página vacía.
+Estado: **Fase 1**. Pipeline migrado desde el prototipo `VotometroCongresoPy` y sitio con las páginas de
+Cámaras, Legisladores (listado y perfil), Votaciones (listado y detalle) y Datos abiertos. Proyectos queda
+para la fase 1b.
 
 ## Qué hay
 
