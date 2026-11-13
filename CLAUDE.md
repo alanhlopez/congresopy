@@ -209,5 +209,12 @@ rompe; cambiar la lógica sí. Los datos vivos (`salidas/`, `site/datos/`) se re
   `config.PERIODO_ABIERTO` y `config.PERIODOS`.
 - El parser busca `formMain:j_idt93:tabDetalle`, un id autogenerado por JSF que puede cambiar. Si no lo
   encuentra, usa la página entera; la validación contra el sumario lo detectaría.
+- Proyectos (fase 1b): SILpy enlaza desde cada ficha a la API `http://datos.congreso.gov.py/v2/api/legislador/{id}/expedientes`
+  (y `/v2/api/votacion/{id}`). Solo responde por http; por https da 404. El 13/11/2026 respondía 502 Proxy Error,
+  también en un reintento un minuto después: el servidor de atrás no contesta. La pestaña «Expedientes/Proyectos»
+  de la ficha se carga por AJAX de PrimeFaces y, reproducida, devolvió «No hay expedientes» incluso para
+  legisladores con proyectos. Exploración guardada en `bronze/silpy/exploracion/` y `bronze/datoscongreso/exploracion/`.
+- SILpy no publica el historial de bancadas con fecha: la pestaña «Trayectoria Legislativa» solo da el partido
+  por período de 5 años.
 - Diputados vota casi todo por unanimidad y no registra "no vota". Las muestras para el índice del
   Ejecutivo son chicas. Ver `docs/CONTINUAR.md` y el README del prototipo antes de presentar hallazgos.
