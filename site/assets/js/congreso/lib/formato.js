@@ -49,10 +49,10 @@ const PARTIDOS = {
   CN: ["Partido Cruzada Nacional", "p-cn"],
   PEN: ["Partido Encuentro Nacional", "p-pen"],
   PPQ: ["Partido Patria Querida", "p-ppq"],
-  PPS: ["Partido País Solidario", "p-otro"],
+  PPS: ["Partido País Solidario", "p-pps"],
   PPC: ["Partido Participación Ciudadana", "p-ppc"],
   PDP: ["Partido Democrático Progresista", "p-pdp"],
-  IND: ["Independiente", "p-otro"],
+  IND: ["Independiente", "p-ind"],
 };
 // Orden en el hemiciclo, de izquierda a derecha: oposición por tamaño y el oficialismo (ANR) a la derecha.
 export const ORDEN_PARTIDOS = ["PLRA", "CDN", "PEN", "PPQ", "PPS", "PPC", "PDP", "IND", "IA", "PCN", "CN", "ANR"];

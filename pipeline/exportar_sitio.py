@@ -71,6 +71,12 @@ def exportar_camara(cam, fotos=None):
     vt = leer(silver / "votacion.csv")
     votos = leer(silver / "voto.csv")
     fechas = {r["id_votacion"]: r for r in leer(silver / "fechas.csv")}
+    # Historial de bancadas (pipeline/bancadas.py): solo se publica para quien tiene más de un tramo.
+    hist = {}
+    if (silver / "bancadas_hist.csv").exists():
+        for t in leer(silver / "bancadas_hist.csv"):
+            hist.setdefault(t["id_legislador"], []).append(
+                {k: texto(t[k]) for k in ("partido", "bancada", "cargo_bancada", "estado", "visto_desde", "visto_hasta", "cambio_detectado")})
     L = {r["id_legislador"]: r for r in leer(silver / "legisladores.csv")}
 
     sin_fecha = [r["id_votacion"] for r in vt if not fechas.get(r["id_votacion"], {}).get("fecha")]
@@ -155,6 +161,8 @@ def exportar_camara(cam, fotos=None):
         })
         if foto:
             legisladores[-1]["foto"] = f"fotos/{foto}"
+        if len(hist.get(str(int(lid)), [])) > 1:
+            legisladores[-1]["historial"] = sorted(hist[str(int(lid))], key=lambda t: t["visto_desde"])
 
     votos_json = {
         "orden": [d["id"] for d in votaciones],

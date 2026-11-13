@@ -28,7 +28,9 @@
   --p-pen: #d4b800;   /* SILpy #ffec15, más oscuro para leerse sobre claro */
   --p-pdp: #93ab12;   /* SILpy #c1db31, ídem */
   --p-ppc: #b9bcc2;   /* SILpy #ffffff: el blanco no se ve sobre claro */
-  --p-ppq: #4d7c0f;   /* sin color en SILpy */
+  --p-ppq: #3a9fd0;   /* SILpy #99dbf7 (nómina de Diputados), más oscuro para leerse sobre claro */
+  --p-pps: #6d35ac;   /* SILpy #6d35ac */
+  --p-ind: #b9bcc2;   /* SILpy #ffffff, como el PPC */
   --p-otro: #6b7280;
   /* votos */
   --v-si: #1f8a4c;
@@ -66,7 +68,9 @@
     --p-pen: #ffec15;
     --p-pdp: #c1db31;
     --p-ppc: #ffffff;
-    --p-ppq: #98cb52;
+    --p-ppq: #99dbf7;
+    --p-pps: #a77ee0;
+    --p-ind: #ffffff;
     --p-otro: #a3aab3;
     --v-si: #45c27a;
     --v-no: #ef7466;
@@ -101,7 +105,9 @@
   --p-pen: #ffec15;
   --p-pdp: #c1db31;
   --p-ppc: #ffffff;
-  --p-ppq: #98cb52;
+  --p-ppq: #99dbf7;
+  --p-pps: #a77ee0;
+  --p-ind: #ffffff;
   --p-otro: #a3aab3;
   --v-si: #45c27a;
   --v-no: #ef7466;
@@ -121,9 +127,11 @@
 .p-pen { --c: var(--p-pen); }
 .p-ppq { --c: var(--p-ppq); }
 .p-pdp { --c: var(--p-pdp); }
+.p-pps { --c: var(--p-pps); }
+.p-ind { --c: var(--p-ind); }
 .p-ppc { --c: var(--p-ppc); }
 /* Iniciales oscuras sobre los colores claros, blancas sobre el negro de Cruzada Nacional */
-.p-pen, .p-pdp, .p-ppc { --sobre: #111111; }
+.p-pen, .p-pdp, .p-ppc, .p-ind, .p-ppq { --sobre: #111111; }
 .p-cn { --sobre: #ffffff; }
 /* Cruzada Nacional es negro en los dos temas: un borde fino lo separa del fondo oscuro y del blanco del PPC */
 .asiento.p-cn { stroke: var(--texto-suave); stroke-width: 0.8; }

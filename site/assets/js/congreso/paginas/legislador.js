@@ -32,6 +32,27 @@ function cabecera(d, l) {
         : "En el Senado, «presente, no vota» cuenta como presente.")));
 }
 
+/** Cambios de partido, bancada, cargo o estado detectados entre fotos de la nómina de SILpy. */
+function historialBancadas(l) {
+  if (!l.historial || l.historial.length < 2) return null;
+  const campos = [["partido", "Partido"], ["bancada", "Bancada"], ["cargo_bancada", "Cargo en la bancada"], ["estado", "Estado"]];
+  const filas = [];
+  for (let k = 1; k < l.historial.length; k++) {
+    const a = l.historial[k - 1];
+    const b = l.historial[k];
+    for (const [c, nombre] of campos) {
+      if ((a[c] || "") !== (b[c] || "")) {
+        filas.push(el("li", {}, el("strong", {}, `${nombre}: `), `${a[c] || "—"} → ${b[c] || "—"}`,
+          el("span", { class: "nota" }, ` (entre el ${fecha(a.visto_hasta)} y el ${fecha(b.visto_desde)})`)));
+      }
+    }
+  }
+  return el("section", { class: "seccion panel", "aria-labelledby": "t-bancada" },
+    el("h2", { id: "t-bancada" }, "Cambios registrados en SILpy"),
+    el("ul", { class: "lista-simple" }, filas),
+    el("p", { class: "nota" }, "Se detectan comparando fotos periódicas de la nómina de SILpy: el cambio ocurrió en algún momento entre esas dos fechas."));
+}
+
 function tarjetasResumen(d, l) {
   const c = l.conteo;
   const mociones = c.mocion_1 + c.mocion_2 + c.mocion_3;
@@ -217,7 +238,7 @@ async function render() {
     actual = { datos: d, legislador: l };
     document.title = `${l.nombre} · Monitoreo Congreso del Paraguay`;
     $("#volver").setAttribute("href", enlace("legisladores.html", { camara: d.clave }));
-    vaciar(perfil, cabecera(d, l), tarjetasResumen(d, l), porAnio(d, cadena), similitud(d, l, cadena), historial(d, l, cadena));
+    vaciar(perfil, cabecera(d, l), historialBancadas(l), tarjetasResumen(d, l), porAnio(d, cadena), similitud(d, l, cadena), historial(d, l, cadena));
     filtrarHistorial();
   } catch (err) {
     mostrarError(perfil, `No se pudieron cargar los datos: ${err.message}`);
