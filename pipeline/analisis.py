@@ -11,13 +11,13 @@ Salidas (salidas/votometro/): senado/puntos_ideales.csv, diputados/puntos_ideale
   dashboard_data.json, votometro.html
 """
 import json
-import re
 import warnings
 
 import numpy as np
 import pandas as pd
 
 import config
+from comun import CODIGO_VOTO, titulo_corto
 
 warnings.simplefilter("ignore")
 
@@ -54,18 +54,6 @@ def coincidencias(X, min_comun=10):
             if ok.sum() >= min_comun:
                 A[i, j] = A[j, i] = (X[i][ok] == X[j][ok]).mean()
     return A
-
-
-CODIGO_VOTO = {"SI": "S", "NO": "N", "ABSTENCIÓN/BLANCO": "A", "AUSENTE": "X", "NO VOTA": "V",
-               "MOCIÓN 1": "1", "MOCIÓN 2": "2", "MOCIÓN 3": "3"}
-
-
-def titulo_corto(acapite, largo=260):
-    """Texto entre comillas del acápite (el nombre del proyecto); si no hay, el acápite entero."""
-    a = " ".join(str(acapite or "").split())
-    m = re.search(r"[“\"](.+?)[”\"]", a)
-    t = m.group(1) if m and len(m.group(1)) > 15 else a
-    return t if len(t) <= largo else t[:largo].rsplit(" ", 1)[0] + "…"
 
 
 def lista_votaciones(v, vt, cod):
