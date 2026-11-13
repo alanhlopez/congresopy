@@ -62,9 +62,22 @@ function iniciar() {
       guardarTema(nuevo);
     });
   }
-  // Los ítems del menú que todavía no existen no navegan.
-  for (const a of document.querySelectorAll('.menu a[aria-disabled="true"]')) {
-    a.addEventListener("click", (e) => e.preventDefault());
+  completarActualizacion();
+}
+
+// "Datos actualizados al …" en el bloque de fuente/método/límites de cada página.
+async function completarActualizacion() {
+  const spans = document.querySelectorAll("[data-actualizado]");
+  if (!spans.length) return;
+  try {
+    const { manifiesto } = await import("./lib/datos.js");
+    const { fecha } = await import("./lib/formato.js");
+    const m = await manifiesto();
+    // Cada cámara tiene su propia última votación: no se muestra una sola fecha para las dos.
+    const texto = Object.values(m.camaras).map((c) => `${c.nombre.replace("Cámara de ", "")}, ${fecha(c.hasta)}`).join("; ");
+    for (const s of spans) s.textContent = texto;
+  } catch {
+    for (const s of spans) s.textContent = "(no se pudo leer el manifiesto)";
   }
 }
 
