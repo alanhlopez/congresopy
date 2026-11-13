@@ -2,6 +2,7 @@
 beautifulsoup4==4.15.0
 numpy==2.5.4
 pandas==3.1.1
+pillow==13.0.0   # miniaturas de fotos (pipeline/fotos.py)
 requests==2.34.2
 # Tests
 pytest==9.2.0

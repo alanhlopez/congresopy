@@ -1,29 +1,35 @@
-"""Fotos de legisladores desde SILpy: bronze/silpy/fotos/ -> silver/fotos/ (solo biblioteca estándar + requests).
+"""Fotos de legisladores desde SILpy: bronze/silpy/fotos/ -> silver/fotos/ (requests + Pillow).
 
 Uso:
   python3 pipeline/fotos.py descargar   # baja las que faltan en bronze/ (requiere CONGRESOPY_CONTACTO)
-  python3 pipeline/fotos.py silver      # copia a silver/fotos/ las de bronze/ que son imágenes válidas
+  python3 pipeline/fotos.py silver      # miniaturas de 160 px en silver/fotos/ desde las válidas de bronze/
 
 URL: {BASE}/images/{id_legislador}.jpg (SILpy agrega ?pfdrid_c=false&uid=..., parámetros de la sesión de
 PrimeFaces que no hacen falta). Igual que con las votaciones: 1,5 s entre requests y nunca se vuelve a bajar
 una foto que ya está en bronze/. Una respuesta que no es una imagen JPEG o PNG no se guarda y se reporta.
+El original queda en bronze/; silver/ guarda una miniatura cuadrada de 160 px (el avatar más grande del sitio
+mide 80 px: 2x para pantallas de alta densidad), recortada arriba al centro, JPEG sin metadatos. Pillow es la
+única dependencia nueva: la biblioteca estándar no decodifica ni redimensiona JPEG.
 
 Licencia: las fotos se publican en SILpy, que está bajo CC BY 4.0; se atribuyen como «Foto: SILpy – Congreso
 Nacional». Ver docs/correcciones_manuales.md y CLAUDE.md antes de reemplazar alguna a mano.
 """
 import argparse
 import csv
-import shutil
+import io
 import sys
 import time
 from pathlib import Path
 
 import requests
+from PIL import Image, ImageOps
 
 import config
 
 BRONZE_FOTOS = config.BRONZE / "fotos"
 TAMANIO_MAX = 2_000_000   # bytes: una foto de carnet más grande que esto es sospechosa
+LADO = 160                # px de la miniatura en silver/
+CALIDAD = 82
 
 
 def silver_fotos() -> Path:
@@ -81,8 +87,18 @@ def descargar(ids, sess=None, destino: Path | None = None):
     return bajadas, len(ids) - len(faltan), rechazadas
 
 
+def miniatura(datos: bytes) -> bytes:
+    """Cuadrado de LADO px, recortado arriba al centro (donde está la cara), JPEG sin metadatos."""
+    with Image.open(io.BytesIO(datos)) as im:
+        im = ImageOps.exif_transpose(im).convert("RGB")
+        im = ImageOps.fit(im, (LADO, LADO), method=Image.Resampling.LANCZOS, centering=(0.5, 0.3))
+        buf = io.BytesIO()
+        im.save(buf, "JPEG", quality=CALIDAD, optimize=True)
+        return buf.getvalue()
+
+
 def a_silver(origen: Path | None = None, destino: Path | None = None):
-    """Copia a silver/fotos/ las imágenes válidas de bronze/. Devuelve (copiadas, invalidas)."""
+    """Escribe en silver/fotos/{id}.jpg la miniatura de cada imagen válida de bronze/. Devuelve (copiadas, invalidas)."""
     origen = origen or BRONZE_FOTOS
     destino = destino or silver_fotos()
     destino.mkdir(parents=True, exist_ok=True)
@@ -90,14 +106,19 @@ def a_silver(origen: Path | None = None, destino: Path | None = None):
     for f in sorted(origen.glob("*.*")):
         if not f.stem.isdigit():
             continue
-        ext = tipo_imagen(f.read_bytes()[:8])
-        if ext is None or f.suffix != f".{ext}":
+        datos = f.read_bytes()
+        ext = tipo_imagen(datos[:8])
+        try:
+            if ext is None or f.suffix != f".{ext}":
+                raise ValueError("no es JPEG ni PNG")
+            mini = miniatura(datos)
+        except Exception:
             invalidas.append(f.name)
             continue
-        dst = destino / f.name
-        if not dst.exists() or dst.read_bytes() != f.read_bytes():
-            shutil.copyfile(f, dst)
-        copiadas.append(f.name)
+        dst = destino / f"{f.stem}.jpg"
+        if not dst.exists() or dst.read_bytes() != mini:
+            dst.write_bytes(mini)
+        copiadas.append(dst.name)
     return copiadas, invalidas
 
 

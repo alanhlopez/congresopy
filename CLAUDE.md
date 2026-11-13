@@ -63,8 +63,8 @@ solo para el período abierto, bajan un snapshot `listado_{S|D}_{periodo}_{AAAA-
 pisa los anteriores) y desde ahí usan siempre el más reciente. En un período cerrado `--refrescar` se ignora.
 
 Fotos (`pipeline/fotos.py`): `descargar` baja de `{BASE}/images/{id}.jpg` las que faltan en `bronze/silpy/fotos/`
-(con contacto, 1,5 s entre requests, nunca repite, rechaza lo que no sea JPEG o PNG); `silver` copia las válidas a
-`silver/fotos/`; `exportar_sitio.py` las publica en `site/datos/congreso/fotos/`, agrega `foto` en
+(con contacto, 1,5 s entre requests, nunca repite, rechaza lo que no sea JPEG o PNG); `silver` guarda en
+`silver/fotos/` una miniatura de 160 px de cada una (Pillow; el original queda en bronze/); `exportar_sitio.py` las publica en `site/datos/congreso/fotos/`, agrega `foto` en
 `legisladores.json` y un resumen `fotos` en el manifiesto. Sin fotos, el sitio muestra iniciales.
 
 ```bash
@@ -175,7 +175,7 @@ rompe; cambiar la lógica sí. Los datos vivos (`salidas/`, `site/datos/`) se re
 
 - robots.txt de SILpy no autoriza automatización: mínimo 1,5 s entre requests (`config.DELAY`), User-Agent
   identificado con contacto (`config.USER_AGENT`, con el contacto desde `CONGRESOPY_CONTACTO`; nunca escribirlo
-  en el código), y nunca volver a descargar algo que ya está en bronze/. Única excepción: el listado del
+  en el código; solo ASCII, porque SILpy responde HTTP 400 a headers con tildes), y nunca volver a descargar algo que ya está en bronze/. Única excepción: el listado del
   período abierto (`config.PERIODO_ABIERTO`), que se refresca a pedido con `--refrescar` como snapshot fechado
   nuevo, uno por día como máximo. El detalle de una votación ya guardada no se vuelve a bajar nunca.
 - Cada votación parseada se valida contra el sumario (suma de votos por tipo == totales publicados). Si no

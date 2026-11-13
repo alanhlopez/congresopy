@@ -12,7 +12,17 @@ import config
 import fotos
 
 RAIZ = Path(__file__).resolve().parent.parent
-JPEG = b"\xff\xd8\xff\xe0" + b"\x00" * 200 + b"\xff\xd9"
+
+
+def jpeg_real(ancho=400, alto=500):
+    from io import BytesIO
+    from PIL import Image
+    b = BytesIO()
+    Image.new("RGB", (ancho, alto), (120, 30, 30)).save(b, "JPEG")
+    return b.getvalue()
+
+
+JPEG = jpeg_real()
 HTML = b"<!doctype html><html>error</html>"
 
 
@@ -64,6 +74,10 @@ def test_a_silver_descarta_invalidas(tmp_path):
     copiadas, invalidas = fotos.a_silver(origen, destino)
     assert copiadas == ["10.jpg"] and invalidas == ["11.jpg"]
     assert sorted(f.name for f in destino.iterdir()) == ["10.jpg"]
+    from PIL import Image
+    with Image.open(destino / "10.jpg") as im:
+        assert im.size == (fotos.LADO, fotos.LADO) and im.format == "JPEG"
+    assert fotos.a_silver(origen, destino) == (["10.jpg"], ["11.jpg"])   # idempotente
 
 
 def test_exportar_publica_fotos(tmp_path):
