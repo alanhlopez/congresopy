@@ -78,6 +78,8 @@ Los dos primeros tests corren `analisis.py` sobre silver/ y escriben en un direc
 - `test_codificar_reproduce_silver`: `codificar.py` regenera exactamente `codificacion_sugerida.csv`.
 - `test_reparsear_reproduce_silver`: parsear bronze/ da las mismas filas que silver/ (sin importar el
   orden) y todas cuadran con el sumario.
+- `test_validacion.py`: con un HTML real de SILpy (`tests/fixtures/silpy/104208.html`) y una copia con un voto
+  alterado, verifica que la votación que no cuadra con el sumario no llega a silver/ y que `reparsear` falla.
 
 ## Reglas (no negociables)
 
@@ -108,8 +110,9 @@ Los dos primeros tests corren `analisis.py` sobre silver/ y escriben en un direc
   identificado con contacto (`config.USER_AGENT`, con el contacto desde `CONGRESOPY_CONTACTO`; nunca escribirlo
   en el código), y nunca volver a descargar algo que ya está en bronze/.
 - Cada votación parseada se valida contra el sumario (suma de votos por tipo == totales publicados). Si no
-  coincide, no se escribe en silver/ y se reporta. **Pendiente:** hoy `reparsear` y `detalle` la escriben
-  igual con `valida=False` (hay 0 casos). Corregirlo es la próxima tarea.
+  coincide, no se escribe en silver/ y se reporta. Implementado en `silpy_votos.parsear_bronze()`:
+  `reparsear` escribe solo las válidas, lista las rechazadas en stderr y termina con código 1; `detalle` las
+  deja en bronze/ sin pasarlas a silver/. La columna `valida` de `votacion.csv` queda siempre en True.
 - Los IDs de período son compartidos por las dos cámaras: 100217=2023-24, 100237=2024-25,
   100257=2025-26, 100267=2026-27.
 - silver/ es el contrato de datos del proyecto. Hoy se alimenta scrapeando SILpy, pero en el futuro puede

@@ -129,6 +129,7 @@ def parsear_detalle(html: str, id_votacion: int):
     if sumario.get("TOTAL") is not None and len(votos) != sumario["TOTAL"]:
         diffs["TOTAL"] = (len(votos), sumario["TOTAL"])
     meta["valida"] = not diffs
+    meta["diferencias"] = diffs   # no es columna de votacion.csv; sirve para el reporte
     if diffs:
         print(f"[WARN] votación {id_votacion}: detalle != sumario {diffs}", file=sys.stderr)
 
@@ -167,6 +168,34 @@ CAMPOS_VOTACION = ["id_votacion", "tipo_proyecto", "expediente", "acapite", "ses
                    "total_si", "total_no", "total_mocion_1", "total_mocion_2", "total_mocion_3",
                    "total_abstencion", "total_ausente", "total_no_vota", "total", "valida"]
 CAMPOS_VOTO = ["id_votacion", "id_legislador", "legislador", "voto"]
+
+
+def parsear_bronze(htmls):
+    """Parsea HTML de votaciones ya descargados.
+
+    Devuelve (metas, votos, rechazadas, errores). Solo las votaciones cuyo detalle cuadra con el
+    sumario entran en metas/votos: las que no cuadran van a `rechazadas` y no se escriben en silver/.
+    """
+    metas, votos, rechazadas, errores = [], [], [], []
+    for f in htmls:
+        try:
+            meta, vs = parsear_detalle(Path(f).read_text(encoding="utf-8"), int(Path(f).stem))
+        except Exception as e:
+            errores.append((Path(f).stem, str(e)))
+            print(f"{Path(f).stem} ERROR: {e}", file=sys.stderr)
+            continue
+        if meta["valida"]:
+            metas.append(meta)
+            votos.extend(vs)
+        else:
+            rechazadas.append(meta)
+    return metas, votos, rechazadas, errores
+
+
+def reportar_rechazadas(rechazadas):
+    for m in rechazadas:
+        print(f"[NO SE ESCRIBE EN SILVER] votación {m['id_votacion']}: detalle != sumario "
+              f"{m['diferencias']} (conteo, sumario)", file=sys.stderr)
 
 
 def main():
@@ -225,21 +254,17 @@ def main():
 
     if args.cmd == "reparsear":
         out = config.silver_dir(args.camara)
-        metas, todos, errores = [], [], 0
-        for f in sorted(config.bronze_dir(args.camara).glob("*.html")):
-            if not f.stem.isdigit():   # listado_*.html son los listados por período, no votaciones
-                continue
-            try:
-                meta, votos = parsear_detalle(f.read_text(encoding="utf-8"), int(f.stem))
-                metas.append(meta); todos.extend(votos)
-            except Exception as e:
-                errores += 1
-                print(f"{f.stem} ERROR: {e}", file=sys.stderr)
+        # listado_*.html son los listados por período, no votaciones
+        htmls = sorted(f for f in config.bronze_dir(args.camara).glob("*.html") if f.stem.isdigit())
+        metas, todos, rechazadas, errores = parsear_bronze(htmls)
         for path, filas, campos in [(out / "votacion.csv", metas, CAMPOS_VOTACION), (out / "voto.csv", todos, CAMPOS_VOTO)]:
             with path.open("w", newline="", encoding="utf-8") as fh:
                 w = csv.DictWriter(fh, fieldnames=campos, extrasaction="ignore"); w.writeheader(); w.writerows(filas)
-        n_inv = sum(1 for m in metas if not m["valida"])
-        print(f"{len(metas)} votaciones, {len(todos)} votos, {errores} errores, {n_inv} no cuadran con el sumario", file=sys.stderr)
+        reportar_rechazadas(rechazadas)
+        print(f"{len(metas)} votaciones, {len(todos)} votos, {len(errores)} errores, "
+              f"{len(rechazadas)} no cuadran con el sumario (no escritas)", file=sys.stderr)
+        if rechazadas or errores:
+            sys.exit(1)
         return
 
     config.requerir_contacto()   # listar y detalle descargan de SILpy
@@ -260,6 +285,10 @@ def main():
             continue
         try:
             meta, votos = parsear_detalle(descargar(i, raw, sess), i)
+            if not meta["valida"]:
+                # Queda en bronze/ (no se vuelve a descargar) pero no entra en silver/.
+                reportar_rechazadas([meta])
+                continue
             escribir_csv(vp, [meta], CAMPOS_VOTACION)
             escribir_csv(out / "voto.csv", votos, CAMPOS_VOTO)
             print(f"[{n}/{len(ids)}] {i} ok ({len(votos)} votos)", file=sys.stderr)
