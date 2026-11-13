@@ -93,7 +93,9 @@ JS en `site/assets/js/congreso/`: `main.js` (tema y fecha de datos, en todas las
 compartidos: `dom.js` arma nodos sin HTML como texto, `estado.js` el #hash, `datos.js` la carga de JSON,
 `formato.js` formatos y catálogos de votos y partidos, `hemiciclo.js` el SVG, `componentes.js` piezas comunes)
 y `paginas/<pagina>.js` (uno por página). Colores: cada clase `.p-*` (partido) y `.v-*` (voto) define `--c`, y
-los componentes solo leen `--c`; los valores por tema están en los tokens de `congreso.css`.
+los componentes solo leen `--c`; los valores por tema están en los tokens de `congreso.css`. Los partidos usan
+los colores oficiales de la nómina de SILpy (columna `color`), ajustados solo donde el original no se ve contra
+el fondo (PEN y PDP más oscuros y PPC gris en tema claro; Cruzada Nacional negro con borde fino en los dos temas).
 
 - El menú está copiado igual en las 8 páginas entre `<!-- MENU: ... -->` y `<!-- /MENU -->`. Si se cambia, se
   cambia en todas (lo verifica `test_menu_identico_en_cada_pagina`).

@@ -40,7 +40,7 @@ export const VOTOS = {
 };
 export const EMITIDOS = new Set(["S", "N", "A", "1", "2", "3"]);
 
-// Partidos: nombre y clase de color. Los códigos son los de la nómina de SILpy.
+// Partidos: nombre y clase de color. Los códigos y los colores (congreso.css) son los de la nómina de SILpy.
 const PARTIDOS = {
   ANR: ["Asociación Nacional Republicana (Partido Colorado)", "p-anr"],
   PLRA: ["Partido Liberal Radical Auténtico", "p-plra"],
@@ -50,8 +50,8 @@ const PARTIDOS = {
   PEN: ["Partido Encuentro Nacional", "p-pen"],
   PPQ: ["Partido Patria Querida", "p-ppq"],
   PPS: ["Partido País Solidario", "p-otro"],
-  PPC: ["Partido Participación Ciudadana", "p-otro"],
-  PDP: ["Partido Democrático Progresista", "p-otro"],
+  PPC: ["Partido Participación Ciudadana", "p-ppc"],
+  PDP: ["Partido Democrático Progresista", "p-pdp"],
   IND: ["Independiente", "p-otro"],
 };
 // Orden en el hemiciclo, de izquierda a derecha: oposición por tamaño y el oficialismo (ANR) a la derecha.
