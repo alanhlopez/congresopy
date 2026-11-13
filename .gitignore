@@ -1,0 +1,8 @@
+# HTML crudo de SILpy (~360 MB): fuera de git. Ver README, "Datos crudos".
+bronze/
+__pycache__/
+*.pyc
+.pytest_cache/
+.DS_Store
+node_modules/
+.venv/

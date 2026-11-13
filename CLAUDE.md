@@ -1,0 +1,126 @@
+# CLAUDE.md — congresopy
+
+Monitor del Congreso paraguayo (votaciones, asistencia y, más adelante, proyectos) con datos de SILpy
+(silpy.congreso.gov.py). Responder en español, con voseo. Ser crítico y no complaciente.
+
+Contexto y decisiones de producto: `docs/CONTINUAR.md`. Prototipo original (no tocar, sirve de referencia):
+`../VotometroCongresoPy/`.
+
+## Estructura
+
+```
+pipeline/   Python: adaptadores de fuentes -> silver/, y análisis. Rutas y constantes en pipeline/config.py
+bronze/     datos crudos tal como se bajaron (fuera de git). bronze/silpy/{senado,diputados}/
+silver/     CSV limpios y validados por cámara: el contrato de datos del proyecto
+salidas/    productos del análisis que no se publican en el sitio (salidas/votometro/ = referencia de regresión)
+site/       el sitio estático (lo que se despliega). Datos en site/datos/congreso/
+tests/      pytest. tests/referencia/ guarda el JSON de referencia del prototipo
+docs/       CONTINUAR.md y docs/referencia-datacp/ (capturas de datacp.ar/congreso)
+```
+
+## Comandos
+
+Entorno (una vez): `uv venv -p 3.12 .venv && uv pip install -p .venv/bin/python -r requirements.txt`
+
+Todo funciona desde cualquier directorio: las rutas salen de `pipeline/config.py`. `--camara` es `S` o `D`.
+
+```bash
+P=.venv/bin/python
+# Reconstruir silver/ desde bronze/ (sin red). Tiene que terminar en "0 errores, 0 no cuadran con el sumario"
+$P pipeline/silpy_votos.py reparsear --camara S
+$P pipeline/silpy_votos.py reparsear --camara D
+# Fechas y sesiones desde los listados guardados en bronze/ (sin red si ya están)
+$P pipeline/silpy_votos.py fechas --camara S --periodos 100217 100237 100257 100267
+# Codificación sugerida de la posición del Ejecutivo -> silver/{camara}/codificacion_sugerida.csv
+$P pipeline/codificar.py S
+$P pipeline/codificar.py D
+# Análisis -> salidas/votometro/ (dashboard_data.json, votometro.html, {camara}/puntos_ideales.csv)
+$P pipeline/analisis.py
+# Probar el parser con un HTML guardado
+$P pipeline/silpy_votos.py parsear-local bronze/silpy/senado/109395.html
+```
+
+Con red (requiere `CONTACTO` en `config.py`; hoy está vacío a propósito y los comandos se niegan a correr):
+
+```bash
+$P pipeline/silpy_votos.py listar --camara S --periodo 100267 > silver/senado/ids_100267.txt
+$P pipeline/silpy_votos.py detalle --camara S --ids silver/senado/ids_100267.txt
+```
+
+`legisladores.py` exige `--out` y no sobrescribe archivos. Nunca lo apuntes a `silver/{camara}/legisladores.csv`:
+los dos tienen `nombre_corto` cargado a mano y el de Diputados se armó entero a mano.
+
+Sitio en local: `python3 -m http.server -d site 8000`
+
+## Tests
+
+```bash
+.venv/bin/python -m pytest          # ~1 min; el test de reparseo se saltea si no está bronze/
+```
+
+- `test_dashboard_igual_a_referencia`: corre `analisis.py` sobre silver/ (escribe en un directorio temporal
+  vía `CONGRESOPY_SALIDAS`) y compara con `tests/referencia/dashboard_data_votometro.json.gz`, el JSON del
+  prototipo. Exacto en todo. La matriz `heat` se compara como pares (legislador, legislador) -> valor,
+  porque el orden de sus filas sale de ordenar por d1 y hay legisladores empatados (en Diputados, vista
+  `resto`, tres que solo difieren en el 16.º decimal, que es ruido de numpy).
+- `test_codificar_reproduce_silver`: `codificar.py` regenera exactamente `codificacion_sugerida.csv`.
+- `test_reparsear_reproduce_silver`: parsear bronze/ da las mismas filas que silver/ (sin importar el
+  orden) y todas cuadran con el sumario.
+
+## Reglas (no negociables)
+
+### Sitio (convenciones Kalaguichi)
+
+- HTML, CSS y JS (módulos ES) estáticos. Sin framework, sin bundler, sin paso de build, sin npm en runtime.
+- CSP: `default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'`.
+  Va en `<meta http-equiv="Content-Security-Policy">` en cada HTML y como header en `vercel.json`.
+- Prohibido: `<script>` inline, `<style>` inline, atributos `style=""`, handlers `onclick`/`onX`, imágenes
+  `data:` o `blob:`, CDNs, Google Fonts. Los estilos dinámicos van con clases o con CSSOM desde JS
+  (`element.style.setProperty` está permitido).
+- Las librerías se vendorizan en `site/assets/vendor/<lib>/` con versión fija (Chart.js 4.5.1 cuando haga falta).
+- Fuente system-ui. Tema con `data-theme="light|dark"` en `<html>`, que respeta `prefers-color-scheme` y
+  recuerda la elección en localStorage dentro de try/catch (ver `site/assets/js/congreso/main.js`).
+- Estado de la página en `#hash` (filtros, legislador seleccionado), para que todo se pueda compartir con un link.
+- Rutas siempre relativas: el sitio tiene que funcionar servido en `/` y también en `/instituciones/congreso/`.
+- El menú se copia en cada HTML (no se inyecta).
+- Los datos que consume el sitio viven en `site/datos/congreso/` como JSON con un `manifiesto.json`
+  (archivo, fecha de generación, filas, sha256).
+- Cada página muestra fuente, método y límites (por ejemplo, que en Diputados "NO VOTA" se registra como AUSENTE).
+- Responsive desde 360 px, sin scroll horizontal.
+- `docs/referencia-datacp/` es referencia de estructura y contenido, no de identidad visual: no copiar su
+  logo, sus tipografías ni sus ilustraciones.
+
+### Datos SILpy
+
+- robots.txt de SILpy no autoriza automatización: mínimo 1,5 s entre requests (`config.DELAY`), User-Agent
+  identificado con contacto (`config.USER_AGENT`), y nunca volver a descargar algo que ya está en bronze/.
+- Cada votación parseada se valida contra el sumario (suma de votos por tipo == totales publicados). Si no
+  coincide, no se escribe en silver/ y se reporta. **Pendiente:** hoy `reparsear` y `detalle` la escriben
+  igual con `valida=False` (hay 0 casos). Corregirlo es la próxima tarea.
+- Los IDs de período son compartidos por las dos cámaras: 100217=2023-24, 100237=2024-25,
+  100257=2025-26, 100267=2026-27.
+- silver/ es el contrato de datos del proyecto. Hoy se alimenta scrapeando SILpy, pero en el futuro puede
+  venir de datasets que publique kalaguichi.com (por ejemplo, texto de documentos procesados desde PDF).
+  Cada fuente nueva entra como su propio adaptador en `pipeline/` que escribe al mismo formato de silver/.
+  El sitio y `analisis.py` solo leen de silver/ y nunca dependen de cómo se obtuvieron los datos.
+- El índice de alineamiento con el Ejecutivo NO se publica en la Fase 1 (queda solo en `salidas/votometro`).
+  `salidas/votometro/votometro.html` además carga CDNs y Google Fonts: nunca se copia a `site/`.
+
+### Trabajo
+
+- Cambios de lógica del pipeline siempre con el test de regresión en verde, o con una explicación explícita
+  de por qué cambia la referencia.
+- Commits chicos y descriptivos.
+- No modificar nada en `../VotometroCongresoPy/`.
+
+## Advertencias conocidas
+
+- Los CSV de silver/ salen de `reparsear` en orden de id de votación. Los del prototipo estaban ordenados
+  a mano por fecha; tienen las mismas filas.
+- El listado del período abierto (`bronze/silpy/{camara}/listado_{S|D}_100267.html`) quedó viejo. Para
+  actualizar fechas hay que volver a bajarlo, lo que choca con "nunca volver a descargar". Antes de hacerlo,
+  definir la política (por ejemplo, guardar los listados de períodos abiertos con fecha en el nombre).
+- El parser busca `formMain:j_idt93:tabDetalle`, un id autogenerado por JSF que puede cambiar. Si no lo
+  encuentra, usa la página entera; la validación contra el sumario lo detectaría.
+- Diputados vota casi todo por unanimidad y no registra "no vota". Las muestras para el índice del
+  Ejecutivo son chicas. Ver `docs/CONTINUAR.md` y el README del prototipo antes de presentar hallazgos.

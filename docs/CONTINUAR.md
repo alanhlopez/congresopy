@@ -1,0 +1,133 @@
+# CONTINUAR — Monitor del Congreso Paraguayo (`congresopy`)
+
+Archivo de traspaso. Si sos Claude (en el chat o en Claude Code), leé esto entero antes de hacer nada.
+Responder en español (voseo), crítico y sin complacencia.
+
+## Dónde estamos (31/10/2026)
+
+- **Prototipo que ya funciona:** `../VotometroCongresoPy/` (carpeta hermana de este repo). Tiene el scraper de SILpy, los votos nominales de Senado y Diputados del 30/06/2023 en adelante y un dashboard (`votometro.html`). Ver `README.md`.
+- **Decisión tomada:** proyecto **independiente** `congresopy`, al lado de esa carpeta, que respete las convenciones de kalaguichi.com para que se pueda copiar o linkear después. Prototipo desplegado en Vercel. Se desarrolla con Claude Code desde la terminal.
+- **Próximo paso: tarea 1.1** (abajo). Todavía no se ejecutó.
+- **Kalaguichi** está procesando con OCR unas 275.000 páginas de PDFs del Congreso para subirlas a Kalaguichi (iba ~12 % al 31/10). Sirve para proyectos, discursos y textos (fases siguientes). **No reemplaza** los votos nominales, que salen del HTML de SILpy y ya están en caché. No esperar a ese dataset para la Fase 1.
+- **Referencia visual:** `docs/referencia-datacp/` tiene 15 capturas de datacp.ar/congreso, el modelo que seguimos.
+
+## Cómo retomar
+
+1. Abrí un chat nuevo y escribí: *"Leé CONTINUAR.md en VotometroCongresoPy y seguimos"* (con la carpeta vinculada), o pegá este archivo.
+2. O bien pasá directo a Claude Code con el prompt 1.1 de abajo, y después traé al chat el resumen final que te dé.
+
+---
+
+## Prompt 1.1 (para Claude Code, abierto en la carpeta que contiene `VotometroCongresoPy/` y `congresopy/`)
+
+````text
+Vamos a crear un proyecto nuevo, `congresopy`: un monitor del Congreso paraguayo (votaciones, asistencia y después proyectos) a partir de los datos de SILpy (silpy.congreso.gov.py). Es la tarea 1.1 de la Fase 1: armar la base del repo y migrar lo que ya existe. Todavía no hay que construir páginas.
+
+## Contexto
+- La fuente es `./VotometroCongresoPy/`. Es un prototipo que ya funciona: los scripts están en `scripts/` (silpy_votos.py, legisladores.py, codificar.py, analisis.py, dashboard_template.html), los datos en `senado/` y `diputados/` (votacion.csv, voto.csv, fechas.csv, legisladores.csv, codificacion_sugerida.csv, puntos_ideales.csv, ids_*.txt) y el HTML crudo de SILpy en `senado/raw/` (64 MB) y `diputados/raw/` (294 MB). Leé primero su README.md y su CONTINUAR.md enteros.
+- NO modifiques nada dentro de `VotometroCongresoPy/`. Copiá, no muevas. Queda como referencia.
+- El repo nuevo va en `./congresopy/`, al lado.
+- El sitio tiene que poder copiarse más adelante a kalaguichi.com sin reescribirlo. Por eso sigue sus convenciones desde el día uno (ver las reglas abajo). Por ahora se despliega solo, en Vercel.
+- La referencia de producto es datacp.ar/congreso (Argentina). Las capturas están en `VotometroCongresoPy/docs/referencia-datacp/`: copialas a `congresopy/docs/referencia-datacp/` junto con la sección "Referencia visual" de CONTINUAR.md. En esta tarea no se usan, pero tienen que quedar en el repo.
+
+## Estructura objetivo
+congresopy/
+  CLAUDE.md
+  README.md
+  LICENSE              (AGPL-3.0 para el código; README aclara que los datos derivados son CC BY-SA 4.0 y que la fuente es SILpy, con atribución CC BY 4.0)
+  .gitignore           (bronze/, __pycache__, .DS_Store, node_modules, .venv)
+  vercel.json          (outputDirectory "site", sin build, headers con la CSP de abajo)
+  docs/referencia-datacp/
+  pipeline/            (Python, solo biblioteca estándar salvo que sea imprescindible)
+    silpy_votos.py, legisladores.py, codificar.py, analisis.py, config.py (rutas y constantes en un solo lugar)
+  bronze/silpy/{senado,diputados}/   (HTML crudo copiado de raw/, fuera de git)
+  silver/{senado,diputados}/         (los CSV de hoy)
+  salidas/votometro/                 (el votometro.html y el dashboard_data.json actuales, generados por analisis.py: es la referencia de regresión)
+  site/
+    index.html
+    assets/css/congreso.css
+    assets/js/congreso/main.js
+    datos/congreso/                  (vacío por ahora, con .gitkeep)
+  tests/
+    test_regresion.py
+  .github/workflows/                 (vacío por ahora, con .gitkeep)
+
+## Qué hacer, en orden
+1. Leé el README de la fuente y los 5 scripts. Antes de crear archivos, mostrame un plan corto: qué rutas cambian en cada script y cualquier cosa que te parezca rota o riesgosa. Esperá mi OK.
+2. Creá la estructura y copiá datos y scripts. En los scripts cambiá SOLO las rutas, que pasan a salir de config.py: raw/ → bronze/silpy/{camara}/, CSV → silver/{camara}/, salidas de analisis.py → salidas/votometro/. No cambies lógica ni nombres de columnas. Ojo: legisladores.py sobrescribe nombre_corto, y el legisladores.csv de diputados se armó a mano, así que no lo regeneres.
+3. Verificación: corré `reparsear` (o el comando equivalente que use solo caché, sin red), codificar y analisis para las dos cámaras, y compará el dashboard_data.json nuevo con `VotometroCongresoPy/dashboard_data.json`. Tienen que ser idénticos (votaciones, votos, personas, todas las métricas). Si hay diferencias, mostrámelas antes de seguir; no las "arregles".
+4. Dejá esa comparación como test en tests/test_regresion.py (pytest; guardá en tests/ el hash o una copia del JSON de referencia).
+5. Escribí site/index.html como página vacía pero ya conforme a las reglas: menú de navegación placeholder (Inicio, Cámaras, Legisladores, Votaciones, Proyectos, Datos abiertos), un título, un pie con "Fuente: SILpy – Congreso Nacional (CC BY 4.0)", el botón de tema claro/oscuro funcionando desde main.js y la CSP en <meta>. Servilo con `python3 -m http.server -d site 8000` y comprobá en la consola del navegador que no haya violaciones de CSP.
+6. Escribí CLAUDE.md con las reglas de abajo, más los comandos del pipeline y cómo correr los tests.
+7. `git init`, primer commit. No crees remoto ni hagas push todavía.
+
+## Reglas para el CLAUDE.md (no negociables)
+Sitio (convenciones Kalaguichi):
+- HTML, CSS y JS (módulos ES) estáticos. Sin framework, sin bundler, sin paso de build, sin npm en runtime.
+- CSP: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'.
+- Prohibido: <script> inline, <style> inline, atributos style="", handlers onclick/onX, imágenes data: o blob:, CDNs, Google Fonts. Los estilos dinámicos van con clases o con CSSOM desde JS (element.style.setProperty está permitido).
+- Las librerías se vendorizan en site/assets/vendor/<lib>/ con versión fija (Chart.js 4.5.1 cuando haga falta).
+- Fuente system-ui. Tema con data-theme="light|dark" en <html>, que respeta prefers-color-scheme y recuerda la elección en localStorage dentro de try/catch.
+- Estado de la página en #hash (filtros, legislador seleccionado), para que todo se pueda compartir con un link.
+- Rutas siempre relativas: el sitio tiene que funcionar servido en / y también en /instituciones/congreso/.
+- El menú se copia en cada HTML (no se inyecta).
+- Los datos que consume el sitio viven en site/datos/congreso/ como JSON con un manifiesto.json (archivo, fecha de generación, filas, sha256).
+- Cada página muestra fuente, método y límites (por ejemplo que en Diputados "NO VOTA" se registra como AUSENTE).
+- Responsive desde 360 px, sin scroll horizontal.
+- docs/referencia-datacp/ es referencia de estructura y contenido, no de identidad visual: no copiar su logo, sus tipografías ni sus ilustraciones.
+Datos SILpy:
+- robots.txt de SILpy no autoriza automatización: mínimo 1,5 s entre requests, User-Agent identificado con contacto, y nunca volver a descargar algo que ya está en bronze/.
+- Cada votación parseada se valida contra el sumario (suma de votos por tipo == totales publicados). Si no coincide, no se escribe en silver/ y se reporta.
+- Los IDs de período son compartidos por las dos cámaras: 100217=2023-24, 100237=2024-25, 100257=2025-26, 100267=2026-27.
+- silver/ es el contrato de datos del proyecto. Hoy se alimenta scrapeando SILpy, pero en el futuro puede venir de datasets que publique kalaguichi.com (por ejemplo, texto de documentos procesados desde PDF). Cada fuente nueva entra como su propio adaptador en pipeline/ que escribe al mismo formato de silver/. El sitio y analisis.py solo leen de silver/ y nunca dependen de cómo se obtuvieron los datos.
+- El índice de alineamiento con el Ejecutivo NO se publica en la Fase 1 (queda solo en salidas/votometro).
+Trabajo:
+- Cambios de lógica del pipeline siempre con el test de regresión en verde, o con una explicación explícita de por qué cambia la referencia.
+- Commits chicos y descriptivos.
+
+Al terminar, dame: el árbol final (sin bronze/), el resultado de la comparación del paso 3, la salida de pytest y cualquier duda o decisión que hayas tomado sola.
+````
+
+Antes de correrlo: en `scripts/silpy_votos.py`, reemplazá `contacto: completar` del User-Agent por tu email o la URL del repo. Si no, no se puede volver a descargar nada de SILpy.
+
+---
+
+## Referencia visual: datacp.ar/congreso → Paraguay
+
+Capturas en `docs/referencia-datacp/`. Qué tomamos y qué se puede hacer con lo que hay:
+
+| # | Pieza de datacp | Paraguay | Fase | Nota |
+|---|---|---|---|---|
+| 01 | Portada "Monitor de Actividad del Congreso" | Sí | 1 | Sin ilustración copiada; identidad propia o la de Kalaguichi |
+| 02-03 | Cámaras: hemiciclo por bloque + vista por bloque | Sí | 1 | 45 senadores, 80 diputados. Hemiciclo en SVG propio (d3 vendorizado o SVG a mano) |
+| 04 | Listado: foto, nombre, distrito, bloque, mandato, "Ver perfil" | Sí | 1 | Distrito: Senado = nacional, Diputados = departamento. Fotos: ver pendiente 2 |
+| 05 | Perfil: cabecera + presentismo + 4 pestañas (votó / propuso / dijo / viajó) | Parcial | 1 | Votó: sí. Propuso: sí, con scraper de expedientes. Dijo y viajó: fases 2-3 |
+| 05 | Tarjetas Afirmativos / Negativos / Abstenciones / Ausencias | Sí | 1 | Ya calculado (`vc`) |
+| 06 | Historial de votaciones con búsqueda y filtros | Sí | 1 | Ya existe en el votómetro (lista por legislador con link a SILpy) |
+| 07 | Votaciones por año (barras apiladas) | Sí | 1 | Trivial con `vc` + fechas |
+| 08 | Similitud de voto: % de coincidencia con cada legislador, agrupado por bloque | Sí | 1 | Ya existe la matriz de coincidencia; cambia la visualización (beeswarm por bloque) |
+| 09 | Votaciones clave vs. gobierno, presidencia por presidencia | Ver pendiente 1 | ? | Choca con "no publicar índice Ejecutivo en Fase 1" |
+| 10 | Disciplina de bloque por año + "las veces que se apartó" | Sí | 1 | Ya existe `lealA`; falta por año, el listado de desvíos y bancadas que no son la A |
+| 11 | Puesto dentro del bloque (ranking de disciplina) | Sí | 1 | Derivado de lo anterior |
+| 12 | Qué propuso: lista por tipo, rol autor/cofirmante, temas, PDF | Sí | 1b | `/web/expedientes` + autoría. Temas: SILpy tiene "materia"; verificar |
+| 13 | Evolución mensual de proyectos + perfil vs. promedio de cámara | Sí | 1b | Con autoría scrapeada |
+| 14-15 | Cofirmas: por bloque, mapa de red, ranking | Sí | 1b | Requiere lista completa de firmantes por expediente |
+| — | "Datos abiertos" por legislador (descargas) | Sí | 1 | CSV por legislador desde datos/congreso |
+
+**Diferencias que no se pueden copiar tal cual (por las convenciones de Kalaguichi):**
+- Tipografías propias (serif de títulos, sans redondeada): Kalaguichi usa system-ui y no permite Google Fonts.
+- Fotos de legisladores: con `img-src 'self'` hay que descargarlas y servirlas localmente. Revisar licencia y peso.
+- Las descargas de PNG de cada gráfico (botón ⤓) no pueden usar `data:` ni `blob:` como imagen. Ofrecer el CSV, o resolver la exportación de otra forma.
+
+## Decisiones pendientes
+
+1. **"Votaciones clave vs. gobierno" (captura 09).** Es lo más atractivo del perfil de datacp y es esencialmente nuestro índice de alineamiento con el Ejecutivo, que decidimos no publicar en Fase 1. Opciones: (a) seguir sin publicarlo; (b) publicarlo solo para una lista editorial chica de leyes clave, con la posición del gobierno documentada a mano por ley, como hace datacp, y no como índice automático. La (b) es más defendible metodológicamente.
+2. **Fotos:** ¿de SILpy, de las webs de las cámaras o de Wikimedia? Hace falta licencia clara.
+3. **Presentismo:** datacp usa asistencia a sesiones (119/139). Nosotros hoy solo tenemos ausencia en votaciones nominales. Verificar si SILpy publica asistencia por sesión. Si no, rotularlo explícitamente como "presencia en votaciones nominales".
+4. **Bloques:** en Paraguay las bancadas cambian (por ejemplo, ANR "A" / Honor Colorado). La disciplina tiene que computarse con la bancada vigente en cada fecha (`bancada_hist` en silver), no con la actual.
+
+## Preguntas para Kalaguichi (sobre su dataset de PDFs)
+
+- ¿Qué documentos son (proyectos, dictámenes, diarios de sesiones) y de qué períodos?
+- ¿Guarda el **ID de expediente de SILpy** por documento? Es la clave para cruzar con votos. Si no se guarda ahora, después es difícil de recuperar.
+- ¿En qué formato lo va a publicar (parquet, JSON, CSV), con qué licencia y con qué frecuencia de actualización?
