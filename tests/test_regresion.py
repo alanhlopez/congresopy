@@ -1,5 +1,8 @@
-"""Test de regresión: el pipeline migrado tiene que reproducir el votómetro del prototipo.
+"""Test de regresión de la LÓGICA de analisis.py: tiene que reproducir el votómetro del prototipo.
 
+Insumos congelados: tests/referencia/silver_votometro.tar.gz, los CSV de silver/ que lee analisis.py tal
+como quedaron al migrar el prototipo. El test corre analisis.py sobre esa copia, no sobre silver/ vivo:
+así una corrección de datos o votaciones nuevas no rompen el test, y un cambio de lógica sí.
 Referencia: tests/referencia/dashboard_data_votometro.json.gz, copia gzip del
 dashboard_data.json de VotometroCongresoPy (sha256 en REF_SHA256).
 
@@ -19,6 +22,7 @@ import json
 import os
 import subprocess
 import sys
+import tarfile
 from pathlib import Path
 
 import pytest
@@ -28,10 +32,11 @@ sys.path.insert(0, str(RAIZ / "pipeline"))
 import config  # noqa: E402
 
 REF = Path(__file__).parent / "referencia" / "dashboard_data_votometro.json.gz"
+SILVER_CONGELADO = Path(__file__).parent / "referencia" / "silver_votometro.tar.gz"
 REF_SHA256 = "984e0d7b21afb7895a6af0329bc45b8cf53d5fd387064c18ac531bcbea6b0115"
-# sha256 del dashboard_data.json que genera analisis.py hoy (= salidas/votometro/dashboard_data.json).
+# sha256 del dashboard_data.json que genera analisis.py sobre los insumos congelados.
 # Desde el desempate determinístico del orden de `heat` es igual byte a byte en cualquier versión
-# de pandas/numpy probada. Si cambia a propósito, actualizalo y explicá por qué en el commit.
+# de pandas/numpy probada. Si un cambio de lógica lo modifica a propósito, actualizalo y explicá por qué.
 SALIDA_SHA256 = "e9e3846eed7aae3ddf422215868f602514cf140660300adf8b2b1b91c07e6291"
 
 
@@ -74,9 +79,12 @@ def referencia():
 
 @pytest.fixture(scope="session")
 def salida(tmp_path_factory):
-    """Corre analisis.py sobre silver/ escribiendo en un directorio temporal."""
+    """Corre analisis.py sobre la copia congelada de silver/, escribiendo en un directorio temporal."""
+    silver = tmp_path_factory.mktemp("silver_congelado")
+    with tarfile.open(SILVER_CONGELADO) as t:
+        t.extractall(silver, filter="data")
     destino = tmp_path_factory.mktemp("votometro")
-    env = {**os.environ, "CONGRESOPY_SALIDAS": str(destino)}
+    env = {**os.environ, "CONGRESOPY_SALIDAS": str(destino), "CONGRESOPY_SILVER": str(silver)}
     subprocess.run([sys.executable, str(RAIZ / "pipeline" / "analisis.py")],
                    env=env, check=True, capture_output=True)
     return (destino / "dashboard_data.json").read_bytes()

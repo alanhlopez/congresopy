@@ -90,8 +90,8 @@ los componentes solo leen `--c`; los valores por tema están en los tokens de `c
   cambia en todas (lo verifica `test_menu_identico_en_cada_pagina`).
 - Decisiones a revisar: sin fotos (avatar con iniciales coloreado por partido) hasta resolver la licencia; la
   «presencia» es no figurar como AUSENTE en votaciones nominales (en el Senado «no vota» cuenta como presente);
-  el hemiciclo ordena oposición a la izquierda y ANR a la derecha; la sigla `IA` del Senado se muestra tal cual
-  porque no está claro qué partido es. No se publica nada del índice del Ejecutivo ni la disciplina de bloque.
+  el hemiciclo ordena oposición a la izquierda y ANR a la derecha. No se publica nada del índice del Ejecutivo
+  ni la disciplina de bloque (pendiente: historial de bancadas con fechas).
 
 ## Tests
 
@@ -102,11 +102,13 @@ los componentes solo leen `--c`; los valores por tema están en los tokens de `c
 CI: `.github/workflows/tests.yml` corre la misma suite en cada push (sin bronze/, así que se saltean los 2 tests
 de reparseo). Ningún test hace requests a SILpy.
 
-Los dos primeros tests corren `analisis.py` sobre silver/ y escriben en un directorio temporal vía
-`CONGRESOPY_SALIDAS`, así que no pisan `salidas/`.
+Los dos primeros tests prueban la LÓGICA de `analisis.py`: lo corren sobre una copia congelada de los insumos
+(`tests/referencia/silver_votometro.tar.gz`, el silver/ de la migración) vía `CONGRESOPY_SILVER`, y escriben en
+un directorio temporal vía `CONGRESOPY_SALIDAS`. Así, corregir datos o sumar votaciones en silver/ no los
+rompe; cambiar la lógica sí. Los datos vivos (`salidas/`, `site/datos/`) se regeneran y se commitean aparte.
 
-- `test_dashboard_byte_a_byte`: el sha256 del `dashboard_data.json` generado tiene que ser `SALIDA_SHA256`
-  (= `salidas/votometro/dashboard_data.json` en git). Es igual en pandas 2.2/numpy 1.26, pandas 2.3/numpy
+- `test_dashboard_byte_a_byte`: el sha256 del `dashboard_data.json` generado sobre los insumos congelados tiene
+  que ser `SALIDA_SHA256`. Es igual en pandas 2.2/numpy 1.26, pandas 2.3/numpy
   2.3 y pandas 3.1/numpy 2.5. Si un cambio lo modifica a propósito, se actualiza el hash y se explica en el commit.
 - `test_dashboard_igual_a_referencia`: compara con `tests/referencia/dashboard_data_votometro.json.gz`, el
   JSON original del prototipo. Exacto en todo. La matriz `heat` se compara como pares
@@ -183,6 +185,8 @@ Los dos primeros tests corren `analisis.py` sobre silver/ y escriben en un direc
 - Cambios de lógica del pipeline siempre con el test de regresión en verde, o con una explicación explícita
   de por qué cambia la referencia.
 - Commits chicos y descriptivos.
+- Toda corrección a mano en silver/ se anota en `docs/correcciones_manuales.md` (fecha, archivo, cambio, fuente)
+  y va seguida de `analisis.py` + `exportar_sitio.py`.
 - No modificar nada en `../VotometroCongresoPy/`.
 
 ## Advertencias conocidas

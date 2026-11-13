@@ -13,7 +13,8 @@ from pathlib import Path
 RAIZ = Path(__file__).resolve().parent.parent
 PIPELINE = RAIZ / "pipeline"
 BRONZE = RAIZ / "bronze" / "silpy"
-SILVER = RAIZ / "silver"
+# Redirigible para el test de regresión, que corre analisis.py sobre una copia congelada de silver/.
+SILVER = Path(os.environ.get("CONGRESOPY_SILVER", RAIZ / "silver"))
 # El test de regresión la redirige a un directorio temporal para no pisar la referencia.
 SALIDAS = Path(os.environ.get("CONGRESOPY_SALIDAS", RAIZ / "salidas" / "votometro"))
 # Datos que consume el sitio (los genera exportar_sitio.py desde silver/).
