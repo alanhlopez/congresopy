@@ -16,6 +16,8 @@ BRONZE = RAIZ / "bronze" / "silpy"
 SILVER = RAIZ / "silver"
 # El test de regresión la redirige a un directorio temporal para no pisar la referencia.
 SALIDAS = Path(os.environ.get("CONGRESOPY_SALIDAS", RAIZ / "salidas" / "votometro"))
+# Datos que consume el sitio (los genera exportar_sitio.py desde silver/).
+SITE_DATOS = RAIZ / "site" / "datos" / "congreso"
 
 CAMARAS = {"S": "senado", "D": "diputados"}
 # IDs de período: compartidos por las dos cámaras.

@@ -15,6 +15,7 @@ El sitio todavía es una página vacía.
 | `silver/{senado,diputados}/` | CSV validados: `votacion`, `voto`, `fechas`, `legisladores`, `codificacion_sugerida`, `ids_<período>.txt`. |
 | `salidas/votometro/` | Dashboard del prototipo (`votometro.html`) y sus datos. Solo para uso interno y regresión: no se publica. |
 | `site/` | Sitio estático que se despliega (HTML, CSS y JS sin build). |
+| `site/datos/congreso/` | Datos abiertos que usa el sitio: JSON por cámara (legisladores, votaciones, votos) y `manifiesto.json` con sha256. Los genera `pipeline/exportar_sitio.py`. |
 | `tests/` | Test de regresión contra el prototipo. |
 | `docs/` | Notas de traspaso (`CONTINUAR.md`) y capturas de referencia de datacp.ar/congreso. |
 | `bronze/` | HTML crudo de SILpy (~360 MB). **No está en git.** |
@@ -28,6 +29,7 @@ uv venv -p 3.12 .venv && uv pip install -p .venv/bin/python -r requirements.txt
 .venv/bin/python pipeline/silpy_votos.py reparsear --camara S   # silver/ desde bronze/, sin red
 .venv/bin/python pipeline/codificar.py S
 .venv/bin/python pipeline/analisis.py                           # salidas/votometro/
+.venv/bin/python pipeline/exportar_sitio.py                     # site/datos/congreso/
 .venv/bin/python -m pytest
 python3 -m http.server -d site 8000                             # sitio en http://localhost:8000
 ```

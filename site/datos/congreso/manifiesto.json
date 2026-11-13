@@ -1,0 +1,79 @@
+{
+  "proyecto": "Monitoreo Congreso del Paraguay",
+  "generado": "2026-11-13T20:05:32Z",
+  "fuente": {
+    "nombre": "SILpy – Sistema de Información Legislativa, Congreso Nacional del Paraguay",
+    "url": "https://silpy.congreso.gov.py/",
+    "licencia": "CC BY 4.0"
+  },
+  "licencia": "CC BY-SA 4.0",
+  "camaras": {
+    "senado": {
+      "nombre": "Cámara de Senadores",
+      "desde": "2023-06-30",
+      "hasta": "2026-10-14",
+      "votaciones": 300,
+      "votos": 13483,
+      "legisladores": 54
+    },
+    "diputados": {
+      "nombre": "Cámara de Diputados",
+      "desde": "2023-07-05",
+      "hasta": "2026-09-22",
+      "votaciones": 865,
+      "votos": 69197,
+      "legisladores": 86
+    }
+  },
+  "notas": [
+    "Solo votaciones nominales y electrónicas publicadas en SILpy con el voto de cada legislador.",
+    "Cada votación se validó contra el sumario de SILpy: la suma de los votos individuales coincide con los totales publicados.",
+    "En Diputados, «no vota» se registra como «ausente». No comparar el ausentismo entre cámaras.",
+    "La ausencia se mide en votaciones nominales, no en la asistencia a las sesiones.",
+    "Partido y bancada son los que figuran hoy en SILpy, no los de la fecha de cada votación."
+  ],
+  "archivos": [
+    {
+      "archivo": "senado/legisladores.json",
+      "generado": "2026-11-13T20:05:32Z",
+      "filas": 54,
+      "bytes": 23134,
+      "sha256": "869bb64285707b599be52ae97908b0758f12a5a7a9526bcc7a5344addbc72cd5"
+    },
+    {
+      "archivo": "senado/votaciones.json",
+      "generado": "2026-11-13T20:05:32Z",
+      "filas": 300,
+      "bytes": 339466,
+      "sha256": "14dcbcd003d2f20ea3e2d60abadeca01aba1763daddc372e0a49652cd0c30969"
+    },
+    {
+      "archivo": "senado/votos.json",
+      "generado": "2026-11-13T20:05:32Z",
+      "filas": 54,
+      "bytes": 19130,
+      "sha256": "feeacebbc2ac3f64d73dc0660c186e54e8c6b695e96004454fc7122f0ceacd96"
+    },
+    {
+      "archivo": "diputados/legisladores.json",
+      "generado": "2026-11-13T20:05:32Z",
+      "filas": 86,
+      "bytes": 37414,
+      "sha256": "e179f5ce928b75187ccc49cd9b1e4c9a2611091f8faa4bb40a2302e9ecf98f50"
+    },
+    {
+      "archivo": "diputados/votaciones.json",
+      "generado": "2026-11-13T20:05:32Z",
+      "filas": 865,
+      "bytes": 1094981,
+      "sha256": "126d2329343cbfc38f3f817b2e5453d79a36b4c8caf65d7faf31391a0d72d8ce"
+    },
+    {
+      "archivo": "diputados/votos.json",
+      "generado": "2026-11-13T20:05:32Z",
+      "filas": 86,
+      "bytes": 81659,
+      "sha256": "9ee08a84ba7320eddc0d56b4757e1d67a3fb692f164c9efeb1ed42d94b18ddf6"
+    }
+  ]
+}

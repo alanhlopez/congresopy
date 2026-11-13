@@ -37,6 +37,8 @@ $P pipeline/codificar.py S
 $P pipeline/codificar.py D
 # Análisis -> salidas/votometro/ (dashboard_data.json, votometro.html, {camara}/puntos_ideales.csv)
 $P pipeline/analisis.py
+# Datos del sitio -> site/datos/congreso/{senado,diputados}/{legisladores,votaciones,votos}.json + manifiesto.json
+$P pipeline/exportar_sitio.py
 # Probar el parser con un HTML guardado
 $P pipeline/silpy_votos.py parsear-local bronze/silpy/senado/109395.html
 ```
@@ -85,6 +87,9 @@ Los dos primeros tests corren `analisis.py` sobre silver/ y escriben en un direc
 - `test_codificar_reproduce_silver`: `codificar.py` regenera exactamente `codificacion_sugerida.csv`.
 - `test_reparsear_reproduce_silver`: parsear bronze/ da las mismas filas que silver/ (sin importar el
   orden) y todas cuadran con el sumario.
+- `test_exportar.py`: `site/datos/congreso/` está al día con silver/, el manifiesto coincide con los archivos
+  (sha256, bytes, filas), las cadenas de `votos.json` son idénticas al `vc` de `analisis.py`, los conteos
+  cierran con los totales y ningún JSON del sitio trae campos del índice del Ejecutivo.
 - `test_listados.py`: política de listados (cerrado nunca se rebaja; abierto con snapshot fechado diario;
   sin contacto no hay request), con una sesión falsa, sin red.
 - `test_validacion.py`: con un HTML real de SILpy (`tests/fixtures/silpy/104208.html`) y una copia con un voto
@@ -107,7 +112,14 @@ Los dos primeros tests corren `analisis.py` sobre silver/ y escriben en un direc
 - Rutas siempre relativas: el sitio tiene que funcionar servido en `/` y también en `/instituciones/congreso/`.
 - El menú se copia en cada HTML (no se inyecta).
 - Los datos que consume el sitio viven en `site/datos/congreso/` como JSON con un `manifiesto.json`
-  (archivo, fecha de generación, filas, sha256).
+  (archivo, fecha de generación, filas, sha256). Los genera solo `pipeline/exportar_sitio.py`, desde silver/;
+  no se editan a mano. Después de cambiar silver/, volver a correrlo y commitear el resultado (lo verifica
+  `test_site_datos_al_dia_con_silver`). Formato:
+  - `{camara}/votaciones.json`: lista, más reciente primero (fecha, sesión, expediente, título, acápite,
+    moción, resultado, totales, `url` a SILpy).
+  - `{camara}/votos.json`: `orden` (ids de votación, en el orden de votaciones.json), `codigos` y, por id de
+    legislador, una cadena con un carácter por votación (S N A X V 1 2 3; `-` = fuera del cargo).
+  - `{camara}/legisladores.json`: datos de la nómina y `conteo` de votos por tipo.
 - Cada página muestra fuente, método y límites (por ejemplo, que en Diputados "NO VOTA" se registra como AUSENTE).
 - Responsive desde 360 px, sin scroll horizontal.
 - `docs/referencia-datacp/` es referencia de estructura y contenido, no de identidad visual: no copiar su
