@@ -24,15 +24,25 @@ PERIODOS = {100217: "2023-24", 100237: "2024-25", 100257: "2025-26", 100267: "20
 # --- SILpy ---
 BASE = "https://silpy.congreso.gov.py/web"
 DELAY = 1.5   # segundos entre requests. robots.txt de SILpy no autoriza automatización: no lo bajes.
-CONTACTO = ""  # completar (email o URL del repo) antes de descargar nada
-USER_AGENT = f"congresopy/0.1 (+contacto: {CONTACTO})" if CONTACTO else "congresopy/0.1"
+# El contacto no va en el código: sale de la variable de entorno CONGRESOPY_CONTACTO (ver .env.example).
+CONTACTO = os.environ.get("CONGRESOPY_CONTACTO", "").strip()
+USER_AGENT = (f"congresopy/0.1 (investigación cívica sin fines de lucro; contacto: {CONTACTO}; "
+              "+https://github.com/alanhlopez/congresopy)")
+
+
+def requerir_contacto():
+    """Corta con un error claro si no hay contacto. Solo la llaman los comandos que descargan de SILpy."""
+    if not CONTACTO:
+        raise SystemExit(
+            "Falta CONGRESOPY_CONTACTO: SILpy no autoriza la automatización y el User-Agent tiene que "
+            "identificar a quién contactar.\n"
+            "  Copiá .env.example a .env, completalo y cargalo:  set -a && . ./.env && set +a\n"
+            "  (reparsear, parsear-local, codificar, analisis y los tests no lo necesitan).")
 
 
 def headers():
-    """Headers para requests a SILpy. Sin contacto no se descarga nada."""
-    if not CONTACTO:
-        raise SystemExit("config.CONTACTO está vacío: completalo antes de hacer requests a SILpy "
-                         "(los comandos que leen solo de bronze/ funcionan igual).")
+    """Headers para requests a SILpy. Exige contacto: es la última barrera antes de cualquier request."""
+    requerir_contacto()
     return {"User-Agent": USER_AGENT}
 
 

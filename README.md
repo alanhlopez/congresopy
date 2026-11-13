@@ -37,8 +37,16 @@ Todos los comandos, las reglas del proyecto y las advertencias están en [`CLAUD
 ## Datos crudos
 
 `bronze/` no se versiona por su tamaño. Sin él funcionan `codificar.py`, `analisis.py`, el sitio y casi todos
-los tests: solo se saltea el de reparseo. Las descargas nuevas desde SILpy necesitan que se complete
-`CONTACTO` en `pipeline/config.py`: el User-Agent tiene que identificar a quién contactar. SILpy no autoriza
+los tests: solo se saltea el de reparseo. Para descargar de SILpy hace falta la variable de entorno
+`CONGRESOPY_CONTACTO`, porque el User-Agent tiene que identificar a quién contactar. No se escribe en el código:
+
+```bash
+cp .env.example .env      # completá CONGRESOPY_CONTACTO (.env no se versiona)
+set -a && . ./.env && set +a
+```
+
+Sin la variable, los comandos que descargan (`listar`, `detalle` y `fechas` si le falta un listado) cortan con
+un error. El resto del pipeline y los tests funcionan igual. SILpy no autoriza
 la automatización en su robots.txt, así que el scraper espera 1,5 s entre requests y nunca vuelve a bajar
 lo que ya está en `bronze/`.
 

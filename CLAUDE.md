@@ -41,9 +41,14 @@ $P pipeline/analisis.py
 $P pipeline/silpy_votos.py parsear-local bronze/silpy/senado/109395.html
 ```
 
-Con red (requiere `CONTACTO` en `config.py`; hoy está vacío a propósito y los comandos se niegan a correr):
+Con red. El contacto del User-Agent no va en el código: sale de la variable `CONGRESOPY_CONTACTO`.
+`config.requerir_contacto()` corta con un error si falta, y solo la llaman los comandos que descargan
+(`listar`, `detalle` y `fechas` cuando el listado no está en bronze/). `reparsear`, `parsear-local`,
+`codificar.py`, `analisis.py` y los tests andan sin la variable.
 
 ```bash
+cp .env.example .env            # completar CONGRESOPY_CONTACTO (.env no se versiona)
+set -a && . ./.env && set +a
 $P pipeline/silpy_votos.py listar --camara S --periodo 100267 > silver/senado/ids_100267.txt
 $P pipeline/silpy_votos.py detalle --camara S --ids silver/senado/ids_100267.txt
 ```
@@ -100,7 +105,8 @@ Los dos primeros tests corren `analisis.py` sobre silver/ y escriben en un direc
 ### Datos SILpy
 
 - robots.txt de SILpy no autoriza automatización: mínimo 1,5 s entre requests (`config.DELAY`), User-Agent
-  identificado con contacto (`config.USER_AGENT`), y nunca volver a descargar algo que ya está en bronze/.
+  identificado con contacto (`config.USER_AGENT`, con el contacto desde `CONGRESOPY_CONTACTO`; nunca escribirlo
+  en el código), y nunca volver a descargar algo que ya está en bronze/.
 - Cada votación parseada se valida contra el sumario (suma de votos por tipo == totales publicados). Si no
   coincide, no se escribe en silver/ y se reporta. **Pendiente:** hoy `reparsear` y `detalle` la escriben
   igual con `valida=False` (hay 0 casos). Corregirlo es la próxima tarea.

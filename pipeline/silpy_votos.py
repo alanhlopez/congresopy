@@ -198,6 +198,7 @@ def main():
         for per in args.periodos:
             f = raw / f"listado_{args.camara}_{per}.html"
             if not f.exists():
+                config.requerir_contacto()   # fechas solo descarga si el listado no está en bronze/
                 r = sess.get(f"{BASE}/votaciones/{args.camara}/{per}", headers=config.headers(), timeout=60)
                 r.raise_for_status(); f.write_text(r.text, encoding="utf-8"); time.sleep(DELAY)
             html = f.read_text(encoding="utf-8")
@@ -241,6 +242,7 @@ def main():
         print(f"{len(metas)} votaciones, {len(todos)} votos, {errores} errores, {n_inv} no cuadran con el sumario", file=sys.stderr)
         return
 
+    config.requerir_contacto()   # listar y detalle descargan de SILpy
     sess = requests.Session()
     if args.cmd == "listar":
         for i in listar_ids(args.camara, args.periodo, sess):

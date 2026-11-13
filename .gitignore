@@ -6,3 +6,6 @@ __pycache__/
 .DS_Store
 node_modules/
 .venv/
+
+# Variables locales (contacto del User-Agent). Ver .env.example
+.env
