@@ -1,6 +1,6 @@
 {
   "proyecto": "Monitoreo Congreso del Paraguay",
-  "generado": "2026-11-13T20:05:32Z",
+  "generado": "2026-11-13T20:34:44Z",
   "fuente": {
     "nombre": "SILpy – Sistema de Información Legislativa, Congreso Nacional del Paraguay",
     "url": "https://silpy.congreso.gov.py/",
@@ -35,10 +35,10 @@
   "archivos": [
     {
       "archivo": "senado/legisladores.json",
-      "generado": "2026-11-13T20:05:32Z",
+      "generado": "2026-11-13T20:34:44Z",
       "filas": 54,
-      "bytes": 23134,
-      "sha256": "869bb64285707b599be52ae97908b0758f12a5a7a9526bcc7a5344addbc72cd5"
+      "bytes": 23136,
+      "sha256": "c418095c13fb49ea1d15507b40f9919c9848408886e012d810fbc90ffcd4693e"
     },
     {
       "archivo": "senado/votaciones.json",
