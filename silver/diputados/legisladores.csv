@@ -1,87 +1,89 @@
 id_legislador,nombre,nombre_corto,cargo,periodo,estado,partido,bancada,cargo_bancada,color
-101405,María Rocío Abed de Zacarías,Rocío Abed,Diputado/a Nacional,2023-2028,activos,ANR,"BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - A ""HONOR COLORADO""",,
-101414,Juan Manuel Acevedo Ayala,Juan M. Acevedo,Diputado/a Nacional,2023-2028,activos,PLRA,BANCADA DEL PARTIDO LIBERAL RADICAL AUTÉNTICO PLRA - A,,
-101403,Liz Cristina Acosta Britez,Liz Acosta,Diputado/a Nacional,2023-2028,activos,ANR,"BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - A ""HONOR COLORADO""",,
-101409,José Domingo Adorno Mazacotte,José Adorno,Diputado/a Nacional,2023-2028,activos,ANR,"BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - A ""HONOR COLORADO""",,
-101453,Alejandro Darío Aguilera Elizaur,Alejandro Aguilera,Diputado/a Nacional,2023-2028,activos,ANR,"BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - A ""HONOR COLORADO""",,
-101394,Bettina Rosmary Aguilera Paniagua,Bettina Aguilera,Diputado/a Nacional,2023-2028,activos,ANR,"BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - A ""HONOR COLORADO""",,
-101445,Diosnel Aguilera Rojas,Diosnel Aguilera,Diputado/a Nacional,2023-2028,activos,PLRA,BANCADA DEL PARTIDO LIBERAL RADICAL AUTÉNTICO PLRA - C,,
-101450,Graciela Aguilera Ruiz Diaz,Graciela Aguilera,Diputado/a Nacional,2023-2028,activos,PLRA,BANCADA DEL PARTIDO LIBERAL RADICAL AUTÉNTICO PLRA - PL,,
-101406,Juan Manuel Añazco Vera,Juan M. Añazco,Diputado/a Nacional,2023-2028,activos,ANR,BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - B,,
-101468,Carlos Maria Arrechea Ortiz,Carlos Arrechea,Diputado/a Nacional,2023-2028,activos,ANR,BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - B,,
-101471,Jorge Ramón Ávalos Mariño,Jorge Ávalos,Diputado/a Nacional,2023-2028,activos,PLRA,BANCADA DEL PARTIDO LIBERAL RADICAL AUTÉNTICO PLRA - A,,
-101423,Jorge Sebastian Barressi Mancia,Jorge Barressi,Diputado/a Nacional,2023-2028,activos,ANR,"BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - A ""HONOR COLORADO""",,
-101554,Santiago Alfredo Benítez Cáceres,Santiago Benítez,Diputado/a Nacional,2023-2028,activos,ANR,BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - B,,
-101452,María Constancia Benítez de Benítez,María C. Benítez,Diputado/a Nacional,2023-2028,activos,PLRA,BANCADA DEL PARTIDO LIBERAL RADICAL AUTÉNTICO PLRA - C,,
-101417,Raúl Antonio Benítez Talavera,Raúl Benítez,Diputado/a Nacional,2023-2028,activos,PEN,"PARTIDO ENCUENTRO NACIONAL ""PEN""",,
-101441,Rodrigo Daniel Blanco Amarilla,Rodrigo Blanco,Diputado/a Nacional,2023-2028,activos,PLRA,BANCADA DEL PARTIDO LIBERAL RADICAL AUTÉNTICO PLRA - A,,
-101464,Christian Gabriel Brunaga Rotela,Christian Brunaga,Diputado/a Nacional,2023-2028,activos,ANR,"BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - A ""HONOR COLORADO""",,
-101457,Enrique Antonio Concepción Buzarquis Cáceres,Antonio Buzarquis,Diputado/a Nacional,2023-2028,activos,PLRA,BANCADA DEL PARTIDO LIBERAL RADICAL AUTÉNTICO PLRA - C,,
-101421,Diego Crispin Candia Melgarejo,Diego Candia,Diputado/a Nacional,2023-2028,activos,ANR,"BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - A ""HONOR COLORADO""",,
-101412,Benjamín Cantero Ramírez,Benjamín Cantero,Diputado/a Nacional,2023-2028,activos,ANR,"BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - A ""HONOR COLORADO""",,
-101429,Néstor David Castellano Escobar,Néstor Castellano,Diputado/a Nacional,2023-2028,activos,ANR,"BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - A ""HONOR COLORADO""",,
-101410,María Ida Cattebeke de Ortíz,Ida Cattebeke,Diputado/a Nacional,2023-2028,activos,ANR,"BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - A ""HONOR COLORADO""",,
-101386,Daniel Fernando Centurión González,Daniel Centurión,Diputado/a Nacional,2023-2028,activos,ANR,"BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - C ""COLORADO AÑETETÉ""",,
-101467,César Ladislao Cerini Benítez,César Cerini,Diputado/a Nacional,2023-2028,activos,ANR,"BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - A ""HONOR COLORADO""",,
-101426,Edgar Milciades Chávez Brizuela,Edgar Chávez,Diputado/a Nacional,2023-2028,activos,ANR,"BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - A ""HONOR COLORADO""",,
-101460,Avelino Dávalos Estigarribia,Avelino Dávalos,Diputado/a Nacional,2023-2028,activos,ANR,"BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - A ""HONOR COLORADO""",,
-101454,Miguel Angel Del Puerto Silva,Miguel Del Puerto,Diputado/a Nacional,2023-2028,activos,ANR,"BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - A ""HONOR COLORADO""",,
-101391,Yamil Esgaib Mansia,Yamil Esgaib,Diputado/a Nacional,2023-2028,activos,ANR,"BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - A ""HONOR COLORADO""",,
-101387,Mauricio Fabian Espínola Núñez,Mauricio Espínola,Diputado/a Nacional,2023-2028,activos,ANR,"BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - C ""COLORADO AÑETETÉ""",,
-101440,Dalia Marlene Estigarribia,Dalia Estigarribia,Diputado/a Nacional,2023-2028,activos,PLRA,BANCADA DEL PARTIDO LIBERAL RADICAL AUTÉNTICO PLRA - A,,
-101435,Jatar Eduardo Fernández Safuan,Jatar Fernández,Diputado/a Nacional,2023-2028,activos,ANR,BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - B,,
-101392,Héctor Ruben Figueredo Notario,Héctor Figueredo,Diputado/a Nacional,2023-2028,activos,ANR,"BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - A ""HONOR COLORADO""",,
-101442,Luis Federico Franco Alfaro,Federico Franco,Diputado/a Nacional,2023-2028,activos,PLRA,BANCADA DEL PARTIDO LIBERAL RADICAL AUTÉNTICO PLRA - PL,,
-101428,Leidy Paola Galeano Chávez,Leidy Galeano,Diputado/a Nacional,2023-2028,activos,CDN,BANCADA DEL MOVIMIENTO CONCIENCIA DEMOCRÁTICA NACIONAL -YO CREO,,
-101427,Rodrigo Daniel Gamarra Krayacich,Rodrigo Gamarra,Diputado/a Nacional,2023-2028,activos,ANR,"BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - A ""HONOR COLORADO""",,
-101404,Walter Hugo Garcia Mendez,Walter García,Diputado/a Nacional,2023-2028,activos,CDN,BANCADA DEL MOVIMIENTO CONCIENCIA DEMOCRÁTICA NACIONAL -YO CREO,,
-101407,Carmen Dejesús Gimenez de Ovando,Carmen Giménez,Diputado/a Nacional,2023-2028,activos,ANR,"BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - A ""HONOR COLORADO""",,
-101446,Cleto Marcelino Gimenez Gimenez,Cleto Giménez,Diputado/a Nacional,2023-2028,activos,PLRA,BANCADA DEL PARTIDO LIBERAL RADICAL AUTÉNTICO PLRA - A,,
-101459,Carlos Marcial Godoy Garcia,Carlos Godoy,Diputado/a Nacional,2023-2028,activos,ANR,"BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - A ""HONOR COLORADO""",,
-101443,Pedro José Gómez Silva,Pedro Gómez,Diputado/a Nacional,2023-2028,activos,PLRA,BANCADA DEL PARTIDO LIBERAL RADICAL AUTÉNTICO PLRA - PL,,
-101564,Saúl González Rojas,Saúl González,Diputado/a Nacional,2023-2028,activos,ANR,"BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - A ""HONOR COLORADO""",,
-101425,Roberto Eudez González Segovia,Roberto González,Diputado/a Nacional,2023-2028,activos,ANR,"BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - C ""COLORADO AÑETETÉ""",,
-101474,Luis María González Vaesken,Luis González,Diputado/a Nacional,2023-2028,activos,ANR,"BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - C ""COLORADO AÑETETÉ""",,
-101584,David Manuel Jara Espinoza,David Jara,Diputado/a Nacional,2023-2028,activos,ANR,"BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - A ""HONOR COLORADO""",,
-101385,Raúl Luis Latorre Martínez,Raúl Latorre,Diputado/a Nacional,2023-2028,activos,ANR,"BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - A ""HONOR COLORADO""",,
-101451,Carlos María López López,Carlos M. López,Diputado/a Nacional,2023-2028,activos,PLRA,BANCADA DEL PARTIDO LIBERAL RADICAL AUTÉNTICO PLRA - PL,,
-101461,Juan Ramón Maciel Merlo,Juan Maciel,Diputado/a Nacional,2023-2028,activos,ANR,"BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - C ""COLORADO AÑETETÉ""",,
-101402,Miguel Mártinez Núñez,Miguel Martínez,Diputado/a Nacional,2023-2028,activos,PLRA,BANCADA DEL PARTIDO LIBERAL RADICAL AUTÉNTICO PLRA - PL,,
-101424,Hugo Joel Meza,Hugo Meza,Diputado/a Nacional,2023-2028,activos,ANR,BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - B,,
-101437,Jazmin Narvaez Osorio,Jazmín Narváez,Diputado/a Nacional,2023-2028,activos,ANR,"BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - A ""HONOR COLORADO""",,
-101436,Carlos Alberto Núñez Salinas,Carlos Núñez,Diputado/a Nacional,2023-2028,activos,ANR,BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - B,,
-101458,Edgar Gustavo Olmedo Silva,Edgar Olmedo,Diputado/a Nacional,2023-2028,activos,ANR,BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - B,,
-101447,Johanna Paola Ortega Ghiringhelli,Johanna Ortega,Diputado/a Nacional,2023-2028,activos,PPS,BANCADA PAIS SOLIDARIO,,
-101420,Pedro Ortíz Torres,Pedro Ortiz,Diputado/a Nacional,2023-2028,activos,ANR,"BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - A ""HONOR COLORADO""",,
-101395,Emilio Pavon Doldan,Emilio Pavón,Diputado/a Nacional,2023-2028,activos,PLRA,BANCADA DEL PARTIDO LIBERAL RADICAL AUTÉNTICO PLRA - PL,,
-101463,Carlos Alberto Pereira Rieve,Carlos Pereira,Diputado/a Nacional,2023-2028,activos,PLRA,BANCADA DEL PARTIDO LIBERAL RADICAL AUTÉNTICO PLRA - PL,,
-101408,Francisco Osvaldo Manuel Petersen Veiluva,Francisco Petersen,Diputado/a Nacional,2023-2028,activos,ANR,BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - B,,
-101504,Sebastián Emilio Remesowski Squef,Sebastián Remesowski,Diputado/a Nacional,2023-2028,activos,ANR,"BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - A ""HONOR COLORADO""",,
-101455,Alejo Rios Medina,Alejo Ríos,Diputado/a Nacional,2023-2028,activos,PLRA,BANCADA DEL PARTIDO LIBERAL RADICAL AUTÉNTICO PLRA - PL,,
-101399,Guillermo Ariel Rodríguez Dúre,Guillermo Rodríguez,Diputado/a Nacional,2023-2028,activos,CDN,BANCADA DEL MOVIMIENTO CONCIENCIA DEMOCRÁTICA NACIONAL -YO CREO,,
-101390,José Ramón Rodríguez Maciel,José Rodríguez,Diputado/a Nacional,2023-2028,activos,ANR,"BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - A ""HONOR COLORADO""",,
-101411,Ruben Antonio Roussillon Blaires,Rubén Roussillon,Diputado/a Nacional,2023-2028,activos,ANR,BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - B,,
-101431,Ruben Isaac Rubin Orrego,Rubén Rubín,Diputado/a Nacional,2023-2028,activos,IND,BANCADA INDEPENDIENTE,,
-101397,Leonardo Saiz Arce,Leonardo Saiz,Diputado/a Nacional,2023-2028,activos,ANR,"BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - A ""HONOR COLORADO""",,
-101439,Marcelo Rafael Salinas González,Marcelo Salinas,Diputado/a Nacional,2023-2028,activos,PLRA,BANCADA DEL PARTIDO LIBERAL RADICAL AUTÉNTICO PLRA - A,,
-101470,Esteban Martin Samaniego Álvarez,Esteban Samaniego,Diputado/a Nacional,2023-2028,activos,ANR,"BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - A ""HONOR COLORADO""",,
-101465,German Solinger Santander,Germán Solinger,Diputado/a Nacional,2023-2028,activos,ANR,"BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - A ""HONOR COLORADO""",,
-101480,María Fabiana Souto de Alliana,Fabiana Souto,Diputado/a Nacional,2023-2028,activos,ANR,"BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - A ""HONOR COLORADO""",,
-101438,Roya Nigsa Torres Baéz,Roya Torres,Diputado/a Nacional,2023-2028,activos,PLRA,BANCADA DEL PARTIDO LIBERAL RADICAL AUTÉNTICO PLRA - A,,
-101396,Arturo Rene Urbieta Cuevas,Arturo Urbieta,Diputado/a Nacional,2023-2028,activos,ANR,"BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - A ""HONOR COLORADO""",,
-101444,Adrián Darío (Billy) Vaesken Vázquez,Billy Vaesken,Diputado/a Nacional,2023-2028,activos,PLRA,BANCADA DEL PARTIDO LIBERAL RADICAL AUTÉNTICO PLRA - C,,
-101469,Arnaldo Agustín Valdez Noguera,Arnaldo Valdez,Diputado/a Nacional,2023-2028,activos,PLRA,BANCADA DEL PARTIDO LIBERAL RADICAL AUTÉNTICO PLRA - C,,
-101389,Hilda María Del Rocío Vallejo Ávalos,Rocío Vallejo,Diputado/a Nacional,2023-2028,activos,PPQ,BANCADA DEL PARTIDO PATRIA QUERIDA - PPQ,,
-101466,Del Pilar Vázquez Cabrera,Del Pilar Vázquez,Diputado/a Nacional,2023-2028,activos,PLRA,BANCADA DEL PARTIDO LIBERAL RADICAL AUTÉNTICO PLRA - A,,
-101434,Gloria María Johana Vega Insfran,Johana Vega,Diputado/a Nacional,2023-2028,activos,ANR,"BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - A ""HONOR COLORADO""",,
-101449,Pastor Alberto Vera Bejarano,Pastor Vera Bejarano,Diputado/a Nacional,2023-2028,activos,PLRA,BANCADA DEL PARTIDO LIBERAL RADICAL AUTÉNTICO PLRA - A,,
-101448,Ariel Villagra Sosa,Ariel Villagra,Diputado/a Nacional,2023-2028,activos,PLRA,BANCADA DEL PARTIDO LIBERAL RADICAL AUTÉNTICO PLRA - A,,
-101413,María Cristina Villalba de Abente,Cristina Villalba,Diputado/a Nacional,2023-2028,activos,ANR,"BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - A ""HONOR COLORADO""",,
-101393,Virina Mauricia Villanueva Vda de Peña,Virina Villanueva,Diputado/a Nacional,2023-2028,activos,ANR,"BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - A ""HONOR COLORADO""",,
-101418,Patricia Alexandra Zena Oviedo,Alexandra Zena,Diputado/a Nacional,2023-2028,activos,CN,"PARTIDO CRUZADA NACIONAL ""CN""",,
-101430,Orlando Gabriel Arevalo Zielanko,Orlando Arévalo,Diputado/a Nacional,2023-2028,inactivos,ANR,"BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - A ""HONOR COLORADO""",,
-101416,Luis Federico Benítez Cuevas,Luis F. Benítez,Diputado/a Nacional,2023-2028,inactivos,ANR,,,
-101415,Eulalio Gomes,Eulalio Gomes,Diputado/a Nacional,2023-2028,inactivos,ANR,,,
-101494,Julio Rolando González Gimenez,Julio González,Diputado/a Nacional,2023-2028,inactivos,ANR,,,
-101462,Walter Enrique Harms Céspedes,Walter Harms,Diputado/a Nacional,2023-2028,inactivos,ANR,,,
-101456,Derlis Manuel Rodríguez Baez,Derlis Rodríguez,Diputado/a Nacional,2023-2028,inactivos,ANR,"BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - A ""HONOR COLORADO""",,
+101405,María Rocío Abed de Zacarías,Rocío Abed,Diputada Nacional,2023-2028 (Actual),activos,ANR,"BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - A ""HONOR COLORADO""",MIEMBRO,#ff0000
+101414,Juan Manuel Acevedo Ayala,Juan M. Acevedo,Diputado Nacional,2023-2028 (Actual),activos,PLRA,BANCADA DEL PARTIDO LIBERAL RADICAL AUTÉNTICO PLRA - A,MIEMBRO,#002bc7
+101403,Liz Cristina Acosta Britez,Liz Acosta,Diputada Nacional,2023-2028 (Actual),activos,ANR,"BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - A ""HONOR COLORADO""",MIEMBRO,#ff0000
+101409,José Domingo Adorno Mazacotte,José Adorno,Diputado Nacional,2023-2028 (Actual),activos,ANR,"BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - A ""HONOR COLORADO""",MIEMBRO,#ff0000
+101453,Alejandro Darío Aguilera Elizaur,Alejandro Aguilera,Diputado Nacional,2023-2028 (Actual),activos,ANR,"BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - A ""HONOR COLORADO""",VICELIDER,#ff0000
+101394,Bettina Rosmary Aguilera Paniagua,Bettina Aguilera,Diputada Nacional,2023-2028 (Actual),activos,ANR,"BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - A ""HONOR COLORADO""",MIEMBRO,#ff0000
+101445,Diosnel Aguilera Rojas,Diosnel Aguilera,Diputado Nacional,2023-2028 (Actual),activos,PLRA,BANCADA DEL PARTIDO LIBERAL RADICAL AUTÉNTICO PLRA - C,MIEMBRO,#002bc7
+101450,Graciela Aguilera Ruiz Diaz,Graciela Aguilera,Diputada Nacional,2023-2028 (Actual),activos,PLRA,BANCADA DEL PARTIDO LIBERAL RADICAL AUTÉNTICO PLRA - PL,MIEMBRO,#002bc7
+101406,Juan Manuel Añazco Vera,Juan M. Añazco,Diputado Nacional,2023-2028 (Actual),activos,ANR,BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - B,VICELIDER,#ff0000
+101468,Carlos Maria Arrechea Ortiz,Carlos Arrechea,Diputado Nacional,2023-2028 (Actual),activos,ANR,BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - B,MIEMBRO,#ff0000
+101471,Jorge Ramón Ávalos Mariño,Jorge Ávalos,Diputado Nacional,2023-2028 (Actual),activos,PLRA,BANCADA DEL PARTIDO LIBERAL RADICAL AUTÉNTICO PLRA - A,VICELIDER,#002bc7
+101423,Jorge Sebastian Barressi Mancia,Jorge Barressi,Diputado Nacional,2023-2028 (Actual),activos,ANR,"BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - A ""HONOR COLORADO""",MIEMBRO,#ff0000
+101554,Santiago Alfredo Benítez Cáceres,Santiago Benítez,Diputado Nacional,2023-2028 (Actual),activos,ANR,BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - B,MIEMBRO,#ff0000
+101452,María Constancia Benítez de Benítez,María C. Benítez,Diputada Nacional,2023-2028 (Actual),activos,PLRA,BANCADA DEL PARTIDO LIBERAL RADICAL AUTÉNTICO PLRA - C,LIDER,#002bc7
+101417,Raúl Antonio Benítez Talavera,Raúl Benítez,Diputado Nacional,2023-2028 (Actual),activos,PEN,"PARTIDO ENCUENTRO NACIONAL ""PEN""",LIDER,#ffec15
+101441,Rodrigo Daniel Blanco Amarilla,Rodrigo Blanco,Diputado Nacional,2023-2028 (Actual),activos,PLRA,BANCADA DEL PARTIDO LIBERAL RADICAL AUTÉNTICO PLRA - A,MIEMBRO,#002bc7
+101464,Christian Gabriel Brunaga Rotela,Christian Brunaga,Diputado Nacional,2023-2028 (Actual),activos,ANR,"BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - A ""HONOR COLORADO""",MIEMBRO,#ff0000
+101457,Enrique Antonio Concepción Buzarquis Cáceres,Antonio Buzarquis,Diputado Nacional,2023-2028 (Actual),activos,PLRA,BANCADA DEL PARTIDO LIBERAL RADICAL AUTÉNTICO PLRA - C,MIEMBRO,#002bc7
+101421,Diego Crispin Candia Melgarejo,Diego Candia,Diputado Nacional,2023-2028 (Actual),activos,ANR,"BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - A ""HONOR COLORADO""",MIEMBRO,#ff0000
+101412,Benjamín Cantero Ramírez,Benjamín Cantero,Diputado Nacional,2023-2028 (Actual),activos,ANR,"BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - A ""HONOR COLORADO""",MIEMBRO,#ff0000
+101429,Néstor David Castellano Escobar,Néstor Castellano,Diputado Nacional,2023-2028 (Actual),activos,ANR,"BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - A ""HONOR COLORADO""",MIEMBRO,#ff0000
+101410,María Ida Cattebeke de Ortíz,Ida Cattebeke,Diputada Nacional,2023-2028 (Actual),activos,ANR,"BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - A ""HONOR COLORADO""",MIEMBRO,#ff0000
+101386,Daniel Fernando Centurión González,Daniel Centurión,Diputado Nacional,2023-2028 (Actual),activos,ANR,"BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - C ""COLORADO AÑETETÉ""",LIDER,#ff0000
+101467,César Ladislao Cerini Benítez,César Cerini,Diputado Nacional,2023-2028 (Actual),activos,ANR,"BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - A ""HONOR COLORADO""",MIEMBRO,#ff0000
+101426,Edgar Milciades Chávez Brizuela,Edgar Chávez,Diputado Nacional,2023-2028 (Actual),activos,ANR,"BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - A ""HONOR COLORADO""",MIEMBRO,#ff0000
+101460,Avelino Dávalos Estigarribia,Avelino Dávalos,Diputado Nacional,2023-2028 (Actual),activos,ANR,"BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - A ""HONOR COLORADO""",MIEMBRO,#ff0000
+101454,Miguel Angel Del Puerto Silva,Miguel Del Puerto,Diputado Nacional,2023-2028 (Actual),activos,ANR,"BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - A ""HONOR COLORADO""",LIDER,#ff0000
+101391,Yamil Esgaib Mansia,Yamil Esgaib,Diputado Nacional,2023-2028 (Actual),activos,ANR,"BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - A ""HONOR COLORADO""",VICELIDER,#ff0000
+101387,Mauricio Fabian Espínola Núñez,Mauricio Espínola,Diputado Nacional,2023-2028 (Actual),activos,ANR,"BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - C ""COLORADO AÑETETÉ""",MIEMBRO,#ff0000
+101440,Dalia Marlene Estigarribia,Dalia Estigarribia,Diputada Nacional,2023-2028 (Actual),activos,PLRA,BANCADA DEL PARTIDO LIBERAL RADICAL AUTÉNTICO PLRA - A,SECRETARIA,#002bc7
+101435,Jatar Eduardo Fernández Safuan,Jatar Fernández,Diputado Nacional,2023-2028 (Actual),activos,ANR,BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - B,MIEMBRO,#ff0000
+101392,Héctor Ruben Figueredo Notario,Héctor Figueredo,Diputado Nacional,2023-2028 (Actual),activos,ANR,"BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - A ""HONOR COLORADO""",VICELIDER,#ff0000
+101442,Luis Federico Franco Alfaro,Federico Franco,Diputado Nacional,2023-2028 (Actual),activos,PLRA,BANCADA DEL PARTIDO LIBERAL RADICAL AUTÉNTICO PLRA - PL,VICELIDER,#002bc7
+101428,Leidy Paola Galeano Chávez,Leidy Galeano,Diputada Nacional,2023-2028 (Actual),activos,CDN,BANCADA DEL MOVIMIENTO CONCIENCIA DEMOCRÁTICA NACIONAL -YO CREO,LIDER,#ff7a15
+101427,Rodrigo Daniel Gamarra Krayacich,Rodrigo Gamarra,Diputado Nacional,2023-2028 (Actual),activos,ANR,"BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - A ""HONOR COLORADO""",VICELIDER,#ff0000
+101404,Walter Hugo Garcia Mendez,Walter García,Diputado Nacional,2023-2028 (Actual),activos,CDN,BANCADA DEL MOVIMIENTO CONCIENCIA DEMOCRÁTICA NACIONAL -YO CREO,MIEMBRO,#ff7a15
+101407,Carmen Dejesús Gimenez de Ovando,Carmen Giménez,Diputada Nacional,2023-2028 (Actual),activos,ANR,"BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - A ""HONOR COLORADO""",MIEMBRO,#ff0000
+101446,Cleto Marcelino Gimenez Gimenez,Cleto Giménez,Diputado Nacional,2023-2028 (Actual),activos,PLRA,BANCADA DEL PARTIDO LIBERAL RADICAL AUTÉNTICO PLRA - A,MIEMBRO,#002bc7
+101459,Carlos Marcial Godoy Garcia,Carlos Godoy,Diputado Nacional,2023-2028 (Actual),activos,ANR,"BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - A ""HONOR COLORADO""",MIEMBRO,#ff0000
+101443,Pedro José Gómez Silva,Pedro Gómez,Diputado Nacional,2023-2028 (Actual),activos,PLRA,BANCADA DEL PARTIDO LIBERAL RADICAL AUTÉNTICO PLRA - PL,MIEMBRO,#002bc7
+101564,Saúl González Rojas,Saúl González,Diputado Nacional,2023-2028 (Actual),activos,ANR,"BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - A ""HONOR COLORADO""",MIEMBRO,#ff0000
+101425,Roberto Eudez González Segovia,Roberto González,Diputado Nacional,2023-2028 (Actual),activos,ANR,"BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - C ""COLORADO AÑETETÉ""",VICELIDER,#ff0000
+101474,Luis María González Vaesken,Luis González,Diputado Nacional,2023-2028 (Actual),activos,ANR,"BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - C ""COLORADO AÑETETÉ""",MIEMBRO,#ff0000
+101584,David Manuel Jara Espinoza,David Jara,Diputado Nacional,2023-2028 (Actual),activos,ANR,"BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - A ""HONOR COLORADO""",MIEMBRO,#ff0000
+101385,Raúl Luis Latorre Martínez,Raúl Latorre,Diputado Nacional,2023-2028 (Actual),activos,ANR,"BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - A ""HONOR COLORADO""",MIEMBRO,#ff0000
+101451,Carlos María López López,Carlos M. López,Diputado Nacional,2023-2028 (Actual),activos,PLRA,BANCADA DEL PARTIDO LIBERAL RADICAL AUTÉNTICO PLRA - PL,LIDER,#002bc7
+101461,Juan Ramón Maciel Merlo,Juan Maciel,Diputado Nacional,2023-2028 (Actual),activos,ANR,"BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - C ""COLORADO AÑETETÉ""",MIEMBRO,#ff0000
+101402,Miguel Mártinez Núñez,Miguel Martínez,Diputado Nacional,2023-2028 (Actual),activos,PLRA,BANCADA DEL PARTIDO LIBERAL RADICAL AUTÉNTICO PLRA - PL,SECRETARIO,#002bc7
+101424,Hugo Joel Meza,Hugo Meza,Diputado Nacional,2023-2028 (Actual),activos,ANR,BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - B,MIEMBRO,#ff0000
+101437,Jazmin Narvaez Osorio,Jazmín Narváez,Diputada Nacional,2023-2028 (Actual),activos,ANR,"BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - A ""HONOR COLORADO""",MIEMBRO,#ff0000
+101436,Carlos Alberto Núñez Salinas,Carlos Núñez,Diputado Nacional,2023-2028 (Actual),activos,ANR,BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - B,MIEMBRO,#ff0000
+101458,Edgar Gustavo Olmedo Silva,Edgar Olmedo,Diputado Nacional,2023-2028 (Actual),activos,ANR,BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - B,MIEMBRO,#ff0000
+101447,Johanna Paola Ortega Ghiringhelli,Johanna Ortega,Diputada Nacional,2023-2028 (Actual),activos,PPS,BANCADA PAIS SOLIDARIO,LIDER,#6d35ac
+101420,Pedro Ortíz Torres,Pedro Ortiz,Diputado Nacional,2023-2028 (Actual),activos,ANR,"BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - A ""HONOR COLORADO""",MIEMBRO,#ff0000
+101395,Emilio Pavon Doldan,Emilio Pavón,Diputado Nacional,2023-2028 (Actual),activos,PLRA,BANCADA DEL PARTIDO LIBERAL RADICAL AUTÉNTICO PLRA - PL,MIEMBRO,#002bc7
+101463,Carlos Alberto Pereira Rieve,Carlos Pereira,Diputado Nacional,2023-2028 (Actual),activos,PLRA,BANCADA DEL PARTIDO LIBERAL RADICAL AUTÉNTICO PLRA - PL,MIEMBRO,#002bc7
+101408,Francisco Osvaldo Manuel Petersen Veiluva,Francisco Petersen,Diputado Nacional,2023-2028 (Actual),activos,ANR,BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - B,MIEMBRO,#ff0000
+101504,Sebastián Emilio Remesowski Squef,Sebastián Remesowski,Diputado Nacional,2023-2028 (Actual),inactivos,ANR,"BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - A ""HONOR COLORADO""",MIEMBRO,#ff0000
+101455,Alejo Rios Medina,Alejo Ríos,Diputado Nacional,2023-2028 (Actual),inactivos,PLRA,BANCADA DEL PARTIDO LIBERAL RADICAL AUTÉNTICO PLRA - PL,MIEMBRO,#002bc7
+101399,Guillermo Ariel Rodríguez Dúre,Guillermo Rodríguez,Diputado Nacional,2023-2028 (Actual),activos,CDN,BANCADA DEL MOVIMIENTO CONCIENCIA DEMOCRÁTICA NACIONAL -YO CREO,MIEMBRO,#ff7a15
+101390,José Ramón Rodríguez Maciel,José Rodríguez,Diputado Nacional,2023-2028 (Actual),activos,ANR,"BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - A ""HONOR COLORADO""",MIEMBRO,#ff0000
+101411,Ruben Antonio Roussillon Blaires,Rubén Roussillon,Diputado Nacional,2023-2028 (Actual),activos,ANR,BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - B,LIDER,#ff0000
+101431,Ruben Isaac Rubin Orrego,Rubén Rubín,Diputado Nacional,2023-2028 (Actual),activos,IND,BANCADA INDEPENDIENTE,LIDER,#FFFFFF
+101397,Leonardo Saiz Arce,Leonardo Saiz,Diputado Nacional,2023-2028 (Actual),activos,ANR,"BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - A ""HONOR COLORADO""",MIEMBRO,#ff0000
+101439,Marcelo Rafael Salinas González,Marcelo Salinas,Diputado Nacional,2023-2028 (Actual),activos,PLRA,BANCADA DEL PARTIDO LIBERAL RADICAL AUTÉNTICO PLRA - A,LIDER,#002bc7
+101470,Esteban Martin Samaniego Álvarez,Esteban Samaniego,Diputado Nacional,2023-2028 (Actual),activos,ANR,"BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - A ""HONOR COLORADO""",MIEMBRO,#ff0000
+101465,German Solinger Santander,Germán Solinger,Diputado Nacional,2023-2028 (Actual),activos,ANR,"BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - A ""HONOR COLORADO""",MIEMBRO,#ff0000
+101480,María Fabiana Souto de Alliana,Fabiana Souto,Diputada Nacional,2023-2028 (Actual),activos,ANR,"BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - A ""HONOR COLORADO""",MIEMBRO,#ff0000
+101438,Roya Nigsa Torres Baéz,Roya Torres,Diputada Nacional,2023-2028 (Actual),activos,PLRA,BANCADA DEL PARTIDO LIBERAL RADICAL AUTÉNTICO PLRA - A,MIEMBRO,#002bc7
+101396,Arturo Rene Urbieta Cuevas,Arturo Urbieta,Diputado Nacional,2023-2028 (Actual),activos,ANR,"BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - A ""HONOR COLORADO""",MIEMBRO,#ff0000
+101444,Adrián Darío (Billy) Vaesken Vázquez,Billy Vaesken,Diputado Nacional,2023-2028 (Actual),activos,PLRA,BANCADA DEL PARTIDO LIBERAL RADICAL AUTÉNTICO PLRA - C,VICELIDER,#002bc7
+101469,Arnaldo Agustín Valdez Noguera,Arnaldo Valdez,Diputado Nacional,2023-2028 (Actual),activos,PLRA,BANCADA DEL PARTIDO LIBERAL RADICAL AUTÉNTICO PLRA - C,SECRETARIO,#002bc7
+101389,Hilda María Del Rocío Vallejo Ávalos,Rocío Vallejo,Diputada Nacional,2023-2028 (Actual),activos,PPQ,BANCADA DEL PARTIDO PATRIA QUERIDA - PPQ,LIDER,#99dbf7
+101466,Del Pilar Vázquez Cabrera,Del Pilar Vázquez,Diputada Nacional,2023-2028 (Actual),activos,PLRA,BANCADA DEL PARTIDO LIBERAL RADICAL AUTÉNTICO PLRA - A,LIDER,#002bc7
+101434,Gloria María Johana Vega Insfran,Johana Vega,Diputada Nacional,2023-2028 (Actual),activos,ANR,"BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - A ""HONOR COLORADO""",MIEMBRO,#ff0000
+101449,Pastor Alberto Vera Bejarano,Pastor Vera Bejarano,Diputado Nacional,2023-2028 (Actual),activos,PLRA,BANCADA DEL PARTIDO LIBERAL RADICAL AUTÉNTICO PLRA - A,MIEMBRO,#002bc7
+101448,Ariel Villagra Sosa,Ariel Villagra,Diputado Nacional,2023-2028 (Actual),activos,PLRA,BANCADA DEL PARTIDO LIBERAL RADICAL AUTÉNTICO PLRA - A,MIEMBRO,#002bc7
+101413,María Cristina Villalba de Abente,Cristina Villalba,Diputada Nacional,2023-2028 (Actual),activos,ANR,"BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - A ""HONOR COLORADO""",MIEMBRO,#ff0000
+101393,Virina Mauricia Villanueva Vda de Peña,Virina Villanueva,Diputada Nacional,2023-2028 (Actual),activos,ANR,"BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - A ""HONOR COLORADO""",MIEMBRO,#ff0000
+101418,Patricia Alexandra Zena Oviedo,Alexandra Zena,Diputada Nacional,2023-2028 (Actual),activos,CN,"PARTIDO CRUZADA NACIONAL ""CN""",LIDER,#000000
+101430,Orlando Gabriel Arevalo Zielanko,Orlando Arévalo,Diputado Nacional,2023-2028 (Actual),inactivos,ANR,"BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - A ""HONOR COLORADO""",MIEMBRO,#ff0000
+101416,Luis Federico Benítez Cuevas,Luis F. Benítez,Diputado Nacional,2023-2028 (Actual),inactivos,ANR,,,#ff0000
+101415,Eulalio Gomes,Eulalio Gomes,Diputado Nacional,2023-2028 (Actual),inactivos,ANR,,,#ff0000
+101494,Julio Rolando González Gimenez,Julio González,Diputado Nacional,2023-2028 (Actual),inactivos,ANR,,,#ff0000
+101462,Walter Enrique Harms Céspedes,Walter Harms,Diputado Nacional,2023-2028 (Actual),inactivos,ANR,,,#ff0000
+101456,Derlis Manuel Rodríguez Baez,Derlis Rodríguez,Diputado Nacional,2023-2028 (Actual),inactivos,ANR,"BANCADA DE LA ASOCIACIÓN NACIONAL REPUBLICANA ANR - A ""HONOR COLORADO""",MIEMBRO,#ff0000
+101634,Fernando Ismael Da Silva Sánchez,Fernando Da Silva,Diputado Nacional,2023-2028 (Actual),activos,PLRA,,,#002bc7
+101644,Rubén Darío Benítez Benítez,Rubén Benítez,Diputado Nacional,2023-2028 (Actual),activos,ANR,,,#ff0000

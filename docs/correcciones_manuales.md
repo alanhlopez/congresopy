@@ -9,4 +9,5 @@ entero a mano desde la nómina de SILpy (ver README del prototipo).
 
 | Fecha | Archivo | Cambio | Fuente |
 |---|---|---|---|
-| 2026-11-13 | `silver/senado/legisladores.csv` | Eduardo Nakayama (101358): `partido` IA → PLRA. La `bancada` queda como figura en SILpy («Liberal Independiente») hasta confirmar si también cambió. | Indicación del responsable del proyecto: volvió al PLRA en 2026. |
+| 2026-11-13 | `silver/senado/legisladores.csv` | Eduardo Nakayama (101358): `partido` IA → PLRA. La `bancada` queda como figura en SILpy («Liberal Independiente») hasta confirmar si también cambió. Desde el mismo día está en `silver/senado/correcciones_legisladores.csv`, para que `bancadas.py sincronizar` la mantenga. | Indicación del responsable del proyecto: volvió al PLRA en 2026. |
+| 2026-11-13 | `silver/senado/legisladores.csv`, `silver/diputados/legisladores.csv` | `nombre_corto` de los legisladores nuevos de la nómina: Faisal Ale (101624), Fernando Da Silva (101634), Rubén Benítez (101644). | Mismo criterio que el resto (primer nombre y primer apellido). |

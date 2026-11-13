@@ -5,11 +5,11 @@ id_legislador,nombre,cargo,periodo,estado,partido,bancada,cargo_bancada,color,no
 101377,Lider Santiago Amarilla Ríos,Senador Nacional,2023-2028 (Actual),activos,PLRA,Partido Liberal Radical Auténtico (PLRA) - 18 de Octubre,LIDER,#002bc7,Líder Amarilla
 101350,Celeste Josefina Amarilla Vda. de Boccia,Senadora Nacional,2023-2028 (Actual),activos,PLRA,"Partido Liberal Radical Autentico (PLRA) ""A""",MIEMBRO,#002bc7,Celeste Amarilla
 101604,Guadalupe Aveiro Solis,Senadora Nacional,2023-2028 (Actual),activos,ANR,"Asociación Nacional Republicana Partido Colorado (ANR) - ""A""",MIEMBRO,#ff0000,Guadalupe Aveiro
-101475,Antonio Carlos Barrios Fernández,Senador Nacional,2023-2028 (Actual),activos,ANR,"Asociación Nacional Republicana Partido Colorado (ANR) - ""A""",VICELIDER,#ff0000,Antonio Barrios
+101475,Antonio Carlos Barrios Fernández,Senador Nacional,2023-2028 (Actual),inactivos,ANR,Asociación Nacional Republicana ANR - Bancada Independiente - Honor Colorado,LIDER,#ff0000,Antonio Barrios
 101340,Enrique Salyn Concepción Buzarquis Cáceres,Senador Nacional,2023-2028 (Actual),activos,PLRA,Partido Liberal Radical Auténtico (PLRA) - Verdadero Liberalismo,LIDER,#002bc7,Salyn Buzarquis
 101381,Lourdes Noelia Cabrera Petters,Senadora Nacional,2023-2028 (Actual),activos,PLRA,"Partido Liberal Radical Autentico (PLRA) ""B""",MIEMBRO,#002bc7,Lourdes Cabrera
 101363,Natalicio Esteban Chase Acosta,Senador Nacional,2023-2028 (Actual),activos,ANR,"Asociación Nacional Republicana Partido Colorado (ANR) - ""A""",LIDER,#ff0000,Natalicio Chase
-101366,Zenaida Concepción Delgado Benítez,Senadora Nacional,2023-2028 (Actual),activos,ANR,"Asociación Nacional Republicana Partido Colorado (ANR) - ""A""",MIEMBRO,#ff0000,Zenaida Delgado
+101366,Zenaida Concepción Delgado Benítez,Senadora Nacional,2023-2028 (Actual),inactivos,ANR,"Asociación Nacional Republicana Partido Colorado (ANR) - ""A""",MIEMBRO,#ff0000,Zenaida Delgado
 101374,Pedro Alejandro Díaz Verón,Senador Nacional,2023-2028 (Actual),activos,ANR,"Asociación Nacional Republicana Partido Colorado (ANR) - ""A""",MIEMBRO,#ff0000,Pedro Díaz Verón
 101362,Rafael Augusto Filizzola Serra,Senador Nacional,2023-2028 (Actual),activos,PDP,Partido Democrático Progresista (PDP),LIDER,#c1db31,Rafael Filizzola
 101484,Juan Carlos Luis Galaverna Ortega,Senador Nacional,2023-2028 (Actual),activos,ANR,"Asociación Nacional Republicana Partido Colorado (ANR) - ""A""",VICELIDER,#ff0000,Juan Carlos Galaverna
@@ -17,7 +17,7 @@ id_legislador,nombre,cargo,periodo,estado,partido,bancada,cargo_bancada,color,no
 101370,Patrick Paul Kemper Thiede,Senador Nacional,2023-2028 (Actual),activos,ANR,Asociación Nacional Republicana Partido Colorado (ANR) - Acción Ciudadana,LIDER,#ff0000,Patrick Kemper
 101594,Walter Janusz Ricardo Kobylanski Brandhuber,Senador Nacional,2023-2028 (Actual),activos,PCN,Bancada Independiente,LIDER,#000000,Walter Kobylanski
 101368,José Gregorio Ledesma Narváez,Senador Nacional,2023-2028 (Actual),activos,PLRA,"Partido Liberal Radical Autentico (PLRA) ""A""",LIDER,#002bc7,José Ledesma
-101382,Gustavo Alfredo Leite Gusinky,Senador Nacional,2023-2028 (Actual),activos,ANR,"Asociación Nacional Republicana Partido Colorado (ANR) - ""A""",MIEMBRO,#ff0000,Gustavo Leite
+101382,Gustavo Alfredo Leite Gusinky,Senador Nacional,2023-2028 (Actual),activos,ANR,Asociación Nacional Republicana ANR - Bancada Independiente - Honor Colorado,VICELIDER,#ff0000,Gustavo Leite
 101347,Edgar Idalino López Ruíz,Senador Nacional,2023-2028 (Actual),activos,PLRA,"Partido Liberal Radical Auténtico (PLRA) ""E""",LIDER,#002bc7,Edgar López
 101341,Derlis Hernán Maidana Zarza,Senador Nacional,2023-2028 (Actual),activos,ANR,"Asociación Nacional Republicana Partido Colorado (ANR) - ""A""",MIEMBRO,#ff0000,Derlis Maidana
 101379,Esperanza Martínez de Portillo,Senadora Nacional,2023-2028 (Actual),activos,PPC,Partido Participación Ciudadana (PPC),LIDER,#FFFFFF,Esperanza Martínez
@@ -39,7 +39,7 @@ id_legislador,nombre,cargo,periodo,estado,partido,bancada,cargo_bancada,color,no
 101357,Arnaldo Samaniego González,Senador Nacional,2023-2028 (Actual),activos,ANR,"Asociación Nacional Republicana Partido Colorado (ANR) - Independiente ""A""",VICELIDER,#ff0000,Arnaldo Samaniego
 101352,Lilian Graciela Samaniego González,Senadora Nacional,2023-2028 (Actual),activos,ANR,"Asociación Nacional Republicana Partido Colorado (ANR) - Independiente ""A""",MIEMBRO,#ff0000,Lilian Samaniego
 101364,Colym Gregorio Soroka Benítez,Senador Nacional,2023-2028 (Actual),activos,ANR,Asociación Nacional Republicana Partido Colorado (ANR) - Bernardino Caballero,LIDER,#ff0000,Colym Soroka
-101349,Regina Lizarella Valiente de Rodríguez,Senadora Nacional,2023-2028 (Actual),activos,ANR,"Asociación Nacional Republicana Partido Colorado (ANR) - ""A""",VICELIDER,#ff0000,Lizarella Valiente
+101349,Regina Lizarella Valiente de Rodríguez,Senadora Nacional,2023-2028 (Actual),activos,ANR,Asociación Nacional Republicana ANR - Bancada Independiente - Honor Colorado,VICELIDER,#ff0000,Lizarella Valiente
 101356,Mario Alberto Varela Cardozo,Senador Nacional,2023-2028 (Actual),activos,ANR,Asociación Nacional Republicana (ANR) - Añetete,LIDER,#ff0000,Mario Varela
 101383,Antonio Rubén Velázquez Chamorro,Senador Nacional,2023-2028 (Actual),activos,CDN,"Conciencia Democrática Nacional - ""Yo Creo""",LIDER,#ff7a15,Rubén Velázquez
 101355,Ever Federico Villalba Benítez,Senador Nacional,2023-2028 (Actual),activos,PLRA,"Partido Liberal Radical Autentico (PLRA) ""A""",VICELIDER,#002bc7,Ever Villalba
@@ -51,8 +51,9 @@ id_legislador,nombre,cargo,periodo,estado,partido,bancada,cargo_bancada,color,no
 101360,Carlos Alcibiades Giménez Díaz,Senador Nacional,2023-2028 (Actual),inactivos,ANR,,,#ff0000,Carlos Giménez
 101353,Kattya Mabel González Villanueva,Senadora Nacional,2023-2028 (Actual),inactivos,PEN,Partido Encuentro Nacional (PEN),LIDER,#ffec15,Kattya González
 101614,Carlos Augusto Liseras Osorio,Senador Nacional,2023-2028 (Actual),inactivos,ANR,"Asociación Nacional Republicana Partido Colorado (ANR) - ""A""",MIEMBRO,#ff0000,Carlos Liseras
-101371,Enrique Riera Escudero,Senador Nacional,2023-2028 (Actual),inactivos,ANR,,,#ff0000,Enrique Riera
+101371,Enrique Riera Escudero,Senador Nacional,2023-2028 (Actual),activos,ANR,,,#ff0000,Enrique Riera
 101369,Hernán David Rivas Román,Senador Nacional,2023-2028 (Actual),inactivos,ANR,"Asociación Nacional Republicana Partido Colorado (ANR) - ""A""",MIEMBRO,#ff0000,Hernán Rivas
 101476,Javier Odilón Vera Medina,Senador Nacional,2023-2028 (Actual),inactivos,ANR,,,#ff0000,Javier Vera
 101534,Mario Abdo Benítez,Senador Vitalicio,2023-2028 (Actual),vitalicios,ANR,,,#ff0000,Mario Abdo Benítez
 101524,Juan Carlos Wasmosy Monti,Senador Vitalicio,2023-2028 (Actual),vitalicios,ANR,,,#ff0000,Juan Carlos Wasmosy Monti
+101624,Faisal Ale Huespe Cibils,Senador Nacional,2023-2028 (Actual),activos,PCN,Cruzada Nacional,MIEMBRO,#000000,Faisal Ale

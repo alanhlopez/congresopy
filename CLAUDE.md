@@ -71,7 +71,22 @@ Fotos (`pipeline/fotos.py`): `descargar` baja de `{BASE}/images/{id}.jpg` las qu
 $P pipeline/fotos.py descargar && $P pipeline/fotos.py silver && $P pipeline/exportar_sitio.py
 ```
 
-`legisladores.py` exige `--out` y no sobrescribe archivos. Nunca lo apuntes a `silver/{camara}/legisladores.csv`:
+Historial de bancadas (`pipeline/bancadas.py`): SILpy solo publica la nómina de hoy, así que se guardan fotos
+fechadas y se comparan. `foto` baja la nómina de cada cámara (2 requests, una foto por día) a
+`bronze/silpy/nomina/` y la parsea a `silver/nomina/{S|D}/{fecha}.csv` (en git); `historial` arma
+`silver/{camara}/bancadas_hist.csv` (tramos con visto_desde, visto_hasta y cambio_detectado; una columna vacía en
+toda una foto se toma como no registrada); `sincronizar` pasa partido, bancada, cargo y estado de la última foto
+a `legisladores.csv`, conserva `nombre_corto`, no borra un dato que SILpy dejó vacío y aplica después
+`silver/{camara}/correcciones_legisladores.csv` (id_legislador, campo, valor, fuente). Las primeras fotos son las
+nóminas del prototipo (S 21/10/2026, D 22/10/2026; ver `silver/nomina/LEEME.md`). El workflow
+`.github/workflows/nomina-semanal.yml` lo corre los lunes (necesita remoto y el secreto `CONGRESOPY_CONTACTO`).
+
+```bash
+$P pipeline/bancadas.py foto && $P pipeline/bancadas.py historial && $P pipeline/bancadas.py sincronizar
+$P pipeline/analisis.py && $P pipeline/exportar_sitio.py
+```
+
+`legisladores.py` exige `--out` y no sobrescribe archivos (su parser, `parsear_nomina`, lo usa bancadas.py). Nunca lo apuntes a `silver/{camara}/legisladores.csv`:
 los dos tienen `nombre_corto` cargado a mano y el de Diputados se armó entero a mano.
 
 Sitio en local: `python3 -m http.server -d site 8000`
@@ -132,6 +147,8 @@ rompe; cambiar la lógica sí. Los datos vivos (`salidas/`, `site/datos/`) se re
 - `test_exportar.py`: `site/datos/congreso/` está al día con silver/, el manifiesto coincide con los archivos
   (sha256, bytes, filas), las cadenas de `votos.json` son idénticas al `vc` de `analisis.py`, los conteos
   cierran con los totales y ningún JSON del sitio trae campos del índice del Ejecutivo.
+- `test_bancadas.py`: historial (cambios, altas, bajas, columnas no registradas), sincronizar (conserva
+  nombre_corto, no borra vacíos, aplica correcciones, respeta el fin de línea) y rechazo de nóminas incompletas.
 - `test_fotos.py`: descarga sin repetir, rechazo de respuestas que no son imágenes, sin contacto no hay requests,
   paso a silver/ y publicación en el sitio con su resumen en el manifiesto (sin red).
 - `test_sitio.py`: reglas del sitio sobre cada archivo de `site/`: CSP exacta en cada HTML; nada inline (script,
@@ -216,7 +233,9 @@ rompe; cambiar la lógica sí. Los datos vivos (`salidas/`, `site/datos/`) se re
   también en un reintento un minuto después: el servidor de atrás no contesta. La pestaña «Expedientes/Proyectos»
   de la ficha se carga por AJAX de PrimeFaces y, reproducida, devolvió «No hay expedientes» incluso para
   legisladores con proyectos. Exploración guardada en `bronze/silpy/exploracion/` y `bronze/datoscongreso/exploracion/`.
-- SILpy no publica el historial de bancadas con fecha: la pestaña «Trayectoria Legislativa» solo da el partido
-  por período de 5 años.
+- SILpy no publica el historial de bancadas con fecha (la pestaña «Trayectoria Legislativa» solo da el partido
+  por período de 5 años): se reconstruye con fotos de la nómina (ver Comandos). Un cambio se ubica entre dos
+  fotos, no en un día exacto. `analisis.py` todavía usa la bancada actual; la disciplina de bloque por fecha
+  queda para cuando haya varias fotos.
 - Diputados vota casi todo por unanimidad y no registra "no vota". Las muestras para el índice del
   Ejecutivo son chicas. Ver `docs/CONTINUAR.md` y el README del prototipo antes de presentar hallazgos.
