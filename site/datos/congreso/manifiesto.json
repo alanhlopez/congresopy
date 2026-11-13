@@ -1,6 +1,6 @@
 {
   "proyecto": "Monitoreo Congreso del Paraguay",
-  "generado": "2026-11-13T22:05:46Z",
+  "generado": "2026-11-13T22:25:16Z",
   "fuente": {
     "nombre": "SILpy – Sistema de Información Legislativa, Congreso Nacional del Paraguay",
     "url": "https://silpy.congreso.gov.py/",
@@ -11,17 +11,17 @@
     "senado": {
       "nombre": "Cámara de Senadores",
       "desde": "2023-06-30",
-      "hasta": "2026-10-14",
-      "votaciones": 300,
-      "votos": 13483,
-      "legisladores": 54
+      "hasta": "2026-11-06",
+      "votaciones": 304,
+      "votos": 13663,
+      "legisladores": 55
     },
     "diputados": {
       "nombre": "Cámara de Diputados",
       "desde": "2023-07-05",
-      "hasta": "2026-09-22",
-      "votaciones": 865,
-      "votos": 69197,
+      "hasta": "2026-10-13",
+      "votaciones": 871,
+      "votos": 69677,
       "legisladores": 86
     }
   },
@@ -35,45 +35,45 @@
   "archivos": [
     {
       "archivo": "senado/legisladores.json",
-      "generado": "2026-11-13T22:05:46Z",
-      "filas": 54,
-      "bytes": 26784,
-      "sha256": "b362d44e7d37ebb82c0bc269a9d575ea489d4d62f6d93995beec1d032b7bd52e"
+      "generado": "2026-11-13T22:25:16Z",
+      "filas": 55,
+      "bytes": 27160,
+      "sha256": "63ebcd46e8cb84c58609f2b6cc5dd506728d362c2c19ee2ba4417da2e08d7a97"
     },
     {
       "archivo": "senado/votaciones.json",
-      "generado": "2026-11-13T20:05:32Z",
-      "filas": 300,
-      "bytes": 339466,
-      "sha256": "14dcbcd003d2f20ea3e2d60abadeca01aba1763daddc372e0a49652cd0c30969"
+      "generado": "2026-11-13T22:25:16Z",
+      "filas": 304,
+      "bytes": 344896,
+      "sha256": "321b2ed3989411d85b661a1603fbec8d97fb2f8be992e72f6503c7900d208883"
     },
     {
       "archivo": "senado/votos.json",
-      "generado": "2026-11-13T20:05:32Z",
-      "filas": 54,
-      "bytes": 19130,
-      "sha256": "feeacebbc2ac3f64d73dc0660c186e54e8c6b695e96004454fc7122f0ceacd96"
+      "generado": "2026-11-13T22:25:16Z",
+      "filas": 55,
+      "bytes": 19690,
+      "sha256": "d0d6ddf2673ec69e48cc7876e20b3f827dfcb33287d25ed847770579ece7b8b3"
     },
     {
       "archivo": "diputados/legisladores.json",
-      "generado": "2026-11-13T22:05:46Z",
+      "generado": "2026-11-13T22:25:16Z",
       "filas": 86,
       "bytes": 41171,
-      "sha256": "2564429a00d23b0ee7eb5f30280657cde394f3fd79a81b4b5ede2676e041a42a"
+      "sha256": "1093a23fe1d28bd8e633cb73140717e1303ccce124eaba3b14c641126d233a56"
     },
     {
       "archivo": "diputados/votaciones.json",
-      "generado": "2026-11-13T20:05:32Z",
-      "filas": 865,
-      "bytes": 1094981,
-      "sha256": "126d2329343cbfc38f3f817b2e5453d79a36b4c8caf65d7faf31391a0d72d8ce"
+      "generado": "2026-11-13T22:25:16Z",
+      "filas": 871,
+      "bytes": 1103528,
+      "sha256": "ad2ca82c0efe0be2abbfe08a8a70aea4bb80fc73cada440e70e70667e6cc1a84"
     },
     {
       "archivo": "diputados/votos.json",
-      "generado": "2026-11-13T20:05:32Z",
+      "generado": "2026-11-13T22:25:16Z",
       "filas": 86,
-      "bytes": 81659,
-      "sha256": "9ee08a84ba7320eddc0d56b4757e1d67a3fb692f164c9efeb1ed42d94b18ddf6"
+      "bytes": 82217,
+      "sha256": "85ab0afa12896c318b22c274abbf4eba1b07af9f6f7052aac6215471e66a96cb"
     }
   ],
   "fotos": {

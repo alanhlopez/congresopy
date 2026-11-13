@@ -69196,3 +69196,483 @@ id_votacion,id_legislador,legislador,voto
 109355,101413,María Cristina Villalba de Abente,SI
 109355,101393,Virina Mauricia Villanueva Vda de Peña,SI
 109355,101418,Patricia Alexandra Zena Oviedo,AUSENTE
+109445,101405,María Rocío Abed de Zacarías,AUSENTE
+109445,101414,Juan Manuel Acevedo Ayala,AUSENTE
+109445,101403,Liz Cristina Acosta Britez,SI
+109445,101409,José Domingo Adorno Mazacotte,SI
+109445,101453,Alejandro Darío Aguilera Elizaur,SI
+109445,101394,Bettina Rosmary Aguilera Paniagua,AUSENTE
+109445,101445,Diosnel Aguilera Rojas,SI
+109445,101450,Graciela Aguilera Ruiz Diaz,SI
+109445,101406,Juan Manuel Añazco Vera,AUSENTE
+109445,101468,Carlos Maria Arrechea Ortiz,SI
+109445,101471,Jorge Ramón Ávalos Mariño,SI
+109445,101423,Jorge Sebastian Barressi Mancia,SI
+109445,101554,Santiago Alfredo Benítez Cáceres,SI
+109445,101452,María Constancia Benítez de Benítez,AUSENTE
+109445,101417,Raúl Antonio Benítez Talavera,AUSENTE
+109445,101441,Rodrigo Daniel Blanco Amarilla,SI
+109445,101464,Christian Gabriel Brunaga Rotela,SI
+109445,101457,Enrique Antonio Concepción Buzarquis Cáceres,SI
+109445,101421,Diego Crispin Candia Melgarejo,SI
+109445,101412,Benjamín Cantero Ramírez,SI
+109445,101429,Néstor David Castellano Escobar,SI
+109445,101410,María Ida Cattebeke de Ortíz,SI
+109445,101386,Daniel Fernando Centurión González,SI
+109445,101467,César Ladislao Cerini Benítez,SI
+109445,101426,Edgar Milciades Chávez Brizuela,AUSENTE
+109445,101460,Avelino Dávalos Estigarribia,AUSENTE
+109445,101454,Miguel Angel Del Puerto Silva,SI
+109445,101391,Yamil Esgaib Mansia,AUSENTE
+109445,101387,Mauricio Fabian Espínola Núñez,SI
+109445,101440,Dalia Marlene Estigarribia,SI
+109445,101435,Jatar Eduardo Fernández Safuan,AUSENTE
+109445,101392,Héctor Ruben Figueredo Notario,AUSENTE
+109445,101442,Luis Federico Franco Alfaro,SI
+109445,101428,Leidy Paola Galeano Chávez,SI
+109445,101427,Rodrigo Daniel Gamarra Krayacich,AUSENTE
+109445,101404,Walter Hugo Garcia Mendez,SI
+109445,101407,Carmen Dejesús Gimenez de Ovando,SI
+109445,101446,Cleto Marcelino Gimenez Gimenez,SI
+109445,101459,Carlos Marcial Godoy Garcia,SI
+109445,101443,Pedro José Gómez Silva,SI
+109445,101564,Saúl González Rojas,SI
+109445,101425,Roberto Eudez González Segovia,SI
+109445,101474,Luis María González Vaesken,SI
+109445,101584,David Manuel Jara Espinoza,SI
+109445,101385,Raúl Luis Latorre Martínez,SI
+109445,101451,Carlos María López López,SI
+109445,101461,Juan Ramón Maciel Merlo,SI
+109445,101402,Miguel Mártinez Núñez,AUSENTE
+109445,101424,Hugo Joel Meza,SI
+109445,101437,Jazmin Narvaez Osorio,AUSENTE
+109445,101436,Carlos Alberto Núñez Salinas,AUSENTE
+109445,101458,Edgar Gustavo Olmedo Silva,SI
+109445,101447,Johanna Paola Ortega Ghiringhelli,SI
+109445,101420,Pedro Ortíz Torres,SI
+109445,101395,Emilio Pavon Doldan,SI
+109445,101463,Carlos Alberto Pereira Rieve,AUSENTE
+109445,101408,Francisco Osvaldo Manuel Petersen Veiluva,SI
+109445,101504,Sebastián Emilio Remesowski Squef,SI
+109445,101455,Alejo Rios Medina,SI
+109445,101399,Guillermo Ariel Rodríguez Dúre,AUSENTE
+109445,101390,José Ramón Rodríguez Maciel,SI
+109445,101411,Ruben Antonio Roussillon Blaires,SI
+109445,101431,Ruben Isaac Rubin Orrego,AUSENTE
+109445,101397,Leonardo Saiz Arce,AUSENTE
+109445,101439,Marcelo Rafael Salinas González,AUSENTE
+109445,101470,Esteban Martin Samaniego Álvarez,SI
+109445,101465,German Solinger Santander,SI
+109445,101480,María Fabiana Souto de Alliana,SI
+109445,101438,Roya Nigsa Torres Baéz,SI
+109445,101396,Arturo Rene Urbieta Cuevas,SI
+109445,101444,Adrián Darío (Billy) Vaesken Vázquez,AUSENTE
+109445,101469,Arnaldo Agustín Valdez Noguera,SI
+109445,101389,Hilda María Del Rocío Vallejo Ávalos,SI
+109445,101466,Del Pilar Vázquez Cabrera,AUSENTE
+109445,101434,Gloria María Johana Vega Insfran,AUSENTE
+109445,101449,Pastor Alberto Vera Bejarano,SI
+109445,101448,Ariel Villagra Sosa,SI
+109445,101413,María Cristina Villalba de Abente,AUSENTE
+109445,101393,Virina Mauricia Villanueva Vda de Peña,SI
+109445,101418,Patricia Alexandra Zena Oviedo,SI
+109446,101405,María Rocío Abed de Zacarías,AUSENTE
+109446,101414,Juan Manuel Acevedo Ayala,AUSENTE
+109446,101403,Liz Cristina Acosta Britez,SI
+109446,101409,José Domingo Adorno Mazacotte,SI
+109446,101453,Alejandro Darío Aguilera Elizaur,SI
+109446,101394,Bettina Rosmary Aguilera Paniagua,SI
+109446,101445,Diosnel Aguilera Rojas,SI
+109446,101450,Graciela Aguilera Ruiz Diaz,SI
+109446,101406,Juan Manuel Añazco Vera,AUSENTE
+109446,101468,Carlos Maria Arrechea Ortiz,SI
+109446,101471,Jorge Ramón Ávalos Mariño,SI
+109446,101423,Jorge Sebastian Barressi Mancia,SI
+109446,101554,Santiago Alfredo Benítez Cáceres,SI
+109446,101452,María Constancia Benítez de Benítez,SI
+109446,101417,Raúl Antonio Benítez Talavera,AUSENTE
+109446,101441,Rodrigo Daniel Blanco Amarilla,AUSENTE
+109446,101464,Christian Gabriel Brunaga Rotela,SI
+109446,101457,Enrique Antonio Concepción Buzarquis Cáceres,SI
+109446,101421,Diego Crispin Candia Melgarejo,SI
+109446,101412,Benjamín Cantero Ramírez,SI
+109446,101429,Néstor David Castellano Escobar,AUSENTE
+109446,101410,María Ida Cattebeke de Ortíz,SI
+109446,101386,Daniel Fernando Centurión González,SI
+109446,101467,César Ladislao Cerini Benítez,SI
+109446,101426,Edgar Milciades Chávez Brizuela,AUSENTE
+109446,101460,Avelino Dávalos Estigarribia,AUSENTE
+109446,101454,Miguel Angel Del Puerto Silva,SI
+109446,101391,Yamil Esgaib Mansia,AUSENTE
+109446,101387,Mauricio Fabian Espínola Núñez,SI
+109446,101440,Dalia Marlene Estigarribia,SI
+109446,101435,Jatar Eduardo Fernández Safuan,AUSENTE
+109446,101392,Héctor Ruben Figueredo Notario,SI
+109446,101442,Luis Federico Franco Alfaro,SI
+109446,101428,Leidy Paola Galeano Chávez,AUSENTE
+109446,101427,Rodrigo Daniel Gamarra Krayacich,AUSENTE
+109446,101404,Walter Hugo Garcia Mendez,SI
+109446,101407,Carmen Dejesús Gimenez de Ovando,SI
+109446,101446,Cleto Marcelino Gimenez Gimenez,SI
+109446,101459,Carlos Marcial Godoy Garcia,AUSENTE
+109446,101443,Pedro José Gómez Silva,SI
+109446,101564,Saúl González Rojas,AUSENTE
+109446,101425,Roberto Eudez González Segovia,SI
+109446,101474,Luis María González Vaesken,SI
+109446,101584,David Manuel Jara Espinoza,AUSENTE
+109446,101385,Raúl Luis Latorre Martínez,SI
+109446,101451,Carlos María López López,AUSENTE
+109446,101461,Juan Ramón Maciel Merlo,SI
+109446,101402,Miguel Mártinez Núñez,SI
+109446,101424,Hugo Joel Meza,SI
+109446,101437,Jazmin Narvaez Osorio,AUSENTE
+109446,101436,Carlos Alberto Núñez Salinas,AUSENTE
+109446,101458,Edgar Gustavo Olmedo Silva,SI
+109446,101447,Johanna Paola Ortega Ghiringhelli,AUSENTE
+109446,101420,Pedro Ortíz Torres,SI
+109446,101395,Emilio Pavon Doldan,AUSENTE
+109446,101463,Carlos Alberto Pereira Rieve,AUSENTE
+109446,101408,Francisco Osvaldo Manuel Petersen Veiluva,SI
+109446,101504,Sebastián Emilio Remesowski Squef,SI
+109446,101455,Alejo Rios Medina,SI
+109446,101399,Guillermo Ariel Rodríguez Dúre,AUSENTE
+109446,101390,José Ramón Rodríguez Maciel,AUSENTE
+109446,101411,Ruben Antonio Roussillon Blaires,SI
+109446,101431,Ruben Isaac Rubin Orrego,AUSENTE
+109446,101397,Leonardo Saiz Arce,SI
+109446,101439,Marcelo Rafael Salinas González,AUSENTE
+109446,101470,Esteban Martin Samaniego Álvarez,AUSENTE
+109446,101465,German Solinger Santander,SI
+109446,101480,María Fabiana Souto de Alliana,SI
+109446,101438,Roya Nigsa Torres Baéz,SI
+109446,101396,Arturo Rene Urbieta Cuevas,SI
+109446,101444,Adrián Darío (Billy) Vaesken Vázquez,AUSENTE
+109446,101469,Arnaldo Agustín Valdez Noguera,SI
+109446,101389,Hilda María Del Rocío Vallejo Ávalos,SI
+109446,101466,Del Pilar Vázquez Cabrera,AUSENTE
+109446,101434,Gloria María Johana Vega Insfran,AUSENTE
+109446,101449,Pastor Alberto Vera Bejarano,AUSENTE
+109446,101448,Ariel Villagra Sosa,SI
+109446,101413,María Cristina Villalba de Abente,AUSENTE
+109446,101393,Virina Mauricia Villanueva Vda de Peña,SI
+109446,101418,Patricia Alexandra Zena Oviedo,SI
+109455,101405,María Rocío Abed de Zacarías,AUSENTE
+109455,101414,Juan Manuel Acevedo Ayala,AUSENTE
+109455,101403,Liz Cristina Acosta Britez,NO
+109455,101409,José Domingo Adorno Mazacotte,NO
+109455,101453,Alejandro Darío Aguilera Elizaur,NO
+109455,101394,Bettina Rosmary Aguilera Paniagua,NO
+109455,101445,Diosnel Aguilera Rojas,NO
+109455,101450,Graciela Aguilera Ruiz Diaz,NO
+109455,101406,Juan Manuel Añazco Vera,AUSENTE
+109455,101468,Carlos Maria Arrechea Ortiz,NO
+109455,101471,Jorge Ramón Ávalos Mariño,NO
+109455,101423,Jorge Sebastian Barressi Mancia,NO
+109455,101554,Santiago Alfredo Benítez Cáceres,NO
+109455,101452,María Constancia Benítez de Benítez,NO
+109455,101417,Raúl Antonio Benítez Talavera,NO
+109455,101441,Rodrigo Daniel Blanco Amarilla,AUSENTE
+109455,101464,Christian Gabriel Brunaga Rotela,NO
+109455,101457,Enrique Antonio Concepción Buzarquis Cáceres,AUSENTE
+109455,101421,Diego Crispin Candia Melgarejo,NO
+109455,101412,Benjamín Cantero Ramírez,AUSENTE
+109455,101429,Néstor David Castellano Escobar,SI
+109455,101410,María Ida Cattebeke de Ortíz,AUSENTE
+109455,101386,Daniel Fernando Centurión González,NO
+109455,101467,César Ladislao Cerini Benítez,NO
+109455,101426,Edgar Milciades Chávez Brizuela,NO
+109455,101460,Avelino Dávalos Estigarribia,AUSENTE
+109455,101454,Miguel Angel Del Puerto Silva,NO
+109455,101391,Yamil Esgaib Mansia,AUSENTE
+109455,101387,Mauricio Fabian Espínola Núñez,AUSENTE
+109455,101440,Dalia Marlene Estigarribia,NO
+109455,101435,Jatar Eduardo Fernández Safuan,AUSENTE
+109455,101392,Héctor Ruben Figueredo Notario,AUSENTE
+109455,101442,Luis Federico Franco Alfaro,NO
+109455,101428,Leidy Paola Galeano Chávez,AUSENTE
+109455,101427,Rodrigo Daniel Gamarra Krayacich,AUSENTE
+109455,101404,Walter Hugo Garcia Mendez,AUSENTE
+109455,101407,Carmen Dejesús Gimenez de Ovando,AUSENTE
+109455,101446,Cleto Marcelino Gimenez Gimenez,NO
+109455,101459,Carlos Marcial Godoy Garcia,NO
+109455,101443,Pedro José Gómez Silva,NO
+109455,101564,Saúl González Rojas,AUSENTE
+109455,101425,Roberto Eudez González Segovia,NO
+109455,101474,Luis María González Vaesken,NO
+109455,101584,David Manuel Jara Espinoza,NO
+109455,101385,Raúl Luis Latorre Martínez,NO
+109455,101451,Carlos María López López,NO
+109455,101461,Juan Ramón Maciel Merlo,AUSENTE
+109455,101402,Miguel Mártinez Núñez,AUSENTE
+109455,101424,Hugo Joel Meza,NO
+109455,101437,Jazmin Narvaez Osorio,AUSENTE
+109455,101436,Carlos Alberto Núñez Salinas,AUSENTE
+109455,101458,Edgar Gustavo Olmedo Silva,NO
+109455,101447,Johanna Paola Ortega Ghiringhelli,AUSENTE
+109455,101420,Pedro Ortíz Torres,NO
+109455,101395,Emilio Pavon Doldan,NO
+109455,101463,Carlos Alberto Pereira Rieve,AUSENTE
+109455,101408,Francisco Osvaldo Manuel Petersen Veiluva,AUSENTE
+109455,101504,Sebastián Emilio Remesowski Squef,NO
+109455,101455,Alejo Rios Medina,AUSENTE
+109455,101399,Guillermo Ariel Rodríguez Dúre,AUSENTE
+109455,101390,José Ramón Rodríguez Maciel,NO
+109455,101411,Ruben Antonio Roussillon Blaires,NO
+109455,101431,Ruben Isaac Rubin Orrego,AUSENTE
+109455,101397,Leonardo Saiz Arce,NO
+109455,101439,Marcelo Rafael Salinas González,AUSENTE
+109455,101470,Esteban Martin Samaniego Álvarez,NO
+109455,101465,German Solinger Santander,NO
+109455,101480,María Fabiana Souto de Alliana,AUSENTE
+109455,101438,Roya Nigsa Torres Baéz,NO
+109455,101396,Arturo Rene Urbieta Cuevas,NO
+109455,101444,Adrián Darío (Billy) Vaesken Vázquez,AUSENTE
+109455,101469,Arnaldo Agustín Valdez Noguera,NO
+109455,101389,Hilda María Del Rocío Vallejo Ávalos,NO
+109455,101466,Del Pilar Vázquez Cabrera,AUSENTE
+109455,101434,Gloria María Johana Vega Insfran,AUSENTE
+109455,101449,Pastor Alberto Vera Bejarano,NO
+109455,101448,Ariel Villagra Sosa,AUSENTE
+109455,101413,María Cristina Villalba de Abente,AUSENTE
+109455,101393,Virina Mauricia Villanueva Vda de Peña,NO
+109455,101418,Patricia Alexandra Zena Oviedo,NO
+109456,101405,María Rocío Abed de Zacarías,AUSENTE
+109456,101414,Juan Manuel Acevedo Ayala,AUSENTE
+109456,101403,Liz Cristina Acosta Britez,SI
+109456,101409,José Domingo Adorno Mazacotte,SI
+109456,101453,Alejandro Darío Aguilera Elizaur,SI
+109456,101394,Bettina Rosmary Aguilera Paniagua,SI
+109456,101445,Diosnel Aguilera Rojas,SI
+109456,101450,Graciela Aguilera Ruiz Diaz,SI
+109456,101406,Juan Manuel Añazco Vera,AUSENTE
+109456,101468,Carlos Maria Arrechea Ortiz,SI
+109456,101471,Jorge Ramón Ávalos Mariño,SI
+109456,101423,Jorge Sebastian Barressi Mancia,SI
+109456,101554,Santiago Alfredo Benítez Cáceres,SI
+109456,101452,María Constancia Benítez de Benítez,ABSTENCIÓN/BLANCO
+109456,101417,Raúl Antonio Benítez Talavera,AUSENTE
+109456,101441,Rodrigo Daniel Blanco Amarilla,AUSENTE
+109456,101464,Christian Gabriel Brunaga Rotela,SI
+109456,101457,Enrique Antonio Concepción Buzarquis Cáceres,SI
+109456,101421,Diego Crispin Candia Melgarejo,SI
+109456,101412,Benjamín Cantero Ramírez,AUSENTE
+109456,101429,Néstor David Castellano Escobar,SI
+109456,101410,María Ida Cattebeke de Ortíz,AUSENTE
+109456,101386,Daniel Fernando Centurión González,SI
+109456,101467,César Ladislao Cerini Benítez,SI
+109456,101426,Edgar Milciades Chávez Brizuela,SI
+109456,101460,Avelino Dávalos Estigarribia,AUSENTE
+109456,101454,Miguel Angel Del Puerto Silva,SI
+109456,101391,Yamil Esgaib Mansia,AUSENTE
+109456,101387,Mauricio Fabian Espínola Núñez,SI
+109456,101440,Dalia Marlene Estigarribia,SI
+109456,101435,Jatar Eduardo Fernández Safuan,SI
+109456,101392,Héctor Ruben Figueredo Notario,AUSENTE
+109456,101442,Luis Federico Franco Alfaro,AUSENTE
+109456,101428,Leidy Paola Galeano Chávez,AUSENTE
+109456,101427,Rodrigo Daniel Gamarra Krayacich,AUSENTE
+109456,101404,Walter Hugo Garcia Mendez,AUSENTE
+109456,101407,Carmen Dejesús Gimenez de Ovando,AUSENTE
+109456,101446,Cleto Marcelino Gimenez Gimenez,SI
+109456,101459,Carlos Marcial Godoy Garcia,SI
+109456,101443,Pedro José Gómez Silva,AUSENTE
+109456,101564,Saúl González Rojas,AUSENTE
+109456,101425,Roberto Eudez González Segovia,SI
+109456,101474,Luis María González Vaesken,SI
+109456,101584,David Manuel Jara Espinoza,SI
+109456,101385,Raúl Luis Latorre Martínez,SI
+109456,101451,Carlos María López López,SI
+109456,101461,Juan Ramón Maciel Merlo,AUSENTE
+109456,101402,Miguel Mártinez Núñez,AUSENTE
+109456,101424,Hugo Joel Meza,AUSENTE
+109456,101437,Jazmin Narvaez Osorio,AUSENTE
+109456,101436,Carlos Alberto Núñez Salinas,AUSENTE
+109456,101458,Edgar Gustavo Olmedo Silva,SI
+109456,101447,Johanna Paola Ortega Ghiringhelli,AUSENTE
+109456,101420,Pedro Ortíz Torres,SI
+109456,101395,Emilio Pavon Doldan,SI
+109456,101463,Carlos Alberto Pereira Rieve,AUSENTE
+109456,101408,Francisco Osvaldo Manuel Petersen Veiluva,AUSENTE
+109456,101504,Sebastián Emilio Remesowski Squef,SI
+109456,101455,Alejo Rios Medina,AUSENTE
+109456,101399,Guillermo Ariel Rodríguez Dúre,AUSENTE
+109456,101390,José Ramón Rodríguez Maciel,SI
+109456,101411,Ruben Antonio Roussillon Blaires,SI
+109456,101431,Ruben Isaac Rubin Orrego,AUSENTE
+109456,101397,Leonardo Saiz Arce,SI
+109456,101439,Marcelo Rafael Salinas González,AUSENTE
+109456,101470,Esteban Martin Samaniego Álvarez,SI
+109456,101465,German Solinger Santander,SI
+109456,101480,María Fabiana Souto de Alliana,AUSENTE
+109456,101438,Roya Nigsa Torres Baéz,SI
+109456,101396,Arturo Rene Urbieta Cuevas,SI
+109456,101444,Adrián Darío (Billy) Vaesken Vázquez,AUSENTE
+109456,101469,Arnaldo Agustín Valdez Noguera,SI
+109456,101389,Hilda María Del Rocío Vallejo Ávalos,SI
+109456,101466,Del Pilar Vázquez Cabrera,AUSENTE
+109456,101434,Gloria María Johana Vega Insfran,AUSENTE
+109456,101449,Pastor Alberto Vera Bejarano,SI
+109456,101448,Ariel Villagra Sosa,AUSENTE
+109456,101413,María Cristina Villalba de Abente,AUSENTE
+109456,101393,Virina Mauricia Villanueva Vda de Peña,SI
+109456,101418,Patricia Alexandra Zena Oviedo,SI
+109465,101405,María Rocío Abed de Zacarías,AUSENTE
+109465,101414,Juan Manuel Acevedo Ayala,AUSENTE
+109465,101403,Liz Cristina Acosta Britez,SI
+109465,101409,José Domingo Adorno Mazacotte,SI
+109465,101453,Alejandro Darío Aguilera Elizaur,SI
+109465,101394,Bettina Rosmary Aguilera Paniagua,SI
+109465,101445,Diosnel Aguilera Rojas,SI
+109465,101450,Graciela Aguilera Ruiz Diaz,SI
+109465,101406,Juan Manuel Añazco Vera,AUSENTE
+109465,101468,Carlos Maria Arrechea Ortiz,SI
+109465,101471,Jorge Ramón Ávalos Mariño,SI
+109465,101423,Jorge Sebastian Barressi Mancia,SI
+109465,101554,Santiago Alfredo Benítez Cáceres,SI
+109465,101452,María Constancia Benítez de Benítez,SI
+109465,101417,Raúl Antonio Benítez Talavera,ABSTENCIÓN/BLANCO
+109465,101441,Rodrigo Daniel Blanco Amarilla,AUSENTE
+109465,101464,Christian Gabriel Brunaga Rotela,SI
+109465,101457,Enrique Antonio Concepción Buzarquis Cáceres,SI
+109465,101421,Diego Crispin Candia Melgarejo,SI
+109465,101412,Benjamín Cantero Ramírez,AUSENTE
+109465,101429,Néstor David Castellano Escobar,SI
+109465,101410,María Ida Cattebeke de Ortíz,AUSENTE
+109465,101386,Daniel Fernando Centurión González,SI
+109465,101467,César Ladislao Cerini Benítez,SI
+109465,101426,Edgar Milciades Chávez Brizuela,SI
+109465,101460,Avelino Dávalos Estigarribia,AUSENTE
+109465,101454,Miguel Angel Del Puerto Silva,SI
+109465,101391,Yamil Esgaib Mansia,AUSENTE
+109465,101387,Mauricio Fabian Espínola Núñez,AUSENTE
+109465,101440,Dalia Marlene Estigarribia,SI
+109465,101435,Jatar Eduardo Fernández Safuan,SI
+109465,101392,Héctor Ruben Figueredo Notario,AUSENTE
+109465,101442,Luis Federico Franco Alfaro,SI
+109465,101428,Leidy Paola Galeano Chávez,AUSENTE
+109465,101427,Rodrigo Daniel Gamarra Krayacich,AUSENTE
+109465,101404,Walter Hugo Garcia Mendez,AUSENTE
+109465,101407,Carmen Dejesús Gimenez de Ovando,AUSENTE
+109465,101446,Cleto Marcelino Gimenez Gimenez,SI
+109465,101459,Carlos Marcial Godoy Garcia,AUSENTE
+109465,101443,Pedro José Gómez Silva,SI
+109465,101564,Saúl González Rojas,AUSENTE
+109465,101425,Roberto Eudez González Segovia,SI
+109465,101474,Luis María González Vaesken,SI
+109465,101584,David Manuel Jara Espinoza,SI
+109465,101385,Raúl Luis Latorre Martínez,SI
+109465,101451,Carlos María López López,SI
+109465,101461,Juan Ramón Maciel Merlo,AUSENTE
+109465,101402,Miguel Mártinez Núñez,AUSENTE
+109465,101424,Hugo Joel Meza,SI
+109465,101437,Jazmin Narvaez Osorio,AUSENTE
+109465,101436,Carlos Alberto Núñez Salinas,AUSENTE
+109465,101458,Edgar Gustavo Olmedo Silva,SI
+109465,101447,Johanna Paola Ortega Ghiringhelli,AUSENTE
+109465,101420,Pedro Ortíz Torres,SI
+109465,101395,Emilio Pavon Doldan,SI
+109465,101463,Carlos Alberto Pereira Rieve,AUSENTE
+109465,101408,Francisco Osvaldo Manuel Petersen Veiluva,AUSENTE
+109465,101504,Sebastián Emilio Remesowski Squef,SI
+109465,101455,Alejo Rios Medina,AUSENTE
+109465,101399,Guillermo Ariel Rodríguez Dúre,AUSENTE
+109465,101390,José Ramón Rodríguez Maciel,SI
+109465,101411,Ruben Antonio Roussillon Blaires,SI
+109465,101431,Ruben Isaac Rubin Orrego,AUSENTE
+109465,101397,Leonardo Saiz Arce,SI
+109465,101439,Marcelo Rafael Salinas González,AUSENTE
+109465,101470,Esteban Martin Samaniego Álvarez,SI
+109465,101465,German Solinger Santander,SI
+109465,101480,María Fabiana Souto de Alliana,AUSENTE
+109465,101438,Roya Nigsa Torres Baéz,SI
+109465,101396,Arturo Rene Urbieta Cuevas,SI
+109465,101444,Adrián Darío (Billy) Vaesken Vázquez,AUSENTE
+109465,101469,Arnaldo Agustín Valdez Noguera,SI
+109465,101389,Hilda María Del Rocío Vallejo Ávalos,SI
+109465,101466,Del Pilar Vázquez Cabrera,AUSENTE
+109465,101434,Gloria María Johana Vega Insfran,AUSENTE
+109465,101449,Pastor Alberto Vera Bejarano,SI
+109465,101448,Ariel Villagra Sosa,AUSENTE
+109465,101413,María Cristina Villalba de Abente,AUSENTE
+109465,101393,Virina Mauricia Villanueva Vda de Peña,SI
+109465,101418,Patricia Alexandra Zena Oviedo,SI
+109475,101405,María Rocío Abed de Zacarías,AUSENTE
+109475,101414,Juan Manuel Acevedo Ayala,AUSENTE
+109475,101403,Liz Cristina Acosta Britez,SI
+109475,101409,José Domingo Adorno Mazacotte,SI
+109475,101453,Alejandro Darío Aguilera Elizaur,AUSENTE
+109475,101394,Bettina Rosmary Aguilera Paniagua,SI
+109475,101445,Diosnel Aguilera Rojas,SI
+109475,101450,Graciela Aguilera Ruiz Diaz,SI
+109475,101406,Juan Manuel Añazco Vera,AUSENTE
+109475,101468,Carlos Maria Arrechea Ortiz,SI
+109475,101471,Jorge Ramón Ávalos Mariño,ABSTENCIÓN/BLANCO
+109475,101423,Jorge Sebastian Barressi Mancia,SI
+109475,101554,Santiago Alfredo Benítez Cáceres,SI
+109475,101452,María Constancia Benítez de Benítez,SI
+109475,101417,Raúl Antonio Benítez Talavera,AUSENTE
+109475,101441,Rodrigo Daniel Blanco Amarilla,AUSENTE
+109475,101464,Christian Gabriel Brunaga Rotela,SI
+109475,101457,Enrique Antonio Concepción Buzarquis Cáceres,SI
+109475,101421,Diego Crispin Candia Melgarejo,AUSENTE
+109475,101412,Benjamín Cantero Ramírez,AUSENTE
+109475,101429,Néstor David Castellano Escobar,SI
+109475,101410,María Ida Cattebeke de Ortíz,AUSENTE
+109475,101386,Daniel Fernando Centurión González,ABSTENCIÓN/BLANCO
+109475,101467,César Ladislao Cerini Benítez,SI
+109475,101426,Edgar Milciades Chávez Brizuela,ABSTENCIÓN/BLANCO
+109475,101460,Avelino Dávalos Estigarribia,AUSENTE
+109475,101454,Miguel Angel Del Puerto Silva,ABSTENCIÓN/BLANCO
+109475,101391,Yamil Esgaib Mansia,AUSENTE
+109475,101387,Mauricio Fabian Espínola Núñez,AUSENTE
+109475,101440,Dalia Marlene Estigarribia,SI
+109475,101435,Jatar Eduardo Fernández Safuan,SI
+109475,101392,Héctor Ruben Figueredo Notario,AUSENTE
+109475,101442,Luis Federico Franco Alfaro,AUSENTE
+109475,101428,Leidy Paola Galeano Chávez,SI
+109475,101427,Rodrigo Daniel Gamarra Krayacich,AUSENTE
+109475,101404,Walter Hugo Garcia Mendez,AUSENTE
+109475,101407,Carmen Dejesús Gimenez de Ovando,AUSENTE
+109475,101446,Cleto Marcelino Gimenez Gimenez,SI
+109475,101459,Carlos Marcial Godoy Garcia,SI
+109475,101443,Pedro José Gómez Silva,SI
+109475,101564,Saúl González Rojas,AUSENTE
+109475,101425,Roberto Eudez González Segovia,SI
+109475,101474,Luis María González Vaesken,SI
+109475,101584,David Manuel Jara Espinoza,SI
+109475,101385,Raúl Luis Latorre Martínez,SI
+109475,101451,Carlos María López López,SI
+109475,101461,Juan Ramón Maciel Merlo,AUSENTE
+109475,101402,Miguel Mártinez Núñez,AUSENTE
+109475,101424,Hugo Joel Meza,SI
+109475,101437,Jazmin Narvaez Osorio,AUSENTE
+109475,101436,Carlos Alberto Núñez Salinas,AUSENTE
+109475,101458,Edgar Gustavo Olmedo Silva,SI
+109475,101447,Johanna Paola Ortega Ghiringhelli,AUSENTE
+109475,101420,Pedro Ortíz Torres,SI
+109475,101395,Emilio Pavon Doldan,SI
+109475,101463,Carlos Alberto Pereira Rieve,AUSENTE
+109475,101408,Francisco Osvaldo Manuel Petersen Veiluva,SI
+109475,101504,Sebastián Emilio Remesowski Squef,AUSENTE
+109475,101455,Alejo Rios Medina,AUSENTE
+109475,101399,Guillermo Ariel Rodríguez Dúre,AUSENTE
+109475,101390,José Ramón Rodríguez Maciel,SI
+109475,101411,Ruben Antonio Roussillon Blaires,SI
+109475,101431,Ruben Isaac Rubin Orrego,AUSENTE
+109475,101397,Leonardo Saiz Arce,AUSENTE
+109475,101439,Marcelo Rafael Salinas González,AUSENTE
+109475,101470,Esteban Martin Samaniego Álvarez,AUSENTE
+109475,101465,German Solinger Santander,SI
+109475,101480,María Fabiana Souto de Alliana,AUSENTE
+109475,101438,Roya Nigsa Torres Baéz,SI
+109475,101396,Arturo Rene Urbieta Cuevas,SI
+109475,101444,Adrián Darío (Billy) Vaesken Vázquez,AUSENTE
+109475,101469,Arnaldo Agustín Valdez Noguera,SI
+109475,101389,Hilda María Del Rocío Vallejo Ávalos,ABSTENCIÓN/BLANCO
+109475,101466,Del Pilar Vázquez Cabrera,AUSENTE
+109475,101434,Gloria María Johana Vega Insfran,AUSENTE
+109475,101449,Pastor Alberto Vera Bejarano,SI
+109475,101448,Ariel Villagra Sosa,AUSENTE
+109475,101413,María Cristina Villalba de Abente,AUSENTE
+109475,101393,Virina Mauricia Villanueva Vda de Peña,SI
+109475,101418,Patricia Alexandra Zena Oviedo,ABSTENCIÓN/BLANCO
