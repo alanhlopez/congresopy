@@ -1,0 +1,224 @@
+// Perfil de un legislador: resumen de votos, votos por año, similitud de voto e historial.
+// Estado en el #hash: camara, id y los filtros del historial (q, voto, tipo, anio).
+import { buscarLegislador } from "../lib/datos.js";
+import { el, mostrarError, vaciar, $ } from "../lib/dom.js";
+import { alCambiarHash, enlace, escribirEstado, leerEstado } from "../lib/estado.js";
+import { EMITIDOS, fecha, normalizar, numero, ordenPartido, partidoClase, partidoNombre, porcentaje } from "../lib/formato.js";
+import { anillo, avatar, chipPartido, chipVoto, enlaceLegislador, enlaceVotacion, listaPaginada, tipoCorto } from "../lib/componentes.js";
+
+const DEFECTOS = { camara: "", id: "", q: "", voto: "", tipo: "todas", anio: "" };
+const MIN_COMUN = 20;
+const perfil = $("#perfil");
+let actual = null;   // { datos, legislador, cadena, filas }
+
+function cabecera(d, l) {
+  const pres = l.votaciones ? 1 - l.conteo.ausente / l.votaciones : 0;
+  return el("header", { class: "perfil-cabecera panel" },
+    avatar(l, true),
+    el("div", { class: "perfil-cabecera__texto" },
+      el("h1", {}, l.nombre),
+      el("p", { class: "perfil-cabecera__meta" }, chipPartido(l.partido), el("span", {}, partidoNombre(l.partido)),
+        el("span", {}, l.cargo || d.info.nombreLargo)),
+      el("p", { class: "nota" }, l.bancada || "Sin bancada declarada", l.cargo_bancada ? ` · ${l.cargo_bancada.toLowerCase()} de bancada` : ""),
+      el("p", { class: "nota" },
+        l.estado === "activos" ? "En ejercicio. " : "Ya no está en el cargo. ",
+        `Figura en ${numero(l.votaciones)} votaciones nominales, del ${fecha(l.primera)} al ${fecha(l.ultima)}. `,
+        el("a", { href: `https://silpy.congreso.gov.py/web/legislador/${l.id}`, rel: "noopener" }, "Ficha en SILpy"))),
+    el("div", { class: "perfil-cabecera__presencia" }, anillo(pres, "Presencia en votaciones nominales"),
+      el("p", {}, el("strong", {}, "Presencia"), el("br"), `${numero(l.votaciones - l.conteo.ausente)} de ${numero(l.votaciones)} votaciones`)));
+}
+
+function tarjetasResumen(d, l) {
+  const c = l.conteo;
+  const mociones = c.mocion_1 + c.mocion_2 + c.mocion_3;
+  const items = [
+    ["Afirmativos", c.si, "v-si"], ["Negativos", c.no, "v-no"], ["Abstenciones", c.abstencion, "v-abs"],
+    ["Ausencias", c.ausente, "v-aus"],
+  ];
+  if (d.clave === "senado" || c.no_vota) items.push(["Presente, no vota", c.no_vota, "v-nv"]);
+  if (mociones) items.push(["Votos entre mociones", mociones, "v-m1"]);
+  return el("section", { class: "seccion", "aria-labelledby": "t-resumen" },
+    el("h2", { id: "t-resumen" }, "¿Cómo votó?"),
+    el("div", { class: "tarjetas-voto" }, items.map(([nombre, n, clase]) =>
+      el("div", { class: ["tarjeta-voto", clase] },
+        el("p", { class: "tarjeta-voto__n" }, numero(n)),
+        el("p", { class: "tarjeta-voto__nombre" }, nombre),
+        el("div", { class: "medidor", "aria-hidden": "true" }, el("span", { vars: { "--w": `${(100 * n) / l.votaciones}%` } })),
+        el("p", { class: "tarjeta-voto__pct" }, porcentaje(n / l.votaciones))))));
+}
+
+function porAnio(d, cadena) {
+  const anios = new Map();
+  cadena.split("").forEach((ch, k) => {
+    if (ch === "-") return;
+    const a = d.votaciones[k].fecha.slice(0, 4);
+    if (!anios.has(a)) anios.set(a, {});
+    const g = ch === "1" || ch === "2" || ch === "3" ? "M" : ch;
+    anios.get(a)[g] = (anios.get(a)[g] || 0) + 1;
+  });
+  const orden = [["S", "Sí", "v-si"], ["N", "No", "v-no"], ["A", "Abstención", "v-abs"], ["M", "Moción", "v-m1"],
+    ["V", "No vota", "v-nv"], ["X", "Ausente", "v-aus"]];
+  const usados = orden.filter(([k]) => [...anios.values()].some((x) => x[k]));
+  return el("section", { class: "seccion panel", "aria-labelledby": "t-anio" },
+    el("h2", { id: "t-anio" }, "Votos por año"),
+    el("ul", { class: "leyenda" }, usados.map(([, nombre, clase]) =>
+      el("li", {}, el("span", { class: ["punto", clase], "aria-hidden": "true" }), nombre))),
+    el("div", { class: "barras-anio" }, [...anios].sort().map(([a, x]) => {
+      const total = Object.values(x).reduce((s, n) => s + n, 0);
+      return el("div", { class: "barra-anio" },
+        el("span", { class: "barra-anio__etiqueta" }, a),
+        el("div", { class: "barra-totales", role: "img",
+          "aria-label": `${a}: ` + usados.filter(([k]) => x[k]).map(([k, nombre]) => `${nombre} ${x[k]}`).join(", ") },
+        usados.filter(([k]) => x[k]).map(([k, nombre, clase]) =>
+          el("span", { class: ["seg", clase], vars: { "--w": `${(100 * x[k]) / total}%` }, title: `${nombre}: ${x[k]}` }))),
+        el("span", { class: "barra-anio__total" }, numero(total)));
+    })));
+}
+
+function similitud(d, l, cadena) {
+  const otros = [];
+  for (const o of d.legisladores) {
+    if (o.id === l.id) continue;
+    const c2 = d.votos.legisladores[String(o.id)];
+    let comun = 0;
+    let igual = 0;
+    for (let k = 0; k < cadena.length; k++) {
+      const a = cadena[k];
+      const b = c2[k];
+      if (EMITIDOS.has(a) && EMITIDOS.has(b)) { comun += 1; if (a === b) igual += 1; }
+    }
+    if (comun >= MIN_COMUN) otros.push({ ...o, sim: igual / comun, comun });
+  }
+  const seccion = el("section", { class: "seccion panel", "aria-labelledby": "t-sim" },
+    el("h2", { id: "t-sim" }, "Similitud de voto"),
+    el("p", { class: "nota" }, `Porcentaje de votaciones en las que ${l.nombre_corto} votó igual que cada ${d.info.miembro} de la cámara, entre las que votaron los dos (mínimo ${MIN_COMUN} en común).`));
+  if (!otros.length) return agregarA(seccion, el("p", { class: "vacio" }, "No hay suficientes votaciones en común para comparar."));
+
+  const minimo = Math.min(50, Math.floor((Math.min(...otros.map((o) => o.sim)) * 100) / 10) * 10);
+  const x = (s) => ((s * 100 - minimo) / (100 - minimo)) * 100;
+  const grupos = new Map();
+  for (const o of otros.sort((a, b) => a.sim - b.sim)) {
+    if (!grupos.has(o.partido)) grupos.set(o.partido, []);
+    grupos.get(o.partido).push(o);
+  }
+  const filas = [...grupos].sort((a, b) => (a[0] === l.partido ? -1 : b[0] === l.partido ? 1 : ordenPartido(b[0]) - ordenPartido(a[0])));
+  const ticks = [];
+  for (let t = minimo; t <= 100; t += minimo >= 70 ? 5 : 10) ticks.push(t);
+
+  const grafico = el("div", { class: "similitud", role: "group", "aria-label": "Similitud de voto por partido" },
+    el("div", { class: "similitud__eje", "aria-hidden": "true" }, el("span", { class: "similitud__vacio" }),
+      el("div", { class: "similitud__ticks" }, ticks.map((t) => el("span", { vars: { "--x": `${x(t / 100)}%` } }, `${t}%`)))),
+    filas.map(([partido, miembros]) => {
+      // Carriles: dos puntos a menos de 2,2 % del ancho del eje van en carriles distintos, para no taparse.
+      const carriles = [];
+      const puntos = miembros.map((o) => {
+        let c = carriles.findIndex((ult) => x(o.sim) - ult > 2.2);
+        if (c === -1) { c = carriles.length; carriles.push(-Infinity); }
+        carriles[c] = x(o.sim);
+        return el("a", { href: enlaceLegislador(o, d.clave), class: ["punto-sim", partidoClase(o.partido), o.estado !== "activos" && "punto-sim--inactivo"],
+          vars: { "--x": `${x(o.sim)}%`, "--carril": c },
+          title: `${o.nombre}: ${porcentaje(o.sim)} de ${numero(o.comun)} votaciones en común` },
+        el("span", { class: "sr" }, `${o.nombre}, ${porcentaje(o.sim)}`));
+      });
+      return el("div", { class: "similitud__fila", vars: { "--carriles": carriles.length } },
+        el("div", { class: "similitud__partido" }, el("span", { class: ["punto", partidoClase(partido)], "aria-hidden": "true" }),
+          el("span", {}, partido === l.partido ? `${partido} · su partido` : partido), el("span", { class: "nota" }, numero(miembros.length))),
+        el("div", { class: "similitud__pista" }, puntos));
+    }));
+
+  const orden = [...otros].sort((a, b) => b.sim - a.sim);
+  const listaCorta = (titulo, xs) => el("div", {}, el("h3", {}, titulo), el("ol", { class: "lista-sim" }, xs.map((o) =>
+    el("li", {}, el("a", { href: enlaceLegislador(o, d.clave) }, o.nombre_corto), " ", chipPartido(o.partido), " ",
+      el("strong", {}, porcentaje(o.sim))))));
+  return agregarA(seccion, grafico,
+    el("p", { class: "nota" }, "Los puntos huecos son legisladores que ya no están en el cargo. Tocá un punto para ver su perfil."),
+    el("div", { class: "dos-columnas" }, listaCorta("Votan más parecido", orden.slice(0, 5)), listaCorta("Votan más distinto", orden.slice(-5).reverse())));
+}
+
+function agregarA(n, ...hijos) { n.append(...hijos); return n; }
+
+function historial(d, l, cadena) {
+  const filas = [];
+  cadena.split("").forEach((ch, k) => { if (ch !== "-") filas.push({ v: d.votaciones[k], ch }); });
+  for (const f of filas) f.busqueda = normalizar(`${f.v.titulo} ${f.v.acapite} ${f.v.mocion} ${f.v.expediente}`);
+  const anios = [...new Set(filas.map((f) => f.v.fecha.slice(0, 4)))].sort().reverse();
+  const opcionesVoto = [["", "Todos los votos"], ["S", "Sí"], ["N", "No"], ["A", "Abstención"], ["X", "Ausente"]];
+  if (filas.some((f) => f.ch === "V")) opcionesVoto.push(["V", "Presente, no vota"]);
+  if (filas.some((f) => "123".includes(f.ch))) opcionesVoto.push(["M", "Mociones"]);
+  const sel = (id, opciones) => el("select", { id }, opciones.map(([v, t]) => el("option", { value: v }, t)));
+  const campos = {
+    q: el("input", { type: "search", id: "h-q", placeholder: "Tema, expediente o moción", autocomplete: "off" }),
+    voto: sel("h-voto", opcionesVoto),
+    tipo: sel("h-tipo", [["todas", "Todas las votaciones"], ["leyes", "Proyectos de ley"], ["otras", "Otras"]]),
+    anio: sel("h-anio", [["", "Todos los años"], ...anios.map((a) => [a, a])]),
+  };
+  const conteo = el("p", { class: "conteo", "aria-live": "polite" });
+  const lista = el("div");
+  actual.historial = { filas, campos, conteo, lista };
+  for (const k of ["voto", "tipo", "anio"]) campos[k].addEventListener("change", guardarFiltros);
+  campos.q.addEventListener("input", guardarFiltros);
+  return el("section", { class: "seccion panel", "aria-labelledby": "t-hist" },
+    el("h2", { id: "t-hist" }, "Historial de votaciones"),
+    el("form", { class: "filtros", role: "search", on: { submit: (ev) => ev.preventDefault() } },
+      el("label", { class: "filtro filtro-ancho" }, "Buscar", campos.q),
+      el("label", { class: "filtro" }, "Voto", campos.voto),
+      el("label", { class: "filtro" }, "Tipo", campos.tipo),
+      el("label", { class: "filtro" }, "Año", campos.anio)),
+    conteo, lista);
+}
+
+function filtrarHistorial() {
+  const h = actual?.historial;
+  if (!h) return;
+  const e = leerEstado(DEFECTOS);
+  for (const [k, c] of Object.entries(h.campos)) if (c.value !== e[k]) c.value = e[k];
+  const q = normalizar(e.q);
+  const xs = h.filas.filter((f) => (!e.voto || (e.voto === "M" ? "123".includes(f.ch) : f.ch === e.voto))
+    && (e.tipo === "todas" || (e.tipo === "leyes") === f.v.es_ley)
+    && (!e.anio || f.v.fecha.startsWith(e.anio))
+    && (!q || f.busqueda.includes(q)));
+  h.conteo.textContent = `${numero(xs.length)} de ${numero(h.filas.length)} votaciones`;
+  listaPaginada(h.lista, xs, (f) => el("li", { class: "fila-historial" },
+    el("a", { href: enlaceVotacion(f.v, actual.datos.clave), class: "fila-historial__link" },
+      el("time", { datetime: f.v.fecha }, fecha(f.v.fecha)),
+      el("span", { class: "fila-historial__titulo" }, f.v.titulo,
+        el("span", { class: "nota" }, ` · ${f.v.es_ley ? "Proyecto de ley" : tipoCorto(f.v.tipo_proyecto)}${f.v.resultado ? " · " + f.v.resultado : ""}`)),
+      chipVoto(f.ch))), { paso: 30, vacio: "Ninguna votación coincide con esos filtros." });
+}
+
+function guardarFiltros() {
+  const h = actual.historial;
+  const e = leerEstado(DEFECTOS);
+  for (const [k, c] of Object.entries(h.campos)) e[k] = c.value.trim();
+  escribirEstado(e, DEFECTOS);
+  filtrarHistorial();
+}
+
+async function render() {
+  const e = leerEstado(DEFECTOS);
+  const id = Number(e.id);
+  if (actual && actual.legislador.id === id) { filtrarHistorial(); return; }
+  if (!id) {
+    vaciar(perfil, el("p", { class: "vacio" }, "Falta el legislador. Elegí uno en ", el("a", { href: "legisladores.html" }, "Legisladores"), "."));
+    return;
+  }
+  try {
+    const r = await buscarLegislador(id, e.camara);
+    if (!r) {
+      vaciar(perfil, el("p", { class: "vacio" }, `No hay un legislador con id ${id} en los datos. `, el("a", { href: "legisladores.html" }, "Ver el listado"), "."));
+      return;
+    }
+    const { datos: d, legislador: l } = r;
+    const cadena = d.votos.legisladores[String(l.id)];
+    actual = { datos: d, legislador: l };
+    document.title = `${l.nombre} · Monitoreo Congreso del Paraguay`;
+    $("#volver").setAttribute("href", enlace("legisladores.html", { camara: d.clave }));
+    vaciar(perfil, cabecera(d, l), tarjetasResumen(d, l), porAnio(d, cadena), similitud(d, l, cadena), historial(d, l, cadena));
+    filtrarHistorial();
+  } catch (err) {
+    mostrarError(perfil, `No se pudieron cargar los datos: ${err.message}`);
+  }
+}
+
+alCambiarHash(render);
+render();

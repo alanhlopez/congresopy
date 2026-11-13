@@ -6,53 +6,65 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
   <meta name="color-scheme" content="light dark">
   <title>Monitoreo Congreso del Paraguay</title>
-  <meta name="description" content="Monitor de votaciones y asistencia del Congreso del Paraguay, con datos de SILpy.">
+  <meta name="description" content="Cómo vota y cuándo falta cada senador y cada diputado del Paraguay, votación por votación, con datos de SILpy.">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="assets/css/congreso.css">
   <script type="module" src="assets/js/congreso/main.js"></script>
+  <script type="module" src="assets/js/congreso/paginas/inicio.js"></script>
 </head>
 <body>
   <a class="saltar" href="#contenido">Saltar al contenido</a>
 
   <header class="cabecera">
     <div class="cabecera__fila">
-      <a class="marca" href="./">Monitoreo <span class="marca__sub">Congreso del Paraguay</span></a>
+      <a class="marca" href="index.html">Monitoreo <span class="marca__sub">Congreso del Paraguay</span></a>
       <button type="button" class="tema" id="boton-tema" aria-label="Cambiar a tema oscuro">
         <span class="tema__icono" aria-hidden="true"></span>
         <span class="tema__texto">Tema oscuro</span>
       </button>
     </div>
-    <!-- El menú se copia igual en cada página (no se inyecta). -->
+    <!-- MENU: se copia igual en cada página (no se inyecta). tests/test_sitio.py verifica que coincida. -->
     <nav class="menu" aria-label="Principal">
       <ul>
-        <li><a href="./" aria-current="page">Inicio</a></li>
-        <li><a aria-disabled="true" title="Próximamente">Cámaras</a></li>
-        <li><a aria-disabled="true" title="Próximamente">Legisladores</a></li>
-        <li><a aria-disabled="true" title="Próximamente">Votaciones</a></li>
-        <li><a aria-disabled="true" title="Próximamente">Proyectos</a></li>
-        <li><a aria-disabled="true" title="Próximamente">Datos abiertos</a></li>
+        <li><a href="index.html" aria-current="page">Inicio</a></li>
+        <li><a href="camaras.html">Cámaras</a></li>
+        <li><a href="legisladores.html">Legisladores</a></li>
+        <li><a href="votaciones.html">Votaciones</a></li>
+        <li><a href="proyectos.html">Proyectos</a></li>
+        <li><a href="datos.html">Datos abiertos</a></li>
       </ul>
     </nav>
+    <!-- /MENU -->
   </header>
 
   <main id="contenido" class="contenido">
     <h1>Monitoreo Congreso del Paraguay</h1>
     <p class="bajada">Cómo vota y cuándo falta cada senador y cada diputado del período 2023-2028, votación por votación.</p>
-    <p class="aviso">Sitio en construcción: todavía no hay datos publicados.</p>
+
+    <section aria-labelledby="t-camaras" class="seccion">
+      <h2 id="t-camaras">Las dos cámaras</h2>
+      <div id="resumen-camaras" class="tarjetas-camara"><p class="cargando">Cargando datos…</p></div>
+    </section>
+
+    <section aria-labelledby="t-ultimas" class="seccion">
+      <h2 id="t-ultimas">Últimas votaciones</h2>
+      <div id="ultimas" class="columnas-camara"><p class="cargando">Cargando datos…</p></div>
+      <p><a class="boton boton-secundario" href="votaciones.html">Ver todas las votaciones</a></p>
+    </section>
 
     <section class="metodo" aria-labelledby="metodo-titulo">
       <h2 id="metodo-titulo">Fuente, método y límites</h2>
       <dl>
         <dt>Fuente</dt>
-        <dd>Votaciones nominales y electrónicas publicadas en <a href="https://silpy.congreso.gov.py/" rel="noopener">SILpy</a>, el Sistema de Información Legislativa del Congreso Nacional, bajo licencia CC BY 4.0.</dd>
+        <dd>Votaciones nominales y electrónicas publicadas en <a href="https://silpy.congreso.gov.py/" rel="noopener">SILpy</a>, el Sistema de Información Legislativa del Congreso Nacional (CC BY 4.0). Última votación incluida: <span data-actualizado>—</span>.</dd>
         <dt>Método</dt>
-        <dd>Se descarga el detalle de cada votación y se verifica que la suma de los votos individuales coincida con los totales publicados. Si no coincide, la votación no se usa.</dd>
+        <dd>Se descarga el detalle de cada votación nominal y se verifica que la suma de los votos individuales coincida con los totales publicados. Si no coincide, la votación no se usa.</dd>
         <dt>Límites</dt>
         <dd>
           <ul>
+            <li>Solo se cuentan las votaciones nominales y electrónicas con el voto de cada legislador. Las votaciones a mano alzada no quedan registradas.</li>
             <li>En Diputados, «no vota» se registra como «ausente»: no compares el ausentismo entre cámaras.</li>
-            <li>La ausencia se mide en las votaciones nominales, no en la asistencia a las sesiones.</li>
-            <li>Partido y bancada son los que figuran hoy en SILpy, no los de la fecha de cada votación.</li>
+            <li>Partido y bancada son los que figuran hoy en SILpy, no los que tenía cada legislador en la fecha de cada votación.</li>
           </ul>
         </dd>
       </dl>
@@ -61,7 +73,7 @@
 
   <footer class="pie">
     <p>Fuente: <a href="https://silpy.congreso.gov.py/" rel="noopener">SILpy – Congreso Nacional</a> (CC BY 4.0).</p>
-    <p>Datos derivados: CC BY-SA 4.0 · Código: AGPL-3.0.</p>
+    <p>Datos derivados: CC BY-SA 4.0 · Código: AGPL-3.0 · <a href="datos.html">Datos abiertos</a></p>
   </footer>
 </body>
 </html>

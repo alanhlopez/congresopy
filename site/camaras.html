@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+  <meta name="color-scheme" content="light dark">
+  <title>Cámaras · Monitoreo Congreso del Paraguay</title>
+  <meta name="description" content="Composición actual del Senado y de la Cámara de Diputados del Paraguay por partido y bancada.">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/css/congreso.css">
+  <script type="module" src="assets/js/congreso/main.js"></script>
+  <script type="module" src="assets/js/congreso/paginas/camaras.js"></script>
+</head>
+<body>
+  <a class="saltar" href="#contenido">Saltar al contenido</a>
+
+  <header class="cabecera">
+    <div class="cabecera__fila">
+      <a class="marca" href="index.html">Monitoreo <span class="marca__sub">Congreso del Paraguay</span></a>
+      <button type="button" class="tema" id="boton-tema" aria-label="Cambiar a tema oscuro">
+        <span class="tema__icono" aria-hidden="true"></span>
+        <span class="tema__texto">Tema oscuro</span>
+      </button>
+    </div>
+    <!-- MENU: se copia igual en cada página (no se inyecta). tests/test_sitio.py verifica que coincida. -->
+    <nav class="menu" aria-label="Principal">
+      <ul>
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="camaras.html" aria-current="page">Cámaras</a></li>
+        <li><a href="legisladores.html">Legisladores</a></li>
+        <li><a href="votaciones.html">Votaciones</a></li>
+        <li><a href="proyectos.html">Proyectos</a></li>
+        <li><a href="datos.html">Datos abiertos</a></li>
+      </ul>
+    </nav>
+    <!-- /MENU -->
+  </header>
+
+  <main id="contenido" class="contenido">
+    <h1>Cámaras del Congreso</h1>
+    <div class="segmentado" role="group" aria-label="Cámara" id="selector-camara">
+      <button type="button" data-camara="senado" aria-pressed="true">Senado</button>
+      <button type="button" data-camara="diputados" aria-pressed="false">Diputados</button>
+    </div>
+
+    <section class="panel" aria-labelledby="t-composicion">
+      <div class="panel__cabecera">
+        <h2 id="t-composicion">Composición actual</h2>
+        <div class="segmentado segmentado-chico" role="group" aria-label="Vista" id="selector-vista">
+          <button type="button" data-vista="hemiciclo" aria-pressed="true">Hemiciclo</button>
+          <button type="button" data-vista="bancadas" aria-pressed="false">Por bancada</button>
+        </div>
+      </div>
+      <div id="composicion"><p class="cargando">Cargando datos…</p></div>
+    </section>
+
+    <section class="metodo" aria-labelledby="metodo-titulo">
+      <h2 id="metodo-titulo">Fuente, método y límites</h2>
+      <dl>
+        <dt>Fuente</dt>
+        <dd>Votaciones nominales y electrónicas publicadas en <a href="https://silpy.congreso.gov.py/" rel="noopener">SILpy</a>, el Sistema de Información Legislativa del Congreso Nacional (CC BY 4.0). Última votación incluida: <span data-actualizado>—</span>.</dd>
+        <dt>Método</dt>
+        <dd>Se muestran los legisladores que figuran «en ejercicio» en la nómina de SILpy y votaron al menos una vez desde el inicio del período. El color es el partido; la vista por bancada agrupa según la bancada declarada en SILpy.</dd>
+        <dt>Límites</dt>
+        <dd>
+          <ul>
+            <li>Es la composición de hoy. Los reemplazos y suplentes que ya dejaron la banca no aparecen acá, pero sí en Legisladores.</li>
+            <li>En el Senado hay más de 20 bancadas, varias de una sola persona: por eso el hemiciclo se colorea por partido.</li>
+            <li>Partido y bancada son los que figuran hoy en SILpy, no los que tenía cada legislador en la fecha de cada votación.</li>
+          </ul>
+        </dd>
+      </dl>
+    </section>
+  </main>
+
+  <footer class="pie">
+    <p>Fuente: <a href="https://silpy.congreso.gov.py/" rel="noopener">SILpy – Congreso Nacional</a> (CC BY 4.0).</p>
+    <p>Datos derivados: CC BY-SA 4.0 · Código: AGPL-3.0 · <a href="datos.html">Datos abiertos</a></p>
+  </footer>
+</body>
+</html>

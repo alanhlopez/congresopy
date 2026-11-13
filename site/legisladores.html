@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+  <meta name="color-scheme" content="light dark">
+  <title>Legisladores · Monitoreo Congreso del Paraguay</title>
+  <meta name="description" content="Senadores y diputados del Paraguay con su partido, bancada y presencia en votaciones nominales.">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/css/congreso.css">
+  <script type="module" src="assets/js/congreso/main.js"></script>
+  <script type="module" src="assets/js/congreso/paginas/legisladores.js"></script>
+</head>
+<body>
+  <a class="saltar" href="#contenido">Saltar al contenido</a>
+
+  <header class="cabecera">
+    <div class="cabecera__fila">
+      <a class="marca" href="index.html">Monitoreo <span class="marca__sub">Congreso del Paraguay</span></a>
+      <button type="button" class="tema" id="boton-tema" aria-label="Cambiar a tema oscuro">
+        <span class="tema__icono" aria-hidden="true"></span>
+        <span class="tema__texto">Tema oscuro</span>
+      </button>
+    </div>
+    <!-- MENU: se copia igual en cada página (no se inyecta). tests/test_sitio.py verifica que coincida. -->
+    <nav class="menu" aria-label="Principal">
+      <ul>
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="camaras.html">Cámaras</a></li>
+        <li><a href="legisladores.html" aria-current="page">Legisladores</a></li>
+        <li><a href="votaciones.html">Votaciones</a></li>
+        <li><a href="proyectos.html">Proyectos</a></li>
+        <li><a href="datos.html">Datos abiertos</a></li>
+      </ul>
+    </nav>
+    <!-- /MENU -->
+  </header>
+
+  <main id="contenido" class="contenido">
+    <h1>Legisladores</h1>
+    <form class="filtros" id="filtros" role="search">
+      <label class="filtro filtro-ancho">Buscar
+        <input type="search" id="f-q" name="q" placeholder="Nombre o bancada" autocomplete="off">
+      </label>
+      <label class="filtro">Cámara
+        <select id="f-camara" name="camara">
+          <option value="todas">Las dos</option>
+          <option value="senado">Senado</option>
+          <option value="diputados">Diputados</option>
+        </select>
+      </label>
+      <label class="filtro">Partido
+        <select id="f-partido" name="partido"><option value="">Todos</option></select>
+      </label>
+      <label class="filtro">Estado
+        <select id="f-estado" name="estado">
+          <option value="activos">En ejercicio</option>
+          <option value="todos">Todos (incluye reemplazados)</option>
+        </select>
+      </label>
+      <label class="filtro">Ordenar
+        <select id="f-orden" name="orden">
+          <option value="nombre">Por apellido</option>
+          <option value="presencia">Menor presencia</option>
+          <option value="presencia-desc">Mayor presencia</option>
+        </select>
+      </label>
+    </form>
+    <p id="conteo" class="conteo" aria-live="polite"></p>
+    <div id="lista"><p class="cargando">Cargando datos…</p></div>
+
+    <section class="metodo" aria-labelledby="metodo-titulo">
+      <h2 id="metodo-titulo">Fuente, método y límites</h2>
+      <dl>
+        <dt>Fuente</dt>
+        <dd>Votaciones nominales y electrónicas publicadas en <a href="https://silpy.congreso.gov.py/" rel="noopener">SILpy</a>, el Sistema de Información Legislativa del Congreso Nacional (CC BY 4.0). Última votación incluida: <span data-actualizado>—</span>.</dd>
+        <dt>Método</dt>
+        <dd>La presencia es el porcentaje de votaciones nominales de su período en el cargo en las que el legislador no figura como «ausente». Cada tarjeta lleva al perfil con el detalle.</dd>
+        <dt>Límites</dt>
+        <dd>
+          <ul>
+            <li>La presencia se mide en votaciones nominales, no en la asistencia a las sesiones.</li>
+            <li>En Diputados, «no vota» se registra como «ausente»: no compares el ausentismo entre cámaras.</li>
+            <li>Partido y bancada son los que figuran hoy en SILpy, no los que tenía cada legislador en la fecha de cada votación.</li>
+          </ul>
+        </dd>
+      </dl>
+    </section>
+  </main>
+
+  <footer class="pie">
+    <p>Fuente: <a href="https://silpy.congreso.gov.py/" rel="noopener">SILpy – Congreso Nacional</a> (CC BY 4.0).</p>
+    <p>Datos derivados: CC BY-SA 4.0 · Código: AGPL-3.0 · <a href="datos.html">Datos abiertos</a></p>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+  <meta name="color-scheme" content="light dark">
+  <title>Datos abiertos · Monitoreo Congreso del Paraguay</title>
+  <meta name="description" content="Descarga de los datos de votaciones del Congreso del Paraguay en JSON, con su manifiesto y licencia.">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/css/congreso.css">
+  <script type="module" src="assets/js/congreso/main.js"></script>
+  <script type="module" src="assets/js/congreso/paginas/datos.js"></script>
+</head>
+<body>
+  <a class="saltar" href="#contenido">Saltar al contenido</a>
+
+  <header class="cabecera">
+    <div class="cabecera__fila">
+      <a class="marca" href="index.html">Monitoreo <span class="marca__sub">Congreso del Paraguay</span></a>
+      <button type="button" class="tema" id="boton-tema" aria-label="Cambiar a tema oscuro">
+        <span class="tema__icono" aria-hidden="true"></span>
+        <span class="tema__texto">Tema oscuro</span>
+      </button>
+    </div>
+    <!-- MENU: se copia igual en cada página (no se inyecta). tests/test_sitio.py verifica que coincida. -->
+    <nav class="menu" aria-label="Principal">
+      <ul>
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="camaras.html">Cámaras</a></li>
+        <li><a href="legisladores.html">Legisladores</a></li>
+        <li><a href="votaciones.html">Votaciones</a></li>
+        <li><a href="proyectos.html">Proyectos</a></li>
+        <li><a href="datos.html" aria-current="page">Datos abiertos</a></li>
+      </ul>
+    </nav>
+    <!-- /MENU -->
+  </header>
+
+  <main id="contenido" class="contenido">
+    <h1>Datos abiertos</h1>
+    <p class="bajada">Todo lo que muestra este sitio está en estos archivos JSON. Podés usarlos citando la fuente.</p>
+
+    <section class="panel" aria-labelledby="t-archivos">
+      <h2 id="t-archivos">Archivos</h2>
+      <div class="tabla-scroll">
+        <table class="tabla" id="tabla-archivos">
+          <thead><tr><th scope="col">Archivo</th><th scope="col" class="num">Filas</th><th scope="col" class="num">Tamaño</th><th scope="col">Generado</th><th scope="col">sha256</th></tr></thead>
+          <tbody><tr><td colspan="5" class="cargando">Cargando manifiesto…</td></tr></tbody>
+        </table>
+      </div>
+      <p>El <a href="datos/congreso/manifiesto.json">manifiesto</a> lista cada archivo con su fecha de generación, filas y sha256, para verificar que la copia que bajaste es la publicada.</p>
+    </section>
+
+    <section class="seccion" aria-labelledby="t-formato">
+      <h2 id="t-formato">Formato</h2>
+      <dl class="definiciones">
+        <dt><code>{camara}/votaciones.json</code></dt>
+        <dd>Una fila por votación, de la más reciente a la más vieja: <code>id</code> de SILpy, <code>fecha</code>, <code>sesion</code>, <code>tipo_proyecto</code>, <code>expediente</code>, <code>titulo</code>, <code>acapite</code>, <code>mocion</code>, <code>resultado</code>, <code>totales</code> y <code>url</code> a la votación en SILpy.</dd>
+        <dt><code>{camara}/votos.json</code></dt>
+        <dd><code>orden</code> es la lista de ids de votación (el mismo orden que votaciones.json). En <code>legisladores</code>, cada id tiene una cadena con un carácter por votación: S sí, N no, A abstención, X ausente, V presente sin votar, 1/2/3 moción, «-» fuera del cargo.</dd>
+        <dt><code>{camara}/legisladores.json</code></dt>
+        <dd>Nombre, cargo, estado, partido y bancada según la nómina de SILpy, y el <code>conteo</code> de votos de cada tipo.</dd>
+      </dl>
+    </section>
+
+    <section class="seccion" aria-labelledby="t-licencia">
+      <h2 id="t-licencia">Licencia</h2>
+      <p>Los datos derivados se publican bajo <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.es" rel="noopener">CC BY-SA 4.0</a>. La fuente original es SILpy – Congreso Nacional del Paraguay, bajo <a href="https://creativecommons.org/licenses/by/4.0/deed.es" rel="noopener">CC BY 4.0</a>: al reutilizarlos, citá al Congreso Nacional y a este sitio.</p>
+    </section>
+
+    <section class="metodo" aria-labelledby="metodo-titulo">
+      <h2 id="metodo-titulo">Fuente, método y límites</h2>
+      <dl>
+        <dt>Fuente</dt>
+        <dd>Votaciones nominales y electrónicas publicadas en <a href="https://silpy.congreso.gov.py/" rel="noopener">SILpy</a>, el Sistema de Información Legislativa del Congreso Nacional (CC BY 4.0). Última votación incluida: <span data-actualizado>—</span>.</dd>
+        <dt>Método</dt>
+        <dd>Los archivos se generan desde los datos validados del proyecto. Cada votación se verificó contra los totales publicados en SILpy.</dd>
+        <dt>Límites</dt>
+        <dd>
+          <ul>
+            <li>Solo votaciones nominales y electrónicas.</li>
+            <li>En Diputados, «no vota» se registra como «ausente»: no compares el ausentismo entre cámaras.</li>
+            <li>Partido y bancada son los que figuran hoy en SILpy, no los que tenía cada legislador en la fecha de cada votación.</li>
+          </ul>
+        </dd>
+      </dl>
+    </section>
+  </main>
+
+  <footer class="pie">
+    <p>Fuente: <a href="https://silpy.congreso.gov.py/" rel="noopener">SILpy – Congreso Nacional</a> (CC BY 4.0).</p>
+    <p>Datos derivados: CC BY-SA 4.0 · Código: AGPL-3.0 · <a href="datos.html">Datos abiertos</a></p>
+  </footer>
+</body>
+</html>
