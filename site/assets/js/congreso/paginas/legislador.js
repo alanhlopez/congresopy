@@ -25,7 +25,11 @@ function cabecera(d, l) {
         `Figura en ${numero(l.votaciones)} votaciones nominales, del ${fecha(l.primera)} al ${fecha(l.ultima)}. `,
         el("a", { href: `https://silpy.congreso.gov.py/web/legislador/${l.id}`, rel: "noopener" }, "Ficha en SILpy"))),
     el("div", { class: "perfil-cabecera__presencia" }, anillo(pres, "Presencia en votaciones nominales"),
-      el("p", {}, el("strong", {}, "Presencia"), el("br"), `${numero(l.votaciones - l.conteo.ausente)} de ${numero(l.votaciones)} votaciones`)));
+      el("p", {}, el("strong", {}, "Presencia"), el("br"), `${numero(l.votaciones - l.conteo.ausente)} de ${numero(l.votaciones)} votaciones`),
+      // Las dos cámaras registran distinto: la presencia no se compara entre Senado y Diputados.
+      el("p", { class: "nota" }, d.clave === "diputados"
+        ? "En Diputados «no vota» figura como ausente."
+        : "En el Senado, «presente, no vota» cuenta como presente.")));
 }
 
 function tarjetasResumen(d, l) {

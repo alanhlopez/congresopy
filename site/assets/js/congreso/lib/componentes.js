@@ -11,8 +11,20 @@ export const chipVoto = (codigo) => {
   return el("span", { class: ["chip", "chip-voto", v.clase] }, v.etiqueta);
 };
 
-export const avatar = (l, grande = false) =>
-  el("span", { class: ["avatar", partidoClase(l.partido), grande && "avatar-grande"], "aria-hidden": "true" }, iniciales(l.nombre));
+/** Foto de SILpy (si hay) recortada en círculo con aro del color del partido; si no carga, quedan las iniciales. */
+export function avatar(l, grande = false) {
+  const a = el("span", { class: ["avatar", partidoClase(l.partido), grande && "avatar-grande"], "aria-hidden": "true" },
+    iniciales(l.nombre));
+  if (l.foto) {
+    const lado = grande ? 80 : 40;
+    const img = el("img", { src: `datos/congreso/${l.foto}`, alt: "", class: "avatar__foto", width: lado, height: lado,
+      loading: grande ? "eager" : "lazy", decoding: "async" });
+    img.addEventListener("error", () => { img.remove(); a.classList.remove("avatar--foto"); });
+    a.classList.add("avatar--foto");
+    a.append(img);
+  }
+  return a;
+}
 
 export const enlaceLegislador = (l, camara) => enlace("legislador.html", { camara, id: l.id });
 export const enlaceVotacion = (v, camara) => enlace("votacion.html", { camara, id: v.id });

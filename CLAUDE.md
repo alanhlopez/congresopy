@@ -62,6 +62,15 @@ $P pipeline/silpy_votos.py reparsear --camara S
 solo para el período abierto, bajan un snapshot `listado_{S|D}_{periodo}_{AAAA-MM-DD}.html` (uno por día; nunca
 pisa los anteriores) y desde ahí usan siempre el más reciente. En un período cerrado `--refrescar` se ignora.
 
+Fotos (`pipeline/fotos.py`): `descargar` baja de `{BASE}/images/{id}.jpg` las que faltan en `bronze/silpy/fotos/`
+(con contacto, 1,5 s entre requests, nunca repite, rechaza lo que no sea JPEG o PNG); `silver` copia las válidas a
+`silver/fotos/`; `exportar_sitio.py` las publica en `site/datos/congreso/fotos/`, agrega `foto` en
+`legisladores.json` y un resumen `fotos` en el manifiesto. Sin fotos, el sitio muestra iniciales.
+
+```bash
+$P pipeline/fotos.py descargar && $P pipeline/fotos.py silver && $P pipeline/exportar_sitio.py
+```
+
 `legisladores.py` exige `--out` y no sobrescribe archivos. Nunca lo apuntes a `silver/{camara}/legisladores.csv`:
 los dos tienen `nombre_corto` cargado a mano y el de Diputados se armó entero a mano.
 
@@ -88,7 +97,7 @@ los componentes solo leen `--c`; los valores por tema están en los tokens de `c
 
 - El menú está copiado igual en las 8 páginas entre `<!-- MENU: ... -->` y `<!-- /MENU -->`. Si se cambia, se
   cambia en todas (lo verifica `test_menu_identico_en_cada_pagina`).
-- Decisiones a revisar: sin fotos (avatar con iniciales coloreado por partido) hasta resolver la licencia; la
+- Decisiones: fotos de SILpy (CC BY 4.0) con aro del color del partido, o iniciales si no hay; la
   «presencia» es no figurar como AUSENTE en votaciones nominales (en el Senado «no vota» cuenta como presente);
   el hemiciclo ordena oposición a la izquierda y ANR a la derecha. No se publica nada del índice del Ejecutivo
   ni la disciplina de bloque (pendiente: historial de bancadas con fechas).
@@ -121,6 +130,8 @@ rompe; cambiar la lógica sí. Los datos vivos (`salidas/`, `site/datos/`) se re
 - `test_exportar.py`: `site/datos/congreso/` está al día con silver/, el manifiesto coincide con los archivos
   (sha256, bytes, filas), las cadenas de `votos.json` son idénticas al `vc` de `analisis.py`, los conteos
   cierran con los totales y ningún JSON del sitio trae campos del índice del Ejecutivo.
+- `test_fotos.py`: descarga sin repetir, rechazo de respuestas que no son imágenes, sin contacto no hay requests,
+  paso a silver/ y publicación en el sitio con su resumen en el manifiesto (sin red).
 - `test_sitio.py`: reglas del sitio sobre cada archivo de `site/`: CSP exacta en cada HTML; nada inline (script,
   style, `style=""`, `onX`), nada externo y nada `data:`/`blob:`; rutas locales que existen; menú idéntico en
   todas las páginas; bloque de fuente, método y límites; JS sin `innerHTML`/`eval`/imports o fetch externos y

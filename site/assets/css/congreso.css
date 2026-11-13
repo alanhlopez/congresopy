@@ -407,6 +407,9 @@ h3 { font-size: 1.05rem; line-height: 1.3; margin: 0 0 0.5rem; }
   letter-spacing: 0.02em;
 }
 .avatar-grande { width: 5rem; height: 5rem; font-size: 1.6rem; }
+.avatar { position: relative; overflow: hidden; }
+.avatar--foto { box-shadow: 0 0 0 2px var(--c); background: var(--superficie-2); }
+.avatar__foto { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center top; }
 
 .leyenda {
   display: flex;

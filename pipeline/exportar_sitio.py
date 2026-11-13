@@ -6,7 +6,8 @@ Salida (por defecto site/datos/congreso/):
   {senado,diputados}/votaciones.json    una fila por votación (más reciente primero): textos, totales, link a SILpy
   {senado,diputados}/votos.json         una cadena por legislador con su voto en cada votación, en el orden
                                         de votaciones.json (códigos en comun.CODIGO_VOTO; "-" = fuera del cargo)
-  manifiesto.json                       por archivo: fecha de generación, filas, bytes, sha256
+  fotos/{id}.jpg                        fotos de legisladores copiadas de silver/fotos/ (si hay)
+  manifiesto.json                       por archivo: fecha de generación, filas, bytes, sha256 (y resumen de fotos)
 
 Lee solo votacion.csv, voto.csv, fechas.csv y legisladores.csv. NO lee codificacion_sugerida.csv:
 el índice de alineamiento con el Ejecutivo no se publica en la Fase 1.
@@ -18,6 +19,7 @@ import argparse
 import csv
 import hashlib
 import json
+import shutil
 import sys
 from collections import Counter
 from datetime import datetime, timezone
@@ -55,7 +57,16 @@ def entero(x):
     return int(float(x)) if x not in (None, "") else None
 
 
-def exportar_camara(cam):
+def fotos_disponibles():
+    """{id_legislador: nombre_de_archivo} de silver/fotos/."""
+    carpeta = config.SILVER / "fotos"
+    if not carpeta.exists():
+        return {}
+    return {int(f.stem): f.name for f in sorted(carpeta.glob("*.*")) if f.stem.isdigit() and f.suffix in (".jpg", ".png")}
+
+
+def exportar_camara(cam, fotos=None):
+    fotos = fotos or {}
     silver = config.silver_dir(cam)
     vt = leer(silver / "votacion.csv")
     votos = leer(silver / "voto.csv")
@@ -126,6 +137,7 @@ def exportar_camara(cam):
         cad = "".join(cadenas[lid])
         en_cargo = [votaciones[k]["fecha"] for k, ch in enumerate(cad) if ch != "-"]
         cnt = conteos[lid]
+        foto = fotos.get(int(lid))
         legisladores.append({
             "id": int(lid),
             "nombre": texto(info.get("nombre")) or nombre_en_voto[lid],
@@ -141,6 +153,8 @@ def exportar_camara(cam):
             "ultima": max(en_cargo),
             "conteo": {k: cnt.get(k, 0) for k in CLAVE_CONTEO.values()},
         })
+        if foto:
+            legisladores[-1]["foto"] = f"fotos/{foto}"
 
     votos_json = {
         "orden": [d["id"] for d in votaciones],
@@ -158,6 +172,32 @@ def serializar(obj):
     return (json.dumps(obj, ensure_ascii=False, separators=(",", ":")) + "\n").encode("utf-8")
 
 
+def copiar_fotos(fotos, destino):
+    """Sincroniza destino/fotos/ con silver/fotos/ y devuelve el resumen para el manifiesto."""
+    carpeta = destino / "fotos"
+    if not fotos:
+        if carpeta.exists():
+            shutil.rmtree(carpeta)
+        return None
+    carpeta.mkdir(exist_ok=True)
+    vigentes = set(fotos.values())
+    for f in carpeta.iterdir():
+        if f.name not in vigentes:
+            f.unlink()
+    lineas, total = [], 0
+    for nombre in sorted(vigentes):
+        contenido = (config.SILVER / "fotos" / nombre).read_bytes()
+        if not (carpeta / nombre).exists() or (carpeta / nombre).read_bytes() != contenido:
+            (carpeta / nombre).write_bytes(contenido)
+        total += len(contenido)
+        lineas.append(f"{nombre}:{hashlib.sha256(contenido).hexdigest()}")
+    print(f"fotos/                       {len(vigentes):5} fotos {total:9,} bytes")
+    return {"carpeta": "fotos/", "archivos": len(vigentes), "bytes": total,
+            # sha256 de las líneas "archivo:sha256" ordenadas: cambia si cambia cualquier foto
+            "sha256": hashlib.sha256("\n".join(lineas).encode()).hexdigest(),
+            "fuente": "SILpy – Congreso Nacional del Paraguay (CC BY 4.0)"}
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--destino", default=str(config.SITE_DATOS))
@@ -170,9 +210,10 @@ def main():
         previo = {a["archivo"]: a for a in json.loads(mp.read_text(encoding="utf-8")).get("archivos", [])}
     ahora = datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
 
+    fotos = fotos_disponibles()
     archivos, camaras = [], {}
     for cam in config.CAMARAS:
-        datos, cobertura = exportar_camara(cam)
+        datos, cobertura = exportar_camara(cam, fotos)
         carpeta = config.camara_dir(cam)
         camaras[carpeta] = {"nombre": NOMBRE_CAMARA[cam], **cobertura}
         (destino / carpeta).mkdir(exist_ok=True)
@@ -187,6 +228,8 @@ def main():
                              "bytes": len(contenido), "sha256": sha})
             print(f"{rel:28} {filas:5} filas {len(contenido):9,} bytes{'  (sin cambios)' if generado != ahora else ''}")
 
+    resumen_fotos = copiar_fotos(fotos, destino)
+
     manifiesto = {
         "proyecto": "Monitoreo Congreso del Paraguay",
         "generado": max(a["generado"] for a in archivos),
@@ -197,6 +240,8 @@ def main():
         "notas": NOTAS,
         "archivos": archivos,
     }
+    if resumen_fotos:
+        manifiesto["fotos"] = resumen_fotos
     mp.write_text(json.dumps(manifiesto, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(f"manifiesto.json: {len(archivos)} archivos")
 
