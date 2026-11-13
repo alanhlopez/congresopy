@@ -74,3 +74,16 @@ def test_descargar_sin_contacto_corta(bronze, monkeypatch):
     with pytest.raises(SystemExit, match="CONGRESOPY_CONTACTO"):
         sv.listar_ids("S", 100257, s)
     assert s.urls == []
+
+
+def test_user_agent_ascii(monkeypatch):
+    """SILpy rechaza (HTTP 400) headers con caracteres no ASCII."""
+    import importlib
+    monkeypatch.setenv("CONGRESOPY_CONTACTO", "investigación@ejemplo.org")
+    c = importlib.reload(config)
+    try:
+        assert c.USER_AGENT.isascii()
+        assert "investigacion civica" in c.USER_AGENT and "investigacion@ejemplo.org" in c.USER_AGENT
+    finally:
+        monkeypatch.delenv("CONGRESOPY_CONTACTO")
+        importlib.reload(config)

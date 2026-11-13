@@ -8,6 +8,7 @@ desde cualquier directorio.
   salidas/votometro/       salidas de analisis.py (referencia de regresión)
 """
 import os
+import unicodedata
 from pathlib import Path
 
 RAIZ = Path(__file__).resolve().parent.parent
@@ -32,8 +33,11 @@ BASE = "https://silpy.congreso.gov.py/web"
 DELAY = 1.5   # segundos entre requests. robots.txt de SILpy no autoriza automatización: no lo bajes.
 # El contacto no va en el código: sale de la variable de entorno CONGRESOPY_CONTACTO (ver .env.example).
 CONTACTO = os.environ.get("CONGRESOPY_CONTACTO", "").strip()
-USER_AGENT = (f"congresopy/0.1 (investigación cívica sin fines de lucro; contacto: {CONTACTO}; "
-              "+https://github.com/alanhlopez/congresopy)")
+# Solo ASCII: SILpy responde HTTP 400 a cualquier request con caracteres no ASCII en los headers
+# (probado el 13/11/2026: «investigación cívica» -> 400; «investigacion civica» -> 200).
+USER_AGENT = unicodedata.normalize("NFKD", (
+    f"congresopy/0.1 (investigacion civica sin fines de lucro; contacto: {CONTACTO}; "
+    "+https://github.com/alanhlopez/congresopy)")).encode("ascii", "ignore").decode("ascii")
 
 
 def requerir_contacto():
