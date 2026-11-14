@@ -1,8 +1,9 @@
 # CLAUDE.md — congresopy
 
-**Monitoreo Congreso del Paraguay** (nombre público del sitio; el repo es `congresopy`): votaciones, asistencia y,
-más adelante, proyectos, con datos de SILpy (silpy.congreso.gov.py). "Votómetro" es el nombre del prototipo y de su
-dashboard heredado en `salidas/votometro/`; no se usa en el sitio. Responder en español, con voseo. Ser crítico y no complaciente.
+**Votómetro** (nombre público del sitio, con el subtítulo «Congreso del Paraguay · 2023–2028»; el repo es
+`congresopy`): votaciones, asistencia y, más adelante, proyectos, con datos de SILpy (silpy.congreso.gov.py). Hasta
+el rediseño de noviembre de 2026 el sitio se llamaba «Monitoreo Congreso del Paraguay» y «Votómetro» era solo el
+prototipo; `salidas/votometro/` sigue siendo el dashboard heredado del prototipo, que no se publica. Responder en español, con voseo. Ser crítico y no complaciente.
 
 Contexto y decisiones de producto: `docs/CONTINUAR.md`. Prototipo original (no tocar, sirve de referencia):
 `../VotometroCongresoPy/`.
@@ -224,7 +225,10 @@ rompe; cambiar la lógica sí. Los datos vivos (`salidas/`, `site/datos/`) se re
   `data:` o `blob:`, CDNs, Google Fonts. Los estilos dinámicos van con clases o con CSSOM desde JS
   (`element.style.setProperty` está permitido).
 - Las librerías se vendorizan en `site/assets/vendor/<lib>/` con versión fija (Chart.js 4.5.1 cuando haga falta).
-- Fuente system-ui. Tema con `data-theme="light|dark"` en `<html>`, que respeta `prefers-color-scheme` y
+- Fuente system-ui. Única excepción, decidida en el rediseño: el h1 del hero de Inicio usa la pila serif del
+  sistema (`--fuente-serif`: Iowan Old Style, Charter, Georgia…; nada se descarga). Sistema de diseño: tokens
+  en `:root` de `congreso.css` (escalas tipográfica y de espaciado, radios 8/16, dos sombras, acento verde
+  petróleo sin relación con ningún partido). Los colores de partido se usan solo para datos. Tema con `data-theme="light|dark"` en `<html>`, que respeta `prefers-color-scheme` y
   recuerda la elección en localStorage dentro de try/catch (ver `site/assets/js/congreso/main.js`).
 - Estado de la página en `#hash` (filtros, legislador seleccionado), para que todo se pueda compartir con un link.
 - Rutas siempre relativas: el sitio tiene que funcionar servido en `/` y también en `/instituciones/congreso/`.

@@ -1,9 +1,9 @@
 // Votaciones: listado por cámara con búsqueda y filtros (estado en el #hash).
 import { camara, camaraValida } from "../lib/datos.js";
-import { el, mostrarError, $ } from "../lib/dom.js";
+import { el, mostrarError, vaciar, $ } from "../lib/dom.js";
 import { alCambiarHash, escribirEstado, leerEstado } from "../lib/estado.js";
 import { normalizar, numero } from "../lib/formato.js";
-import { filaVotacion, listaPaginada } from "../lib/componentes.js";
+import { filaVotacion, leyendaVotos, listaPaginada } from "../lib/componentes.js";
 
 const DEFECTOS = { camara: "senado", q: "", tipo: "todas", anio: "", res: "" };
 const campos = { q: $("#f-q"), tipo: $("#f-tipo"), anio: $("#f-anio"), res: $("#f-res") };
@@ -36,6 +36,8 @@ async function aplicar() {
       const anios = [...new Set(d.votaciones.map((v) => v.fecha.slice(0, 4)))].sort().reverse();
       campos.anio.replaceChildren(el("option", { value: "" }, "Todos"), ...anios.map((a) => el("option", { value: a }, a)));
       anioCamara = d.clave;
+      vaciar($("#leyenda"), leyendaVotos(d.votaciones));
+      $("#nombre-camara").textContent = d.info.nombreLargo;
     }
     for (const [k, c] of Object.entries(campos)) if (c.value !== e[k]) c.value = e[k];
     const q = normalizar(e.q);
@@ -50,7 +52,9 @@ async function aplicar() {
       }
       return true;
     });
-    $("#conteo").textContent = `${numero(xs.length)} de ${numero(d.votaciones.length)} votaciones de la ${d.info.nombreLargo}`;
+    $("#conteo").textContent = xs.length === d.votaciones.length
+      ? `${numero(xs.length)} votaciones nominales`
+      : `${numero(xs.length)} de ${numero(d.votaciones.length)} votaciones nominales`;
     listaPaginada($("#lista"), xs, (v) => filaVotacion(v, d.clave), { paso: 40, vacio: "Ninguna votación coincide con esos filtros." });
   } catch (err) {
     mostrarError($("#lista"), `No se pudieron cargar los datos: ${err.message}`);

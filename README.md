@@ -1,6 +1,6 @@
-# congresopy — Monitoreo Congreso del Paraguay
+# congresopy — Votómetro, Congreso del Paraguay
 
-**Monitoreo Congreso del Paraguay** es el nombre público del sitio. Muestra cómo vota y cuándo falta cada senador y cada diputado del período
+**Votómetro** (Congreso del Paraguay · 2023–2028) es el nombre público del sitio. Muestra cómo vota y cuándo falta cada senador y cada diputado del período
 2023-2028, votación por votación. Los datos salen de [SILpy](https://silpy.congreso.gov.py/), el Sistema de
 Información Legislativa del Congreso Nacional.
 
