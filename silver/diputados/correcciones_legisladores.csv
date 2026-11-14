@@ -1,0 +1,4 @@
+id_legislador,campo,valor,fuente
+101431,partido,IND,"Independiente (indicación del responsable del proyecto, 14/11/2026); SILpy deja el partido vacío desde el 13/11/2026"
+101644,partido,PLRA,"Es del PLRA, sin bancada (indicación del responsable del proyecto, 14/11/2026); SILpy muestra ANR"
+101644,color,#002bc7,"Color del PLRA en SILpy, coherente con la corrección de partido"
