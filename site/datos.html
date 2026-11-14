@@ -30,6 +30,7 @@
         <li><a href="camaras.html">Cámaras</a></li>
         <li><a href="legisladores.html">Legisladores</a></li>
         <li><a href="votaciones.html">Votaciones</a></li>
+        <li><a href="comisiones.html">Comisiones</a></li>
         <li><a href="proyectos.html">Proyectos</a></li>
         <li><a href="datos.html" aria-current="page">Datos abiertos</a></li>
       </ul>
@@ -61,6 +62,8 @@
         <dd><code>orden</code> es la lista de ids de votación (el mismo orden que votaciones.json). En <code>legisladores</code>, cada id tiene una cadena con un carácter por votación: S sí, N no, A abstención, X ausente, V presente sin votar, 1/2/3 moción, «-» fuera del cargo.</dd>
         <dt><code>{camara}/legisladores.json</code></dt>
         <dd>Nombre, cargo, estado, partido y bancada según la nómina de SILpy, y el <code>conteo</code> de votos de cada tipo.</dd>
+        <dt><code>{camara}/comisiones.json</code></dt>
+        <dd>En <code>comisiones</code>, una entrada por comisión (<code>id</code> de SILpy, <code>nombre</code>, <code>tipo</code> asesora o especial, <code>url</code>) con sus <code>integrantes</code> como listas <code>[id_legislador, periodo, cargo]</code>, el período más reciente primero. <code>legisladores</code> da nombre, partido y estado de cada integrante; <code>fichas</code>, la fecha en que se leyeron las fichas de SILpy.</dd>
       </dl>
     </section>
 

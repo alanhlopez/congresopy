@@ -27,14 +27,17 @@ def cargar(d, rel):
 
 def test_manifiesto_coincide_con_los_archivos(exportado):
     m = cargar(exportado, "manifiesto.json")
-    assert {a["archivo"] for a in m["archivos"]} == {
-        f"{c}/{n}" for c in ("senado", "diputados") for n in ("legisladores.json", "votaciones.json", "votos.json")}
+    esperados = {f"{c}/{n}" for c in ("senado", "diputados") for n in ("legisladores.json", "votaciones.json", "votos.json")}
+    # comisiones.json es opcional: sale solo si silver/{camara}/comisiones.csv existe
+    esperados |= {f"{c}/comisiones.json" for c in ("senado", "diputados") if (config.silver_dir(c) / "comisiones.csv").exists()}
+    assert {a["archivo"] for a in m["archivos"]} == esperados
     for a in m["archivos"]:
         contenido = (exportado / a["archivo"]).read_bytes()
         assert hashlib.sha256(contenido).hexdigest() == a["sha256"]
         assert len(contenido) == a["bytes"]
         obj = json.loads(contenido)
-        filas = len(obj["legisladores"]) if a["archivo"].endswith("votos.json") else len(obj)
+        filas = (len(obj["legisladores"]) if a["archivo"].endswith("votos.json")
+                 else len(obj["comisiones"]) if a["archivo"].endswith("comisiones.json") else len(obj))
         assert filas == a["filas"]
         assert a["generado"].endswith("Z")
 

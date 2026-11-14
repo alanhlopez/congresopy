@@ -1,0 +1,1465 @@
+id_legislador,tipo,periodo,periodo_id,id_comision,comision,cargo
+101339,asesora,2024-2025,100237,6,Hacienda y Presupuesto,Presidente/a
+101339,asesora,2024-2025,100237,9,Educación y Cultura,Miembro
+101339,asesora,2024-2025,100237,100489,Comisión Bicameral de Presupuesto,Vicepresidente/a
+101339,asesora,2025-2026,100257,6,Hacienda y Presupuesto,Presidente/a
+101339,asesora,2025-2026,100257,9,Educación y Cultura,Miembro
+101339,asesora,2025-2026,100257,100489,Comisión Bicameral de Presupuesto,Presidente/a
+101339,asesora,2026-2027,100267,6,Hacienda y Presupuesto,Presidente/a
+101339,asesora,2026-2027,100267,9,Educación y Cultura,Miembro
+101339,asesora,2026-2027,100267,100489,Comisión Bicameral de Presupuesto,Vicepresidente/a
+101339,especial,2023-2028,,100416,Parlamentaria de Amistad Paraguayo - Corea del Sur,Miembro
+101339,especial,2023-2028,,100417,Parlamentaria de Amistad Paraguayo - República de China (Taiwán),Miembro
+101339,especial,2023-2028,,100427,Parlamentaria de Amistad Paraguayo - República Dominicana,Miembro
+101339,especial,2023-2028,,100598,Parlamentaria de Amistad Paraguayo - Turca,Miembro
+101339,especial,2023-2028,,101091,Parlamentaria de Amistad Paraguayo - Emirato Árabes Unidos,Presidente/a
+101339,especial,2023-2028,,101590,Comisión Especial de Estudio de la Gobernanza de la Educación Superior Universitaria,Miembro
+101340,asesora,2023-2024,100217,6,Hacienda y Presupuesto,Miembro
+101340,asesora,2023-2024,100217,15,"Obras Públicas, Comunicaciones y Servicios Públicos",Miembro
+101340,asesora,2023-2024,100217,100489,Comisión Bicameral de Presupuesto,Miembro
+101340,asesora,2024-2025,100237,3,Relaciones Exteriores y Asuntos Internacionales,Miembro
+101340,asesora,2024-2025,100237,6,Hacienda y Presupuesto,Miembro
+101340,asesora,2024-2025,100237,15,"Obras Públicas, Comunicaciones y Servicios Públicos",Miembro
+101340,asesora,2024-2025,100237,100489,Comisión Bicameral de Presupuesto,Miembro
+101340,asesora,2024-2025,100237,100529,Frente Parlamentario contra el Hambre,Miembro
+101340,asesora,2024-2025,100237,101447,Frente Parlamentario de Apoyo a la Producción Nacional,Miembro
+101340,asesora,2024-2025,100237,101488,Deportes,Miembro
+101340,asesora,2025-2026,100257,3,Relaciones Exteriores y Asuntos Internacionales,Miembro
+101340,asesora,2025-2026,100257,6,Hacienda y Presupuesto,Miembro
+101340,asesora,2025-2026,100257,15,"Obras Públicas, Comunicaciones y Servicios Públicos",Miembro
+101340,asesora,2025-2026,100257,100489,Comisión Bicameral de Presupuesto,Miembro
+101340,asesora,2025-2026,100257,100529,Frente Parlamentario contra el Hambre,Miembro
+101340,asesora,2025-2026,100257,101488,Deportes,Miembro
+101340,asesora,2026-2027,100267,3,Relaciones Exteriores y Asuntos Internacionales,Miembro
+101340,asesora,2026-2027,100267,6,Hacienda y Presupuesto,Miembro
+101340,asesora,2026-2027,100267,15,"Obras Públicas, Comunicaciones y Servicios Públicos",Miembro
+101340,asesora,2026-2027,100267,100489,Comisión Bicameral de Presupuesto,Miembro
+101340,asesora,2026-2027,100267,101488,Deportes,Miembro
+101340,especial,2023-2028,,100417,Parlamentaria de Amistad Paraguayo - República de China (Taiwán),Miembro
+101340,especial,2023-2028,,100598,Parlamentaria de Amistad Paraguayo - Turca,Miembro
+101340,especial,2023-2028,,101091,Parlamentaria de Amistad Paraguayo - Emirato Árabes Unidos,Miembro
+101341,asesora,2023-2024,100217,2,"Legislación, Codificación, Justicia y Trabajo",Presidente/a
+101341,asesora,2023-2024,100217,3,Relaciones Exteriores y Asuntos Internacionales,Miembro
+101341,asesora,2023-2024,100217,5,"Asuntos Constitucionales, Defensa Nacional y Fuerza Pública",Relator/a
+101341,asesora,2024-2025,100237,2,"Legislación, Codificación, Justicia y Trabajo",Presidente/a
+101341,asesora,2024-2025,100237,3,Relaciones Exteriores y Asuntos Internacionales,Miembro
+101341,asesora,2024-2025,100237,5,"Asuntos Constitucionales, Defensa Nacional y Fuerza Pública",Miembro
+101341,asesora,2025-2026,100257,2,"Legislación, Codificación, Justicia y Trabajo",Presidente/a
+101341,asesora,2025-2026,100257,3,Relaciones Exteriores y Asuntos Internacionales,Miembro
+101341,asesora,2025-2026,100257,5,"Asuntos Constitucionales, Defensa Nacional y Fuerza Pública",Miembro
+101341,asesora,2025-2026,100257,101850,"Asistencia, Protección y Bienestar Animal",Miembro
+101341,asesora,2026-2027,100267,2,"Legislación, Codificación, Justicia y Trabajo",Presidente/a
+101341,asesora,2026-2027,100267,3,Relaciones Exteriores y Asuntos Internacionales,Miembro
+101341,asesora,2026-2027,100267,5,"Asuntos Constitucionales, Defensa Nacional y Fuerza Pública",Miembro
+101341,asesora,2026-2027,100267,101850,"Asistencia, Protección y Bienestar Animal",Miembro
+101341,especial,2023-2028,,100409,Parlamentaria de Amistad Paraguayo - Georgiana,Miembro
+101341,especial,2023-2028,,100410,Parlamentaria de Amistad Paraguayo - Portuguesa,Presidente/a
+101341,especial,2023-2028,,100414,Parlamentaria de Amistad Paraguayo - Argentina,Miembro
+101341,especial,2023-2028,,100416,Parlamentaria de Amistad Paraguayo - Corea del Sur,Vicepresidente/a
+101341,especial,2023-2028,,100417,Parlamentaria de Amistad Paraguayo - República de China (Taiwán),Miembro
+101341,especial,2023-2028,,100418,Parlamentaria de Amistad Paraguayo - Ecuador,Miembro
+101341,especial,2023-2028,,100421,Parlamentaria de Amistad Paraguayo - Boliviana,Miembro
+101341,especial,2023-2028,,100423,Parlamentaria de Amistad Paraguayo - Peruana,Vicepresidente/a
+101341,especial,2023-2028,,100549,Parlamentaria de Amistad Paraguayo - Marroquí,Miembro
+101341,especial,2023-2028,,100595,Parlamentaria de Amistad Paraguayo - Rusa,Presidente/a
+101341,especial,2023-2028,,100596,Comisión Parlamentaria - Parlamento Abierto Paraguay,Miembro
+101341,especial,2023-2028,,100911,Parlamentaria de Amistad Paraguayo - Americana,Miembro
+101341,especial,2023-2028,,101910,"Comisión Especial de Investigación de los hechos relacionados con la emisión, comercialización y utilización de títulos, diplomas y certificaciones de Educación Superior, Formación Técnica, Profesional y Posgrado, presuntamente falsos o irregulares",Miembro
+101343,asesora,2023-2024,100217,5,"Asuntos Constitucionales, Defensa Nacional y Fuerza Pública",Miembro
+101343,asesora,2023-2024,100217,6,Hacienda y Presupuesto,Relator/a
+101343,asesora,2023-2024,100217,15,"Obras Públicas, Comunicaciones y Servicios Públicos",Vicepresidente/a
+101343,asesora,2023-2024,100217,71,Prevención y Lucha contra el Narcotráfico y Delitos Conexos,Presidente/a
+101343,asesora,2023-2024,100217,100489,Comisión Bicameral de Presupuesto,Relator/a
+101343,asesora,2023-2024,100217,100593,Comisión Nacional de de Puesta en Valor y Recuperación del Patrimonio Tangible de la Historia del Paraguay,Miembro
+101343,asesora,2024-2025,100237,5,"Asuntos Constitucionales, Defensa Nacional y Fuerza Pública",Miembro
+101343,asesora,2024-2025,100237,6,Hacienda y Presupuesto,Miembro
+101343,asesora,2024-2025,100237,15,"Obras Públicas, Comunicaciones y Servicios Públicos",Relator/a
+101343,asesora,2024-2025,100237,71,Prevención y Lucha contra el Narcotráfico y Delitos Conexos,Presidente/a
+101343,asesora,2024-2025,100237,100344,Pueblos Indígenas,Relator/a
+101343,asesora,2024-2025,100237,100489,Comisión Bicameral de Presupuesto,Miembro
+101343,asesora,2024-2025,100237,100529,Frente Parlamentario contra el Hambre,Miembro
+101343,asesora,2024-2025,100237,100593,Comisión Nacional de de Puesta en Valor y Recuperación del Patrimonio Tangible de la Historia del Paraguay,Miembro
+101343,asesora,2025-2026,100257,5,"Asuntos Constitucionales, Defensa Nacional y Fuerza Pública",Miembro
+101343,asesora,2025-2026,100257,6,Hacienda y Presupuesto,Miembro
+101343,asesora,2025-2026,100257,15,"Obras Públicas, Comunicaciones y Servicios Públicos",Miembro
+101343,asesora,2025-2026,100257,71,Prevención y Lucha contra el Narcotráfico y Delitos Conexos,Presidente/a
+101343,asesora,2025-2026,100257,100344,Pueblos Indígenas,Vicepresidente/a
+101343,asesora,2025-2026,100257,100368,Comisión Nacional de Defensa de los Recursos Naturales - CONADERNA,Miembro
+101343,asesora,2025-2026,100257,100489,Comisión Bicameral de Presupuesto,Miembro
+101343,asesora,2025-2026,100257,100529,Frente Parlamentario contra el Hambre,Miembro
+101343,asesora,2026-2027,100267,5,"Asuntos Constitucionales, Defensa Nacional y Fuerza Pública",Miembro
+101343,asesora,2026-2027,100267,6,Hacienda y Presupuesto,Miembro
+101343,asesora,2026-2027,100267,15,"Obras Públicas, Comunicaciones y Servicios Públicos",Miembro
+101343,asesora,2026-2027,100267,71,Prevención y Lucha contra el Narcotráfico y Delitos Conexos,Presidente/a
+101343,asesora,2026-2027,100267,100344,Pueblos Indígenas,Vicepresidente/a
+101343,asesora,2026-2027,100267,100489,Comisión Bicameral de Presupuesto,Miembro
+101343,especial,2023-2028,,100470,Parlamentaria de Amistad Paraguayo - Israelí,Relator/a
+101343,especial,2023-2028,,100598,Parlamentaria de Amistad Paraguayo - Turca,Presidente/a
+101343,especial,2023-2028,,100629,Parlamentaria de Amistad Paraguayo - Indonesia,Miembro
+101343,especial,2023-2028,,100850,Parlamentaria de Amistad Paraguayo - Japonesa,Miembro
+101343,especial,2023-2028,,100911,Parlamentaria de Amistad Paraguayo - Americana,Miembro
+101343,especial,2023-2028,,101419,Parlamentaria de Amistad Paraguayo - Austriaca,Miembro
+101343,especial,2023-2028,,101550,Comisión Especial de Agua Segura para el Chaco,Miembro
+101343,especial,2023-2028,,101900,Parlamentaria de Amistad Paraguayo - Panameña,Miembro
+101343,especial,2023-2028,,101960,Comisión Especial de Investigación de Carácter Transitorio para la Investigación de los Hechos Relacionados de Corrupción Denunciados en el INDERT,Miembro
+101344,asesora,2023-2024,100217,4,Reforma Agraria y Bienestar Rural,Presidente/a
+101344,asesora,2023-2024,100217,5,"Asuntos Constitucionales, Defensa Nacional y Fuerza Pública",Miembro
+101344,asesora,2023-2024,100217,14,"Asuntos Departamentales, Municipales, Distritales y Regionales",Relator/a
+101344,asesora,2024-2025,100237,4,Reforma Agraria y Bienestar Rural,Presidente/a
+101344,asesora,2024-2025,100237,5,"Asuntos Constitucionales, Defensa Nacional y Fuerza Pública",Miembro
+101344,asesora,2024-2025,100237,14,"Asuntos Departamentales, Municipales, Distritales y Regionales",Relator/a
+101344,asesora,2024-2025,100237,100529,Frente Parlamentario contra el Hambre,Miembro
+101344,asesora,2025-2026,100257,4,Reforma Agraria y Bienestar Rural,Presidente/a
+101344,asesora,2025-2026,100257,5,"Asuntos Constitucionales, Defensa Nacional y Fuerza Pública",Miembro
+101344,asesora,2025-2026,100257,14,"Asuntos Departamentales, Municipales, Distritales y Regionales",Relator/a
+101344,asesora,2025-2026,100257,100489,Comisión Bicameral de Presupuesto,Miembro
+101344,asesora,2025-2026,100257,100529,Frente Parlamentario contra el Hambre,Vicepresidente/a
+101344,asesora,2026-2027,100267,4,Reforma Agraria y Bienestar Rural,Presidente/a
+101344,asesora,2026-2027,100267,5,"Asuntos Constitucionales, Defensa Nacional y Fuerza Pública",Miembro
+101344,asesora,2026-2027,100267,14,"Asuntos Departamentales, Municipales, Distritales y Regionales",Relator/a
+101344,especial,2023-2028,,100413,Parlamentaria de Amistad Paraguayo - Española,Miembro
+101344,especial,2023-2028,,100415,Parlamentaria de Amistad Paraguayo - Italiana,Miembro
+101344,especial,2023-2028,,100420,Parlamentaria de Amistad Paraguayo - Uruguaya,Miembro
+101344,especial,2023-2028,,100530,Parlamentaria de Amistad Paraguayo - Brasilera,Miembro
+101344,especial,2023-2028,,100597,Parlamentaria de Amistad Paraguayo - Francesa,Miembro
+101344,especial,2023-2028,,100870,Parlamentaria de Amistad Paraguayo - Alemana,Miembro
+101344,especial,2023-2028,,100911,Parlamentaria de Amistad Paraguayo - Americana,Miembro
+101344,especial,2023-2028,,101091,Parlamentaria de Amistad Paraguayo - Emirato Árabes Unidos,Miembro
+101344,especial,2023-2028,,101111,Parlamentaria de Amistad Paraguayo - Reino Unido,Miembro
+101344,especial,2023-2028,,101271,"COMISIÓN NACIONAL -  ANEXO ""C"" DE ITAIPÚ BINACIONAL",Titular del Parlasur
+101344,especial,2023-2028,,101419,Parlamentaria de Amistad Paraguayo - Austriaca,Miembro
+101344,especial,2023-2028,,101870,Seguimiento de las Importaciones Irregulares de Productos bajo la Competencia de la Dirección Nacional de Vigilancia Sanitaria (DINAVISA),Miembro
+101344,especial,2023-2028,,101910,"Comisión Especial de Investigación de los hechos relacionados con la emisión, comercialización y utilización de títulos, diplomas y certificaciones de Educación Superior, Formación Técnica, Profesional y Posgrado, presuntamente falsos o irregulares",Miembro
+101345,asesora,2023-2024,100217,2,"Legislación, Codificación, Justicia y Trabajo",Vicepresidente/a
+101345,asesora,2023-2024,100217,70,Industria y Comercio,Vicepresidente/a
+101345,asesora,2023-2024,100217,101500,"Ciencias, Tecnología, Innovación y Futuro",Relator/a
+101345,asesora,2023-2024,100217,101580,Comisión Nacional de Gestión y Manejo del Lago Ypacaraí - CONALAYPA,Miembro Titular
+101345,asesora,2024-2025,100237,2,"Legislación, Codificación, Justicia y Trabajo",Vicepresidente/a
+101345,asesora,2024-2025,100237,70,Industria y Comercio,Presidente/a
+101345,asesora,2024-2025,100237,101500,"Ciencias, Tecnología, Innovación y Futuro",Vicepresidente/a
+101345,asesora,2025-2026,100257,2,"Legislación, Codificación, Justicia y Trabajo",Vicepresidente/a
+101345,asesora,2025-2026,100257,70,Industria y Comercio,Presidente/a
+101345,asesora,2025-2026,100257,101500,"Ciencias, Tecnología, Innovación y Futuro",Vicepresidente/a
+101345,asesora,2026-2027,100267,2,"Legislación, Codificación, Justicia y Trabajo",Vicepresidente/a
+101345,asesora,2026-2027,100267,70,Industria y Comercio,Presidente/a
+101345,asesora,2026-2027,100267,101500,"Ciencias, Tecnología, Innovación y Futuro",Vicepresidente/a
+101345,especial,2023-2028,,100422,Parlamentaria de Amistad Paraguayo - Chilena,Miembro
+101346,asesora,2023-2024,100217,6,Hacienda y Presupuesto,Presidente/a
+101346,asesora,2023-2024,100217,69,Cuentas y Control de la Administración Financiera del Estado,Relator/a
+101346,asesora,2023-2024,100217,100489,Comisión Bicameral de Presupuesto,Presidente/a
+101346,asesora,2024-2025,100237,6,Hacienda y Presupuesto,Miembro
+101346,asesora,2024-2025,100237,68,Estilo,Miembro
+101346,asesora,2024-2025,100237,100489,Comisión Bicameral de Presupuesto,Miembro
+101346,asesora,2025-2026,100257,6,Hacienda y Presupuesto,Miembro
+101346,asesora,2025-2026,100257,68,Estilo,Miembro
+101346,asesora,2025-2026,100257,100489,Comisión Bicameral de Presupuesto,Miembro
+101346,asesora,2026-2027,100267,6,Hacienda y Presupuesto,Miembro
+101346,asesora,2026-2027,100267,68,Estilo,Miembro
+101346,asesora,2026-2027,100267,100489,Comisión Bicameral de Presupuesto,Miembro
+101346,especial,2023-2028,,100413,Parlamentaria de Amistad Paraguayo - Española,Miembro
+101346,especial,2023-2028,,100415,Parlamentaria de Amistad Paraguayo - Italiana,Miembro
+101346,especial,2023-2028,,100417,Parlamentaria de Amistad Paraguayo - República de China (Taiwán),Miembro
+101346,especial,2023-2028,,100418,Parlamentaria de Amistad Paraguayo - Ecuador,Miembro
+101346,especial,2023-2028,,100420,Parlamentaria de Amistad Paraguayo - Uruguaya,Miembro
+101346,especial,2023-2028,,100423,Parlamentaria de Amistad Paraguayo - Peruana,Miembro
+101346,especial,2023-2028,,100429,Parlamentaria de Amistad Paraguayo - Costa Rica,Miembro
+101346,especial,2023-2028,,100595,Parlamentaria de Amistad Paraguayo - Rusa,Miembro
+101346,especial,2023-2028,,100597,Parlamentaria de Amistad Paraguayo - Francesa,Miembro
+101347,asesora,2023-2024,100217,5,"Asuntos Constitucionales, Defensa Nacional y Fuerza Pública",Miembro
+101347,asesora,2023-2024,100217,14,"Asuntos Departamentales, Municipales, Distritales y Regionales",Miembro
+101347,asesora,2023-2024,100217,70,Industria y Comercio,Miembro
+101347,asesora,2024-2025,100237,5,"Asuntos Constitucionales, Defensa Nacional y Fuerza Pública",Miembro
+101347,asesora,2024-2025,100237,14,"Asuntos Departamentales, Municipales, Distritales y Regionales",Vicepresidente/a
+101347,asesora,2024-2025,100237,16,"Energía, Recursos Naturales, Población, Ambiente, Producción y Desarrollo Sostenible",Miembro
+101347,asesora,2024-2025,100237,70,Industria y Comercio,Miembro
+101347,asesora,2024-2025,100237,100389,Comisión Bicameral de Economía Social (COBIES),Miembro
+101347,asesora,2024-2025,100237,100951,Derechos para las Personas con Discapacidad,Presidente/a
+101347,asesora,2024-2025,100237,101447,Frente Parlamentario de Apoyo a la Producción Nacional,Miembro
+101347,asesora,2025-2026,100257,5,"Asuntos Constitucionales, Defensa Nacional y Fuerza Pública",Miembro
+101347,asesora,2025-2026,100257,14,"Asuntos Departamentales, Municipales, Distritales y Regionales",Vicepresidente/a
+101347,asesora,2025-2026,100257,16,"Energía, Recursos Naturales, Población, Ambiente, Producción y Desarrollo Sostenible",Relator/a
+101347,asesora,2025-2026,100257,70,Industria y Comercio,Miembro
+101347,asesora,2025-2026,100257,100389,Comisión Bicameral de Economía Social (COBIES),Miembro
+101347,asesora,2025-2026,100257,100951,Derechos para las Personas con Discapacidad,Presidente/a
+101347,asesora,2026-2027,100267,5,"Asuntos Constitucionales, Defensa Nacional y Fuerza Pública",Miembro
+101347,asesora,2026-2027,100267,14,"Asuntos Departamentales, Municipales, Distritales y Regionales",Vicepresidente/a
+101347,asesora,2026-2027,100267,16,"Energía, Recursos Naturales, Población, Ambiente, Producción y Desarrollo Sostenible",Relator/a
+101347,asesora,2026-2027,100267,70,Industria y Comercio,Miembro
+101347,asesora,2026-2027,100267,100389,Comisión Bicameral de Economía Social (COBIES),Miembro
+101347,asesora,2026-2027,100267,100951,Derechos para las Personas con Discapacidad,Presidente/a
+101347,especial,2023-2028,,100419,Parlamentaria de Amistad Paraguayo - Azerbaiyana,Miembro
+101347,especial,2023-2028,,101740,"Comisión Especial de Investigación sobre los hechos relacionados con la trama delictiva denominada ""Mafia de los Pagarés""",Miembro
+101348,asesora,2023-2024,100217,3,Relaciones Exteriores y Asuntos Internacionales,Miembro
+101348,asesora,2023-2024,100217,101460,Desarrollo Agropecuario y Lucha contra el Contrabando,Miembro
+101348,asesora,2024-2025,100237,3,Relaciones Exteriores y Asuntos Internacionales,Miembro
+101348,asesora,2024-2025,100237,101460,Desarrollo Agropecuario y Lucha contra el Contrabando,Miembro
+101348,asesora,2025-2026,100257,3,Relaciones Exteriores y Asuntos Internacionales,Miembro
+101348,asesora,2025-2026,100257,101460,Desarrollo Agropecuario y Lucha contra el Contrabando,Miembro
+101348,asesora,2025-2026,100257,101840,Asuntos Electorales,Vicepresidente/a
+101348,asesora,2026-2027,100267,3,Relaciones Exteriores y Asuntos Internacionales,Miembro
+101348,asesora,2026-2027,100267,101460,Desarrollo Agropecuario y Lucha contra el Contrabando,Miembro
+101348,asesora,2026-2027,100267,101840,Asuntos Electorales,Vicepresidente/a
+101348,especial,2023-2028,,100409,Parlamentaria de Amistad Paraguayo - Georgiana,Vicepresidente/a
+101348,especial,2023-2028,,100410,Parlamentaria de Amistad Paraguayo - Portuguesa,Vicepresidente/a
+101348,especial,2023-2028,,100412,Parlamentaria de Amistad Paraguayo - Cubana,Miembro
+101348,especial,2023-2028,,100416,Parlamentaria de Amistad Paraguayo - Corea del Sur,Miembro
+101348,especial,2023-2028,,100417,Parlamentaria de Amistad Paraguayo - República de China (Taiwán),Miembro
+101348,especial,2023-2028,,100550,Parlamentaria de Amistad Paraguayo - Canadá,Miembro
+101348,especial,2023-2028,,100595,Parlamentaria de Amistad Paraguayo - Rusa,Relator/a
+101348,especial,2023-2028,,101271,"COMISIÓN NACIONAL -  ANEXO ""C"" DE ITAIPÚ BINACIONAL",Titular
+101348,especial,2023-2028,,101750,Comisión Especial para el monitoreo y control de las máquinas de votación electrónica,Vicepresidente/a
+101349,asesora,2023-2024,100217,5,"Asuntos Constitucionales, Defensa Nacional y Fuerza Pública",Miembro
+101349,asesora,2023-2024,100217,6,Hacienda y Presupuesto,Miembro
+101349,asesora,2023-2024,100217,10,Derechos Humanos,Vicepresidente/a
+101349,asesora,2023-2024,100217,14,"Asuntos Departamentales, Municipales, Distritales y Regionales",Miembro
+101349,asesora,2023-2024,100217,68,Estilo,Miembro
+101349,asesora,2023-2024,100217,69,Cuentas y Control de la Administración Financiera del Estado,Miembro
+101349,asesora,2023-2024,100217,100489,Comisión Bicameral de Presupuesto,Miembro
+101349,asesora,2023-2024,100217,100669,COMISIÓN PERMANENTE DEL CONGRESO,Miembro Titular
+101349,asesora,2023-2024,100217,100932,Comisión Bicameral - Informe y Dictamen de la Contraloría General de la República,Miembro
+101349,asesora,2023-2024,100217,101427,"Familia, Niñez, Adolescencia y Juventud",Presidente/a
+101349,asesora,2023-2024,100217,101580,Comisión Nacional de Gestión y Manejo del Lago Ypacaraí - CONALAYPA,Miembro Suplente
+101349,asesora,2024-2025,100237,5,"Asuntos Constitucionales, Defensa Nacional y Fuerza Pública",Miembro
+101349,asesora,2024-2025,100237,6,Hacienda y Presupuesto,Miembro
+101349,asesora,2024-2025,100237,9,Educación y Cultura,Relator/a
+101349,asesora,2024-2025,100237,10,Derechos Humanos,Vicepresidente/a
+101349,asesora,2024-2025,100237,14,"Asuntos Departamentales, Municipales, Distritales y Regionales",Miembro
+101349,asesora,2024-2025,100237,69,Cuentas y Control de la Administración Financiera del Estado,Vicepresidente/a
+101349,asesora,2024-2025,100237,100489,Comisión Bicameral de Presupuesto,Miembro
+101349,asesora,2024-2025,100237,100932,Comisión Bicameral - Informe y Dictamen de la Contraloría General de la República,Miembro
+101349,asesora,2024-2025,100237,101427,"Familia, Niñez, Adolescencia y Juventud",Presidente/a
+101349,asesora,2025-2026,100257,5,"Asuntos Constitucionales, Defensa Nacional y Fuerza Pública",Miembro
+101349,asesora,2025-2026,100257,6,Hacienda y Presupuesto,Miembro
+101349,asesora,2025-2026,100257,9,Educación y Cultura,Relator/a
+101349,asesora,2025-2026,100257,10,Derechos Humanos,Vicepresidente/a
+101349,asesora,2025-2026,100257,69,Cuentas y Control de la Administración Financiera del Estado,Vicepresidente/a
+101349,asesora,2025-2026,100257,100489,Comisión Bicameral de Presupuesto,Miembro
+101349,asesora,2025-2026,100257,100669,COMISIÓN PERMANENTE DEL CONGRESO,Suplente
+101349,asesora,2025-2026,100257,100932,Comisión Bicameral - Informe y Dictamen de la Contraloría General de la República,Miembro
+101349,asesora,2025-2026,100257,101427,"Familia, Niñez, Adolescencia y Juventud",Presidente/a
+101349,asesora,2026-2027,100267,5,"Asuntos Constitucionales, Defensa Nacional y Fuerza Pública",Miembro
+101349,asesora,2026-2027,100267,6,Hacienda y Presupuesto,Miembro
+101349,asesora,2026-2027,100267,9,Educación y Cultura,Relator/a
+101349,asesora,2026-2027,100267,10,Derechos Humanos,Vicepresidente/a
+101349,asesora,2026-2027,100267,69,Cuentas y Control de la Administración Financiera del Estado,Vicepresidente/a
+101349,asesora,2026-2027,100267,100489,Comisión Bicameral de Presupuesto,Miembro
+101349,asesora,2026-2027,100267,101427,"Familia, Niñez, Adolescencia y Juventud",Presidente/a
+101349,especial,2023-2028,,100409,Parlamentaria de Amistad Paraguayo - Georgiana,Relator/a
+101349,especial,2023-2028,,100413,Parlamentaria de Amistad Paraguayo - Española,Relator/a
+101349,especial,2023-2028,,100417,Parlamentaria de Amistad Paraguayo - República de China (Taiwán),Miembro
+101349,especial,2023-2028,,100421,Parlamentaria de Amistad Paraguayo - Boliviana,Vicepresidente/a
+101349,especial,2023-2028,,100427,Parlamentaria de Amistad Paraguayo - República Dominicana,Vicepresidente/a
+101349,especial,2023-2028,,100429,Parlamentaria de Amistad Paraguayo - Costa Rica,Presidente/a
+101349,especial,2023-2028,,100470,Parlamentaria de Amistad Paraguayo - Israelí,Miembro
+101349,especial,2023-2028,,100551,Parlamentaria de Amistad Paraguayo - Qatarí,Presidente/a
+101349,especial,2023-2028,,100911,Parlamentaria de Amistad Paraguayo - Americana,Miembro
+101349,especial,2023-2028,,101091,Parlamentaria de Amistad Paraguayo - Emirato Árabes Unidos,Vicepresidente/a
+101349,especial,2023-2028,,101271,"COMISIÓN NACIONAL -  ANEXO ""C"" DE ITAIPÚ BINACIONAL",Relator/a
+101349,especial,2023-2028,,101820,Comisión Especial de Investigación para el Control de los Supuestos Abusos a los Derechos de los Consumidores en los Servicios Proveídos por las Empresas de Telefonía Celular e Internet,Miembro
+101349,especial,2023-2028,,101900,Parlamentaria de Amistad Paraguayo - Panameña,Presidente/a
+101349,especial,2023-2028,,101910,"Comisión Especial de Investigación de los hechos relacionados con la emisión, comercialización y utilización de títulos, diplomas y certificaciones de Educación Superior, Formación Técnica, Profesional y Posgrado, presuntamente falsos o irregulares",Miembro
+101349,especial,2023-2028,,101940,"COMISIÓN ESPECIAL DE INVESTIGACIÓN, SEGUIMIENTO Y ESCLARECIMIENTO DE LOS PRESUNTOS HECHOS PUNIBLES DE CORRUPCIÓN, DETECTADOS EN EL I.P.S. Y EN EL M.S.P.B.S.",Miembro
+101349,especial,2023-2028,,101950,Parlamentaria de Amistad Paraguayo - Mexicana,Miembro
+101350,asesora,2023-2024,100217,4,Reforma Agraria y Bienestar Rural,Vicepresidente/a
+101350,asesora,2023-2024,100217,6,Hacienda y Presupuesto,Miembro
+101350,asesora,2023-2024,100217,16,"Energía, Recursos Naturales, Población, Ambiente, Producción y Desarrollo Sostenible",Miembro
+101350,asesora,2023-2024,100217,100489,Comisión Bicameral de Presupuesto,Miembro
+101350,asesora,2023-2024,100217,101311,Comisión Bicameral de Reordenamiento de la Estructura del Estado,Miembro
+101350,asesora,2024-2025,100237,2,"Legislación, Codificación, Justicia y Trabajo",Miembro
+101350,asesora,2024-2025,100237,6,Hacienda y Presupuesto,Miembro
+101350,asesora,2024-2025,100237,100489,Comisión Bicameral de Presupuesto,Miembro
+101350,asesora,2024-2025,100237,101311,Comisión Bicameral de Reordenamiento de la Estructura del Estado,Miembro
+101350,asesora,2025-2026,100257,2,"Legislación, Codificación, Justicia y Trabajo",Miembro
+101350,asesora,2025-2026,100257,6,Hacienda y Presupuesto,Miembro
+101350,asesora,2025-2026,100257,71,Prevención y Lucha contra el Narcotráfico y Delitos Conexos,Miembro
+101350,asesora,2025-2026,100257,100489,Comisión Bicameral de Presupuesto,Miembro
+101350,asesora,2025-2026,100257,101311,Comisión Bicameral de Reordenamiento de la Estructura del Estado,Miembro
+101350,asesora,2025-2026,100257,101840,Asuntos Electorales,Miembro
+101350,asesora,2026-2027,100267,2,"Legislación, Codificación, Justicia y Trabajo",Miembro
+101350,asesora,2026-2027,100267,6,Hacienda y Presupuesto,Miembro
+101350,asesora,2026-2027,100267,9,Educación y Cultura,Miembro
+101350,asesora,2026-2027,100267,71,Prevención y Lucha contra el Narcotráfico y Delitos Conexos,Miembro
+101350,asesora,2026-2027,100267,100489,Comisión Bicameral de Presupuesto,Miembro
+101350,asesora,2026-2027,100267,101840,Asuntos Electorales,Miembro
+101350,especial,2023-2028,,100413,Parlamentaria de Amistad Paraguayo - Española,Miembro
+101350,especial,2023-2028,,100415,Parlamentaria de Amistad Paraguayo - Italiana,Miembro
+101350,especial,2023-2028,,100416,Parlamentaria de Amistad Paraguayo - Corea del Sur,Relator/a
+101350,especial,2023-2028,,100597,Parlamentaria de Amistad Paraguayo - Francesa,Miembro
+101350,especial,2023-2028,,100629,Parlamentaria de Amistad Paraguayo - Indonesia,Miembro
+101350,especial,2023-2028,,100911,Parlamentaria de Amistad Paraguayo - Americana,Miembro
+101350,especial,2023-2028,,101111,Parlamentaria de Amistad Paraguayo - Reino Unido,Miembro
+101350,especial,2023-2028,,101271,"COMISIÓN NACIONAL -  ANEXO ""C"" DE ITAIPÚ BINACIONAL",Titular
+101350,especial,2023-2028,,101419,Parlamentaria de Amistad Paraguayo - Austriaca,Miembro
+101350,especial,2023-2028,,101590,Comisión Especial de Estudio de la Gobernanza de la Educación Superior Universitaria,Miembro
+101350,especial,2023-2028,,101830,Parlamentaria de Amistad Paraguayo - Angolano,Miembro
+101350,especial,2023-2028,,101910,"Comisión Especial de Investigación de los hechos relacionados con la emisión, comercialización y utilización de títulos, diplomas y certificaciones de Educación Superior, Formación Técnica, Profesional y Posgrado, presuntamente falsos o irregulares",Miembro
+101352,asesora,2023-2024,100217,3,Relaciones Exteriores y Asuntos Internacionales,Relator/a
+101352,asesora,2023-2024,100217,5,"Asuntos Constitucionales, Defensa Nacional y Fuerza Pública",Presidente/a
+101352,asesora,2023-2024,100217,16,"Energía, Recursos Naturales, Población, Ambiente, Producción y Desarrollo Sostenible",Relator/a
+101352,asesora,2023-2024,100217,17,Equidad y Género,Vicepresidente/a
+101352,asesora,2023-2024,100217,100489,Comisión Bicameral de Presupuesto,Miembro
+101352,asesora,2023-2024,100217,100669,COMISIÓN PERMANENTE DEL CONGRESO,Miembro Titular
+101352,asesora,2024-2025,100237,3,Relaciones Exteriores y Asuntos Internacionales,Miembro
+101352,asesora,2024-2025,100237,5,"Asuntos Constitucionales, Defensa Nacional y Fuerza Pública",Vicepresidente/a
+101352,asesora,2024-2025,100237,13,Salud Pública y Seguridad Social,Miembro
+101352,asesora,2024-2025,100237,16,"Energía, Recursos Naturales, Población, Ambiente, Producción y Desarrollo Sostenible",Vicepresidente/a
+101352,asesora,2024-2025,100237,17,Equidad y Género,Presidente/a
+101352,asesora,2024-2025,100237,100669,COMISIÓN PERMANENTE DEL CONGRESO,Miembro
+101352,asesora,2024-2025,100237,101488,Deportes,Miembro
+101352,asesora,2025-2026,100257,3,Relaciones Exteriores y Asuntos Internacionales,Miembro
+101352,asesora,2025-2026,100257,5,"Asuntos Constitucionales, Defensa Nacional y Fuerza Pública",Vicepresidente/a
+101352,asesora,2025-2026,100257,13,Salud Pública y Seguridad Social,Miembro
+101352,asesora,2025-2026,100257,16,"Energía, Recursos Naturales, Población, Ambiente, Producción y Desarrollo Sostenible",Vicepresidente/a
+101352,asesora,2025-2026,100257,17,Equidad y Género,Presidente/a
+101352,asesora,2025-2026,100257,101488,Deportes,Miembro
+101352,asesora,2026-2027,100267,3,Relaciones Exteriores y Asuntos Internacionales,Miembro
+101352,asesora,2026-2027,100267,5,"Asuntos Constitucionales, Defensa Nacional y Fuerza Pública",Vicepresidente/a
+101352,asesora,2026-2027,100267,13,Salud Pública y Seguridad Social,Miembro
+101352,asesora,2026-2027,100267,16,"Energía, Recursos Naturales, Población, Ambiente, Producción y Desarrollo Sostenible",Vicepresidente/a
+101352,asesora,2026-2027,100267,17,Equidad y Género,Presidente/a
+101352,asesora,2026-2027,100267,101488,Deportes,Miembro
+101352,especial,2023-2028,,100413,Parlamentaria de Amistad Paraguayo - Española,Miembro
+101352,especial,2023-2028,,100415,Parlamentaria de Amistad Paraguayo - Italiana,Miembro
+101352,especial,2023-2028,,100420,Parlamentaria de Amistad Paraguayo - Uruguaya,Miembro
+101352,especial,2023-2028,,100470,Parlamentaria de Amistad Paraguayo - Israelí,Miembro
+101352,especial,2023-2028,,100530,Parlamentaria de Amistad Paraguayo - Brasilera,Miembro
+101352,especial,2023-2028,,100597,Parlamentaria de Amistad Paraguayo - Francesa,Miembro
+101352,especial,2023-2028,,100911,Parlamentaria de Amistad Paraguayo - Americana,Miembro
+101352,especial,2023-2028,,101091,Parlamentaria de Amistad Paraguayo - Emirato Árabes Unidos,Relator/a
+101352,especial,2023-2028,,101111,Parlamentaria de Amistad Paraguayo - Reino Unido,Miembro
+101352,especial,2023-2028,,101419,Parlamentaria de Amistad Paraguayo - Austriaca,Vicepresidente/a
+101352,especial,2023-2028,,101820,Comisión Especial de Investigación para el Control de los Supuestos Abusos a los Derechos de los Consumidores en los Servicios Proveídos por las Empresas de Telefonía Celular e Internet,Vicepresidente/a
+101352,especial,2023-2028,,101830,Parlamentaria de Amistad Paraguayo - Angolano,Presidente/a
+101352,especial,2023-2028,,101870,Seguimiento de las Importaciones Irregulares de Productos bajo la Competencia de la Dirección Nacional de Vigilancia Sanitaria (DINAVISA),Miembro
+101352,especial,2023-2028,,101940,"COMISIÓN ESPECIAL DE INVESTIGACIÓN, SEGUIMIENTO Y ESCLARECIMIENTO DE LOS PRESUNTOS HECHOS PUNIBLES DE CORRUPCIÓN, DETECTADOS EN EL I.P.S. Y EN EL M.S.P.B.S.",Miembro
+101354,asesora,2023-2024,100217,2,"Legislación, Codificación, Justicia y Trabajo",Miembro
+101354,asesora,2023-2024,100217,5,"Asuntos Constitucionales, Defensa Nacional y Fuerza Pública",Miembro
+101354,asesora,2023-2024,100217,9,Educación y Cultura,Miembro
+101354,asesora,2023-2024,100217,11,"Economía, Cooperativismo, Desarrollo e Integración Económica Latinoamericana",Presidente/a
+101354,asesora,2023-2024,100217,100389,Comisión Bicameral de Economía Social (COBIES),Presidente/a
+101354,asesora,2023-2024,100217,100489,Comisión Bicameral de Presupuesto,Miembro
+101354,asesora,2024-2025,100237,2,"Legislación, Codificación, Justicia y Trabajo",Miembro
+101354,asesora,2024-2025,100237,5,"Asuntos Constitucionales, Defensa Nacional y Fuerza Pública",Relator/a
+101354,asesora,2024-2025,100237,9,Educación y Cultura,Miembro
+101354,asesora,2024-2025,100237,10,Derechos Humanos,Miembro
+101354,asesora,2024-2025,100237,11,"Economía, Cooperativismo, Desarrollo e Integración Económica Latinoamericana",Presidente/a
+101354,asesora,2024-2025,100237,100389,Comisión Bicameral de Economía Social (COBIES),Presidente/a
+101354,asesora,2024-2025,100237,100489,Comisión Bicameral de Presupuesto,Miembro
+101354,asesora,2025-2026,100257,2,"Legislación, Codificación, Justicia y Trabajo",Miembro
+101354,asesora,2025-2026,100257,5,"Asuntos Constitucionales, Defensa Nacional y Fuerza Pública",Relator/a
+101354,asesora,2025-2026,100257,9,Educación y Cultura,Miembro
+101354,asesora,2025-2026,100257,10,Derechos Humanos,Miembro
+101354,asesora,2025-2026,100257,11,"Economía, Cooperativismo, Desarrollo e Integración Económica Latinoamericana",Presidente/a
+101354,asesora,2025-2026,100257,100389,Comisión Bicameral de Economía Social (COBIES),Presidente/a
+101354,asesora,2025-2026,100257,100489,Comisión Bicameral de Presupuesto,Miembro
+101354,asesora,2026-2027,100267,2,"Legislación, Codificación, Justicia y Trabajo",Miembro
+101354,asesora,2026-2027,100267,5,"Asuntos Constitucionales, Defensa Nacional y Fuerza Pública",Relator/a
+101354,asesora,2026-2027,100267,9,Educación y Cultura,Miembro
+101354,asesora,2026-2027,100267,10,Derechos Humanos,Miembro
+101354,asesora,2026-2027,100267,11,"Economía, Cooperativismo, Desarrollo e Integración Económica Latinoamericana",Presidente/a
+101354,asesora,2026-2027,100267,100389,Comisión Bicameral de Economía Social (COBIES),Vicepresidente/a
+101354,asesora,2026-2027,100267,100489,Comisión Bicameral de Presupuesto,Miembro
+101354,especial,2023-2028,,100850,Parlamentaria de Amistad Paraguayo - Japonesa,Miembro
+101354,especial,2023-2028,,101740,"Comisión Especial de Investigación sobre los hechos relacionados con la trama delictiva denominada ""Mafia de los Pagarés""",Miembro
+101355,asesora,2023-2024,100217,6,Hacienda y Presupuesto,Relator Alterno
+101355,asesora,2023-2024,100217,9,Educación y Cultura,Vicepresidente/a
+101355,asesora,2023-2024,100217,71,Prevención y Lucha contra el Narcotráfico y Delitos Conexos,Miembro
+101355,asesora,2023-2024,100217,100389,Comisión Bicameral de Economía Social (COBIES),Miembro
+101355,asesora,2023-2024,100217,100489,Comisión Bicameral de Presupuesto,Miembro
+101355,asesora,2023-2024,100217,101311,Comisión Bicameral de Reordenamiento de la Estructura del Estado,Miembro
+101355,asesora,2024-2025,100237,6,Hacienda y Presupuesto,Miembro
+101355,asesora,2024-2025,100237,9,Educación y Cultura,Vicepresidente/a
+101355,asesora,2024-2025,100237,71,Prevención y Lucha contra el Narcotráfico y Delitos Conexos,Miembro
+101355,asesora,2024-2025,100237,72,Desarrollo Social,Relator/a
+101355,asesora,2024-2025,100237,100489,Comisión Bicameral de Presupuesto,Miembro
+101355,asesora,2024-2025,100237,101311,Comisión Bicameral de Reordenamiento de la Estructura del Estado,Miembro
+101355,asesora,2025-2026,100257,6,Hacienda y Presupuesto,Miembro
+101355,asesora,2025-2026,100257,9,Educación y Cultura,Vicepresidente/a
+101355,asesora,2025-2026,100257,71,Prevención y Lucha contra el Narcotráfico y Delitos Conexos,Miembro
+101355,asesora,2025-2026,100257,100489,Comisión Bicameral de Presupuesto,Miembro
+101355,asesora,2025-2026,100257,100669,COMISIÓN PERMANENTE DEL CONGRESO,Titular
+101355,asesora,2025-2026,100257,101311,Comisión Bicameral de Reordenamiento de la Estructura del Estado,Miembro
+101355,asesora,2025-2026,100257,101840,Asuntos Electorales,Relator/a
+101355,asesora,2026-2027,100267,6,Hacienda y Presupuesto,Miembro
+101355,asesora,2026-2027,100267,9,Educación y Cultura,Vicepresidente/a
+101355,asesora,2026-2027,100267,71,Prevención y Lucha contra el Narcotráfico y Delitos Conexos,Miembro
+101355,asesora,2026-2027,100267,100489,Comisión Bicameral de Presupuesto,Miembro
+101355,asesora,2026-2027,100267,101840,Asuntos Electorales,Relator/a
+101355,especial,2023-2028,,100413,Parlamentaria de Amistad Paraguayo - Española,Miembro
+101355,especial,2023-2028,,100420,Parlamentaria de Amistad Paraguayo - Uruguaya,Miembro
+101355,especial,2023-2028,,100530,Parlamentaria de Amistad Paraguayo - Brasilera,Miembro
+101355,especial,2023-2028,,100596,Comisión Parlamentaria - Parlamento Abierto Paraguay,Miembro
+101355,especial,2023-2028,,100597,Parlamentaria de Amistad Paraguayo - Francesa,Miembro
+101355,especial,2023-2028,,100911,Parlamentaria de Amistad Paraguayo - Americana,Miembro
+101355,especial,2023-2028,,101091,Parlamentaria de Amistad Paraguayo - Emirato Árabes Unidos,Miembro
+101355,especial,2023-2028,,101419,Parlamentaria de Amistad Paraguayo - Austriaca,Miembro
+101355,especial,2023-2028,,101590,Comisión Especial de Estudio de la Gobernanza de la Educación Superior Universitaria,Presidente/a
+101355,especial,2023-2028,,101740,"Comisión Especial de Investigación sobre los hechos relacionados con la trama delictiva denominada ""Mafia de los Pagarés""",Miembro
+101355,especial,2023-2028,,101750,Comisión Especial para el monitoreo y control de las máquinas de votación electrónica,Relator/a
+101355,especial,2023-2028,,101830,Parlamentaria de Amistad Paraguayo - Angolano,Miembro
+101355,especial,2023-2028,,101870,Seguimiento de las Importaciones Irregulares de Productos bajo la Competencia de la Dirección Nacional de Vigilancia Sanitaria (DINAVISA),Miembro
+101355,especial,2023-2028,,101890,COMISIÓN BICAMERAL DE FOMENTO DE POLÍTICAS PÚBLICAS PARA ACCESO  A LA VIVIENDA DIGNA.,Titular
+101356,asesora,2023-2024,100217,5,"Asuntos Constitucionales, Defensa Nacional y Fuerza Pública",Miembro
+101356,asesora,2023-2024,100217,10,Derechos Humanos,Presidente/a
+101356,asesora,2023-2024,100217,11,"Economía, Cooperativismo, Desarrollo e Integración Económica Latinoamericana",Miembro
+101356,asesora,2023-2024,100217,72,Desarrollo Social,Miembro
+101356,asesora,2023-2024,100217,100389,Comisión Bicameral de Economía Social (COBIES),Miembro
+101356,asesora,2023-2024,100217,101311,Comisión Bicameral de Reordenamiento de la Estructura del Estado,Miembro
+101356,asesora,2024-2025,100237,5,"Asuntos Constitucionales, Defensa Nacional y Fuerza Pública",Miembro
+101356,asesora,2024-2025,100237,10,Derechos Humanos,Presidente/a
+101356,asesora,2024-2025,100237,11,"Economía, Cooperativismo, Desarrollo e Integración Económica Latinoamericana",Relator/a
+101356,asesora,2024-2025,100237,100389,Comisión Bicameral de Economía Social (COBIES),Miembro
+101356,asesora,2024-2025,100237,101311,Comisión Bicameral de Reordenamiento de la Estructura del Estado,Miembro
+101356,asesora,2025-2026,100257,5,"Asuntos Constitucionales, Defensa Nacional y Fuerza Pública",Miembro
+101356,asesora,2025-2026,100257,10,Derechos Humanos,Presidente/a
+101356,asesora,2025-2026,100257,11,"Economía, Cooperativismo, Desarrollo e Integración Económica Latinoamericana",Miembro
+101356,asesora,2025-2026,100257,15,"Obras Públicas, Comunicaciones y Servicios Públicos",Miembro
+101356,asesora,2025-2026,100257,100389,Comisión Bicameral de Economía Social (COBIES),Miembro
+101356,asesora,2025-2026,100257,101311,Comisión Bicameral de Reordenamiento de la Estructura del Estado,Miembro
+101356,asesora,2026-2027,100267,5,"Asuntos Constitucionales, Defensa Nacional y Fuerza Pública",Miembro
+101356,asesora,2026-2027,100267,10,Derechos Humanos,Presidente/a
+101356,asesora,2026-2027,100267,11,"Economía, Cooperativismo, Desarrollo e Integración Económica Latinoamericana",Miembro
+101356,asesora,2026-2027,100267,15,"Obras Públicas, Comunicaciones y Servicios Públicos",Miembro
+101356,asesora,2026-2027,100267,100389,Comisión Bicameral de Economía Social (COBIES),Miembro
+101356,especial,2023-2028,,100413,Parlamentaria de Amistad Paraguayo - Española,Miembro
+101356,especial,2023-2028,,100415,Parlamentaria de Amistad Paraguayo - Italiana,Miembro
+101356,especial,2023-2028,,100420,Parlamentaria de Amistad Paraguayo - Uruguaya,Miembro
+101356,especial,2023-2028,,100530,Parlamentaria de Amistad Paraguayo - Brasilera,Miembro
+101356,especial,2023-2028,,100551,Parlamentaria de Amistad Paraguayo - Qatarí,Miembro
+101356,especial,2023-2028,,100597,Parlamentaria de Amistad Paraguayo - Francesa,Miembro
+101356,especial,2023-2028,,100911,Parlamentaria de Amistad Paraguayo - Americana,Miembro
+101356,especial,2023-2028,,101111,Parlamentaria de Amistad Paraguayo - Reino Unido,Relator/a
+101356,especial,2023-2028,,101740,"Comisión Especial de Investigación sobre los hechos relacionados con la trama delictiva denominada ""Mafia de los Pagarés""",Miembro
+101357,asesora,2023-2024,100217,6,Hacienda y Presupuesto,Vicepresidente/a
+101357,asesora,2023-2024,100217,72,Desarrollo Social,Presidente/a
+101357,asesora,2023-2024,100217,100489,Comisión Bicameral de Presupuesto,Miembro
+101357,asesora,2023-2024,100217,101311,Comisión Bicameral de Reordenamiento de la Estructura del Estado,Presidente/a
+101357,asesora,2024-2025,100237,6,Hacienda y Presupuesto,Vicepresidente/a
+101357,asesora,2024-2025,100237,72,Desarrollo Social,Presidente/a
+101357,asesora,2024-2025,100237,100489,Comisión Bicameral de Presupuesto,Miembro
+101357,asesora,2024-2025,100237,101311,Comisión Bicameral de Reordenamiento de la Estructura del Estado,Presidente/a
+101357,asesora,2025-2026,100257,6,Hacienda y Presupuesto,Vicepresidente/a
+101357,asesora,2025-2026,100257,72,Desarrollo Social,Miembro
+101357,asesora,2025-2026,100257,100489,Comisión Bicameral de Presupuesto,Miembro
+101357,asesora,2025-2026,100257,101311,Comisión Bicameral de Reordenamiento de la Estructura del Estado,Presidente/a
+101357,asesora,2025-2026,100257,101840,Asuntos Electorales,Presidente/a
+101357,asesora,2026-2027,100267,6,Hacienda y Presupuesto,Vicepresidente/a
+101357,asesora,2026-2027,100267,72,Desarrollo Social,Miembro
+101357,asesora,2026-2027,100267,100489,Comisión Bicameral de Presupuesto,Miembro
+101357,asesora,2026-2027,100267,101840,Asuntos Electorales,Presidente/a
+101357,especial,2023-2028,,100413,Parlamentaria de Amistad Paraguayo - Española,Miembro
+101357,especial,2023-2028,,100415,Parlamentaria de Amistad Paraguayo - Italiana,Vicepresidente/a
+101357,especial,2023-2028,,100420,Parlamentaria de Amistad Paraguayo - Uruguaya,Relator/a
+101357,especial,2023-2028,,100470,Parlamentaria de Amistad Paraguayo - Israelí,Miembro
+101357,especial,2023-2028,,100530,Parlamentaria de Amistad Paraguayo - Brasilera,Miembro
+101357,especial,2023-2028,,100870,Parlamentaria de Amistad Paraguayo - Alemana,Miembro
+101357,especial,2023-2028,,100911,Parlamentaria de Amistad Paraguayo - Americana,Miembro
+101357,especial,2023-2028,,101091,Parlamentaria de Amistad Paraguayo - Emirato Árabes Unidos,Miembro
+101357,especial,2023-2028,,101271,"COMISIÓN NACIONAL -  ANEXO ""C"" DE ITAIPÚ BINACIONAL",Titular
+101357,especial,2023-2028,,101590,Comisión Especial de Estudio de la Gobernanza de la Educación Superior Universitaria,Relator/a
+101357,especial,2023-2028,,101750,Comisión Especial para el monitoreo y control de las máquinas de votación electrónica,Presidente/a
+101357,especial,2023-2028,,101830,Parlamentaria de Amistad Paraguayo - Angolano,Miembro
+101358,asesora,2023-2024,100217,2,"Legislación, Codificación, Justicia y Trabajo",Miembro
+101358,asesora,2023-2024,100217,3,Relaciones Exteriores y Asuntos Internacionales,Miembro
+101358,asesora,2023-2024,100217,5,"Asuntos Constitucionales, Defensa Nacional y Fuerza Pública",Miembro
+101358,asesora,2023-2024,100217,101500,"Ciencias, Tecnología, Innovación y Futuro",Miembro
+101358,asesora,2024-2025,100237,2,"Legislación, Codificación, Justicia y Trabajo",Relator/a
+101358,asesora,2024-2025,100237,3,Relaciones Exteriores y Asuntos Internacionales,Miembro
+101358,asesora,2024-2025,100237,5,"Asuntos Constitucionales, Defensa Nacional y Fuerza Pública",Miembro
+101358,asesora,2025-2026,100257,2,"Legislación, Codificación, Justicia y Trabajo",Relator/a
+101358,asesora,2025-2026,100257,3,Relaciones Exteriores y Asuntos Internacionales,Miembro
+101358,asesora,2025-2026,100257,5,"Asuntos Constitucionales, Defensa Nacional y Fuerza Pública",Miembro
+101358,asesora,2026-2027,100267,2,"Legislación, Codificación, Justicia y Trabajo",Relator/a
+101358,asesora,2026-2027,100267,3,Relaciones Exteriores y Asuntos Internacionales,Miembro
+101358,asesora,2026-2027,100267,5,"Asuntos Constitucionales, Defensa Nacional y Fuerza Pública",Miembro
+101358,especial,2023-2028,,100409,Parlamentaria de Amistad Paraguayo - Georgiana,Presidente/a
+101358,especial,2023-2028,,100413,Parlamentaria de Amistad Paraguayo - Española,Vicepresidente/a
+101358,especial,2023-2028,,100415,Parlamentaria de Amistad Paraguayo - Italiana,Miembro
+101358,especial,2023-2028,,100416,Parlamentaria de Amistad Paraguayo - Corea del Sur,Presidente/a
+101358,especial,2023-2028,,100417,Parlamentaria de Amistad Paraguayo - República de China (Taiwán),Miembro
+101358,especial,2023-2028,,100418,Parlamentaria de Amistad Paraguayo - Ecuador,Miembro
+101358,especial,2023-2028,,100421,Parlamentaria de Amistad Paraguayo - Boliviana,Miembro
+101358,especial,2023-2028,,100422,Parlamentaria de Amistad Paraguayo - Chilena,Miembro
+101358,especial,2023-2028,,100424,Parlamentaria de Amistad Paraguayo - India,Miembro
+101358,especial,2023-2028,,100427,Parlamentaria de Amistad Paraguayo - República Dominicana,Presidente/a
+101358,especial,2023-2028,,100429,Parlamentaria de Amistad Paraguayo - Costa Rica,Vicepresidente/a
+101358,especial,2023-2028,,100530,Parlamentaria de Amistad Paraguayo - Brasilera,Miembro
+101358,especial,2023-2028,,100629,Parlamentaria de Amistad Paraguayo - Indonesia,Presidente/a
+101358,especial,2023-2028,,100850,Parlamentaria de Amistad Paraguayo - Japonesa,Miembro
+101358,especial,2023-2028,,100870,Parlamentaria de Amistad Paraguayo - Alemana,Miembro
+101358,especial,2023-2028,,100911,Parlamentaria de Amistad Paraguayo - Americana,Miembro
+101358,especial,2023-2028,,101830,Parlamentaria de Amistad Paraguayo - Angolano,Vicepresidente/a
+101358,especial,2023-2028,,101950,Parlamentaria de Amistad Paraguayo - Mexicana,Presidente/a
+101359,asesora,2023-2024,100217,9,Educación y Cultura,Relator/a
+101359,asesora,2023-2024,100217,16,"Energía, Recursos Naturales, Población, Ambiente, Producción y Desarrollo Sostenible",Miembro
+101359,asesora,2023-2024,100217,69,Cuentas y Control de la Administración Financiera del Estado,Vicepresidente/a
+101359,asesora,2023-2024,100217,100932,Comisión Bicameral - Informe y Dictamen de la Contraloría General de la República,Relator/a
+101359,asesora,2023-2024,100217,101460,Desarrollo Agropecuario y Lucha contra el Contrabando,Miembro
+101359,asesora,2023-2024,100217,101500,"Ciencias, Tecnología, Innovación y Futuro",Presidente/a
+101359,asesora,2024-2025,100237,9,Educación y Cultura,Miembro
+101359,asesora,2024-2025,100237,69,Cuentas y Control de la Administración Financiera del Estado,Relator/a
+101359,asesora,2024-2025,100237,100529,Frente Parlamentario contra el Hambre,Miembro
+101359,asesora,2024-2025,100237,100669,COMISIÓN PERMANENTE DEL CONGRESO,Miembro
+101359,asesora,2024-2025,100237,101447,Frente Parlamentario de Apoyo a la Producción Nacional,Miembro
+101359,asesora,2024-2025,100237,101460,Desarrollo Agropecuario y Lucha contra el Contrabando,Relator/a
+101359,asesora,2024-2025,100237,101500,"Ciencias, Tecnología, Innovación y Futuro",Miembro
+101359,asesora,2025-2026,100257,9,Educación y Cultura,Miembro
+101359,asesora,2025-2026,100257,69,Cuentas y Control de la Administración Financiera del Estado,Relator/a
+101359,asesora,2025-2026,100257,100932,Comisión Bicameral - Informe y Dictamen de la Contraloría General de la República,Miembro
+101359,asesora,2025-2026,100257,101460,Desarrollo Agropecuario y Lucha contra el Contrabando,Relator/a
+101359,asesora,2025-2026,100257,101500,"Ciencias, Tecnología, Innovación y Futuro",Miembro
+101359,asesora,2025-2026,100257,101840,Asuntos Electorales,Miembro
+101359,asesora,2026-2027,100267,9,Educación y Cultura,Miembro
+101359,asesora,2026-2027,100267,100489,Comisión Bicameral de Presupuesto,Miembro
+101359,asesora,2026-2027,100267,101460,Desarrollo Agropecuario y Lucha contra el Contrabando,Relator/a
+101359,asesora,2026-2027,100267,101500,"Ciencias, Tecnología, Innovación y Futuro",Miembro
+101359,asesora,2026-2027,100267,101840,Asuntos Electorales,Miembro
+101359,especial,2023-2028,,100413,Parlamentaria de Amistad Paraguayo - Española,Miembro
+101359,especial,2023-2028,,100415,Parlamentaria de Amistad Paraguayo - Italiana,Miembro
+101359,especial,2023-2028,,100530,Parlamentaria de Amistad Paraguayo - Brasilera,Miembro
+101359,especial,2023-2028,,101111,Parlamentaria de Amistad Paraguayo - Reino Unido,Miembro
+101359,especial,2023-2028,,101740,"Comisión Especial de Investigación sobre los hechos relacionados con la trama delictiva denominada ""Mafia de los Pagarés""",Miembro
+101359,especial,2023-2028,,101750,Comisión Especial para el monitoreo y control de las máquinas de votación electrónica,Miembro
+101359,especial,2023-2028,,101820,Comisión Especial de Investigación para el Control de los Supuestos Abusos a los Derechos de los Consumidores en los Servicios Proveídos por las Empresas de Telefonía Celular e Internet,Miembro
+101359,especial,2023-2028,,101890,COMISIÓN BICAMERAL DE FOMENTO DE POLÍTICAS PÚBLICAS PARA ACCESO  A LA VIVIENDA DIGNA.,Titular
+101361,asesora,2023-2024,100217,5,"Asuntos Constitucionales, Defensa Nacional y Fuerza Pública",Miembro
+101361,asesora,2023-2024,100217,6,Hacienda y Presupuesto,Miembro
+101361,asesora,2023-2024,100217,13,Salud Pública y Seguridad Social,Miembro
+101361,asesora,2023-2024,100217,14,"Asuntos Departamentales, Municipales, Distritales y Regionales",Vicepresidente/a
+101361,asesora,2023-2024,100217,71,Prevención y Lucha contra el Narcotráfico y Delitos Conexos,Miembro
+101361,asesora,2023-2024,100217,100489,Comisión Bicameral de Presupuesto,Miembro
+101361,asesora,2023-2024,100217,100669,COMISIÓN PERMANENTE DEL CONGRESO,Miembro Suplente
+101361,asesora,2023-2024,100217,100951,Derechos para las Personas con Discapacidad,Relator/a
+101361,asesora,2023-2024,100217,101311,Comisión Bicameral de Reordenamiento de la Estructura del Estado,Miembro
+101361,asesora,2023-2024,100217,101460,Desarrollo Agropecuario y Lucha contra el Contrabando,Miembro
+101361,asesora,2023-2024,100217,101488,Deportes,Vicepresidente/a
+101361,asesora,2024-2025,100237,101311,Comisión Bicameral de Reordenamiento de la Estructura del Estado,Miembro
+101361,asesora,2025-2026,100257,101311,Comisión Bicameral de Reordenamiento de la Estructura del Estado,Miembro
+101361,especial,2023-2028,,100417,Parlamentaria de Amistad Paraguayo - República de China (Taiwán),Relator/a
+101361,especial,2023-2028,,100422,Parlamentaria de Amistad Paraguayo - Chilena,Vicepresidente/a
+101361,especial,2023-2028,,100549,Parlamentaria de Amistad Paraguayo - Marroquí,Miembro
+101361,especial,2023-2028,,100850,Parlamentaria de Amistad Paraguayo - Japonesa,Miembro
+101361,especial,2023-2028,,100911,Parlamentaria de Amistad Paraguayo - Americana,Miembro
+101361,especial,2023-2028,,101550,Comisión Especial de Agua Segura para el Chaco,Vicepresidente/a
+101362,asesora,2023-2024,100217,5,"Asuntos Constitucionales, Defensa Nacional y Fuerza Pública",Miembro
+101362,asesora,2023-2024,100217,8,"Peticiones, Poderes y Reglamentos",Miembro
+101362,asesora,2023-2024,100217,10,Derechos Humanos,Miembro
+101362,asesora,2023-2024,100217,17,Equidad y Género,Miembro
+101362,asesora,2023-2024,100217,100489,Comisión Bicameral de Presupuesto,Miembro
+101362,asesora,2023-2024,100217,101311,Comisión Bicameral de Reordenamiento de la Estructura del Estado,Relator/a
+101362,asesora,2024-2025,100237,5,"Asuntos Constitucionales, Defensa Nacional y Fuerza Pública",Miembro
+101362,asesora,2024-2025,100237,10,Derechos Humanos,Relator/a
+101362,asesora,2024-2025,100237,17,Equidad y Género,Vicepresidente/a
+101362,asesora,2024-2025,100237,71,Prevención y Lucha contra el Narcotráfico y Delitos Conexos,Relator/a
+101362,asesora,2024-2025,100237,100489,Comisión Bicameral de Presupuesto,Miembro
+101362,asesora,2024-2025,100237,100529,Frente Parlamentario contra el Hambre,Miembro
+101362,asesora,2024-2025,100237,101311,Comisión Bicameral de Reordenamiento de la Estructura del Estado,Relator/a
+101362,asesora,2025-2026,100257,5,"Asuntos Constitucionales, Defensa Nacional y Fuerza Pública",Miembro
+101362,asesora,2025-2026,100257,10,Derechos Humanos,Relator/a
+101362,asesora,2025-2026,100257,17,Equidad y Género,Vicepresidente/a
+101362,asesora,2025-2026,100257,71,Prevención y Lucha contra el Narcotráfico y Delitos Conexos,Relator/a
+101362,asesora,2025-2026,100257,100489,Comisión Bicameral de Presupuesto,Miembro
+101362,asesora,2025-2026,100257,100529,Frente Parlamentario contra el Hambre,Miembro
+101362,asesora,2025-2026,100257,101311,Comisión Bicameral de Reordenamiento de la Estructura del Estado,Relator/a
+101362,asesora,2026-2027,100267,5,"Asuntos Constitucionales, Defensa Nacional y Fuerza Pública",Miembro
+101362,asesora,2026-2027,100267,10,Derechos Humanos,Relator/a
+101362,asesora,2026-2027,100267,17,Equidad y Género,Vicepresidente/a
+101362,asesora,2026-2027,100267,71,Prevención y Lucha contra el Narcotráfico y Delitos Conexos,Relator/a
+101362,especial,2023-2028,,100413,Parlamentaria de Amistad Paraguayo - Española,Miembro
+101362,especial,2023-2028,,100415,Parlamentaria de Amistad Paraguayo - Italiana,Miembro
+101362,especial,2023-2028,,100596,Comisión Parlamentaria - Parlamento Abierto Paraguay,Vicepresidente/a
+101362,especial,2023-2028,,101740,"Comisión Especial de Investigación sobre los hechos relacionados con la trama delictiva denominada ""Mafia de los Pagarés""",Miembro
+101362,especial,2023-2028,,101830,Parlamentaria de Amistad Paraguayo - Angolano,Miembro
+101362,especial,2023-2028,,101870,Seguimiento de las Importaciones Irregulares de Productos bajo la Competencia de la Dirección Nacional de Vigilancia Sanitaria (DINAVISA),Miembro
+101362,especial,2023-2028,,101910,"Comisión Especial de Investigación de los hechos relacionados con la emisión, comercialización y utilización de títulos, diplomas y certificaciones de Educación Superior, Formación Técnica, Profesional y Posgrado, presuntamente falsos o irregulares",Miembro
+101362,especial,2023-2028,,101940,"COMISIÓN ESPECIAL DE INVESTIGACIÓN, SEGUIMIENTO Y ESCLARECIMIENTO DE LOS PRESUNTOS HECHOS PUNIBLES DE CORRUPCIÓN, DETECTADOS EN EL I.P.S. Y EN EL M.S.P.B.S.",Miembro
+101362,especial,2023-2028,,101950,Parlamentaria de Amistad Paraguayo - Mexicana,Miembro
+101363,asesora,2023-2024,100217,3,Relaciones Exteriores y Asuntos Internacionales,Miembro
+101363,asesora,2023-2024,100217,6,Hacienda y Presupuesto,Miembro
+101363,asesora,2023-2024,100217,15,"Obras Públicas, Comunicaciones y Servicios Públicos",Presidente/a
+101363,asesora,2023-2024,100217,100489,Comisión Bicameral de Presupuesto,Miembro
+101363,asesora,2023-2024,100217,100669,COMISIÓN PERMANENTE DEL CONGRESO,Secretario/a
+101363,asesora,2023-2024,100217,101311,Comisión Bicameral de Reordenamiento de la Estructura del Estado,Miembro
+101363,asesora,2023-2024,100217,101427,"Familia, Niñez, Adolescencia y Juventud",Vicepresidente/a
+101363,asesora,2023-2024,100217,101488,Deportes,Miembro
+101363,asesora,2023-2024,100217,101495,Adultos Mayores y Seguimiento del Sistema de Jubilaciones y Pensiones,Miembro
+101363,asesora,2024-2025,100237,3,Relaciones Exteriores y Asuntos Internacionales,Miembro
+101363,asesora,2024-2025,100237,6,Hacienda y Presupuesto,Relator/a
+101363,asesora,2024-2025,100237,15,"Obras Públicas, Comunicaciones y Servicios Públicos",Presidente/a
+101363,asesora,2024-2025,100237,16,"Energía, Recursos Naturales, Población, Ambiente, Producción y Desarrollo Sostenible",Miembro
+101363,asesora,2024-2025,100237,100344,Pueblos Indígenas,Miembro
+101363,asesora,2024-2025,100237,100489,Comisión Bicameral de Presupuesto,Miembro
+101363,asesora,2024-2025,100237,100932,Comisión Bicameral - Informe y Dictamen de la Contraloría General de la República,Relator/a
+101363,asesora,2024-2025,100237,101311,Comisión Bicameral de Reordenamiento de la Estructura del Estado,Miembro
+101363,asesora,2024-2025,100237,101427,"Familia, Niñez, Adolescencia y Juventud",Vicepresidente/a
+101363,asesora,2024-2025,100237,101488,Deportes,Miembro
+101363,asesora,2024-2025,100237,101495,Adultos Mayores y Seguimiento del Sistema de Jubilaciones y Pensiones,Miembro
+101363,asesora,2025-2026,100257,3,Relaciones Exteriores y Asuntos Internacionales,Vicepresidente/a
+101363,asesora,2025-2026,100257,5,"Asuntos Constitucionales, Defensa Nacional y Fuerza Pública",Miembro
+101363,asesora,2025-2026,100257,6,Hacienda y Presupuesto,Relator/a
+101363,asesora,2025-2026,100257,15,"Obras Públicas, Comunicaciones y Servicios Públicos",Presidente/a
+101363,asesora,2025-2026,100257,16,"Energía, Recursos Naturales, Población, Ambiente, Producción y Desarrollo Sostenible",Miembro
+101363,asesora,2025-2026,100257,100344,Pueblos Indígenas,Miembro
+101363,asesora,2025-2026,100257,100489,Comisión Bicameral de Presupuesto,Relator/a
+101363,asesora,2025-2026,100257,100669,COMISIÓN PERMANENTE DEL CONGRESO,Secretario/a
+101363,asesora,2025-2026,100257,101311,Comisión Bicameral de Reordenamiento de la Estructura del Estado,Miembro
+101363,asesora,2025-2026,100257,101427,"Familia, Niñez, Adolescencia y Juventud",Vicepresidente/a
+101363,asesora,2025-2026,100257,101488,Deportes,Miembro
+101363,asesora,2025-2026,100257,101840,Asuntos Electorales,Miembro
+101363,asesora,2026-2027,100267,3,Relaciones Exteriores y Asuntos Internacionales,Vicepresidente/a
+101363,asesora,2026-2027,100267,5,"Asuntos Constitucionales, Defensa Nacional y Fuerza Pública",Miembro
+101363,asesora,2026-2027,100267,6,Hacienda y Presupuesto,Relator/a
+101363,asesora,2026-2027,100267,15,"Obras Públicas, Comunicaciones y Servicios Públicos",Presidente/a
+101363,asesora,2026-2027,100267,16,"Energía, Recursos Naturales, Población, Ambiente, Producción y Desarrollo Sostenible",Miembro
+101363,asesora,2026-2027,100267,100344,Pueblos Indígenas,Miembro
+101363,asesora,2026-2027,100267,100489,Comisión Bicameral de Presupuesto,Relator/a
+101363,asesora,2026-2027,100267,101427,"Familia, Niñez, Adolescencia y Juventud",Vicepresidente/a
+101363,asesora,2026-2027,100267,101488,Deportes,Miembro
+101363,asesora,2026-2027,100267,101840,Asuntos Electorales,Miembro
+101363,especial,2023-2028,,100420,Parlamentaria de Amistad Paraguayo - Uruguaya,Presidente/a
+101363,especial,2023-2028,,100422,Parlamentaria de Amistad Paraguayo - Chilena,Relator/a
+101363,especial,2023-2028,,100424,Parlamentaria de Amistad Paraguayo - India,Presidente/a
+101363,especial,2023-2028,,100850,Parlamentaria de Amistad Paraguayo - Japonesa,Miembro
+101363,especial,2023-2028,,100911,Parlamentaria de Amistad Paraguayo - Americana,Relator/a
+101363,especial,2023-2028,,101111,Parlamentaria de Amistad Paraguayo - Reino Unido,Presidente/a
+101363,especial,2023-2028,,101271,"COMISIÓN NACIONAL -  ANEXO ""C"" DE ITAIPÚ BINACIONAL",Presidente/a
+101363,especial,2023-2028,,101740,"Comisión Especial de Investigación sobre los hechos relacionados con la trama delictiva denominada ""Mafia de los Pagarés""",Miembro
+101363,especial,2023-2028,,101750,Comisión Especial para el monitoreo y control de las máquinas de votación electrónica,Miembro
+101363,especial,2023-2028,,101820,Comisión Especial de Investigación para el Control de los Supuestos Abusos a los Derechos de los Consumidores en los Servicios Proveídos por las Empresas de Telefonía Celular e Internet,Miembro
+101363,especial,2023-2028,,101900,Parlamentaria de Amistad Paraguayo - Panameña,Vicepresidente/a
+101363,especial,2023-2028,,101910,"Comisión Especial de Investigación de los hechos relacionados con la emisión, comercialización y utilización de títulos, diplomas y certificaciones de Educación Superior, Formación Técnica, Profesional y Posgrado, presuntamente falsos o irregulares",Miembro
+101363,especial,2023-2028,,101940,"COMISIÓN ESPECIAL DE INVESTIGACIÓN, SEGUIMIENTO Y ESCLARECIMIENTO DE LOS PRESUNTOS HECHOS PUNIBLES DE CORRUPCIÓN, DETECTADOS EN EL I.P.S. Y EN EL M.S.P.B.S.",Miembro
+101363,especial,2023-2028,,101960,Comisión Especial de Investigación de Carácter Transitorio para la Investigación de los Hechos Relacionados de Corrupción Denunciados en el INDERT,Miembro
+101364,asesora,2023-2024,100217,11,"Economía, Cooperativismo, Desarrollo e Integración Económica Latinoamericana",Vicepresidente/a
+101364,asesora,2023-2024,100217,15,"Obras Públicas, Comunicaciones y Servicios Públicos",Miembro
+101364,asesora,2023-2024,100217,68,Estilo,Miembro
+101364,asesora,2023-2024,100217,100389,Comisión Bicameral de Economía Social (COBIES),Miembro
+101364,asesora,2023-2024,100217,100489,Comisión Bicameral de Presupuesto,Miembro
+101364,asesora,2023-2024,100217,100593,Comisión Nacional de de Puesta en Valor y Recuperación del Patrimonio Tangible de la Historia del Paraguay,Vicepresidente 3º
+101364,asesora,2023-2024,100217,100669,COMISIÓN PERMANENTE DEL CONGRESO,Presidente/a
+101364,asesora,2023-2024,100217,101460,Desarrollo Agropecuario y Lucha contra el Contrabando,Presidente/a
+101364,asesora,2023-2024,100217,101488,Deportes,Relator/a
+101364,asesora,2023-2024,100217,101560,Turismo,Miembro
+101364,asesora,2024-2025,100237,68,Estilo,Miembro
+101364,asesora,2024-2025,100237,100389,Comisión Bicameral de Economía Social (COBIES),Miembro
+101364,asesora,2024-2025,100237,100593,Comisión Nacional de de Puesta en Valor y Recuperación del Patrimonio Tangible de la Historia del Paraguay,Presidente/a
+101364,asesora,2024-2025,100237,101460,Desarrollo Agropecuario y Lucha contra el Contrabando,Presidente/a
+101364,asesora,2024-2025,100237,101488,Deportes,Miembro
+101364,asesora,2024-2025,100237,101560,Turismo,Miembro
+101364,asesora,2025-2026,100257,15,"Obras Públicas, Comunicaciones y Servicios Públicos",Miembro
+101364,asesora,2025-2026,100257,68,Estilo,Miembro
+101364,asesora,2025-2026,100257,100389,Comisión Bicameral de Economía Social (COBIES),Miembro
+101364,asesora,2025-2026,100257,100669,COMISIÓN PERMANENTE DEL CONGRESO,Presidente/a
+101364,asesora,2025-2026,100257,101460,Desarrollo Agropecuario y Lucha contra el Contrabando,Presidente/a
+101364,asesora,2025-2026,100257,101488,Deportes,Miembro
+101364,asesora,2025-2026,100257,101560,Turismo,Miembro
+101364,asesora,2025-2026,100257,101840,Asuntos Electorales,Miembro
+101364,asesora,2026-2027,100267,15,"Obras Públicas, Comunicaciones y Servicios Públicos",Miembro
+101364,asesora,2026-2027,100267,68,Estilo,Miembro
+101364,asesora,2026-2027,100267,100389,Comisión Bicameral de Economía Social (COBIES),Miembro
+101364,asesora,2026-2027,100267,101460,Desarrollo Agropecuario y Lucha contra el Contrabando,Presidente/a
+101364,asesora,2026-2027,100267,101488,Deportes,Miembro
+101364,asesora,2026-2027,100267,101560,Turismo,Miembro
+101364,asesora,2026-2027,100267,101840,Asuntos Electorales,Miembro
+101364,especial,2023-2028,,100423,Parlamentaria de Amistad Paraguayo - Peruana,Miembro
+101364,especial,2023-2028,,100424,Parlamentaria de Amistad Paraguayo - India,Miembro
+101364,especial,2023-2028,,100530,Parlamentaria de Amistad Paraguayo - Brasilera,Miembro
+101364,especial,2023-2028,,100595,Parlamentaria de Amistad Paraguayo - Rusa,Miembro
+101364,especial,2023-2028,,100911,Parlamentaria de Amistad Paraguayo - Americana,Miembro
+101364,especial,2023-2028,,101271,"COMISIÓN NACIONAL -  ANEXO ""C"" DE ITAIPÚ BINACIONAL",Titular
+101364,especial,2023-2028,,101650,"Comisión conjunta de investigación de carácter transitorio para la investigación de hechos punibles de lavado de activos, contra el patrimonio del Estado, contrabando y otros delitos conexos",Miembro
+101365,asesora,2023-2024,100217,8,"Peticiones, Poderes y Reglamentos",Miembro
+101365,asesora,2023-2024,100217,9,Educación y Cultura,Presidente/a
+101365,asesora,2023-2024,100217,11,"Economía, Cooperativismo, Desarrollo e Integración Económica Latinoamericana",Relator/a
+101365,asesora,2023-2024,100217,100344,Pueblos Indígenas,Miembro
+101365,asesora,2023-2024,100217,100389,Comisión Bicameral de Economía Social (COBIES),Miembro
+101365,asesora,2023-2024,100217,100489,Comisión Bicameral de Presupuesto,Miembro
+101365,asesora,2023-2024,100217,101427,"Familia, Niñez, Adolescencia y Juventud",Relator/a
+101365,asesora,2024-2025,100237,6,Hacienda y Presupuesto,Miembro
+101365,asesora,2024-2025,100237,8,"Peticiones, Poderes y Reglamentos",Relator/a
+101365,asesora,2024-2025,100237,9,Educación y Cultura,Presidente/a
+101365,asesora,2024-2025,100237,11,"Economía, Cooperativismo, Desarrollo e Integración Económica Latinoamericana",Vicepresidente/a
+101365,asesora,2024-2025,100237,13,Salud Pública y Seguridad Social,Miembro
+101365,asesora,2024-2025,100237,100389,Comisión Bicameral de Economía Social (COBIES),Relator/a
+101365,asesora,2024-2025,100237,100489,Comisión Bicameral de Presupuesto,Miembro
+101365,asesora,2024-2025,100237,100529,Frente Parlamentario contra el Hambre,Miembro
+101365,asesora,2024-2025,100237,100932,Comisión Bicameral - Informe y Dictamen de la Contraloría General de la República,Miembro
+101365,asesora,2024-2025,100237,100951,Derechos para las Personas con Discapacidad,Miembro
+101365,asesora,2024-2025,100237,101427,"Familia, Niñez, Adolescencia y Juventud",Relator/a
+101365,asesora,2024-2025,100237,101447,Frente Parlamentario de Apoyo a la Producción Nacional,Miembro
+101365,asesora,2025-2026,100257,6,Hacienda y Presupuesto,Miembro
+101365,asesora,2025-2026,100257,8,"Peticiones, Poderes y Reglamentos",Relator/a
+101365,asesora,2025-2026,100257,9,Educación y Cultura,Presidente/a
+101365,asesora,2025-2026,100257,11,"Economía, Cooperativismo, Desarrollo e Integración Económica Latinoamericana",Vicepresidente/a
+101365,asesora,2025-2026,100257,13,Salud Pública y Seguridad Social,Miembro
+101365,asesora,2025-2026,100257,100389,Comisión Bicameral de Economía Social (COBIES),Relator/a
+101365,asesora,2025-2026,100257,100489,Comisión Bicameral de Presupuesto,Miembro
+101365,asesora,2025-2026,100257,100529,Frente Parlamentario contra el Hambre,Miembro
+101365,asesora,2025-2026,100257,100951,Derechos para las Personas con Discapacidad,Miembro
+101365,asesora,2025-2026,100257,101427,"Familia, Niñez, Adolescencia y Juventud",Relator/a
+101365,asesora,2026-2027,100267,6,Hacienda y Presupuesto,Miembro
+101365,asesora,2026-2027,100267,8,"Peticiones, Poderes y Reglamentos",Relator/a
+101365,asesora,2026-2027,100267,9,Educación y Cultura,Presidente/a
+101365,asesora,2026-2027,100267,11,"Economía, Cooperativismo, Desarrollo e Integración Económica Latinoamericana",Vicepresidente/a
+101365,asesora,2026-2027,100267,13,Salud Pública y Seguridad Social,Miembro
+101365,asesora,2026-2027,100267,100389,Comisión Bicameral de Economía Social (COBIES),Relator/a
+101365,asesora,2026-2027,100267,100951,Derechos para las Personas con Discapacidad,Miembro
+101365,asesora,2026-2027,100267,101427,"Familia, Niñez, Adolescencia y Juventud",Relator/a
+101365,especial,2023-2028,,100409,Parlamentaria de Amistad Paraguayo - Georgiana,Miembro
+101365,especial,2023-2028,,100412,Parlamentaria de Amistad Paraguayo - Cubana,Miembro
+101365,especial,2023-2028,,100413,Parlamentaria de Amistad Paraguayo - Española,Miembro
+101365,especial,2023-2028,,100414,Parlamentaria de Amistad Paraguayo - Argentina,Miembro
+101365,especial,2023-2028,,100416,Parlamentaria de Amistad Paraguayo - Corea del Sur,Miembro
+101365,especial,2023-2028,,100417,Parlamentaria de Amistad Paraguayo - República de China (Taiwán),Miembro
+101365,especial,2023-2028,,100418,Parlamentaria de Amistad Paraguayo - Ecuador,Relator/a
+101365,especial,2023-2028,,100419,Parlamentaria de Amistad Paraguayo - Azerbaiyana,Miembro
+101365,especial,2023-2028,,100422,Parlamentaria de Amistad Paraguayo - Chilena,Miembro
+101365,especial,2023-2028,,100424,Parlamentaria de Amistad Paraguayo - India,Miembro
+101365,especial,2023-2028,,100429,Parlamentaria de Amistad Paraguayo - Costa Rica,Miembro
+101365,especial,2023-2028,,100549,Parlamentaria de Amistad Paraguayo - Marroquí,Vicepresidente/a
+101365,especial,2023-2028,,100596,Comisión Parlamentaria - Parlamento Abierto Paraguay,Miembro
+101365,especial,2023-2028,,100850,Parlamentaria de Amistad Paraguayo - Japonesa,Presidente/a
+101365,especial,2023-2028,,101900,Parlamentaria de Amistad Paraguayo - Panameña,Relator/a
+101365,especial,2023-2028,,101950,Parlamentaria de Amistad Paraguayo - Mexicana,Miembro
+101366,asesora,2023-2024,100217,3,Relaciones Exteriores y Asuntos Internacionales,Miembro
+101366,asesora,2023-2024,100217,4,Reforma Agraria y Bienestar Rural,Miembro
+101366,asesora,2023-2024,100217,6,Hacienda y Presupuesto,Miembro
+101366,asesora,2023-2024,100217,17,Equidad y Género,Presidente/a
+101366,asesora,2023-2024,100217,70,Industria y Comercio,Miembro
+101366,asesora,2023-2024,100217,100489,Comisión Bicameral de Presupuesto,Miembro
+101366,asesora,2023-2024,100217,101427,"Familia, Niñez, Adolescencia y Juventud",Miembro
+101366,asesora,2023-2024,100217,101495,Adultos Mayores y Seguimiento del Sistema de Jubilaciones y Pensiones,Vicepresidente/a
+101366,asesora,2024-2025,100237,3,Relaciones Exteriores y Asuntos Internacionales,Miembro
+101366,asesora,2024-2025,100237,4,Reforma Agraria y Bienestar Rural,Miembro
+101366,asesora,2024-2025,100237,8,"Peticiones, Poderes y Reglamentos",Presidente/a
+101366,asesora,2024-2025,100237,70,Industria y Comercio,Miembro
+101366,asesora,2024-2025,100237,72,Desarrollo Social,Vicepresidente/a
+101366,asesora,2024-2025,100237,100489,Comisión Bicameral de Presupuesto,Miembro
+101366,asesora,2024-2025,100237,100669,COMISIÓN PERMANENTE DEL CONGRESO,Secretario/a
+101366,asesora,2024-2025,100237,101495,Adultos Mayores y Seguimiento del Sistema de Jubilaciones y Pensiones,Vicepresidente/a
+101366,asesora,2025-2026,100257,3,Relaciones Exteriores y Asuntos Internacionales,Miembro
+101366,asesora,2025-2026,100257,4,Reforma Agraria y Bienestar Rural,Relator/a
+101366,asesora,2025-2026,100257,8,"Peticiones, Poderes y Reglamentos",Miembro
+101366,asesora,2025-2026,100257,68,Estilo,Miembro
+101366,asesora,2025-2026,100257,70,Industria y Comercio,Miembro
+101366,asesora,2025-2026,100257,72,Desarrollo Social,Presidente/a
+101366,asesora,2025-2026,100257,100489,Comisión Bicameral de Presupuesto,Miembro
+101366,asesora,2025-2026,100257,101495,Adultos Mayores y Seguimiento del Sistema de Jubilaciones y Pensiones,Vicepresidente/a
+101366,asesora,2025-2026,100257,101850,"Asistencia, Protección y Bienestar Animal",Vicepresidente/a
+101366,asesora,2026-2027,100267,4,Reforma Agraria y Bienestar Rural,Relator/a
+101366,asesora,2026-2027,100267,8,"Peticiones, Poderes y Reglamentos",Miembro
+101366,asesora,2026-2027,100267,68,Estilo,Miembro
+101366,asesora,2026-2027,100267,70,Industria y Comercio,Miembro
+101366,asesora,2026-2027,100267,100489,Comisión Bicameral de Presupuesto,Miembro
+101366,asesora,2026-2027,100267,101495,Adultos Mayores y Seguimiento del Sistema de Jubilaciones y Pensiones,Vicepresidente/a
+101366,asesora,2026-2027,100267,101850,"Asistencia, Protección y Bienestar Animal",Vicepresidente/a
+101366,especial,2023-2028,,100410,Parlamentaria de Amistad Paraguayo - Portuguesa,Miembro
+101366,especial,2023-2028,,100413,Parlamentaria de Amistad Paraguayo - Española,Miembro
+101366,especial,2023-2028,,100415,Parlamentaria de Amistad Paraguayo - Italiana,Miembro
+101366,especial,2023-2028,,100417,Parlamentaria de Amistad Paraguayo - República de China (Taiwán),Miembro
+101366,especial,2023-2028,,100420,Parlamentaria de Amistad Paraguayo - Uruguaya,Miembro
+101366,especial,2023-2028,,100421,Parlamentaria de Amistad Paraguayo - Boliviana,Presidente/a
+101366,especial,2023-2028,,100470,Parlamentaria de Amistad Paraguayo - Israelí,Miembro
+101366,especial,2023-2028,,100530,Parlamentaria de Amistad Paraguayo - Brasilera,Miembro
+101366,especial,2023-2028,,100551,Parlamentaria de Amistad Paraguayo - Qatarí,Miembro
+101366,especial,2023-2028,,100597,Parlamentaria de Amistad Paraguayo - Francesa,Relator/a
+101366,especial,2023-2028,,100870,Parlamentaria de Amistad Paraguayo - Alemana,Miembro
+101366,especial,2023-2028,,100911,Parlamentaria de Amistad Paraguayo - Americana,Miembro
+101366,especial,2023-2028,,101091,Parlamentaria de Amistad Paraguayo - Emirato Árabes Unidos,Miembro
+101366,especial,2023-2028,,101111,Parlamentaria de Amistad Paraguayo - Reino Unido,Miembro
+101366,especial,2023-2028,,101419,Parlamentaria de Amistad Paraguayo - Austriaca,Relator/a
+101366,especial,2023-2028,,101910,"Comisión Especial de Investigación de los hechos relacionados con la emisión, comercialización y utilización de títulos, diplomas y certificaciones de Educación Superior, Formación Técnica, Profesional y Posgrado, presuntamente falsos o irregulares",Miembro
+101366,especial,2023-2028,,101950,Parlamentaria de Amistad Paraguayo - Mexicana,Miembro
+101367,asesora,2023-2024,100217,9,Educación y Cultura,Miembro
+101367,asesora,2023-2024,100217,13,Salud Pública y Seguridad Social,Miembro
+101367,asesora,2023-2024,100217,101488,Deportes,Miembro
+101367,asesora,2023-2024,100217,101560,Turismo,Relator/a
+101367,asesora,2024-2025,100237,9,Educación y Cultura,Miembro
+101367,asesora,2024-2025,100237,13,Salud Pública y Seguridad Social,Relator/a
+101367,asesora,2024-2025,100237,15,"Obras Públicas, Comunicaciones y Servicios Públicos",Vicepresidente/a
+101367,asesora,2024-2025,100237,69,Cuentas y Control de la Administración Financiera del Estado,Miembro
+101367,asesora,2024-2025,100237,100489,Comisión Bicameral de Presupuesto,Miembro
+101367,asesora,2024-2025,100237,100951,Derechos para las Personas con Discapacidad,Vicepresidente/a
+101367,asesora,2024-2025,100237,101488,Deportes,Vicepresidente/a
+101367,asesora,2024-2025,100237,101560,Turismo,Relator/a
+101367,asesora,2025-2026,100257,9,Educación y Cultura,Miembro
+101367,asesora,2025-2026,100257,100669,COMISIÓN PERMANENTE DEL CONGRESO,Suplente
+101367,asesora,2025-2026,100257,100951,Derechos para las Personas con Discapacidad,Vicepresidente/a
+101367,asesora,2025-2026,100257,101488,Deportes,Vicepresidente/a
+101367,asesora,2025-2026,100257,101560,Turismo,Relator/a
+101367,especial,2023-2028,,101820,Comisión Especial de Investigación para el Control de los Supuestos Abusos a los Derechos de los Consumidores en los Servicios Proveídos por las Empresas de Telefonía Celular e Internet,Miembro
+101368,asesora,2023-2024,100217,4,Reforma Agraria y Bienestar Rural,Relator/a
+101368,asesora,2023-2024,100217,10,Derechos Humanos,Miembro
+101368,asesora,2023-2024,100217,14,"Asuntos Departamentales, Municipales, Distritales y Regionales",Presidente/a
+101368,asesora,2023-2024,100217,100669,COMISIÓN PERMANENTE DEL CONGRESO,Miembro Titular
+101368,asesora,2023-2024,100217,101460,Desarrollo Agropecuario y Lucha contra el Contrabando,Relator/a
+101368,asesora,2023-2024,100217,101495,Adultos Mayores y Seguimiento del Sistema de Jubilaciones y Pensiones,Miembro
+101368,asesora,2024-2025,100237,4,Reforma Agraria y Bienestar Rural,Relator/a
+101368,asesora,2024-2025,100237,10,Derechos Humanos,Miembro
+101368,asesora,2024-2025,100237,11,"Economía, Cooperativismo, Desarrollo e Integración Económica Latinoamericana",Miembro
+101368,asesora,2024-2025,100237,13,Salud Pública y Seguridad Social,Miembro
+101368,asesora,2024-2025,100237,14,"Asuntos Departamentales, Municipales, Distritales y Regionales",Presidente/a
+101368,asesora,2024-2025,100237,16,"Energía, Recursos Naturales, Población, Ambiente, Producción y Desarrollo Sostenible",Miembro
+101368,asesora,2024-2025,100237,72,Desarrollo Social,Miembro
+101368,asesora,2024-2025,100237,100489,Comisión Bicameral de Presupuesto,Miembro
+101368,asesora,2024-2025,100237,101447,Frente Parlamentario de Apoyo a la Producción Nacional,Miembro
+101368,asesora,2024-2025,100237,101460,Desarrollo Agropecuario y Lucha contra el Contrabando,Vicepresidente/a
+101368,asesora,2024-2025,100237,101495,Adultos Mayores y Seguimiento del Sistema de Jubilaciones y Pensiones,Miembro
+101368,asesora,2025-2026,100257,4,Reforma Agraria y Bienestar Rural,Vicepresidente/a
+101368,asesora,2025-2026,100257,10,Derechos Humanos,Miembro
+101368,asesora,2025-2026,100257,11,"Economía, Cooperativismo, Desarrollo e Integración Económica Latinoamericana",Miembro
+101368,asesora,2025-2026,100257,13,Salud Pública y Seguridad Social,Miembro
+101368,asesora,2025-2026,100257,14,"Asuntos Departamentales, Municipales, Distritales y Regionales",Presidente/a
+101368,asesora,2025-2026,100257,16,"Energía, Recursos Naturales, Población, Ambiente, Producción y Desarrollo Sostenible",Miembro
+101368,asesora,2025-2026,100257,72,Desarrollo Social,Vicepresidente/a
+101368,asesora,2025-2026,100257,100489,Comisión Bicameral de Presupuesto,Miembro
+101368,asesora,2025-2026,100257,101460,Desarrollo Agropecuario y Lucha contra el Contrabando,Vicepresidente/a
+101368,asesora,2025-2026,100257,101495,Adultos Mayores y Seguimiento del Sistema de Jubilaciones y Pensiones,Miembro
+101368,asesora,2026-2027,100267,4,Reforma Agraria y Bienestar Rural,Vicepresidente/a
+101368,asesora,2026-2027,100267,10,Derechos Humanos,Miembro
+101368,asesora,2026-2027,100267,11,"Economía, Cooperativismo, Desarrollo e Integración Económica Latinoamericana",Miembro
+101368,asesora,2026-2027,100267,13,Salud Pública y Seguridad Social,Miembro
+101368,asesora,2026-2027,100267,14,"Asuntos Departamentales, Municipales, Distritales y Regionales",Presidente/a
+101368,asesora,2026-2027,100267,16,"Energía, Recursos Naturales, Población, Ambiente, Producción y Desarrollo Sostenible",Miembro
+101368,asesora,2026-2027,100267,72,Desarrollo Social,Vicepresidente/a
+101368,asesora,2026-2027,100267,100489,Comisión Bicameral de Presupuesto,Miembro
+101368,asesora,2026-2027,100267,101460,Desarrollo Agropecuario y Lucha contra el Contrabando,Vicepresidente/a
+101368,asesora,2026-2027,100267,101495,Adultos Mayores y Seguimiento del Sistema de Jubilaciones y Pensiones,Miembro
+101368,especial,2023-2028,,100412,Parlamentaria de Amistad Paraguayo - Cubana,Miembro
+101368,especial,2023-2028,,100595,Parlamentaria de Amistad Paraguayo - Rusa,Miembro
+101368,especial,2023-2028,,101890,COMISIÓN BICAMERAL DE FOMENTO DE POLÍTICAS PÚBLICAS PARA ACCESO  A LA VIVIENDA DIGNA.,Presidente/a
+101369,asesora,2023-2024,100217,8,"Peticiones, Poderes y Reglamentos",Miembro
+101369,asesora,2023-2024,100217,71,Prevención y Lucha contra el Narcotráfico y Delitos Conexos,Miembro
+101369,asesora,2024-2025,100237,71,Prevención y Lucha contra el Narcotráfico y Delitos Conexos,Miembro
+101369,asesora,2025-2026,100257,3,Relaciones Exteriores y Asuntos Internacionales,Miembro
+101369,asesora,2025-2026,100257,101840,Asuntos Electorales,Miembro
+101369,especial,2023-2028,,100470,Parlamentaria de Amistad Paraguayo - Israelí,Miembro
+101369,especial,2023-2028,,101271,"COMISIÓN NACIONAL -  ANEXO ""C"" DE ITAIPÚ BINACIONAL",Titular
+101369,especial,2023-2028,,101750,Comisión Especial para el monitoreo y control de las máquinas de votación electrónica,Miembro
+101370,asesora,2023-2024,100217,2,"Legislación, Codificación, Justicia y Trabajo",Miembro
+101370,asesora,2023-2024,100217,6,Hacienda y Presupuesto,Miembro
+101370,asesora,2023-2024,100217,8,"Peticiones, Poderes y Reglamentos",Vicepresidente/a
+101370,asesora,2023-2024,100217,70,Industria y Comercio,Presidente/a
+101370,asesora,2023-2024,100217,100489,Comisión Bicameral de Presupuesto,Miembro
+101370,asesora,2023-2024,100217,101500,"Ciencias, Tecnología, Innovación y Futuro",Vicepresidente/a
+101370,asesora,2023-2024,100217,101580,Comisión Nacional de Gestión y Manejo del Lago Ypacaraí - CONALAYPA,Miembro Titular
+101370,asesora,2024-2025,100237,2,"Legislación, Codificación, Justicia y Trabajo",Miembro
+101370,asesora,2024-2025,100237,6,Hacienda y Presupuesto,Miembro
+101370,asesora,2024-2025,100237,70,Industria y Comercio,Vicepresidente/a
+101370,asesora,2024-2025,100237,100344,Pueblos Indígenas,Vicepresidente/a
+101370,asesora,2024-2025,100237,100489,Comisión Bicameral de Presupuesto,Miembro
+101370,asesora,2024-2025,100237,100669,COMISIÓN PERMANENTE DEL CONGRESO,Miembro
+101370,asesora,2024-2025,100237,101500,"Ciencias, Tecnología, Innovación y Futuro",Presidente/a
+101370,asesora,2025-2026,100257,2,"Legislación, Codificación, Justicia y Trabajo",Miembro
+101370,asesora,2025-2026,100257,6,Hacienda y Presupuesto,Miembro
+101370,asesora,2025-2026,100257,69,Cuentas y Control de la Administración Financiera del Estado,Miembro
+101370,asesora,2025-2026,100257,70,Industria y Comercio,Vicepresidente/a
+101370,asesora,2025-2026,100257,100489,Comisión Bicameral de Presupuesto,Miembro
+101370,asesora,2025-2026,100257,100669,COMISIÓN PERMANENTE DEL CONGRESO,Titular
+101370,asesora,2025-2026,100257,100932,Comisión Bicameral - Informe y Dictamen de la Contraloría General de la República,Miembro
+101370,asesora,2025-2026,100257,101500,"Ciencias, Tecnología, Innovación y Futuro",Presidente/a
+101370,asesora,2026-2027,100267,2,"Legislación, Codificación, Justicia y Trabajo",Miembro
+101370,asesora,2026-2027,100267,6,Hacienda y Presupuesto,Miembro
+101370,asesora,2026-2027,100267,69,Cuentas y Control de la Administración Financiera del Estado,Miembro
+101370,asesora,2026-2027,100267,70,Industria y Comercio,Vicepresidente/a
+101370,asesora,2026-2027,100267,100489,Comisión Bicameral de Presupuesto,Miembro
+101370,asesora,2026-2027,100267,101500,"Ciencias, Tecnología, Innovación y Futuro",Presidente/a
+101370,especial,2023-2028,,100410,Parlamentaria de Amistad Paraguayo - Portuguesa,Miembro
+101370,especial,2023-2028,,100417,Parlamentaria de Amistad Paraguayo - República de China (Taiwán),Miembro
+101370,especial,2023-2028,,100422,Parlamentaria de Amistad Paraguayo - Chilena,Presidente/a
+101370,especial,2023-2028,,100423,Parlamentaria de Amistad Paraguayo - Peruana,Miembro
+101370,especial,2023-2028,,100424,Parlamentaria de Amistad Paraguayo - India,Vicepresidente/a
+101370,especial,2023-2028,,100429,Parlamentaria de Amistad Paraguayo - Costa Rica,Relator/a
+101370,especial,2023-2028,,100551,Parlamentaria de Amistad Paraguayo - Qatarí,Miembro
+101370,especial,2023-2028,,100596,Comisión Parlamentaria - Parlamento Abierto Paraguay,Miembro
+101370,especial,2023-2028,,100597,Parlamentaria de Amistad Paraguayo - Francesa,Presidente/a
+101370,especial,2023-2028,,100598,Parlamentaria de Amistad Paraguayo - Turca,Miembro
+101370,especial,2023-2028,,100629,Parlamentaria de Amistad Paraguayo - Indonesia,Miembro
+101370,especial,2023-2028,,100870,Parlamentaria de Amistad Paraguayo - Alemana,Vicepresidente/a
+101370,especial,2023-2028,,100911,Parlamentaria de Amistad Paraguayo - Americana,Presidente/a
+101370,especial,2023-2028,,101590,Comisión Especial de Estudio de la Gobernanza de la Educación Superior Universitaria,Miembro
+101370,especial,2023-2028,,101820,Comisión Especial de Investigación para el Control de los Supuestos Abusos a los Derechos de los Consumidores en los Servicios Proveídos por las Empresas de Telefonía Celular e Internet,Relator/a
+101370,especial,2023-2028,,101910,"Comisión Especial de Investigación de los hechos relacionados con la emisión, comercialización y utilización de títulos, diplomas y certificaciones de Educación Superior, Formación Técnica, Profesional y Posgrado, presuntamente falsos o irregulares",Presidente/a
+101372,asesora,2023-2024,100217,6,Hacienda y Presupuesto,Miembro
+101372,asesora,2023-2024,100217,15,"Obras Públicas, Comunicaciones y Servicios Públicos",Relator/a
+101372,asesora,2023-2024,100217,100344,Pueblos Indígenas,Miembro
+101372,asesora,2023-2024,100217,100489,Comisión Bicameral de Presupuesto,Miembro
+101372,asesora,2024-2025,100237,15,"Obras Públicas, Comunicaciones y Servicios Públicos",Miembro
+101372,asesora,2024-2025,100237,100344,Pueblos Indígenas,Presidente/a
+101372,asesora,2024-2025,100237,100489,Comisión Bicameral de Presupuesto,Miembro
+101372,asesora,2025-2026,100257,15,"Obras Públicas, Comunicaciones y Servicios Públicos",Relator/a
+101372,asesora,2026-2027,100267,15,"Obras Públicas, Comunicaciones y Servicios Públicos",Relator/a
+101372,especial,2023-2028,,100550,Parlamentaria de Amistad Paraguayo - Canadá,Miembro
+101372,especial,2023-2028,,101550,Comisión Especial de Agua Segura para el Chaco,Presidente/a
+101373,asesora,2023-2024,100217,6,Hacienda y Presupuesto,Miembro
+101373,asesora,2023-2024,100217,69,Cuentas y Control de la Administración Financiera del Estado,Presidente/a
+101373,asesora,2023-2024,100217,72,Desarrollo Social,Miembro
+101373,asesora,2023-2024,100217,100489,Comisión Bicameral de Presupuesto,Miembro
+101373,asesora,2023-2024,100217,100669,COMISIÓN PERMANENTE DEL CONGRESO,Miembro Suplente
+101373,asesora,2023-2024,100217,100932,Comisión Bicameral - Informe y Dictamen de la Contraloría General de la República,Presidente/a
+101373,asesora,2023-2024,100217,100951,Derechos para las Personas con Discapacidad,Vicepresidente/a
+101373,asesora,2024-2025,100237,6,Hacienda y Presupuesto,Miembro
+101373,asesora,2024-2025,100237,69,Cuentas y Control de la Administración Financiera del Estado,Presidente/a
+101373,asesora,2024-2025,100237,100489,Comisión Bicameral de Presupuesto,Relator/a
+101373,asesora,2024-2025,100237,100669,COMISIÓN PERMANENTE DEL CONGRESO,Vicepresidente/a
+101373,asesora,2024-2025,100237,100932,Comisión Bicameral - Informe y Dictamen de la Contraloría General de la República,Vicepresidente/a
+101373,asesora,2024-2025,100237,100951,Derechos para las Personas con Discapacidad,Miembro
+101373,asesora,2024-2025,100237,101447,Frente Parlamentario de Apoyo a la Producción Nacional,Miembro
+101373,asesora,2024-2025,100237,101460,Desarrollo Agropecuario y Lucha contra el Contrabando,Miembro
+101373,asesora,2024-2025,100237,101560,Turismo,Miembro
+101373,asesora,2025-2026,100257,5,"Asuntos Constitucionales, Defensa Nacional y Fuerza Pública",Miembro
+101373,asesora,2025-2026,100257,6,Hacienda y Presupuesto,Miembro
+101373,asesora,2025-2026,100257,69,Cuentas y Control de la Administración Financiera del Estado,Presidente/a
+101373,asesora,2025-2026,100257,100489,Comisión Bicameral de Presupuesto,Miembro
+101373,asesora,2025-2026,100257,100669,COMISIÓN PERMANENTE DEL CONGRESO,Titular
+101373,asesora,2025-2026,100257,100932,Comisión Bicameral - Informe y Dictamen de la Contraloría General de la República,Miembro
+101373,asesora,2025-2026,100257,100951,Derechos para las Personas con Discapacidad,Miembro
+101373,asesora,2025-2026,100257,101427,"Familia, Niñez, Adolescencia y Juventud",Miembro
+101373,asesora,2025-2026,100257,101460,Desarrollo Agropecuario y Lucha contra el Contrabando,Miembro
+101373,asesora,2025-2026,100257,101560,Turismo,Miembro
+101373,asesora,2025-2026,100257,101840,Asuntos Electorales,Miembro
+101373,asesora,2026-2027,100267,5,"Asuntos Constitucionales, Defensa Nacional y Fuerza Pública",Miembro
+101373,asesora,2026-2027,100267,6,Hacienda y Presupuesto,Miembro
+101373,asesora,2026-2027,100267,69,Cuentas y Control de la Administración Financiera del Estado,Presidente/a
+101373,asesora,2026-2027,100267,100489,Comisión Bicameral de Presupuesto,Miembro
+101373,asesora,2026-2027,100267,100951,Derechos para las Personas con Discapacidad,Miembro
+101373,asesora,2026-2027,100267,101427,"Familia, Niñez, Adolescencia y Juventud",Miembro
+101373,asesora,2026-2027,100267,101460,Desarrollo Agropecuario y Lucha contra el Contrabando,Miembro
+101373,asesora,2026-2027,100267,101560,Turismo,Miembro
+101373,asesora,2026-2027,100267,101840,Asuntos Electorales,Miembro
+101373,especial,2023-2028,,100410,Parlamentaria de Amistad Paraguayo - Portuguesa,Relator/a
+101373,especial,2023-2028,,100412,Parlamentaria de Amistad Paraguayo - Cubana,Miembro
+101373,especial,2023-2028,,100414,Parlamentaria de Amistad Paraguayo - Argentina,Relator/a
+101373,especial,2023-2028,,100417,Parlamentaria de Amistad Paraguayo - República de China (Taiwán),Miembro
+101373,especial,2023-2028,,100419,Parlamentaria de Amistad Paraguayo - Azerbaiyana,Vicepresidente/a
+101373,especial,2023-2028,,100420,Parlamentaria de Amistad Paraguayo - Uruguaya,Vicepresidente/a
+101373,especial,2023-2028,,100422,Parlamentaria de Amistad Paraguayo - Chilena,Miembro
+101373,especial,2023-2028,,100423,Parlamentaria de Amistad Paraguayo - Peruana,Miembro
+101373,especial,2023-2028,,100424,Parlamentaria de Amistad Paraguayo - India,Miembro
+101373,especial,2023-2028,,100470,Parlamentaria de Amistad Paraguayo - Israelí,Miembro
+101373,especial,2023-2028,,100530,Parlamentaria de Amistad Paraguayo - Brasilera,Miembro
+101373,especial,2023-2028,,100549,Parlamentaria de Amistad Paraguayo - Marroquí,Miembro
+101373,especial,2023-2028,,100551,Parlamentaria de Amistad Paraguayo - Qatarí,Relator/a
+101373,especial,2023-2028,,100629,Parlamentaria de Amistad Paraguayo - Indonesia,Miembro
+101373,especial,2023-2028,,100870,Parlamentaria de Amistad Paraguayo - Alemana,Presidente/a
+101373,especial,2023-2028,,100911,Parlamentaria de Amistad Paraguayo - Americana,Miembro
+101373,especial,2023-2028,,101271,"COMISIÓN NACIONAL -  ANEXO ""C"" DE ITAIPÚ BINACIONAL",Vicepresidente/a
+101373,especial,2023-2028,,101419,Parlamentaria de Amistad Paraguayo - Austriaca,Presidente/a
+101373,especial,2023-2028,,101650,"Comisión conjunta de investigación de carácter transitorio para la investigación de hechos punibles de lavado de activos, contra el patrimonio del Estado, contrabando y otros delitos conexos",Presidente/a
+101373,especial,2023-2028,,101750,Comisión Especial para el monitoreo y control de las máquinas de votación electrónica,Miembro
+101373,especial,2023-2028,,101820,Comisión Especial de Investigación para el Control de los Supuestos Abusos a los Derechos de los Consumidores en los Servicios Proveídos por las Empresas de Telefonía Celular e Internet,Presidente/a
+101373,especial,2023-2028,,101910,"Comisión Especial de Investigación de los hechos relacionados con la emisión, comercialización y utilización de títulos, diplomas y certificaciones de Educación Superior, Formación Técnica, Profesional y Posgrado, presuntamente falsos o irregulares",Relator/a
+101373,especial,2023-2028,,101940,"COMISIÓN ESPECIAL DE INVESTIGACIÓN, SEGUIMIENTO Y ESCLARECIMIENTO DE LOS PRESUNTOS HECHOS PUNIBLES DE CORRUPCIÓN, DETECTADOS EN EL I.P.S. Y EN EL M.S.P.B.S.",Miembro
+101374,asesora,2023-2024,100217,2,"Legislación, Codificación, Justicia y Trabajo",Miembro
+101374,asesora,2023-2024,100217,3,Relaciones Exteriores y Asuntos Internacionales,Miembro
+101374,asesora,2023-2024,100217,6,Hacienda y Presupuesto,Miembro
+101374,asesora,2023-2024,100217,14,"Asuntos Departamentales, Municipales, Distritales y Regionales",Miembro
+101374,asesora,2023-2024,100217,16,"Energía, Recursos Naturales, Población, Ambiente, Producción y Desarrollo Sostenible",Presidente/a
+101374,asesora,2023-2024,100217,100489,Comisión Bicameral de Presupuesto,Miembro
+101374,asesora,2023-2024,100217,100951,Derechos para las Personas con Discapacidad,Miembro
+101374,asesora,2023-2024,100217,101427,"Familia, Niñez, Adolescencia y Juventud",Miembro
+101374,asesora,2023-2024,100217,101488,Deportes,Miembro
+101374,asesora,2024-2025,100237,2,"Legislación, Codificación, Justicia y Trabajo",Miembro
+101374,asesora,2024-2025,100237,3,Relaciones Exteriores y Asuntos Internacionales,Relator/a
+101374,asesora,2024-2025,100237,5,"Asuntos Constitucionales, Defensa Nacional y Fuerza Pública",Miembro
+101374,asesora,2024-2025,100237,6,Hacienda y Presupuesto,Miembro
+101374,asesora,2024-2025,100237,14,"Asuntos Departamentales, Municipales, Distritales y Regionales",Miembro
+101374,asesora,2024-2025,100237,15,"Obras Públicas, Comunicaciones y Servicios Públicos",Miembro
+101374,asesora,2024-2025,100237,16,"Energía, Recursos Naturales, Población, Ambiente, Producción y Desarrollo Sostenible",Presidente/a
+101374,asesora,2024-2025,100237,72,Desarrollo Social,Miembro
+101374,asesora,2024-2025,100237,100489,Comisión Bicameral de Presupuesto,Miembro
+101374,asesora,2024-2025,100237,100951,Derechos para las Personas con Discapacidad,Miembro
+101374,asesora,2024-2025,100237,101427,"Familia, Niñez, Adolescencia y Juventud",Miembro
+101374,asesora,2024-2025,100237,101488,Deportes,Relator/a
+101374,asesora,2025-2026,100257,2,"Legislación, Codificación, Justicia y Trabajo",Miembro
+101374,asesora,2025-2026,100257,3,Relaciones Exteriores y Asuntos Internacionales,Relator/a
+101374,asesora,2025-2026,100257,5,"Asuntos Constitucionales, Defensa Nacional y Fuerza Pública",Miembro
+101374,asesora,2025-2026,100257,6,Hacienda y Presupuesto,Miembro
+101374,asesora,2025-2026,100257,14,"Asuntos Departamentales, Municipales, Distritales y Regionales",Miembro
+101374,asesora,2025-2026,100257,15,"Obras Públicas, Comunicaciones y Servicios Públicos",Miembro
+101374,asesora,2025-2026,100257,16,"Energía, Recursos Naturales, Población, Ambiente, Producción y Desarrollo Sostenible",Presidente/a
+101374,asesora,2025-2026,100257,72,Desarrollo Social,Miembro
+101374,asesora,2025-2026,100257,100489,Comisión Bicameral de Presupuesto,Miembro
+101374,asesora,2025-2026,100257,100951,Derechos para las Personas con Discapacidad,Miembro
+101374,asesora,2025-2026,100257,101427,"Familia, Niñez, Adolescencia y Juventud",Miembro
+101374,asesora,2025-2026,100257,101488,Deportes,Relator/a
+101374,asesora,2025-2026,100257,101850,"Asistencia, Protección y Bienestar Animal",Miembro
+101374,asesora,2026-2027,100267,2,"Legislación, Codificación, Justicia y Trabajo",Miembro
+101374,asesora,2026-2027,100267,3,Relaciones Exteriores y Asuntos Internacionales,Relator/a
+101374,asesora,2026-2027,100267,5,"Asuntos Constitucionales, Defensa Nacional y Fuerza Pública",Miembro
+101374,asesora,2026-2027,100267,6,Hacienda y Presupuesto,Miembro
+101374,asesora,2026-2027,100267,14,"Asuntos Departamentales, Municipales, Distritales y Regionales",Miembro
+101374,asesora,2026-2027,100267,15,"Obras Públicas, Comunicaciones y Servicios Públicos",Miembro
+101374,asesora,2026-2027,100267,16,"Energía, Recursos Naturales, Población, Ambiente, Producción y Desarrollo Sostenible",Presidente/a
+101374,asesora,2026-2027,100267,72,Desarrollo Social,Miembro
+101374,asesora,2026-2027,100267,100489,Comisión Bicameral de Presupuesto,Miembro
+101374,asesora,2026-2027,100267,100951,Derechos para las Personas con Discapacidad,Miembro
+101374,asesora,2026-2027,100267,101427,"Familia, Niñez, Adolescencia y Juventud",Miembro
+101374,asesora,2026-2027,100267,101488,Deportes,Relator/a
+101374,asesora,2026-2027,100267,101850,"Asistencia, Protección y Bienestar Animal",Miembro
+101374,especial,2023-2028,,100415,Parlamentaria de Amistad Paraguayo - Italiana,Relator/a
+101374,especial,2023-2028,,100417,Parlamentaria de Amistad Paraguayo - República de China (Taiwán),Miembro
+101374,especial,2023-2028,,100419,Parlamentaria de Amistad Paraguayo - Azerbaiyana,Miembro
+101374,especial,2023-2028,,100421,Parlamentaria de Amistad Paraguayo - Boliviana,Miembro
+101374,especial,2023-2028,,100424,Parlamentaria de Amistad Paraguayo - India,Relator/a
+101374,especial,2023-2028,,100429,Parlamentaria de Amistad Paraguayo - Costa Rica,Miembro
+101374,especial,2023-2028,,100470,Parlamentaria de Amistad Paraguayo - Israelí,Vicepresidente/a
+101374,especial,2023-2028,,100530,Parlamentaria de Amistad Paraguayo - Brasilera,Relator/a
+101374,especial,2023-2028,,100597,Parlamentaria de Amistad Paraguayo - Francesa,Vicepresidente/a
+101374,especial,2023-2028,,100850,Parlamentaria de Amistad Paraguayo - Japonesa,Miembro
+101374,especial,2023-2028,,101111,Parlamentaria de Amistad Paraguayo - Reino Unido,Vicepresidente/a
+101374,especial,2023-2028,,101271,"COMISIÓN NACIONAL -  ANEXO ""C"" DE ITAIPÚ BINACIONAL",Titular
+101374,especial,2023-2028,,101740,"Comisión Especial de Investigación sobre los hechos relacionados con la trama delictiva denominada ""Mafia de los Pagarés""",Miembro
+101374,especial,2023-2028,,101820,Comisión Especial de Investigación para el Control de los Supuestos Abusos a los Derechos de los Consumidores en los Servicios Proveídos por las Empresas de Telefonía Celular e Internet,Miembro
+101374,especial,2023-2028,,101940,"COMISIÓN ESPECIAL DE INVESTIGACIÓN, SEGUIMIENTO Y ESCLARECIMIENTO DE LOS PRESUNTOS HECHOS PUNIBLES DE CORRUPCIÓN, DETECTADOS EN EL I.P.S. Y EN EL M.S.P.B.S.",Miembro
+101374,especial,2023-2028,,101960,Comisión Especial de Investigación de Carácter Transitorio para la Investigación de los Hechos Relacionados de Corrupción Denunciados en el INDERT,Miembro
+101375,asesora,2023-2024,100217,2,"Legislación, Codificación, Justicia y Trabajo",Miembro
+101375,asesora,2023-2024,100217,3,Relaciones Exteriores y Asuntos Internacionales,Miembro
+101375,asesora,2023-2024,100217,6,Hacienda y Presupuesto,Miembro
+101375,asesora,2023-2024,100217,13,Salud Pública y Seguridad Social,Relator/a
+101375,asesora,2023-2024,100217,72,Desarrollo Social,Vicepresidente/a
+101375,asesora,2023-2024,100217,100489,Comisión Bicameral de Presupuesto,Miembro
+101375,asesora,2023-2024,100217,101560,Turismo,Presidente/a
+101375,asesora,2024-2025,100237,3,Relaciones Exteriores y Asuntos Internacionales,Miembro
+101375,asesora,2024-2025,100237,6,Hacienda y Presupuesto,Miembro
+101375,asesora,2024-2025,100237,13,Salud Pública y Seguridad Social,Miembro
+101375,asesora,2024-2025,100237,69,Cuentas y Control de la Administración Financiera del Estado,Miembro
+101375,asesora,2024-2025,100237,100489,Comisión Bicameral de Presupuesto,Miembro
+101375,asesora,2024-2025,100237,101560,Turismo,Presidente/a
+101375,asesora,2025-2026,100257,100489,Comisión Bicameral de Presupuesto,Miembro
+101375,asesora,2025-2026,100257,101560,Turismo,Presidente/a
+101375,especial,2023-2028,,101820,Comisión Especial de Investigación para el Control de los Supuestos Abusos a los Derechos de los Consumidores en los Servicios Proveídos por las Empresas de Telefonía Celular e Internet,Miembro
+101376,asesora,2023-2024,100217,5,"Asuntos Constitucionales, Defensa Nacional y Fuerza Pública",Vicepresidente/a
+101376,asesora,2023-2024,100217,6,Hacienda y Presupuesto,Miembro
+101376,asesora,2023-2024,100217,8,"Peticiones, Poderes y Reglamentos",Presidente/a
+101376,asesora,2023-2024,100217,72,Desarrollo Social,Miembro
+101376,asesora,2023-2024,100217,100489,Comisión Bicameral de Presupuesto,Miembro
+101376,asesora,2023-2024,100217,100669,COMISIÓN PERMANENTE DEL CONGRESO,Miembro Suplente
+101376,asesora,2023-2024,100217,101460,Desarrollo Agropecuario y Lucha contra el Contrabando,Miembro
+101376,asesora,2023-2024,100217,101560,Turismo,Miembro
+101376,asesora,2024-2025,100237,5,"Asuntos Constitucionales, Defensa Nacional y Fuerza Pública",Presidente/a
+101376,asesora,2024-2025,100237,6,Hacienda y Presupuesto,Miembro
+101376,asesora,2024-2025,100237,8,"Peticiones, Poderes y Reglamentos",Vicepresidente/a
+101376,asesora,2024-2025,100237,100489,Comisión Bicameral de Presupuesto,Miembro
+101376,asesora,2024-2025,100237,101460,Desarrollo Agropecuario y Lucha contra el Contrabando,Miembro
+101376,asesora,2024-2025,100237,101560,Turismo,Miembro
+101376,asesora,2025-2026,100257,5,"Asuntos Constitucionales, Defensa Nacional y Fuerza Pública",Presidente/a
+101376,asesora,2025-2026,100257,6,Hacienda y Presupuesto,Miembro
+101376,asesora,2025-2026,100257,8,"Peticiones, Poderes y Reglamentos",Vicepresidente/a
+101376,asesora,2025-2026,100257,100489,Comisión Bicameral de Presupuesto,Miembro
+101376,asesora,2025-2026,100257,101460,Desarrollo Agropecuario y Lucha contra el Contrabando,Miembro
+101376,asesora,2025-2026,100257,101560,Turismo,Miembro
+101376,asesora,2026-2027,100267,5,"Asuntos Constitucionales, Defensa Nacional y Fuerza Pública",Presidente/a
+101376,asesora,2026-2027,100267,6,Hacienda y Presupuesto,Miembro
+101376,asesora,2026-2027,100267,8,"Peticiones, Poderes y Reglamentos",Vicepresidente/a
+101376,asesora,2026-2027,100267,100489,Comisión Bicameral de Presupuesto,Miembro
+101376,asesora,2026-2027,100267,101460,Desarrollo Agropecuario y Lucha contra el Contrabando,Miembro
+101376,asesora,2026-2027,100267,101560,Turismo,Miembro
+101376,especial,2023-2028,,100413,Parlamentaria de Amistad Paraguayo - Española,Presidente/a
+101376,especial,2023-2028,,100414,Parlamentaria de Amistad Paraguayo - Argentina,Vicepresidente/a
+101376,especial,2023-2028,,100417,Parlamentaria de Amistad Paraguayo - República de China (Taiwán),Miembro
+101376,especial,2023-2028,,100418,Parlamentaria de Amistad Paraguayo - Ecuador,Miembro
+101376,especial,2023-2028,,100423,Parlamentaria de Amistad Paraguayo - Peruana,Relator/a
+101376,especial,2023-2028,,100424,Parlamentaria de Amistad Paraguayo - India,Miembro
+101376,especial,2023-2028,,100470,Parlamentaria de Amistad Paraguayo - Israelí,Miembro
+101376,especial,2023-2028,,100530,Parlamentaria de Amistad Paraguayo - Brasilera,Presidente/a
+101376,especial,2023-2028,,100850,Parlamentaria de Amistad Paraguayo - Japonesa,Miembro
+101376,especial,2023-2028,,100911,Parlamentaria de Amistad Paraguayo - Americana,Miembro
+101376,especial,2023-2028,,101111,Parlamentaria de Amistad Paraguayo - Reino Unido,Miembro
+101376,especial,2023-2028,,101271,"COMISIÓN NACIONAL -  ANEXO ""C"" DE ITAIPÚ BINACIONAL",Titular
+101377,asesora,2023-2024,100217,3,Relaciones Exteriores y Asuntos Internacionales,Miembro
+101377,asesora,2023-2024,100217,5,"Asuntos Constitucionales, Defensa Nacional y Fuerza Pública",Miembro
+101377,asesora,2023-2024,100217,70,Industria y Comercio,Miembro
+101377,asesora,2023-2024,100217,71,Prevención y Lucha contra el Narcotráfico y Delitos Conexos,Relator/a
+101377,asesora,2023-2024,100217,101495,Adultos Mayores y Seguimiento del Sistema de Jubilaciones y Pensiones,Presidente/a
+101377,asesora,2023-2024,100217,101500,"Ciencias, Tecnología, Innovación y Futuro",Miembro
+101377,asesora,2024-2025,100237,3,Relaciones Exteriores y Asuntos Internacionales,Miembro
+101377,asesora,2024-2025,100237,6,Hacienda y Presupuesto,Miembro
+101377,asesora,2024-2025,100237,70,Industria y Comercio,Miembro
+101377,asesora,2024-2025,100237,100489,Comisión Bicameral de Presupuesto,Miembro
+101377,asesora,2024-2025,100237,101447,Frente Parlamentario de Apoyo a la Producción Nacional,Miembro
+101377,asesora,2024-2025,100237,101495,Adultos Mayores y Seguimiento del Sistema de Jubilaciones y Pensiones,Presidente/a
+101377,asesora,2024-2025,100237,101500,"Ciencias, Tecnología, Innovación y Futuro",Miembro
+101377,asesora,2025-2026,100257,3,Relaciones Exteriores y Asuntos Internacionales,Miembro
+101377,asesora,2025-2026,100257,5,"Asuntos Constitucionales, Defensa Nacional y Fuerza Pública",Miembro
+101377,asesora,2025-2026,100257,6,Hacienda y Presupuesto,Miembro
+101377,asesora,2025-2026,100257,70,Industria y Comercio,Relator/a
+101377,asesora,2025-2026,100257,100489,Comisión Bicameral de Presupuesto,Miembro
+101377,asesora,2025-2026,100257,101495,Adultos Mayores y Seguimiento del Sistema de Jubilaciones y Pensiones,Presidente/a
+101377,asesora,2026-2027,100267,3,Relaciones Exteriores y Asuntos Internacionales,Miembro
+101377,asesora,2026-2027,100267,5,"Asuntos Constitucionales, Defensa Nacional y Fuerza Pública",Miembro
+101377,asesora,2026-2027,100267,6,Hacienda y Presupuesto,Miembro
+101377,asesora,2026-2027,100267,70,Industria y Comercio,Relator/a
+101377,asesora,2026-2027,100267,100489,Comisión Bicameral de Presupuesto,Miembro
+101377,asesora,2026-2027,100267,101495,Adultos Mayores y Seguimiento del Sistema de Jubilaciones y Pensiones,Presidente/a
+101377,especial,2023-2028,,100413,Parlamentaria de Amistad Paraguayo - Española,Miembro
+101377,especial,2023-2028,,100417,Parlamentaria de Amistad Paraguayo - República de China (Taiwán),Miembro
+101377,especial,2023-2028,,100420,Parlamentaria de Amistad Paraguayo - Uruguaya,Miembro
+101377,especial,2023-2028,,100421,Parlamentaria de Amistad Paraguayo - Boliviana,Miembro
+101377,especial,2023-2028,,100423,Parlamentaria de Amistad Paraguayo - Peruana,Miembro
+101377,especial,2023-2028,,100470,Parlamentaria de Amistad Paraguayo - Israelí,Miembro
+101377,especial,2023-2028,,100530,Parlamentaria de Amistad Paraguayo - Brasilera,Vicepresidente/a
+101377,especial,2023-2028,,100551,Parlamentaria de Amistad Paraguayo - Qatarí,Miembro
+101377,especial,2023-2028,,101091,Parlamentaria de Amistad Paraguayo - Emirato Árabes Unidos,Miembro
+101377,especial,2023-2028,,101111,Parlamentaria de Amistad Paraguayo - Reino Unido,Miembro
+101377,especial,2023-2028,,101830,Parlamentaria de Amistad Paraguayo - Angolano,Miembro
+101377,especial,2023-2028,,101940,"COMISIÓN ESPECIAL DE INVESTIGACIÓN, SEGUIMIENTO Y ESCLARECIMIENTO DE LOS PRESUNTOS HECHOS PUNIBLES DE CORRUPCIÓN, DETECTADOS EN EL I.P.S. Y EN EL M.S.P.B.S.",Miembro
+101377,especial,2023-2028,,101960,Comisión Especial de Investigación de Carácter Transitorio para la Investigación de los Hechos Relacionados de Corrupción Denunciados en el INDERT,Miembro
+101378,asesora,2023-2024,100217,13,Salud Pública y Seguridad Social,Miembro
+101378,asesora,2023-2024,100217,16,"Energía, Recursos Naturales, Población, Ambiente, Producción y Desarrollo Sostenible",Miembro
+101378,asesora,2023-2024,100217,100368,Comisión Nacional de Defensa de los Recursos Naturales - CONADERNA,Presidente/a
+101378,asesora,2023-2024,100217,100489,Comisión Bicameral de Presupuesto,Miembro
+101378,asesora,2023-2024,100217,101560,Turismo,Miembro
+101378,asesora,2024-2025,100237,3,Relaciones Exteriores y Asuntos Internacionales,Miembro
+101378,asesora,2024-2025,100237,13,Salud Pública y Seguridad Social,Miembro
+101378,asesora,2024-2025,100237,14,"Asuntos Departamentales, Municipales, Distritales y Regionales",Miembro
+101378,asesora,2024-2025,100237,16,"Energía, Recursos Naturales, Población, Ambiente, Producción y Desarrollo Sostenible",Miembro
+101378,asesora,2024-2025,100237,72,Desarrollo Social,Miembro
+101378,asesora,2024-2025,100237,100489,Comisión Bicameral de Presupuesto,Miembro
+101378,asesora,2024-2025,100237,100529,Frente Parlamentario contra el Hambre,Miembro
+101378,asesora,2024-2025,100237,101447,Frente Parlamentario de Apoyo a la Producción Nacional,Miembro
+101378,asesora,2025-2026,100257,3,Relaciones Exteriores y Asuntos Internacionales,Miembro
+101378,asesora,2025-2026,100257,13,Salud Pública y Seguridad Social,Miembro
+101378,asesora,2025-2026,100257,14,"Asuntos Departamentales, Municipales, Distritales y Regionales",Miembro
+101378,asesora,2025-2026,100257,16,"Energía, Recursos Naturales, Población, Ambiente, Producción y Desarrollo Sostenible",Miembro
+101378,asesora,2025-2026,100257,72,Desarrollo Social,Miembro
+101378,asesora,2025-2026,100257,100529,Frente Parlamentario contra el Hambre,Miembro
+101378,asesora,2025-2026,100257,100669,COMISIÓN PERMANENTE DEL CONGRESO,Titular
+101378,asesora,2026-2027,100267,3,Relaciones Exteriores y Asuntos Internacionales,Miembro
+101378,asesora,2026-2027,100267,13,Salud Pública y Seguridad Social,Miembro
+101378,asesora,2026-2027,100267,14,"Asuntos Departamentales, Municipales, Distritales y Regionales",Miembro
+101378,asesora,2026-2027,100267,16,"Energía, Recursos Naturales, Población, Ambiente, Producción y Desarrollo Sostenible",Miembro
+101378,asesora,2026-2027,100267,72,Desarrollo Social,Presidente/a
+101378,especial,2023-2028,,100413,Parlamentaria de Amistad Paraguayo - Española,Miembro
+101378,especial,2023-2028,,100470,Parlamentaria de Amistad Paraguayo - Israelí,Miembro
+101378,especial,2023-2028,,100551,Parlamentaria de Amistad Paraguayo - Qatarí,Miembro
+101378,especial,2023-2028,,100598,Parlamentaria de Amistad Paraguayo - Turca,Miembro
+101378,especial,2023-2028,,100850,Parlamentaria de Amistad Paraguayo - Japonesa,Vicepresidente/a
+101378,especial,2023-2028,,100911,Parlamentaria de Amistad Paraguayo - Americana,Miembro
+101378,especial,2023-2028,,101740,"Comisión Especial de Investigación sobre los hechos relacionados con la trama delictiva denominada ""Mafia de los Pagarés""",Miembro
+101378,especial,2023-2028,,101830,Parlamentaria de Amistad Paraguayo - Angolano,Relator/a
+101378,especial,2023-2028,,101940,"COMISIÓN ESPECIAL DE INVESTIGACIÓN, SEGUIMIENTO Y ESCLARECIMIENTO DE LOS PRESUNTOS HECHOS PUNIBLES DE CORRUPCIÓN, DETECTADOS EN EL I.P.S. Y EN EL M.S.P.B.S.",Miembro
+101379,asesora,2023-2024,100217,9,Educación y Cultura,Miembro
+101379,asesora,2023-2024,100217,13,Salud Pública y Seguridad Social,Miembro
+101379,asesora,2023-2024,100217,17,Equidad y Género,Relator/a
+101379,asesora,2023-2024,100217,100489,Comisión Bicameral de Presupuesto,Miembro
+101379,asesora,2024-2025,100237,6,Hacienda y Presupuesto,Miembro
+101379,asesora,2024-2025,100237,9,Educación y Cultura,Miembro
+101379,asesora,2024-2025,100237,13,Salud Pública y Seguridad Social,Miembro
+101379,asesora,2024-2025,100237,17,Equidad y Género,Miembro
+101379,asesora,2024-2025,100237,100489,Comisión Bicameral de Presupuesto,Miembro
+101379,asesora,2024-2025,100237,100529,Frente Parlamentario contra el Hambre,Miembro
+101379,asesora,2025-2026,100257,6,Hacienda y Presupuesto,Miembro
+101379,asesora,2025-2026,100257,9,Educación y Cultura,Miembro
+101379,asesora,2025-2026,100257,13,Salud Pública y Seguridad Social,Miembro
+101379,asesora,2025-2026,100257,17,Equidad y Género,Relator/a
+101379,asesora,2025-2026,100257,100489,Comisión Bicameral de Presupuesto,Miembro
+101379,asesora,2025-2026,100257,100529,Frente Parlamentario contra el Hambre,Relator/a
+101379,asesora,2026-2027,100267,6,Hacienda y Presupuesto,Miembro
+101379,asesora,2026-2027,100267,9,Educación y Cultura,Miembro
+101379,asesora,2026-2027,100267,13,Salud Pública y Seguridad Social,Miembro
+101379,asesora,2026-2027,100267,17,Equidad y Género,Relator/a
+101379,asesora,2026-2027,100267,100489,Comisión Bicameral de Presupuesto,Miembro
+101379,especial,2023-2028,,100412,Parlamentaria de Amistad Paraguayo - Cubana,Vicepresidente/a
+101379,especial,2023-2028,,100413,Parlamentaria de Amistad Paraguayo - Española,Miembro
+101379,especial,2023-2028,,100416,Parlamentaria de Amistad Paraguayo - Corea del Sur,Miembro
+101379,especial,2023-2028,,100420,Parlamentaria de Amistad Paraguayo - Uruguaya,Miembro
+101379,especial,2023-2028,,100530,Parlamentaria de Amistad Paraguayo - Brasilera,Miembro
+101379,especial,2023-2028,,100550,Parlamentaria de Amistad Paraguayo - Canadá,Relator/a
+101379,especial,2023-2028,,100595,Parlamentaria de Amistad Paraguayo - Rusa,Miembro
+101379,especial,2023-2028,,100596,Comisión Parlamentaria - Parlamento Abierto Paraguay,Miembro
+101379,especial,2023-2028,,101550,Comisión Especial de Agua Segura para el Chaco,Miembro
+101379,especial,2023-2028,,101590,Comisión Especial de Estudio de la Gobernanza de la Educación Superior Universitaria,Miembro
+101379,especial,2023-2028,,101740,"Comisión Especial de Investigación sobre los hechos relacionados con la trama delictiva denominada ""Mafia de los Pagarés""",Miembro
+101379,especial,2023-2028,,101820,Comisión Especial de Investigación para el Control de los Supuestos Abusos a los Derechos de los Consumidores en los Servicios Proveídos por las Empresas de Telefonía Celular e Internet,Miembro
+101379,especial,2023-2028,,101890,COMISIÓN BICAMERAL DE FOMENTO DE POLÍTICAS PÚBLICAS PARA ACCESO  A LA VIVIENDA DIGNA.,Titular
+101379,especial,2023-2028,,101910,"Comisión Especial de Investigación de los hechos relacionados con la emisión, comercialización y utilización de títulos, diplomas y certificaciones de Educación Superior, Formación Técnica, Profesional y Posgrado, presuntamente falsos o irregulares",Vicepresidente/a
+101379,especial,2023-2028,,101940,"COMISIÓN ESPECIAL DE INVESTIGACIÓN, SEGUIMIENTO Y ESCLARECIMIENTO DE LOS PRESUNTOS HECHOS PUNIBLES DE CORRUPCIÓN, DETECTADOS EN EL I.P.S. Y EN EL M.S.P.B.S.",Miembro
+101379,especial,2023-2028,,101950,Parlamentaria de Amistad Paraguayo - Mexicana,Miembro
+101380,asesora,2023-2024,100217,9,Educación y Cultura,Miembro
+101380,asesora,2023-2024,100217,100489,Comisión Bicameral de Presupuesto,Miembro
+101380,asesora,2024-2025,100237,9,Educación y Cultura,Miembro
+101380,asesora,2024-2025,100237,100489,Comisión Bicameral de Presupuesto,Miembro
+101380,asesora,2024-2025,100237,100529,Frente Parlamentario contra el Hambre,Miembro
+101380,asesora,2025-2026,100257,9,Educación y Cultura,Miembro
+101380,asesora,2025-2026,100257,100489,Comisión Bicameral de Presupuesto,Miembro
+101380,asesora,2025-2026,100257,100529,Frente Parlamentario contra el Hambre,Presidente/a
+101380,asesora,2026-2027,100267,9,Educación y Cultura,Miembro
+101380,asesora,2026-2027,100267,100489,Comisión Bicameral de Presupuesto,Miembro
+101380,especial,2023-2028,,100412,Parlamentaria de Amistad Paraguayo - Cubana,Relator/a
+101380,especial,2023-2028,,100413,Parlamentaria de Amistad Paraguayo - Española,Miembro
+101380,especial,2023-2028,,100416,Parlamentaria de Amistad Paraguayo - Corea del Sur,Miembro
+101380,especial,2023-2028,,100420,Parlamentaria de Amistad Paraguayo - Uruguaya,Miembro
+101380,especial,2023-2028,,100429,Parlamentaria de Amistad Paraguayo - Costa Rica,Miembro
+101380,especial,2023-2028,,100550,Parlamentaria de Amistad Paraguayo - Canadá,Miembro
+101380,especial,2023-2028,,100551,Parlamentaria de Amistad Paraguayo - Qatarí,Miembro
+101380,especial,2023-2028,,100596,Comisión Parlamentaria - Parlamento Abierto Paraguay,Presidente/a
+101380,especial,2023-2028,,100597,Parlamentaria de Amistad Paraguayo - Francesa,Miembro
+101380,especial,2023-2028,,100911,Parlamentaria de Amistad Paraguayo - Americana,Miembro
+101380,especial,2023-2028,,101590,Comisión Especial de Estudio de la Gobernanza de la Educación Superior Universitaria,Vicepresidente/a
+101380,especial,2023-2028,,101740,"Comisión Especial de Investigación sobre los hechos relacionados con la trama delictiva denominada ""Mafia de los Pagarés""",Miembro
+101380,especial,2023-2028,,101910,"Comisión Especial de Investigación de los hechos relacionados con la emisión, comercialización y utilización de títulos, diplomas y certificaciones de Educación Superior, Formación Técnica, Profesional y Posgrado, presuntamente falsos o irregulares",Miembro
+101380,especial,2023-2028,,101950,Parlamentaria de Amistad Paraguayo - Mexicana,Vicepresidente/a
+101381,asesora,2023-2024,100217,3,Relaciones Exteriores y Asuntos Internacionales,Miembro
+101381,asesora,2023-2024,100217,13,Salud Pública y Seguridad Social,Vicepresidente/a
+101381,asesora,2023-2024,100217,16,"Energía, Recursos Naturales, Población, Ambiente, Producción y Desarrollo Sostenible",Vicepresidente/a
+101381,asesora,2023-2024,100217,69,Cuentas y Control de la Administración Financiera del Estado,Miembro
+101381,asesora,2023-2024,100217,72,Desarrollo Social,Relator/a
+101381,asesora,2023-2024,100217,100368,Comisión Nacional de Defensa de los Recursos Naturales - CONADERNA,Miembro
+101381,asesora,2023-2024,100217,100669,COMISIÓN PERMANENTE DEL CONGRESO,Miembro Titular
+101381,asesora,2023-2024,100217,100932,Comisión Bicameral - Informe y Dictamen de la Contraloría General de la República,Miembro
+101381,asesora,2023-2024,100217,100951,Derechos para las Personas con Discapacidad,Presidente/a
+101381,asesora,2023-2024,100217,101580,Comisión Nacional de Gestión y Manejo del Lago Ypacaraí - CONALAYPA,Miembro Suplente
+101381,asesora,2024-2025,100237,13,Salud Pública y Seguridad Social,Presidente/a
+101381,asesora,2024-2025,100237,16,"Energía, Recursos Naturales, Población, Ambiente, Producción y Desarrollo Sostenible",Miembro
+101381,asesora,2024-2025,100237,100368,Comisión Nacional de Defensa de los Recursos Naturales - CONADERNA,Presidente/a
+101381,asesora,2024-2025,100237,100489,Comisión Bicameral de Presupuesto,Miembro
+101381,asesora,2024-2025,100237,100951,Derechos para las Personas con Discapacidad,Miembro
+101381,asesora,2024-2025,100237,101447,Frente Parlamentario de Apoyo a la Producción Nacional,Miembro
+101381,asesora,2025-2026,100257,9,Educación y Cultura,Miembro
+101381,asesora,2025-2026,100257,13,Salud Pública y Seguridad Social,Presidente/a
+101381,asesora,2025-2026,100257,16,"Energía, Recursos Naturales, Población, Ambiente, Producción y Desarrollo Sostenible",Miembro
+101381,asesora,2025-2026,100257,100489,Comisión Bicameral de Presupuesto,Miembro
+101381,asesora,2025-2026,100257,100951,Derechos para las Personas con Discapacidad,Relator/a
+101381,asesora,2025-2026,100257,101850,"Asistencia, Protección y Bienestar Animal",Relator/a
+101381,asesora,2026-2027,100267,9,Educación y Cultura,Miembro
+101381,asesora,2026-2027,100267,13,Salud Pública y Seguridad Social,Presidente/a
+101381,asesora,2026-2027,100267,16,"Energía, Recursos Naturales, Población, Ambiente, Producción y Desarrollo Sostenible",Miembro
+101381,asesora,2026-2027,100267,100489,Comisión Bicameral de Presupuesto,Miembro
+101381,asesora,2026-2027,100267,100951,Derechos para las Personas con Discapacidad,Relator/a
+101381,asesora,2026-2027,100267,101850,"Asistencia, Protección y Bienestar Animal",Relator/a
+101381,especial,2023-2028,,100410,Parlamentaria de Amistad Paraguayo - Portuguesa,Miembro
+101381,especial,2023-2028,,100416,Parlamentaria de Amistad Paraguayo - Corea del Sur,Miembro
+101381,especial,2023-2028,,100417,Parlamentaria de Amistad Paraguayo - República de China (Taiwán),Miembro
+101381,especial,2023-2028,,100419,Parlamentaria de Amistad Paraguayo - Azerbaiyana,Presidente/a
+101381,especial,2023-2028,,100470,Parlamentaria de Amistad Paraguayo - Israelí,Miembro
+101381,especial,2023-2028,,100549,Parlamentaria de Amistad Paraguayo - Marroquí,Presidente/a
+101381,especial,2023-2028,,100551,Parlamentaria de Amistad Paraguayo - Qatarí,Vicepresidente/a
+101381,especial,2023-2028,,100595,Parlamentaria de Amistad Paraguayo - Rusa,Vicepresidente/a
+101381,especial,2023-2028,,100629,Parlamentaria de Amistad Paraguayo - Indonesia,Miembro
+101381,especial,2023-2028,,100850,Parlamentaria de Amistad Paraguayo - Japonesa,Miembro
+101381,especial,2023-2028,,100870,Parlamentaria de Amistad Paraguayo - Alemana,Relator/a
+101381,especial,2023-2028,,101271,"COMISIÓN NACIONAL -  ANEXO ""C"" DE ITAIPÚ BINACIONAL",Relator/a
+101381,especial,2023-2028,,101550,Comisión Especial de Agua Segura para el Chaco,Relator/a
+101381,especial,2023-2028,,101870,Seguimiento de las Importaciones Irregulares de Productos bajo la Competencia de la Dirección Nacional de Vigilancia Sanitaria (DINAVISA),Miembro
+101381,especial,2023-2028,,101940,"COMISIÓN ESPECIAL DE INVESTIGACIÓN, SEGUIMIENTO Y ESCLARECIMIENTO DE LOS PRESUNTOS HECHOS PUNIBLES DE CORRUPCIÓN, DETECTADOS EN EL I.P.S. Y EN EL M.S.P.B.S.",Miembro
+101382,asesora,2023-2024,100217,3,Relaciones Exteriores y Asuntos Internacionales,Presidente/a
+101382,asesora,2023-2024,100217,6,Hacienda y Presupuesto,Miembro
+101382,asesora,2023-2024,100217,70,Industria y Comercio,Relator/a
+101382,asesora,2023-2024,100217,100489,Comisión Bicameral de Presupuesto,Miembro
+101382,asesora,2023-2024,100217,101311,Comisión Bicameral de Reordenamiento de la Estructura del Estado,Miembro
+101382,asesora,2024-2025,100237,3,Relaciones Exteriores y Asuntos Internacionales,Vicepresidente/a
+101382,asesora,2024-2025,100237,69,Cuentas y Control de la Administración Financiera del Estado,Miembro
+101382,asesora,2024-2025,100237,101311,Comisión Bicameral de Reordenamiento de la Estructura del Estado,Miembro
+101382,asesora,2025-2026,100257,101311,Comisión Bicameral de Reordenamiento de la Estructura del Estado,Miembro
+101382,asesora,2026-2027,100267,3,Relaciones Exteriores y Asuntos Internacionales,Presidente/a
+101382,especial,2023-2028,,100409,Parlamentaria de Amistad Paraguayo - Georgiana,Miembro
+101382,especial,2023-2028,,100414,Parlamentaria de Amistad Paraguayo - Argentina,Miembro
+101382,especial,2023-2028,,100417,Parlamentaria de Amistad Paraguayo - República de China (Taiwán),Vicepresidente/a
+101382,especial,2023-2028,,100421,Parlamentaria de Amistad Paraguayo - Boliviana,Miembro
+101382,especial,2023-2028,,100598,Parlamentaria de Amistad Paraguayo - Turca,Vicepresidente/a
+101382,especial,2023-2028,,100629,Parlamentaria de Amistad Paraguayo - Indonesia,Vicepresidente/a
+101382,especial,2023-2028,,101650,"Comisión conjunta de investigación de carácter transitorio para la investigación de hechos punibles de lavado de activos, contra el patrimonio del Estado, contrabando y otros delitos conexos",Relator/a
+101382,especial,2023-2028,,101950,Parlamentaria de Amistad Paraguayo - Mexicana,Miembro
+101383,asesora,2023-2024,100217,8,"Peticiones, Poderes y Reglamentos",Miembro
+101383,asesora,2023-2024,100217,69,Cuentas y Control de la Administración Financiera del Estado,Miembro
+101383,asesora,2023-2024,100217,71,Prevención y Lucha contra el Narcotráfico y Delitos Conexos,Vicepresidente/a
+101383,asesora,2023-2024,100217,100932,Comisión Bicameral - Informe y Dictamen de la Contraloría General de la República,Miembro
+101383,asesora,2023-2024,100217,100951,Derechos para las Personas con Discapacidad,Miembro
+101383,asesora,2023-2024,100217,101427,"Familia, Niñez, Adolescencia y Juventud",Miembro
+101383,asesora,2023-2024,100217,101495,Adultos Mayores y Seguimiento del Sistema de Jubilaciones y Pensiones,Relator/a
+101383,asesora,2023-2024,100217,101500,"Ciencias, Tecnología, Innovación y Futuro",Miembro
+101383,asesora,2024-2025,100237,8,"Peticiones, Poderes y Reglamentos",Miembro
+101383,asesora,2024-2025,100237,17,Equidad y Género,Relator/a
+101383,asesora,2024-2025,100237,69,Cuentas y Control de la Administración Financiera del Estado,Miembro
+101383,asesora,2024-2025,100237,71,Prevención y Lucha contra el Narcotráfico y Delitos Conexos,Vicepresidente/a
+101383,asesora,2024-2025,100237,100932,Comisión Bicameral - Informe y Dictamen de la Contraloría General de la República,Miembro
+101383,asesora,2024-2025,100237,100951,Derechos para las Personas con Discapacidad,Relator/a
+101383,asesora,2024-2025,100237,101427,"Familia, Niñez, Adolescencia y Juventud",Miembro
+101383,asesora,2024-2025,100237,101495,Adultos Mayores y Seguimiento del Sistema de Jubilaciones y Pensiones,Miembro
+101383,asesora,2024-2025,100237,101500,"Ciencias, Tecnología, Innovación y Futuro",Miembro
+101383,asesora,2025-2026,100257,17,Equidad y Género,Miembro
+101383,asesora,2025-2026,100257,71,Prevención y Lucha contra el Narcotráfico y Delitos Conexos,Vicepresidente/a
+101383,asesora,2025-2026,100257,100951,Derechos para las Personas con Discapacidad,Miembro
+101383,asesora,2025-2026,100257,101495,Adultos Mayores y Seguimiento del Sistema de Jubilaciones y Pensiones,Relator/a
+101383,asesora,2025-2026,100257,101500,"Ciencias, Tecnología, Innovación y Futuro",Miembro
+101383,asesora,2025-2026,100257,101840,Asuntos Electorales,Miembro
+101383,asesora,2026-2027,100267,17,Equidad y Género,Miembro
+101383,asesora,2026-2027,100267,71,Prevención y Lucha contra el Narcotráfico y Delitos Conexos,Vicepresidente/a
+101383,asesora,2026-2027,100267,100951,Derechos para las Personas con Discapacidad,Miembro
+101383,asesora,2026-2027,100267,101495,Adultos Mayores y Seguimiento del Sistema de Jubilaciones y Pensiones,Relator/a
+101383,asesora,2026-2027,100267,101500,"Ciencias, Tecnología, Innovación y Futuro",Miembro
+101383,asesora,2026-2027,100267,101840,Asuntos Electorales,Miembro
+101383,especial,2023-2028,,100417,Parlamentaria de Amistad Paraguayo - República de China (Taiwán),Miembro
+101383,especial,2023-2028,,100418,Parlamentaria de Amistad Paraguayo - Ecuador,Miembro
+101383,especial,2023-2028,,100419,Parlamentaria de Amistad Paraguayo - Azerbaiyana,Relator/a
+101383,especial,2023-2028,,100427,Parlamentaria de Amistad Paraguayo - República Dominicana,Relator/a
+101383,especial,2023-2028,,101091,Parlamentaria de Amistad Paraguayo - Emirato Árabes Unidos,Miembro
+101383,especial,2023-2028,,101590,Comisión Especial de Estudio de la Gobernanza de la Educación Superior Universitaria,Relator/a
+101383,especial,2023-2028,,101750,Comisión Especial para el monitoreo y control de las máquinas de votación electrónica,Miembro
+101383,especial,2023-2028,,101900,Parlamentaria de Amistad Paraguayo - Panameña,Miembro
+101475,asesora,2023-2024,100217,3,Relaciones Exteriores y Asuntos Internacionales,Vicepresidente/a
+101475,asesora,2023-2024,100217,6,Hacienda y Presupuesto,Miembro
+101475,asesora,2023-2024,100217,8,"Peticiones, Poderes y Reglamentos",Relator/a
+101475,asesora,2023-2024,100217,11,"Economía, Cooperativismo, Desarrollo e Integración Económica Latinoamericana",Miembro
+101475,asesora,2023-2024,100217,13,Salud Pública y Seguridad Social,Presidente/a
+101475,asesora,2023-2024,100217,100489,Comisión Bicameral de Presupuesto,Miembro
+101475,asesora,2024-2025,100237,3,Relaciones Exteriores y Asuntos Internacionales,Presidente/a
+101475,asesora,2024-2025,100237,6,Hacienda y Presupuesto,Miembro
+101475,asesora,2024-2025,100237,8,"Peticiones, Poderes y Reglamentos",Miembro
+101475,asesora,2024-2025,100237,11,"Economía, Cooperativismo, Desarrollo e Integración Económica Latinoamericana",Miembro
+101475,asesora,2024-2025,100237,13,Salud Pública y Seguridad Social,Vicepresidente/a
+101475,asesora,2025-2026,100257,3,Relaciones Exteriores y Asuntos Internacionales,Presidente/a
+101475,asesora,2025-2026,100257,6,Hacienda y Presupuesto,Miembro
+101475,asesora,2025-2026,100257,8,"Peticiones, Poderes y Reglamentos",Miembro
+101475,asesora,2025-2026,100257,11,"Economía, Cooperativismo, Desarrollo e Integración Económica Latinoamericana",Relator/a
+101475,asesora,2025-2026,100257,13,Salud Pública y Seguridad Social,Vicepresidente/a
+101475,asesora,2025-2026,100257,100489,Comisión Bicameral de Presupuesto,Miembro
+101475,asesora,2026-2027,100267,6,Hacienda y Presupuesto,Miembro
+101475,asesora,2026-2027,100267,8,"Peticiones, Poderes y Reglamentos",Miembro
+101475,asesora,2026-2027,100267,11,"Economía, Cooperativismo, Desarrollo e Integración Económica Latinoamericana",Relator/a
+101475,asesora,2026-2027,100267,13,Salud Pública y Seguridad Social,Vicepresidente/a
+101475,asesora,2026-2027,100267,100489,Comisión Bicameral de Presupuesto,Miembro
+101475,especial,2023-2028,,100409,Parlamentaria de Amistad Paraguayo - Georgiana,Miembro
+101475,especial,2023-2028,,100414,Parlamentaria de Amistad Paraguayo - Argentina,Presidente/a
+101475,especial,2023-2028,,100417,Parlamentaria de Amistad Paraguayo - República de China (Taiwán),Presidente/a
+101475,especial,2023-2028,,100470,Parlamentaria de Amistad Paraguayo - Israelí,Presidente/a
+101475,especial,2023-2028,,100549,Parlamentaria de Amistad Paraguayo - Marroquí,Miembro
+101475,especial,2023-2028,,100598,Parlamentaria de Amistad Paraguayo - Turca,Relator/a
+101475,especial,2023-2028,,100850,Parlamentaria de Amistad Paraguayo - Japonesa,Relator/a
+101475,especial,2023-2028,,100911,Parlamentaria de Amistad Paraguayo - Americana,Vicepresidente/a
+101475,especial,2023-2028,,101940,"COMISIÓN ESPECIAL DE INVESTIGACIÓN, SEGUIMIENTO Y ESCLARECIMIENTO DE LOS PRESUNTOS HECHOS PUNIBLES DE CORRUPCIÓN, DETECTADOS EN EL I.P.S. Y EN EL M.S.P.B.S.",Miembro
+101475,especial,2023-2028,,101950,Parlamentaria de Amistad Paraguayo - Mexicana,Miembro
+101476,asesora,2023-2024,100217,4,Reforma Agraria y Bienestar Rural,Miembro
+101476,asesora,2023-2024,100217,17,Equidad y Género,Miembro
+101476,asesora,2024-2025,100237,8,"Peticiones, Poderes y Reglamentos",Miembro
+101476,asesora,2024-2025,100237,101488,Deportes,Miembro
+101476,asesora,2025-2026,100257,8,"Peticiones, Poderes y Reglamentos",Miembro
+101476,asesora,2025-2026,100257,101488,Deportes,Miembro
+101477,asesora,2023-2024,100217,70,Industria y Comercio,Miembro
+101477,asesora,2024-2025,100237,5,"Asuntos Constitucionales, Defensa Nacional y Fuerza Pública",Miembro
+101477,asesora,2025-2026,100257,5,"Asuntos Constitucionales, Defensa Nacional y Fuerza Pública",Miembro
+101477,asesora,2025-2026,100257,100669,COMISIÓN PERMANENTE DEL CONGRESO,Suplente
+101477,asesora,2026-2027,100267,5,"Asuntos Constitucionales, Defensa Nacional y Fuerza Pública",Miembro
+101477,especial,2023-2028,,100414,Parlamentaria de Amistad Paraguayo - Argentina,Miembro
+101477,especial,2023-2028,,101900,Parlamentaria de Amistad Paraguayo - Panameña,Miembro
+101477,especial,2023-2028,,101940,"COMISIÓN ESPECIAL DE INVESTIGACIÓN, SEGUIMIENTO Y ESCLARECIMIENTO DE LOS PRESUNTOS HECHOS PUNIBLES DE CORRUPCIÓN, DETECTADOS EN EL I.P.S. Y EN EL M.S.P.B.S.",Miembro
+101484,asesora,2023-2024,100217,2,"Legislación, Codificación, Justicia y Trabajo",Miembro
+101484,asesora,2023-2024,100217,3,Relaciones Exteriores y Asuntos Internacionales,Miembro
+101484,asesora,2023-2024,100217,14,"Asuntos Departamentales, Municipales, Distritales y Regionales",Miembro
+101484,asesora,2023-2024,100217,15,"Obras Públicas, Comunicaciones y Servicios Públicos",Miembro
+101484,asesora,2023-2024,100217,100489,Comisión Bicameral de Presupuesto,Miembro
+101484,asesora,2023-2024,100217,101488,Deportes,Presidente/a
+101484,asesora,2023-2024,100217,101495,Adultos Mayores y Seguimiento del Sistema de Jubilaciones y Pensiones,Miembro
+101484,asesora,2023-2024,100217,101500,"Ciencias, Tecnología, Innovación y Futuro",Miembro
+101484,asesora,2023-2024,100217,101560,Turismo,Vicepresidente/a
+101484,asesora,2024-2025,100237,2,"Legislación, Codificación, Justicia y Trabajo",Miembro
+101484,asesora,2024-2025,100237,14,"Asuntos Departamentales, Municipales, Distritales y Regionales",Miembro
+101484,asesora,2024-2025,100237,15,"Obras Públicas, Comunicaciones y Servicios Públicos",Miembro
+101484,asesora,2024-2025,100237,16,"Energía, Recursos Naturales, Población, Ambiente, Producción y Desarrollo Sostenible",Miembro
+101484,asesora,2024-2025,100237,72,Desarrollo Social,Miembro
+101484,asesora,2024-2025,100237,100368,Comisión Nacional de Defensa de los Recursos Naturales - CONADERNA,Miembro
+101484,asesora,2024-2025,100237,100669,COMISIÓN PERMANENTE DEL CONGRESO,Miembro
+101484,asesora,2024-2025,100237,101488,Deportes,Presidente/a
+101484,asesora,2024-2025,100237,101495,Adultos Mayores y Seguimiento del Sistema de Jubilaciones y Pensiones,Relator/a
+101484,asesora,2024-2025,100237,101500,"Ciencias, Tecnología, Innovación y Futuro",Relator/a
+101484,asesora,2024-2025,100237,101560,Turismo,Vicepresidente/a
+101484,asesora,2025-2026,100257,2,"Legislación, Codificación, Justicia y Trabajo",Miembro
+101484,asesora,2025-2026,100257,3,Relaciones Exteriores y Asuntos Internacionales,Miembro
+101484,asesora,2025-2026,100257,14,"Asuntos Departamentales, Municipales, Distritales y Regionales",Miembro
+101484,asesora,2025-2026,100257,15,"Obras Públicas, Comunicaciones y Servicios Públicos",Miembro
+101484,asesora,2025-2026,100257,16,"Energía, Recursos Naturales, Población, Ambiente, Producción y Desarrollo Sostenible",Miembro
+101484,asesora,2025-2026,100257,69,Cuentas y Control de la Administración Financiera del Estado,Miembro
+101484,asesora,2025-2026,100257,72,Desarrollo Social,Relator/a
+101484,asesora,2025-2026,100257,100368,Comisión Nacional de Defensa de los Recursos Naturales - CONADERNA,Presidente/a
+101484,asesora,2025-2026,100257,100932,Comisión Bicameral - Informe y Dictamen de la Contraloría General de la República,Miembro
+101484,asesora,2025-2026,100257,101427,"Familia, Niñez, Adolescencia y Juventud",Miembro
+101484,asesora,2025-2026,100257,101488,Deportes,Presidente/a
+101484,asesora,2025-2026,100257,101500,"Ciencias, Tecnología, Innovación y Futuro",Relator/a
+101484,asesora,2025-2026,100257,101560,Turismo,Vicepresidente/a
+101484,asesora,2025-2026,100257,101840,Asuntos Electorales,Miembro
+101484,asesora,2026-2027,100267,2,"Legislación, Codificación, Justicia y Trabajo",Miembro
+101484,asesora,2026-2027,100267,3,Relaciones Exteriores y Asuntos Internacionales,Miembro
+101484,asesora,2026-2027,100267,14,"Asuntos Departamentales, Municipales, Distritales y Regionales",Miembro
+101484,asesora,2026-2027,100267,15,"Obras Públicas, Comunicaciones y Servicios Públicos",Miembro
+101484,asesora,2026-2027,100267,16,"Energía, Recursos Naturales, Población, Ambiente, Producción y Desarrollo Sostenible",Miembro
+101484,asesora,2026-2027,100267,69,Cuentas y Control de la Administración Financiera del Estado,Miembro
+101484,asesora,2026-2027,100267,72,Desarrollo Social,Relator/a
+101484,asesora,2026-2027,100267,100344,Pueblos Indígenas,Miembro
+101484,asesora,2026-2027,100267,101427,"Familia, Niñez, Adolescencia y Juventud",Miembro
+101484,asesora,2026-2027,100267,101488,Deportes,Presidente/a
+101484,asesora,2026-2027,100267,101500,"Ciencias, Tecnología, Innovación y Futuro",Relator/a
+101484,asesora,2026-2027,100267,101560,Turismo,Vicepresidente/a
+101484,asesora,2026-2027,100267,101840,Asuntos Electorales,Miembro
+101484,especial,2023-2028,,100415,Parlamentaria de Amistad Paraguayo - Italiana,Presidente/a
+101484,especial,2023-2028,,100418,Parlamentaria de Amistad Paraguayo - Ecuador,Vicepresidente/a
+101484,especial,2023-2028,,100423,Parlamentaria de Amistad Paraguayo - Peruana,Presidente/a
+101484,especial,2023-2028,,100549,Parlamentaria de Amistad Paraguayo - Marroquí,Relator/a
+101484,especial,2023-2028,,100550,Parlamentaria de Amistad Paraguayo - Canadá,Presidente/a
+101484,especial,2023-2028,,100595,Parlamentaria de Amistad Paraguayo - Rusa,Miembro
+101484,especial,2023-2028,,100911,Parlamentaria de Amistad Paraguayo - Americana,Miembro
+101484,especial,2023-2028,,101550,Comisión Especial de Agua Segura para el Chaco,Miembro
+101484,especial,2023-2028,,101740,"Comisión Especial de Investigación sobre los hechos relacionados con la trama delictiva denominada ""Mafia de los Pagarés""",Miembro
+101484,especial,2023-2028,,101750,Comisión Especial para el monitoreo y control de las máquinas de votación electrónica,Miembro
+101484,especial,2023-2028,,101820,Comisión Especial de Investigación para el Control de los Supuestos Abusos a los Derechos de los Consumidores en los Servicios Proveídos por las Empresas de Telefonía Celular e Internet,Miembro
+101484,especial,2023-2028,,101910,"Comisión Especial de Investigación de los hechos relacionados con la emisión, comercialización y utilización de títulos, diplomas y certificaciones de Educación Superior, Formación Técnica, Profesional y Posgrado, presuntamente falsos o irregulares",Miembro
+101484,especial,2023-2028,,101940,"COMISIÓN ESPECIAL DE INVESTIGACIÓN, SEGUIMIENTO Y ESCLARECIMIENTO DE LOS PRESUNTOS HECHOS PUNIBLES DE CORRUPCIÓN, DETECTADOS EN EL I.P.S. Y EN EL M.S.P.B.S.",Miembro
+101484,especial,2023-2028,,101960,Comisión Especial de Investigación de Carácter Transitorio para la Investigación de los Hechos Relacionados de Corrupción Denunciados en el INDERT,Miembro
+101514,asesora,2023-2024,100217,2,"Legislación, Codificación, Justicia y Trabajo",Miembro
+101514,asesora,2024-2025,100237,2,"Legislación, Codificación, Justicia y Trabajo",Miembro
+101514,asesora,2024-2025,100237,100529,Frente Parlamentario contra el Hambre,Miembro
+101514,asesora,2025-2026,100257,2,"Legislación, Codificación, Justicia y Trabajo",Miembro
+101514,asesora,2025-2026,100257,13,Salud Pública y Seguridad Social,Miembro
+101514,asesora,2025-2026,100257,100529,Frente Parlamentario contra el Hambre,Miembro
+101514,asesora,2026-2027,100267,2,"Legislación, Codificación, Justicia y Trabajo",Miembro
+101514,asesora,2026-2027,100267,13,Salud Pública y Seguridad Social,Miembro
+101514,especial,2023-2028,,100420,Parlamentaria de Amistad Paraguayo - Uruguaya,Miembro
+101514,especial,2023-2028,,100596,Comisión Parlamentaria - Parlamento Abierto Paraguay,Miembro
+101514,especial,2023-2028,,100870,Parlamentaria de Amistad Paraguayo - Alemana,Miembro
+101514,especial,2023-2028,,101590,Comisión Especial de Estudio de la Gobernanza de la Educación Superior Universitaria,Miembro
+101514,especial,2023-2028,,101740,"Comisión Especial de Investigación sobre los hechos relacionados con la trama delictiva denominada ""Mafia de los Pagarés""",Miembro
+101574,asesora,2025-2026,100257,6,Hacienda y Presupuesto,Miembro
+101574,asesora,2025-2026,100257,8,"Peticiones, Poderes y Reglamentos",Presidente/a
+101574,asesora,2025-2026,100257,100489,Comisión Bicameral de Presupuesto,Miembro
+101574,asesora,2026-2027,100267,6,Hacienda y Presupuesto,Miembro
+101574,asesora,2026-2027,100267,8,"Peticiones, Poderes y Reglamentos",Presidente/a
+101574,asesora,2026-2027,100267,100489,Comisión Bicameral de Presupuesto,Miembro
+101574,especial,2023-2028,,101890,COMISIÓN BICAMERAL DE FOMENTO DE POLÍTICAS PÚBLICAS PARA ACCESO  A LA VIVIENDA DIGNA.,Vicepresidente/a
+101594,asesora,2025-2026,100257,3,Relaciones Exteriores y Asuntos Internacionales,Miembro
+101594,asesora,2025-2026,100257,4,Reforma Agraria y Bienestar Rural,Miembro
+101594,asesora,2025-2026,100257,6,Hacienda y Presupuesto,Miembro
+101594,asesora,2025-2026,100257,100344,Pueblos Indígenas,Miembro
+101594,asesora,2026-2027,100267,3,Relaciones Exteriores y Asuntos Internacionales,Miembro
+101594,asesora,2026-2027,100267,4,Reforma Agraria y Bienestar Rural,Miembro
+101594,asesora,2026-2027,100267,6,Hacienda y Presupuesto,Miembro
+101594,asesora,2026-2027,100267,100344,Pueblos Indígenas,Presidente/a
+101594,asesora,2026-2027,100267,100489,Comisión Bicameral de Presupuesto,Miembro
+101594,especial,2023-2028,,100424,Parlamentaria de Amistad Paraguayo - India,Miembro
+101594,especial,2023-2028,,100550,Parlamentaria de Amistad Paraguayo - Canadá,Miembro
+101594,especial,2023-2028,,100911,Parlamentaria de Amistad Paraguayo - Americana,Miembro
+101594,especial,2023-2028,,101419,Parlamentaria de Amistad Paraguayo - Austriaca,Miembro
+101594,especial,2023-2028,,101940,"COMISIÓN ESPECIAL DE INVESTIGACIÓN, SEGUIMIENTO Y ESCLARECIMIENTO DE LOS PRESUNTOS HECHOS PUNIBLES DE CORRUPCIÓN, DETECTADOS EN EL I.P.S. Y EN EL M.S.P.B.S.",Miembro
+101594,especial,2023-2028,,101960,Comisión Especial de Investigación de Carácter Transitorio para la Investigación de los Hechos Relacionados de Corrupción Denunciados en el INDERT,Miembro
+101595,asesora,2025-2026,100257,69,Cuentas y Control de la Administración Financiera del Estado,Miembro
+101595,asesora,2025-2026,100257,100344,Pueblos Indígenas,Miembro
+101595,asesora,2025-2026,100257,101495,Adultos Mayores y Seguimiento del Sistema de Jubilaciones y Pensiones,Miembro
+101595,asesora,2026-2027,100267,69,Cuentas y Control de la Administración Financiera del Estado,Miembro
+101595,asesora,2026-2027,100267,101495,Adultos Mayores y Seguimiento del Sistema de Jubilaciones y Pensiones,Miembro
+101604,asesora,2025-2026,100257,3,Relaciones Exteriores y Asuntos Internacionales,Miembro
+101604,asesora,2025-2026,100257,6,Hacienda y Presupuesto,Miembro
+101604,asesora,2025-2026,100257,13,Salud Pública y Seguridad Social,Miembro
+101604,asesora,2025-2026,100257,15,"Obras Públicas, Comunicaciones y Servicios Públicos",Miembro
+101604,asesora,2025-2026,100257,101850,"Asistencia, Protección y Bienestar Animal",Presidente/a
+101604,asesora,2026-2027,100267,3,Relaciones Exteriores y Asuntos Internacionales,Miembro
+101604,asesora,2026-2027,100267,6,Hacienda y Presupuesto,Miembro
+101604,asesora,2026-2027,100267,13,Salud Pública y Seguridad Social,Miembro
+101604,asesora,2026-2027,100267,15,"Obras Públicas, Comunicaciones y Servicios Públicos",Miembro
+101604,asesora,2026-2027,100267,100489,Comisión Bicameral de Presupuesto,Miembro
+101604,asesora,2026-2027,100267,101488,Deportes,Miembro
+101604,asesora,2026-2027,100267,101850,"Asistencia, Protección y Bienestar Animal",Presidente/a
+101604,especial,2023-2028,,100418,Parlamentaria de Amistad Paraguayo - Ecuador,Presidente/a
+101604,especial,2023-2028,,100421,Parlamentaria de Amistad Paraguayo - Boliviana,Relator/a
+101604,especial,2023-2028,,100550,Parlamentaria de Amistad Paraguayo - Canadá,Vicepresidente/a
+101604,especial,2023-2028,,101900,Parlamentaria de Amistad Paraguayo - Panameña,Miembro
+101604,especial,2023-2028,,101950,Parlamentaria de Amistad Paraguayo - Mexicana,Relator/a
+101614,asesora,2025-2026,100257,100344,Pueblos Indígenas,Presidente/a

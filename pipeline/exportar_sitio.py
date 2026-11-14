@@ -6,10 +6,12 @@ Salida (por defecto site/datos/congreso/):
   {senado,diputados}/votaciones.json    una fila por votación (más reciente primero): textos, totales, link a SILpy
   {senado,diputados}/votos.json         una cadena por legislador con su voto en cada votación, en el orden
                                         de votaciones.json (códigos en comun.CODIGO_VOTO; "-" = fuera del cargo)
+  {senado,diputados}/comisiones.json    integrantes de cada comisión por período, desde la ficha de SILpy
+                                        (solo si hay silver/{camara}/comisiones.csv; ver pipeline/comisiones.py)
   fotos/{id}.jpg                        fotos de legisladores copiadas de silver/fotos/ (si hay)
   manifiesto.json                       por archivo: fecha de generación, filas, bytes, sha256 (y resumen de fotos)
 
-Lee solo votacion.csv, voto.csv, fechas.csv y legisladores.csv. NO lee codificacion_sugerida.csv:
+Lee votacion.csv, voto.csv, fechas.csv, legisladores.csv, bancadas_hist.csv y comisiones.csv. NO lee codificacion_sugerida.csv:
 el índice de alineamiento con el Ejecutivo no se publica en la Fase 1.
 
 El contenido es determinístico. Un archivo cuyo sha256 no cambió conserva su fecha de generación
@@ -169,11 +171,67 @@ def exportar_camara(cam, fotos=None):
         "codigos": {cod: voto for voto, cod in CODIGO_VOTO.items()} | {"-": "fuera del cargo"},
         "legisladores": {str(int(lid)): "".join(cadenas[lid]) for lid in sorted(cadenas, key=int)},
     }
+    comisiones = exportar_comisiones(silver, L, {str(int(x)) for x in cadenas})
     cobertura = {"desde": min(d["fecha"] for d in votaciones), "hasta": max(d["fecha"] for d in votaciones),
                  "votaciones": len(votaciones), "votos": len(votos), "legisladores": len(legisladores)}
-    return {"legisladores.json": (legisladores, len(legisladores)),
-            "votaciones.json": (votaciones, len(votaciones)),
-            "votos.json": (votos_json, len(votos_json["legisladores"]))}, cobertura
+    salida = {"legisladores.json": (legisladores, len(legisladores)),
+              "votaciones.json": (votaciones, len(votaciones)),
+              "votos.json": (votos_json, len(votos_json["legisladores"]))}
+    if comisiones:
+        salida["comisiones.json"] = (comisiones, len(comisiones["comisiones"]))
+    return salida, cobertura
+
+
+# Orden de los cargos dentro de una comisión; los que no están acá van después, en orden alfabético.
+ORDEN_CARGOS = ["Presidente/a", "Vicepresidente/a", "Relator/a", "Secretario/a", "Titular", "Miembro"]
+
+
+def exportar_comisiones(silver, L, con_votos):
+    """comisiones.json: una entrada por comisión con sus integrantes [id, periodo, cargo]. None si no hay CSV."""
+    f = silver / "comisiones.csv"
+    if not f.exists():
+        return None
+    filas = leer(f)
+    nombres, tipos, integrantes = {}, {}, {}
+    for r in filas:
+        cid = int(r["id_comision"])
+        nombres.setdefault(cid, Counter())[r["comision"]] += 1
+        tipos.setdefault(cid, set()).add(r["tipo"])
+        integrantes.setdefault(cid, set()).add((int(r["id_legislador"]), r["periodo"], r["cargo"]))
+    rango = {c: k for k, c in enumerate(ORDEN_CARGOS)}
+    comisiones = []
+    for cid in nombres:
+        if len(tipos[cid]) != 1:
+            sys.exit(f"comisión {cid}: figura como {sorted(tipos[cid])} en distintas fichas")
+        # Si SILpy la nombra distinto en distintas fichas, se usa el nombre más frecuente.
+        nombre = sorted(nombres[cid].items(), key=lambda x: (-x[1], x[0]))[0][0]
+        comisiones.append({
+            "id": cid, "nombre": nombre, "tipo": next(iter(tipos[cid])),
+            "url": f"https://silpy.congreso.gov.py/web/comision/{cid}",
+            "integrantes": [list(x) for x in sorted(integrantes[cid], key=lambda x: (
+                [-int(p) for p in x[1].split("-") if p.isdigit()], rango.get(x[2], len(rango)), x[2], x[0]))],
+        })
+    comisiones.sort(key=lambda c: (c["tipo"] != "asesora", c["nombre"].lower(), c["id"]))
+    ids = sorted({x[0] for c in comisiones for x in c["integrantes"]})
+    periodos = sorted({x[1] for c in comisiones for x in c["integrantes"]}, reverse=True)
+    salida = {
+        "campos_integrante": ["id_legislador", "periodo", "cargo"],
+        "periodos": periodos,
+        # Nombre y partido de cada integrante, para no depender de legisladores.json (que solo tiene a quienes
+        # votaron). con_votos: tiene perfil en el sitio.
+        "legisladores": {str(i): {"nombre": texto(L.get(str(i), {}).get("nombre_corto")) or texto(L.get(str(i), {}).get("nombre")),
+                                  "partido": texto(L.get(str(i), {}).get("partido")),
+                                  "estado": texto(L.get(str(i), {}).get("estado")),
+                                  "con_votos": str(i) in con_votos} for i in ids},
+        "comisiones": comisiones,
+    }
+    # Fecha de las fichas de SILpy de esta cámara (pipeline/comisiones.py, silver/fichas.csv)
+    registro = config.SILVER / "fichas.csv"
+    if registro.exists():
+        fechas = [r["descargada"] for r in leer(registro) if r["id_legislador"] in L]
+        if fechas:
+            salida["fichas"] = {"desde": min(fechas), "hasta": max(fechas)}
+    return salida
 
 
 def serializar(obj):

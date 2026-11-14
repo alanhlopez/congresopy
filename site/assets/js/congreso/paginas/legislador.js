@@ -1,6 +1,6 @@
-// Perfil de un legislador: resumen de votos, votos por año, similitud de voto e historial.
+// Perfil de un legislador: resumen de votos, comisiones, votos por año, similitud de voto e historial.
 // Estado en el #hash: camara, id y los filtros del historial (q, voto, tipo, anio).
-import { buscarLegislador } from "../lib/datos.js";
+import { buscarLegislador, comisionesDe } from "../lib/datos.js";
 import { el, mostrarError, vaciar, $ } from "../lib/dom.js";
 import { alCambiarHash, enlace, escribirEstado, leerEstado } from "../lib/estado.js";
 import { EMITIDOS, fecha, normalizar, numero, ordenPartido, partidoClase, partidoNombre, porcentaje } from "../lib/formato.js";
@@ -51,6 +51,38 @@ function historialBancadas(l) {
     el("h2", { id: "t-bancada" }, "Cambios registrados en SILpy"),
     el("ul", { class: "lista-simple" }, filas),
     el("p", { class: "nota" }, "Se detectan comparando fotos periódicas de la nómina de SILpy: el cambio ocurrió en algún momento entre esas dos fechas."));
+}
+
+/** Comisiones según la ficha de SILpy: el período más reciente a la vista y los anteriores plegados. */
+function seccionComisiones(d, l, filas) {
+  if (!filas || !filas.length) return null;
+  const enlaceCom = (f) => enlace("comisiones.html", { camara: d.clave, tipo: f.comision.tipo, periodo: f.periodo, c: f.comision.id });
+  const item = (f) => el("li", {}, el("a", { href: enlaceCom(f) }, f.comision.nombre),
+    f.cargo !== "Miembro" ? el("strong", {}, ` · ${f.cargo}`) : el("span", { class: "nota" }, " · miembro"));
+  const grupo = (tipo) => {
+    const xs = filas.filter((f) => f.comision.tipo === tipo);
+    const porPeriodo = new Map();
+    for (const f of xs) { if (!porPeriodo.has(f.periodo)) porPeriodo.set(f.periodo, []); porPeriodo.get(f.periodo).push(f); }
+    return [...porPeriodo];   // filas ya viene ordenado: el período más reciente primero
+  };
+  const asesoras = grupo("asesora");
+  const especiales = grupo("especial");
+  const bloques = [];
+  if (asesoras.length) {
+    const [p0, xs0] = asesoras[0];
+    bloques.push(el("h3", {}, `Comisiones asesoras ${p0}`), el("ul", { class: "lista-simple" }, xs0.map(item)));
+    if (asesoras.length > 1) {
+      bloques.push(el("details", { class: "comisiones-anteriores" },
+        el("summary", {}, `Períodos anteriores (${asesoras.slice(1).map(([p]) => p).join(", ")})`),
+        asesoras.slice(1).map(([p, xs]) => [el("h4", {}, p), el("ul", { class: "lista-simple" }, xs.map(item))])));
+    }
+  }
+  for (const [p, xs] of especiales) {
+    bloques.push(el("h3", {}, `Comisiones especiales y de amistad ${p}`), el("ul", { class: "lista-simple" }, xs.map(item)));
+  }
+  return el("section", { class: "seccion panel", "aria-labelledby": "t-comisiones" },
+    el("h2", { id: "t-comisiones" }, "Comisiones"), bloques,
+    el("p", { class: "nota" }, "Según la ficha del legislador en SILpy. No incluye fechas de alta o baja dentro de cada período."));
 }
 
 function tarjetasResumen(d, l) {
@@ -238,7 +270,8 @@ async function render() {
     actual = { datos: d, legislador: l };
     document.title = `${l.nombre} · Monitoreo Congreso del Paraguay`;
     $("#volver").setAttribute("href", enlace("legisladores.html", { camara: d.clave }));
-    vaciar(perfil, cabecera(d, l), historialBancadas(l), tarjetasResumen(d, l), porAnio(d, cadena), similitud(d, l, cadena), historial(d, l, cadena));
+    const comisiones = await comisionesDe(l.id, d.clave);
+    vaciar(perfil, cabecera(d, l), historialBancadas(l), tarjetasResumen(d, l), seccionComisiones(d, l, comisiones), porAnio(d, cadena), similitud(d, l, cadena), historial(d, l, cadena));
     filtrarHistorial();
   } catch (err) {
     mostrarError(perfil, `No se pudieron cargar los datos: ${err.message}`);

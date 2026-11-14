@@ -35,6 +35,29 @@ export async function camara(c) {
   return { clave, info: CAMARAS[clave], legisladores, votaciones, votos, porId, posVotacion };
 }
 
+/** comisiones.json de una cámara, o null si no está publicado (es opcional: el resto del sitio anda sin él). */
+export async function comisiones(c) {
+  const clave = camaraValida(c);
+  const ruta = `${clave}/comisiones.json`;
+  try {
+    return await json(ruta);
+  } catch {
+    cache.delete(ruta);
+    return null;
+  }
+}
+
+/** Comisiones de un legislador: [{comision, periodo, cargo}], el período más reciente primero. */
+export async function comisionesDe(id, c) {
+  const d = await comisiones(c);
+  if (!d) return null;
+  const out = [];
+  for (const com of d.comisiones) {
+    for (const [lid, periodo, cargo] of com.integrantes) if (lid === id) out.push({ comision: com, periodo, cargo });
+  }
+  return out.sort((a, b) => b.periodo.localeCompare(a.periodo) || a.comision.nombre.localeCompare(b.comision.nombre, "es"));
+}
+
 /** Busca un legislador en las dos cámaras (los ids no se repiten). */
 export async function buscarLegislador(id, camaraPreferida) {
   const orden = camaraPreferida && Object.hasOwn(CAMARAS, camaraPreferida)

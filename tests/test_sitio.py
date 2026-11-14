@@ -44,7 +44,7 @@ def analizar(p):
 def test_hay_paginas():
     nombres = {p.name for p in PAGINAS}
     assert {"index.html", "camaras.html", "legisladores.html", "legislador.html", "votaciones.html",
-            "votacion.html", "proyectos.html", "datos.html"} <= nombres
+            "votacion.html", "proyectos.html", "datos.html", "comisiones.html"} <= nombres
 
 
 @pytest.mark.parametrize("pagina", PAGINAS, ids=lambda p: p.name)

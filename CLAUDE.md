@@ -110,6 +110,20 @@ $P pipeline/bancadas.py foto && $P pipeline/bancadas.py historial && $P pipeline
 $P pipeline/analisis.py && $P pipeline/exportar_sitio.py
 ```
 
+Comisiones (`pipeline/comisiones.py`): salen de la pestaña «Comisiones» de la ficha de cada legislador
+(`{BASE}/legislador/{id}`), con dos tablas (Asesoras, por año legislativo; Especiales y de amistad, por mandato) que
+se identifican por el título de la pestaña, no por el id `j_idtNNN` de JSF. `descargar` baja a `bronze/silpy/fichas/`
+las que faltan (una request por legislador de la nómina, 1,5 s, nunca repite) y anota la fecha en
+`silver/fichas.csv`; `silver` escribe `silver/{camara}/comisiones.csv` (id_legislador, tipo, periodo, periodo_id,
+id_comision, comision, cargo). Una ficha cuyo `<title>` no empieza con el nombre de la nómina, o sin la pestaña,
+no entra y el comando sale con 1. La composición cambia sobre todo al inicio de cada período (1 de julio):
+volver a bajar las fichas para actualizarla es una excepción a la regla de bronze/ y hay que acordarla con el
+responsable del proyecto antes (como se hizo con los snapshots del listado del período abierto).
+
+```bash
+$P pipeline/comisiones.py descargar && $P pipeline/comisiones.py silver && $P pipeline/exportar_sitio.py
+```
+
 `legisladores.py` exige `--out` y no sobrescribe archivos (su parser, `parsear_nomina`, lo usa bancadas.py). Nunca lo apuntes a `silver/{camara}/legisladores.csv`:
 los dos tienen `nombre_corto` cargado a mano y el de Diputados se armó entero a mano.
 
