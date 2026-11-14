@@ -302,7 +302,7 @@ def main():
     resumen_fotos = copiar_fotos(fotos, destino)
 
     manifiesto = {
-        "proyecto": "Monitoreo Congreso del Paraguay",
+        "proyecto": "Votómetro · Congreso del Paraguay",
         "generado": max(a["generado"] for a in archivos),
         "fuente": {"nombre": "SILpy – Sistema de Información Legislativa, Congreso Nacional del Paraguay",
                    "url": "https://silpy.congreso.gov.py/", "licencia": "CC BY 4.0"},
