@@ -62,6 +62,30 @@ $P pipeline/silpy_votos.py reparsear --camara S
 solo para el período abierto, bajan un snapshot `listado_{S|D}_{periodo}_{AAAA-MM-DD}.html` (uno por día; nunca
 pisa los anteriores) y desde ahí usan siempre el más reciente. En un período cerrado `--refrescar` se ignora.
 
+`detalle` saltea las votaciones que ya están en `silver/votacion.csv` y las de `silver/{camara}/rechazadas.csv`
+(bajadas cuyo detalle no cuadra con el sumario: no entran en silver/ y no se vuelven a bajar); termina con
+código 1 si alguna nueva no cuadró o falló. `fechas` ordena por período e id, y para un período cerrado cuyo
+listado no está en bronze/ reutiliza sus fechas de silver/ en vez de bajarlo. `reparsear` se niega a escribir
+si silver/ tiene votaciones cuyo HTML no está en bronze/ (no las borra).
+
+### Actualización automática (GitHub Actions)
+
+`.github/workflows/votaciones.yml` corre martes y viernes: refresca los listados del período abierto, baja las
+votaciones nuevas, regenera codificación, análisis y datos del sitio, corre los tests y commitea si cambió algo
+(Vercel despliega desde ese push). En Actions bronze/ arranca vacío; los HTML que baja quedan 90 días como
+artifact `bronze-votaciones`. Para tenerlos en local (antes de cualquier `reparsear`):
+
+```bash
+gh run list --workflow votaciones.yml --limit 5         # elegir la corrida
+gh run download <run-id> -n bronze-votaciones -D bronze/silpy
+```
+
+Nunca pisa nada: los HTML de votaciones son los mismos que bajaría `detalle`, y los listados son snapshots
+fechados. Si una corrida termina en rojo, mirar el paso de listados: o falló la red (se reintenta sola en la
+próxima corrida) o una votación no cuadró con el sumario (queda en `rechazadas.csv`, revisarla a mano).
+`nomina-semanal.yml` y `votaciones.yml` comparten el grupo de concurrencia `datos-silpy` y hacen
+`git pull --rebase` antes del push: después de una corrida, hacé `git pull` en local antes de commitear.
+
 Fotos (`pipeline/fotos.py`): `descargar` baja de `{BASE}/images/{id}.jpg` las que faltan en `bronze/silpy/fotos/`
 (con contacto, 1,5 s entre requests, nunca repite, rechaza lo que no sea JPEG o PNG); `silver` guarda en
 `silver/fotos/` una miniatura de 160 px de cada una (Pillow; el original queda en bronze/); `exportar_sitio.py` las publica en `site/datos/congreso/fotos/`, agrega `foto` en
@@ -126,7 +150,7 @@ el fondo (PEN y PDP más oscuros y PPC gris en tema claro; Cruzada Nacional negr
 ```
 
 CI: `.github/workflows/tests.yml` corre la misma suite en cada push (sin bronze/, así que se saltean los 2 tests
-de reparseo). Ningún test hace requests a SILpy.
+de reparseo; en `votaciones.yml`, con bronze/ parcial, también). Ningún test hace requests a SILpy.
 
 Los dos primeros tests prueban la LÓGICA de `analisis.py`: lo corren sobre una copia congelada de los insumos
 (`tests/referencia/silver_votometro.tar.gz`, el silver/ de la migración) vía `CONGRESOPY_SILVER`, y escriben en
@@ -159,6 +183,8 @@ rompe; cambiar la lógica sí. Los datos vivos (`salidas/`, `site/datos/`) se re
   sin contacto no hay request), con una sesión falsa, sin red.
 - `test_validacion.py`: con un HTML real de SILpy (`tests/fixtures/silpy/104208.html`) y una copia con un voto
   alterado, verifica que la votación que no cuadra con el sumario no llega a silver/ y que `reparsear` falla.
+- `test_actualizacion.py`: sin bronze/ completo (como en Actions), `detalle` registra la rechazada y no la
+  vuelve a bajar, `fechas` no baja un período cerrado que ya está en silver/ y `reparsear` no borra lo que falta.
 
 ## Reglas (no negociables)
 

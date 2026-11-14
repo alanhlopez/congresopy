@@ -124,12 +124,16 @@ def test_codificar_reproduce_silver(camara, tmp_path):
 def test_reparsear_reproduce_silver(camara):
     """Parsear bronze/ da exactamente las filas de silver/ (sin importar el orden).
 
-    Se saltea si bronze/ no está (no está en git, por ejemplo en CI)."""
+    Se saltea si bronze/ no está o está incompleto (no está en git, por ejemplo en CI)."""
     bronze = config.bronze_dir(camara)
     htmls = sorted(f for f in bronze.glob("*.html") if f.stem.isdigit()) if bronze.exists() else []
     if not htmls:
         pytest.skip(f"no hay HTML en {bronze}")
     import silpy_votos as sv
+    faltan = sv.ids_en_silver(camara) - {int(f.stem) for f in htmls}
+    if faltan:
+        # bronze/ parcial: el workflow de votaciones solo tiene los HTML que bajó en esa corrida.
+        pytest.skip(f"bronze/ incompleto: faltan {len(faltan)} votaciones de silver/")
     metas, votos = [], []
     for f in htmls:
         m, v = sv.parsear_detalle(f.read_text(encoding="utf-8"), int(f.stem))

@@ -1,0 +1,78 @@
+# Votaciones nuevas del período abierto, dos veces por semana (pipeline/silpy_votos.py).
+# Requiere el secreto CONGRESOPY_CONTACTO (contacto del User-Agent).
+# Requests a SILpy por corrida: 2 listados (un snapshot por cámara y por día) + 1 por cada votación nueva.
+# bronze/ no está en git, así que acá arranca vacío:
+#   - detalle saltea lo que ya está en silver/votacion.csv o en silver/{camara}/rechazadas.csv;
+#   - fechas reutiliza las de los períodos cerrados que ya están en silver/ (no baja sus listados);
+#   - los HTML bajados se suben como artifact «bronze-votaciones» (90 días) para traerlos a bronze/ en local.
+# Commitea silver/, salidas/ y site/datos/ si cambiaron. Termina en rojo si alguna votación no cuadró con el
+# sumario o falló la descarga (después de commitear lo que sí entró), para que llegue el aviso por mail.
+name: votaciones
+
+on:
+  schedule:
+    - cron: "47 11 * * 2,5"   # martes y viernes 11:47 UTC (08:47 en Asunción)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: datos-silpy          # el mismo grupo que nomina-semanal: nunca corren a la vez
+  cancel-in-progress: false
+
+jobs:
+  actualizar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      CONGRESOPY_CONTACTO: ${{ secrets.CONGRESOPY_CONTACTO }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - name: Listados del período abierto, votaciones nuevas y fechas
+        id: votos
+        run: |
+          abierto=$(cd pipeline && python -c "import config; print(config.PERIODO_ABIERTO)")
+          periodos=$(cd pipeline && python -c "import config; print(*config.PERIODOS)")
+          estado=0
+          for c in S D; do
+            d=$([ "$c" = S ] && echo senado || echo diputados)
+            python pipeline/silpy_votos.py listar --camara "$c" --periodo "$abierto" --refrescar > ids.tmp
+            mv ids.tmp "silver/$d/ids_$abierto.txt"
+            python pipeline/silpy_votos.py detalle --camara "$c" --ids "silver/$d/ids_$abierto.txt" || estado=1
+            python pipeline/silpy_votos.py fechas --camara "$c" --periodos $periodos
+          done
+          echo "estado=$estado" >> "$GITHUB_OUTPUT"
+      - run: python pipeline/codificar.py S
+      - run: python pipeline/codificar.py D
+      - run: python pipeline/analisis.py
+      - run: python pipeline/exportar_sitio.py
+      - run: python -m pytest -q -rs
+      - name: HTML bajados (para bronze/ en local)
+        uses: actions/upload-artifact@v4
+        with:
+          name: bronze-votaciones
+          path: bronze/silpy
+          if-no-files-found: ignore
+          retention-days: 90
+      - name: Commit si hubo cambios
+        run: |
+          git config user.name "congresopy-bot"
+          git config user.email "congresopy-bot@users.noreply.github.com"
+          git add silver site/datos salidas
+          if ! git diff --cached --quiet; then
+            nuevas=$(git diff --cached --numstat silver/senado/votacion.csv silver/diputados/votacion.csv | awk '{s+=$1} END {print s+0}')
+            git commit -m "Votaciones de SILpy al $(date -u +%F) ($nuevas nuevas)"
+            git pull --rebase
+            git push
+          fi
+      - name: Aviso si hubo votaciones con problemas
+        if: steps.votos.outputs.estado != '0'
+        run: |
+          echo "::error::Alguna votación no cuadró con el sumario o falló la descarga: ver el paso de listados."
+          exit 1

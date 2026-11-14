@@ -236,6 +236,36 @@ def parsear_bronze(htmls):
     return metas, votos, rechazadas, errores
 
 
+CAMPOS_RECHAZADA = ["id_votacion", "detectada", "diferencias"]
+
+
+def ruta_rechazadas(camara: str) -> Path:
+    """silver/{camara}/rechazadas.csv: votaciones bajadas cuyo detalle no cuadra con el sumario. No entran en
+    silver/ y `detalle` no las vuelve a bajar (el HTML puede no estar en bronze/, por ejemplo en GitHub Actions)."""
+    return config.silver_dir(camara) / "rechazadas.csv"
+
+
+def ids_rechazadas(camara: str) -> set[int]:
+    f = ruta_rechazadas(camara)
+    if not f.exists():
+        return set()
+    with f.open(encoding="utf-8") as fh:
+        return {int(r["id_votacion"]) for r in csv.DictReader(fh)}
+
+
+def registrar_rechazada(camara: str, meta):
+    escribir_csv(ruta_rechazadas(camara), [{"id_votacion": meta["id_votacion"], "detectada": date.today().isoformat(),
+                                            "diferencias": meta["diferencias"]}], CAMPOS_RECHAZADA)
+
+
+def ids_en_silver(camara: str) -> set[int]:
+    f = config.silver_dir(camara) / "votacion.csv"
+    if not f.exists():
+        return set()
+    with f.open(encoding="utf-8") as fh:
+        return {int(r["id_votacion"]) for r in csv.DictReader(fh)}
+
+
 def reportar_rechazadas(rechazadas):
     for m in rechazadas:
         print(f"[NO SE ESCRIBE EN SILVER] votación {m['id_votacion']}: detalle != sumario "
@@ -270,7 +300,20 @@ def main():
     if args.cmd == "fechas":
         out = config.silver_dir(args.camara)
         sess = requests.Session(); filas = []
+        previas = []
+        if (out / "fechas.csv").exists():
+            with (out / "fechas.csv").open(encoding="utf-8") as fh:
+                previas = list(csv.DictReader(fh))
         for per in args.periodos:
+            if per != config.PERIODO_ABIERTO and listado_guardado(args.camara, per) is None:
+                # Un período cerrado no cambia: si su listado no está en bronze/ (GitHub Actions) pero sus fechas
+                # ya están en silver/, se reutilizan en vez de volver a bajarlo.
+                mias = [r for r in previas if int(r["periodo_id"]) == per]
+                if mias:
+                    print(f"{per}: período cerrado sin listado en bronze/, se reutilizan {len(mias)} fechas de silver/",
+                          file=sys.stderr)
+                    filas.extend(mias)
+                    continue
             # Solo descarga (y exige CONGRESOPY_CONTACTO, vía config.headers) si el listado no está en bronze/
             # o si se pidió --refrescar el período abierto.
             html = obtener_listado(args.camara, per, sess, args.refrescar)
@@ -288,6 +331,9 @@ def main():
                 filas.append({"id_votacion": i, "periodo_id": per,
                               "fecha": f"{fecha.group(3)}-{fecha.group(2)}-{fecha.group(1)}" if fecha else "",
                               "sesion": " ".join(ses.group(1).split()) if ses else ""})
+        # Orden estable (período, id): SILpy no siempre devuelve en el mismo orden las votaciones del mismo día.
+        orden = {per: k for k, per in enumerate(args.periodos)}
+        filas.sort(key=lambda x: (orden[int(x["periodo_id"])], int(x["id_votacion"])))
         with (out / "fechas.csv").open("w", newline="", encoding="utf-8") as fh:
             w = csv.DictWriter(fh, fieldnames=["id_votacion", "periodo_id", "fecha", "sesion"])
             w.writeheader(); w.writerows(filas)
@@ -299,6 +345,12 @@ def main():
         out = config.silver_dir(args.camara)
         # listado_*.html son los listados por período, no votaciones
         htmls = sorted(f for f in config.bronze_dir(args.camara).glob("*.html") if f.stem.isdigit())
+        faltan = ids_en_silver(args.camara) - {int(f.stem) for f in htmls}
+        if faltan:
+            # Típicamente votaciones que bajó el workflow de GitHub Actions: reparsear las borraría de silver/.
+            sys.exit(f"[NO SE ESCRIBE] {len(faltan)} votaciones de silver/ no están en bronze/ "
+                     f"(por ejemplo {sorted(faltan)[:5]}). Traé sus HTML (ver CLAUDE.md, «Actualización automática») "
+                     f"antes de reparsear.")
         metas, todos, rechazadas, errores = parsear_bronze(htmls)
         for path, filas, campos in [(out / "votacion.csv", metas, CAMPOS_VOTACION), (out / "voto.csv", todos, CAMPOS_VOTO)]:
             with path.open("w", newline="", encoding="utf-8") as fh:
@@ -321,24 +373,30 @@ def main():
 
     out = config.silver_dir(args.camara); raw = config.bronze_dir(args.camara); raw.mkdir(parents=True, exist_ok=True)
     ids = [int(x) for x in Path(args.ids).read_text().split()]
-    hechos = set()
     vp = out / "votacion.csv"
-    if vp.exists():
-        hechos = {int(r["id_votacion"]) for r in csv.DictReader(vp.open(encoding="utf-8"))}
+    hechos = ids_en_silver(args.camara) | ids_rechazadas(args.camara)
+    nuevas, problemas = 0, 0
     for n, i in enumerate(ids, 1):
         if i in hechos:
             continue
         try:
             meta, votos = parsear_detalle(descargar(i, raw, sess), i)
             if not meta["valida"]:
-                # Queda en bronze/ (no se vuelve a descargar) pero no entra en silver/.
+                # Queda en bronze/ y en rechazadas.csv (no se vuelve a descargar) pero no entra en silver/.
                 reportar_rechazadas([meta])
+                registrar_rechazada(args.camara, meta)
+                problemas += 1
                 continue
             escribir_csv(vp, [meta], CAMPOS_VOTACION)
             escribir_csv(out / "voto.csv", votos, CAMPOS_VOTO)
+            nuevas += 1
             print(f"[{n}/{len(ids)}] {i} ok ({len(votos)} votos)", file=sys.stderr)
         except Exception as e:
+            problemas += 1
             print(f"[{n}/{len(ids)}] {i} ERROR: {e}", file=sys.stderr)
+    print(f"{nuevas} votaciones nuevas en silver/, {problemas} con problemas", file=sys.stderr)
+    if problemas:
+        sys.exit(1)
 
 
 if __name__ == "__main__":

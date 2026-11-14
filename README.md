@@ -53,6 +53,10 @@ un error. El resto del pipeline y los tests funcionan igual. SILpy no autoriza
 la automatización en su robots.txt, así que el scraper espera 1,5 s entre requests y nunca vuelve a bajar
 lo que ya está en `bronze/`.
 
+Las votaciones nuevas se traen solas: `.github/workflows/votaciones.yml` corre martes y viernes (2 requests
+por corrida más 1 por votación nueva) y la nómina se fotografía los lunes (`nomina-semanal.yml`). Ver CLAUDE.md,
+«Actualización automática», para traer a `bronze/` local los HTML que bajan esos workflows.
+
 ## Licencias
 
 - **Código:** [GNU AGPL-3.0](LICENSE).
