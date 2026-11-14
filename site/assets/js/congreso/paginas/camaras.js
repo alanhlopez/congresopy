@@ -18,22 +18,36 @@ function ordenar(activos) {
     || (a.bancada || "").localeCompare(b.bancada || "", "es") || a.nombre.localeCompare(b.nombre, "es"));
 }
 
+/** Cifras de la cámara: un dato protagonista y dos de contexto. */
+function resumen(d, activos, partidos) {
+  const stat = (etiqueta, valor, nota) => el("div", { class: "stat" }, el("span", { class: "stat__etiqueta" }, etiqueta),
+    el("span", { class: "stat__valor" }, valor), nota && el("span", { class: "stat__nota" }, nota));
+  return el("div", { class: "resumen-camara" },
+    stat(`${d.info.miembros[0].toUpperCase()}${d.info.miembros.slice(1)} en ejercicio`, numero(activos.length),
+      activos.length < d.info.bancas ? `de ${d.info.bancas} bancas` : `${d.info.bancas} bancas`),
+    stat("Partidos", numero(partidos.size)),
+    stat("Bancadas", numero(new Set(activos.map((l) => l.bancada || "")).size)));
+}
+
 function vistaHemiciclo(d, activos) {
   const orden = ordenar(activos);
   const partidos = new Map();
   for (const l of orden) partidos.set(l.partido, (partidos.get(l.partido) || 0) + 1);
   return [
+    resumen(d, activos, partidos),
     el("figure", { class: "figura-hemiciclo" },
       hemiciclo(orden, {
         claseDe: (l) => partidoClase(l.partido),
         enlaceDe: (l) => enlaceLegislador(l, d.clave),
-        tituloDe: (l) => `${l.nombre} · ${l.partido}${l.bancada ? " · " + l.bancada : ""}`,
+        tituloDe: (l) => `${l.nombre} · ${partidoNombre(l.partido)}${l.departamento ? " · " + l.departamento : ""}`,
         etiqueta: `Hemiciclo de la ${d.info.nombreLargo}: ${activos.length} ${d.info.miembros} por partido`,
       }),
-      el("figcaption", {}, `${numero(activos.length)} ${d.info.miembros} en ejercicio · ${partidos.size} partidos · ${new Set(activos.map((l) => l.bancada)).size} bancadas`)),
-    el("ul", { class: "leyenda leyenda-partidos" }, [...partidos].sort((a, b) => b[1] - a[1]).map(([p, n]) =>
-      el("li", {}, el("span", { class: ["punto", partidoClase(p)], "aria-hidden": "true" }),
-        el("span", {}, `${partidoNombre(p)} `), el("strong", {}, numero(n))))),
+      el("figcaption", { class: "sr" }, `Oposición a la izquierda y el oficialismo (ANR) a la derecha.`)),
+    // Leyenda en chips con el conteo, en el mismo orden que el hemiciclo (de izquierda a derecha)
+    el("ul", { class: "leyenda-chips", "aria-label": "Bancas por partido" }, [...partidos].map(([p, n]) =>
+      el("li", { class: ["chip", "chip-partido", partidoClase(p)], title: partidoNombre(p) },
+        el("span", {}, p || "Sin partido"), el("strong", {}, numero(n)), el("span", { class: "sr" }, ` (${partidoNombre(p)})`)))),
+    el("p", { class: "nota nota-centrada" }, "Oposición a la izquierda, oficialismo (ANR) a la derecha. Tocá un asiento para ver el perfil."),
   ];
 }
 
@@ -45,13 +59,15 @@ function vistaBancadas(d, activos) {
     grupos.get(k).push(l);
   }
   const lista = [...grupos].sort((a, b) => b[1].length - a[1].length || a[0].localeCompare(b[0], "es"));
-  return el("div", { class: "bancadas" }, lista.map(([nombre, miembros]) =>
+  const partidos = new Map();
+  for (const l of activos) partidos.set(l.partido, (partidos.get(l.partido) || 0) + 1);
+  return [resumen(d, activos, partidos), el("div", { class: "bancadas" }, lista.map(([nombre, miembros]) =>
     el("section", { class: "bancada" },
       el("h3", { class: "bancada__titulo" }, chipPartido(miembros[0].partido), el("span", {}, nombre),
         el("span", { class: "bancada__n" }, numero(miembros.length))),
       el("ul", { class: "miembros" }, miembros.map((l) =>
         el("li", {}, el("a", { href: enlaceLegislador(l, d.clave), class: "miembro" }, avatar(l),
-          el("span", {}, l.nombre_corto))))))));
+          el("span", {}, l.nombre_corto)))))))) ];
 }
 
 async function render() {
@@ -63,7 +79,8 @@ async function render() {
   try {
     const d = await camara(e.camara);
     const activos = d.legisladores.filter((l) => l.estado === "activos");
-    document.title = `${d.info.nombreLargo} · Monitoreo Congreso del Paraguay`;
+    document.title = `${d.info.nombreLargo} · Votómetro`;
+    $("#nombre-camara").textContent = d.info.nombreLargo;
     vaciar(contenedor, e.vista === "hemiciclo" ? vistaHemiciclo(d, activos) : vistaBancadas(d, activos));
   } catch (err) {
     mostrarError(contenedor, `No se pudieron cargar los datos: ${err.message}`);

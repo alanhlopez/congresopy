@@ -718,21 +718,34 @@ h3 { font-size: var(--t-md); line-height: 1.3; margin: 0 0 var(--e-2); }
 .columna-camara__titulo { font-size: var(--t-sm); font-weight: 650; letter-spacing: 0.08em; text-transform: uppercase; color: var(--texto-suave); padding-bottom: var(--e-2); border-bottom: 1px solid var(--borde-fuerte); margin: 0; }
 
 /* Cámaras */
-.figura-hemiciclo { margin: 0.5rem 0 0; text-align: center; }
-.hemiciclo { display: block; width: 100%; max-width: 40rem; height: auto; margin-inline: auto; }
-.asiento { fill: var(--c); stroke: var(--superficie); stroke-width: 0.4; }
-.asiento-link:hover .asiento, .asiento-link:focus-visible .asiento { stroke: var(--texto); stroke-width: 1.2; }
-.figura-hemiciclo figcaption { color: var(--texto-suave); font-size: 0.9rem; margin-top: 0.5rem; }
-.leyenda-partidos { justify-content: center; }
+.resumen-camara {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--e-4);
+  padding-bottom: var(--e-4);
+  margin-bottom: var(--e-4);
+  border-bottom: 1px solid var(--borde);
+}
+.resumen-camara .stat:first-child .stat__valor { color: var(--acento); }
+.figura-hemiciclo { margin: 0; text-align: center; }
+.hemiciclo { display: block; width: 100%; max-width: 38rem; height: auto; margin-inline: auto; overflow: visible; }
+.asiento { fill: var(--c); stroke: none; }
+.asiento-link { outline: none; }
+.asiento-link:hover .asiento, .asiento-link:focus-visible .asiento { stroke: var(--texto); stroke-width: 1.4; }
+.asiento-link:focus-visible .asiento { stroke: var(--foco); stroke-width: 2.2; }
+.leyenda-chips { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--e-2); list-style: none; margin: var(--e-4) 0 0; padding: 0; }
+.leyenda-chips .chip { gap: var(--e-2); padding: 0.2rem 0.65rem; font-size: var(--t-sm); }
+.leyenda-chips strong { font-variant-numeric: tabular-nums; }
+.nota-centrada { text-align: center; }
 
-.bancadas { display: grid; gap: 1rem; }
-.bancada { border-top: 1px solid var(--borde); padding-top: 0.75rem; }
-.bancada__titulo { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; font-size: 1rem; }
-.bancada__n { color: var(--texto-suave); font-weight: 400; font-variant-numeric: tabular-nums; }
-.miembros { display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; list-style: none; margin: 0; padding: 0; }
-.miembro { display: inline-flex; align-items: center; gap: 0.5rem; color: var(--texto); text-decoration: none; }
-.miembro .avatar { width: 2rem; height: 2rem; font-size: 0.75rem; }
-.miembro:hover span:last-child { text-decoration: underline; }
+.bancadas { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 22rem), 1fr)); gap: var(--e-3); }
+.bancada { border: 1px solid var(--borde); border-radius: var(--radio); padding: var(--e-3) var(--e-4); }
+.bancada__titulo { display: flex; flex-wrap: wrap; align-items: center; gap: var(--e-2); font-size: var(--t-sm); margin-bottom: var(--e-3); }
+.bancada__n { margin-left: auto; color: var(--texto-suave); font-weight: 650; font-variant-numeric: tabular-nums; }
+.miembros { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 9.5rem), 1fr)); gap: var(--e-2) var(--e-3); list-style: none; margin: 0; padding: 0; }
+.miembro { display: inline-flex; align-items: center; gap: var(--e-2); color: var(--texto); text-decoration: none; font-size: var(--t-sm); }
+.miembro .avatar { width: 1.75rem; height: 1.75rem; font-size: 0.7rem; }
+.miembro:hover span:last-child { text-decoration: underline; color: var(--acento); }
 
 /* Legisladores: lista tipo tabla. Se apila según el ancho del contenedor. */
 .lista-legisladores { container-type: inline-size; }
