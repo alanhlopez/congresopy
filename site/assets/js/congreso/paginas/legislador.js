@@ -1,12 +1,14 @@
 // Perfil de un legislador: resumen de votos, comisiones, votos por año, similitud de voto e historial.
-// Estado en el #hash: camara, id y los filtros del historial (q, voto, tipo, anio).
+// Estado en el #hash: camara, id, la pestaña (vista) y los filtros del historial (q, voto, tipo, anio).
 import { buscarLegislador, comisionesDe } from "../lib/datos.js";
 import { el, mostrarError, vaciar, $ } from "../lib/dom.js";
 import { alCambiarHash, enlace, escribirEstado, leerEstado } from "../lib/estado.js";
 import { EMITIDOS, fecha, normalizar, numero, ordenPartido, partidoClase, partidoNombre, porcentaje } from "../lib/formato.js";
-import { anillo, avatar, chipPartido, chipVoto, enlaceLegislador, enlaceVotacion, listaPaginada, tipoCorto } from "../lib/componentes.js";
+import { anillo, avatar, chipPartido, chipResultado, chipVoto, enlaceLegislador, enlaceVotacion, listaPaginada, tipoCorto,
+  tituloSilpy } from "../lib/componentes.js";
 
-const DEFECTOS = { camara: "", id: "", q: "", voto: "", tipo: "todas", anio: "" };
+const DEFECTOS = { camara: "", id: "", vista: "votos", q: "", voto: "", tipo: "todas", anio: "" };
+const VISTAS = [["votos", "¿Cómo votó?"], ["similitud", "¿Con quién vota?"], ["comisiones", "Comisiones"]];
 const MIN_COMUN = 20;
 const perfil = $("#perfil");
 let actual = null;   // { datos, legislador, cadena, filas }
@@ -16,20 +18,23 @@ function cabecera(d, l) {
   return el("header", { class: "perfil-cabecera panel" },
     avatar(l, true),
     el("div", { class: "perfil-cabecera__texto" },
+      el("p", { class: "eyebrow" }, l.cargo || d.info.nombreLargo),
       el("h1", {}, l.nombre),
-      el("p", { class: "perfil-cabecera__meta" }, chipPartido(l.partido), el("span", {}, partidoNombre(l.partido)),
-        el("span", {}, l.cargo || d.info.nombreLargo), l.departamento ? el("span", {}, `Departamento: ${l.departamento}`) : null),
+      el("p", { class: "perfil-cabecera__meta" },
+        chipPartido(l.partido), el("span", {}, partidoNombre(l.partido)),
+        l.departamento ? el("span", {}, `Departamento ${l.departamento}`) : el("span", {}, d.info.nombreLargo),
+        l.estado !== "activos" ? el("span", { class: "chip" }, "Ya no está en el cargo") : null),
       el("p", { class: "nota" }, l.bancada || "Sin bancada declarada", l.cargo_bancada ? ` · ${l.cargo_bancada.toLowerCase()} de bancada` : ""),
-      el("p", { class: "nota" },
-        l.estado === "activos" ? "En ejercicio. " : "Ya no está en el cargo. ",
-        `Figura en ${numero(l.votaciones)} votaciones nominales, del ${fecha(l.primera)} al ${fecha(l.ultima)}. `,
-        el("a", { href: `https://silpy.congreso.gov.py/web/legislador/${l.id}`, rel: "noopener" }, "Ficha en SILpy"))),
+      el("p", { class: "perfil-cabecera__acciones" },
+        el("a", { class: "boton", href: `https://silpy.congreso.gov.py/web/legislador/${l.id}`, rel: "noopener" }, "Ficha en SILpy ", el("span", { "aria-hidden": "true" }, "↗")))),
     el("div", { class: "perfil-cabecera__presencia" }, anillo(pres, "Presencia en votaciones nominales"),
-      el("p", {}, el("strong", {}, "Presencia"), el("br"), `${numero(l.votaciones - l.conteo.ausente)} de ${numero(l.votaciones)} votaciones`),
-      // Las dos cámaras registran distinto: la presencia no se compara entre Senado y Diputados.
-      el("p", { class: "nota" }, d.clave === "diputados"
-        ? "En Diputados «no vota» figura como ausente."
-        : "En el Senado, «presente, no vota» cuenta como presente.")));
+      el("div", {},
+        el("p", { class: "stat__etiqueta" }, "Presencia"),
+        el("p", { class: "stat__nota" }, `${numero(l.votaciones - l.conteo.ausente)} de ${numero(l.votaciones)} votaciones, del ${fecha(l.primera)} al ${fecha(l.ultima)}`),
+        // Las dos cámaras registran distinto: la presencia no se compara entre Senado y Diputados.
+        el("p", { class: "stat__nota" }, d.clave === "diputados"
+          ? "En Diputados «no vota» figura como ausente."
+          : "En el Senado, «presente, no vota» cuenta como presente."))));
 }
 
 /** Cambios de partido, bancada, cargo o estado detectados entre fotos de la nómina de SILpy. */
@@ -94,12 +99,11 @@ function tarjetasResumen(d, l) {
   ];
   if (d.clave === "senado" || c.no_vota) items.push(["Presente, no vota", c.no_vota, "v-nv"]);
   if (mociones) items.push(["Votos entre mociones", mociones, "v-m1"]);
-  return el("section", { class: "seccion", "aria-labelledby": "t-resumen" },
-    el("h2", { id: "t-resumen" }, "¿Cómo votó?"),
+  return el("section", { class: "seccion", "aria-label": "Resumen de sus votos" },
     el("div", { class: "tarjetas-voto" }, items.map(([nombre, n, clase]) =>
       el("div", { class: ["tarjeta-voto", clase] },
-        el("p", { class: "tarjeta-voto__n" }, numero(n)),
         el("p", { class: "tarjeta-voto__nombre" }, nombre),
+        el("p", { class: "tarjeta-voto__n" }, numero(n)),
         el("div", { class: "medidor", "aria-hidden": "true" }, el("span", { vars: { "--w": `${(100 * n) / l.votaciones}%` } })),
         el("p", { class: "tarjeta-voto__pct" }, porcentaje(n / l.votaciones))))));
 }
@@ -209,19 +213,23 @@ function historial(d, l, cadena) {
     tipo: sel("h-tipo", [["todas", "Todas las votaciones"], ["leyes", "Proyectos de ley"], ["otras", "Otras"]]),
     anio: sel("h-anio", [["", "Todos los años"], ...anios.map((a) => [a, a])]),
   };
-  const conteo = el("p", { class: "conteo", "aria-live": "polite" });
+  const conteo = el("p", { class: "tarjeta__descripcion", "aria-live": "polite" });
   const lista = el("div");
   actual.historial = { filas, campos, conteo, lista };
   for (const k of ["voto", "tipo", "anio"]) campos[k].addEventListener("change", guardarFiltros);
   campos.q.addEventListener("input", guardarFiltros);
-  return el("section", { class: "seccion panel", "aria-labelledby": "t-hist" },
-    el("h2", { id: "t-hist" }, "Historial de votaciones"),
-    el("form", { class: "filtros", role: "search", on: { submit: (ev) => ev.preventDefault() } },
-      el("label", { class: "filtro filtro-ancho" }, "Buscar", campos.q),
-      el("label", { class: "filtro" }, "Voto", campos.voto),
-      el("label", { class: "filtro" }, "Tipo", campos.tipo),
-      el("label", { class: "filtro" }, "Año", campos.anio)),
-    conteo, lista);
+  return el("section", { class: "tarjeta", "aria-labelledby": "t-hist" },
+    el("div", { class: "tarjeta__cabecera" }, el("div", {}, el("h2", { id: "t-hist" }, "Historial de votaciones"), conteo)),
+    el("div", { class: "tarjeta__filtros" },
+      el("form", { class: "filtros", role: "search", on: { submit: (ev) => ev.preventDefault() } },
+        el("label", { class: "filtro filtro-ancho" }, "Buscar", campos.q),
+        el("label", { class: "filtro" }, "Voto", campos.voto),
+        el("label", { class: "filtro" }, "Tipo", campos.tipo),
+        el("label", { class: "filtro" }, "Año", campos.anio))),
+    el("div", { class: "tarjeta__lista lista-votaciones" },
+      el("div", { class: "columnas-votaciones", "aria-hidden": "true" },
+        el("span", {}, "Fecha"), el("span", {}, "Asunto"), el("span", {}, "Resultado"), el("span", {}, "Su voto")),
+      lista));
 }
 
 function filtrarHistorial() {
@@ -235,12 +243,17 @@ function filtrarHistorial() {
     && (!e.anio || f.v.fecha.startsWith(e.anio))
     && (!q || f.busqueda.includes(q)));
   h.conteo.textContent = `${numero(xs.length)} de ${numero(h.filas.length)} votaciones`;
-  listaPaginada(h.lista, xs, (f) => el("li", { class: "fila-historial" },
-    el("a", { href: enlaceVotacion(f.v, actual.datos.clave), class: "fila-historial__link" },
-      el("time", { datetime: f.v.fecha }, fecha(f.v.fecha)),
-      el("span", { class: "fila-historial__titulo" }, f.v.titulo,
-        el("span", { class: "nota" }, ` · ${f.v.es_ley ? "Proyecto de ley" : tipoCorto(f.v.tipo_proyecto)}${f.v.resultado ? " · " + f.v.resultado : ""}`)),
-      chipVoto(f.ch))), { paso: 30, vacio: "Ninguna votación coincide con esos filtros." });
+  // Misma fila que en Votaciones, con su voto en la última columna en lugar de la barra de totales.
+  listaPaginada(h.lista, xs, (f) => el("li", { class: "fila-votacion" },
+    el("time", { class: "fila-votacion__fecha", datetime: f.v.fecha }, fecha(f.v.fecha)),
+    el("div", { class: "fila-votacion__asunto" },
+      el("a", { href: enlaceVotacion(f.v, actual.datos.clave), class: "fila-votacion__link" },
+        f.v.es_ley ? "Proyecto de ley" : tipoCorto(f.v.tipo_proyecto),
+        f.v.expediente && [el("span", { class: "sep", "aria-hidden": "true" }, "·"), el("span", { class: "fila-votacion__expediente" }, f.v.expediente)]),
+      tituloSilpy(f.v.titulo)),
+    el("div", { class: "fila-votacion__resultado" }, chipResultado(f.v.resultado)),
+    el("div", { class: "fila-votacion__votos fila-votacion__su-voto" }, el("span", { class: "sr" }, "Su voto: "), chipVoto(f.ch))),
+  { paso: 30, vacio: "Ninguna votación coincide con esos filtros." });
 }
 
 function guardarFiltros() {
@@ -251,10 +264,50 @@ function guardarFiltros() {
   filtrarHistorial();
 }
 
+/** Pestañas (patrón ARIA tabs): el panel visible sale de e.vista; flechas izquierda/derecha cambian de pestaña. */
+function pestanas(paneles) {
+  const disponibles = VISTAS.filter(([v]) => paneles[v]);
+  const botones = disponibles.map(([v, texto]) => el("button", { type: "button", role: "tab", id: `pestana-${v}`,
+    "aria-controls": `panel-${v}`, class: "pestana", dataset: { vista: v } }, texto));
+  const lista = el("div", { class: "pestanas", role: "tablist", "aria-label": "Secciones del perfil" }, botones);
+  for (const b of botones) {
+    b.addEventListener("click", () => elegirVista(b.dataset.vista));
+    b.addEventListener("keydown", (ev) => {
+      const k = botones.indexOf(b);
+      const sig = ev.key === "ArrowRight" ? botones[(k + 1) % botones.length] : ev.key === "ArrowLeft" ? botones[(k - 1 + botones.length) % botones.length] : null;
+      if (sig) { ev.preventDefault(); sig.focus(); elegirVista(sig.dataset.vista); }
+    });
+  }
+  const contenedores = disponibles.map(([v]) => el("div", { role: "tabpanel", id: `panel-${v}`, "aria-labelledby": `pestana-${v}`,
+    class: "panel-pestana", tabindex: "-1" }, paneles[v]));
+  actual.pestanas = { botones, contenedores, disponibles: disponibles.map(([v]) => v) };
+  return [lista, contenedores];
+}
+
+function elegirVista(v) {
+  const e = leerEstado(DEFECTOS);
+  e.vista = v;
+  escribirEstado(e, DEFECTOS);
+  mostrarVista();
+}
+
+function mostrarVista() {
+  const p = actual?.pestanas;
+  if (!p) return;
+  let v = leerEstado(DEFECTOS).vista;
+  if (!p.disponibles.includes(v)) v = p.disponibles[0];
+  for (const b of p.botones) {
+    const activa = b.dataset.vista === v;
+    b.setAttribute("aria-selected", String(activa));
+    b.tabIndex = activa ? 0 : -1;
+  }
+  for (const c of p.contenedores) c.hidden = c.id !== `panel-${v}`;
+}
+
 async function render() {
   const e = leerEstado(DEFECTOS);
   const id = Number(e.id);
-  if (actual && actual.legislador.id === id) { filtrarHistorial(); return; }
+  if (actual && actual.legislador.id === id) { mostrarVista(); filtrarHistorial(); return; }
   if (!id) {
     vaciar(perfil, el("p", { class: "vacio" }, "Falta el legislador. Elegí uno en ", el("a", { href: "legisladores.html" }, "Legisladores"), "."));
     return;
@@ -268,10 +321,16 @@ async function render() {
     const { datos: d, legislador: l } = r;
     const cadena = d.votos.legisladores[String(l.id)];
     actual = { datos: d, legislador: l };
-    document.title = `${l.nombre} · Monitoreo Congreso del Paraguay`;
+    document.title = `${l.nombre} · Votómetro`;
     $("#volver").setAttribute("href", enlace("legisladores.html", { camara: d.clave }));
     const comisiones = await comisionesDe(l.id, d.clave);
-    vaciar(perfil, cabecera(d, l), historialBancadas(l), tarjetasResumen(d, l), seccionComisiones(d, l, comisiones), porAnio(d, cadena), similitud(d, l, cadena), historial(d, l, cadena));
+    const paneles = {
+      votos: [tarjetasResumen(d, l), porAnio(d, cadena), historial(d, l, cadena)],
+      similitud: similitud(d, l, cadena),
+      comisiones: seccionComisiones(d, l, comisiones),
+    };
+    vaciar(perfil, cabecera(d, l), historialBancadas(l), pestanas(paneles));
+    mostrarVista();
     filtrarHistorial();
   } catch (err) {
     mostrarError(perfil, `No se pudieron cargar los datos: ${err.message}`);
