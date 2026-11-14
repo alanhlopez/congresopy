@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
   <meta name="color-scheme" content="light dark">
-  <title>Datos abiertos · Monitoreo Congreso del Paraguay</title>
+  <title>Datos abiertos · Votómetro</title>
   <meta name="description" content="Descarga de los datos de votaciones del Congreso del Paraguay en JSON, con su manifiesto y licencia.">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="assets/css/congreso.css">
@@ -16,13 +16,16 @@
   <a class="saltar" href="#contenido">Saltar al contenido</a>
 
   <header class="cabecera">
-    <div class="cabecera__fila">
-      <a class="marca" href="index.html">Monitoreo <span class="marca__sub">Congreso del Paraguay</span></a>
-      <button type="button" class="tema" id="boton-tema" aria-label="Cambiar a tema oscuro">
-        <span class="tema__icono" aria-hidden="true"></span>
-        <span class="tema__texto">Tema oscuro</span>
-      </button>
-    </div>
+    <div class="cabecera__interior">
+      <a class="marca" href="index.html">
+        <svg class="marca__logo" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+          <rect class="marca__fondo" width="32" height="32" rx="8"/>
+          <path class="marca__arco" d="M7 21a9 9 0 0 1 18 0"/>
+          <path class="marca__aguja" d="M16 21l5.2-6.6"/>
+          <circle class="marca__eje" cx="16" cy="21" r="2.2"/>
+        </svg>
+        <span class="marca__texto"><span class="marca__nombre">Votómetro</span><span class="marca__sub">Congreso del Paraguay · 2023–2028</span></span>
+      </a>
     <!-- MENU: se copia igual en cada página (no se inyecta). tests/test_sitio.py verifica que coincida. -->
     <nav class="menu" aria-label="Principal">
       <ul>
@@ -36,40 +39,60 @@
       </ul>
     </nav>
     <!-- /MENU -->
+      <button type="button" class="tema" id="boton-tema" aria-label="Cambiar a tema oscuro">
+        <svg class="tema__luna" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg>
+        <svg class="tema__sol" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <span class="tema__texto sr">Tema oscuro</span>
+      </button>
+    </div>
   </header>
 
   <main id="contenido" class="contenido">
-    <h1>Datos abiertos</h1>
-    <p class="bajada">Todo lo que muestra este sitio está en estos archivos JSON. Podés usarlos citando la fuente.</p>
+    <header class="encabezado-pagina">
+      <p class="eyebrow">Congreso del Paraguay · 2023–2028</p>
+      <h1>Datos abiertos</h1>
+      <p class="bajada">Todo lo que muestra este sitio está en estos archivos JSON. Podés usarlos citando la fuente.</p>
+    </header>
 
-    <section class="panel" aria-labelledby="t-archivos">
-      <h2 id="t-archivos">Archivos</h2>
-      <div class="tabla-scroll">
-        <table class="tabla" id="tabla-archivos">
-          <thead><tr><th scope="col">Archivo</th><th scope="col" class="num">Filas</th><th scope="col" class="num">Tamaño</th><th scope="col">Generado</th><th scope="col">sha256</th></tr></thead>
-          <tbody><tr><td colspan="5" class="cargando">Cargando manifiesto…</td></tr></tbody>
-        </table>
+    <section class="tarjeta" aria-labelledby="t-archivos">
+      <div class="tarjeta__cabecera">
+        <div>
+          <h2 id="t-archivos">Archivos</h2>
+          <p class="tarjeta__descripcion">El manifiesto lista cada archivo con su fecha de generación, filas y sha256, para verificar que la copia que bajaste es la publicada.</p>
+        </div>
+        <div class="tarjeta__acciones"><a class="boton" href="datos/congreso/manifiesto.json">Manifiesto (JSON)</a></div>
       </div>
-      <p>El <a href="datos/congreso/manifiesto.json">manifiesto</a> lista cada archivo con su fecha de generación, filas y sha256, para verificar que la copia que bajaste es la publicada.</p>
+      <div class="tarjeta__cuerpo">
+        <div class="tabla-scroll">
+          <table class="tabla" id="tabla-archivos">
+            <thead><tr><th scope="col">Archivo</th><th scope="col" class="num">Filas</th><th scope="col" class="num">Tamaño</th><th scope="col">Generado</th><th scope="col">sha256</th></tr></thead>
+            <tbody><tr><td colspan="5" class="cargando">Cargando manifiesto…</td></tr></tbody>
+          </table>
+        </div>
+      </div>
     </section>
 
-    <section class="seccion" aria-labelledby="t-formato">
-      <h2 id="t-formato">Formato</h2>
-      <dl class="definiciones">
-        <dt><code>{camara}/votaciones.json</code></dt>
-        <dd>Una fila por votación, de la más reciente a la más vieja: <code>id</code> de SILpy, <code>fecha</code>, <code>sesion</code>, <code>tipo_proyecto</code>, <code>expediente</code>, <code>titulo</code>, <code>acapite</code>, <code>mocion</code>, <code>resultado</code>, <code>totales</code> y <code>url</code> a la votación en SILpy.</dd>
-        <dt><code>{camara}/votos.json</code></dt>
-        <dd><code>orden</code> es la lista de ids de votación (el mismo orden que votaciones.json). En <code>legisladores</code>, cada id tiene una cadena con un carácter por votación: S sí, N no, A abstención, X ausente, V presente sin votar, 1/2/3 moción, «-» fuera del cargo.</dd>
-        <dt><code>{camara}/legisladores.json</code></dt>
-        <dd>Nombre, cargo, estado, partido y bancada según la nómina de SILpy, <code>departamento</code> por el que fue electo (solo Diputados; <code>null</code> en el Senado, que tiene circunscripción nacional) según la ficha de SILpy, y el <code>conteo</code> de votos de cada tipo.</dd>
-        <dt><code>{camara}/comisiones.json</code></dt>
-        <dd>En <code>comisiones</code>, una entrada por comisión (<code>id</code> de SILpy, <code>nombre</code>, <code>tipo</code> asesora o especial, <code>url</code>) con sus <code>integrantes</code> como listas <code>[id_legislador, periodo, cargo]</code>, el período más reciente primero. <code>legisladores</code> da nombre, partido y estado de cada integrante; <code>fichas</code>, la fecha en que se leyeron las fichas de SILpy.</dd>
-      </dl>
+    <section class="tarjeta" aria-labelledby="t-formato">
+      <div class="tarjeta__cabecera"><h2 id="t-formato">Formato</h2></div>
+      <div class="tarjeta__cuerpo">
+        <dl class="definiciones">
+          <dt><code>{camara}/votaciones.json</code></dt>
+          <dd>Una fila por votación, de la más reciente a la más vieja: <code>id</code> de SILpy, <code>fecha</code>, <code>sesion</code>, <code>tipo_proyecto</code>, <code>expediente</code>, <code>titulo</code>, <code>acapite</code>, <code>mocion</code>, <code>resultado</code>, <code>totales</code> y <code>url</code> a la votación en SILpy.</dd>
+          <dt><code>{camara}/votos.json</code></dt>
+          <dd><code>orden</code> es la lista de ids de votación (el mismo orden que votaciones.json). En <code>legisladores</code>, cada id tiene una cadena con un carácter por votación: S sí, N no, A abstención, X ausente, V presente sin votar, 1/2/3 moción, «-» fuera del cargo.</dd>
+          <dt><code>{camara}/legisladores.json</code></dt>
+          <dd>Nombre, cargo, estado, partido y bancada según la nómina de SILpy, <code>departamento</code> por el que fue electo (solo Diputados; <code>null</code> en el Senado, que tiene circunscripción nacional) según la ficha de SILpy, y el <code>conteo</code> de votos de cada tipo.</dd>
+          <dt><code>{camara}/comisiones.json</code></dt>
+          <dd>En <code>comisiones</code>, una entrada por comisión (<code>id</code> de SILpy, <code>nombre</code>, <code>tipo</code> asesora o especial, <code>url</code>) con sus <code>integrantes</code> como listas <code>[id_legislador, periodo, cargo]</code>, el período más reciente primero. <code>legisladores</code> da nombre, partido y estado de cada integrante; <code>fichas</code>, la fecha en que se leyeron las fichas de SILpy.</dd>
+        </dl>
+      </div>
     </section>
 
-    <section class="seccion" aria-labelledby="t-licencia">
-      <h2 id="t-licencia">Licencia</h2>
-      <p>Los datos derivados se publican bajo <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.es" rel="noopener">CC BY-SA 4.0</a>. La fuente original es SILpy – Congreso Nacional del Paraguay, bajo <a href="https://creativecommons.org/licenses/by/4.0/deed.es" rel="noopener">CC BY 4.0</a>: al reutilizarlos, citá al Congreso Nacional y a este sitio.</p>
+    <section class="tarjeta" aria-labelledby="t-licencia">
+      <div class="tarjeta__cabecera"><h2 id="t-licencia">Licencia</h2></div>
+      <div class="tarjeta__cuerpo">
+        <p>Los datos derivados se publican bajo <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.es" rel="noopener">CC BY-SA 4.0</a>. La fuente original es SILpy – Congreso Nacional del Paraguay, bajo <a href="https://creativecommons.org/licenses/by/4.0/deed.es" rel="noopener">CC BY 4.0</a>: al reutilizarlos, citá al Congreso Nacional y a este sitio.</p>
+      </div>
     </section>
 
     <section class="metodo" aria-labelledby="metodo-titulo">
