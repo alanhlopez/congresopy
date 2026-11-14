@@ -4,7 +4,7 @@ import { el, mostrarError, vaciar, $ } from "../lib/dom.js";
 import { alCambiarHash, enlace, leerEstado } from "../lib/estado.js";
 import { VOTOS, fecha, numero, ordenPartido, partidoNombre } from "../lib/formato.js";
 import { hemiciclo } from "../lib/hemiciclo.js";
-import { barraTotales, chipPartido, enlaceLegislador, tipoCorto } from "../lib/componentes.js";
+import { barraTotales, chipPartido, chipResultado, enlaceLegislador, tipoCorto } from "../lib/componentes.js";
 
 const caja = $("#votacion");
 const ORDEN_VOTO = ["S", "1", "2", "3", "N", "A", "V", "X"];
@@ -34,27 +34,32 @@ function render(d, v) {
     partidos.get(l.partido)[l.ch] = (partidos.get(l.partido)[l.ch] || 0) + 1;
   }
 
-  document.title = `${v.titulo.slice(0, 70)} · Votación · Monitoreo Congreso del Paraguay`;
+  document.title = `${v.titulo.slice(0, 70)} · Votación · Votómetro`;
   $("#volver").setAttribute("href", enlace("votaciones.html", { camara: d.clave }));
+
+  // Cifras protagonistas: cada tipo de voto con su total (en el orden de la barra)
+  const CLAVES = [["si", "S"], ["mocion_1", "1"], ["mocion_2", "2"], ["mocion_3", "3"], ["no", "N"], ["abstencion", "A"], ["no_vota", "V"], ["ausente", "X"]];
+  const cifras = CLAVES.filter(([kk]) => v.totales[kk] > 0);
 
   vaciar(caja,
     el("header", { class: "panel votacion-cabecera" },
-      el("p", { class: "votacion-cabecera__meta" },
-        el("time", { datetime: v.fecha }, fecha(v.fecha)), el("span", {}, d.info.nombreLargo),
-        v.sesion && el("span", {}, `Sesión ${v.sesion.toLowerCase()}`),
-        el("span", {}, v.es_ley ? "Proyecto de ley" : tipoCorto(v.tipo_proyecto)),
-        v.expediente && el("span", {}, `Expediente ${v.expediente}`)),
-      el("h1", {}, v.titulo),
-      el("p", { class: "resultado resultado-grande" }, v.resultado || "Sin resultado publicado"),
+      el("p", { class: "eyebrow" }, `${d.info.nombreLargo} · `, el("time", { datetime: v.fecha }, fecha(v.fecha))),
+      // El título visible es el tipo y el expediente; el texto de SILpy (en mayúsculas) va abajo, más chico.
+      el("h1", {}, v.es_ley ? "Proyecto de ley" : tipoCorto(v.tipo_proyecto), v.expediente ? el("span", { class: "votacion-cabecera__exp" }, ` ${v.expediente}`) : null),
+      el("p", { class: "titulo-silpy votacion-cabecera__titulo" }, v.acapite || v.titulo),
+      el("div", { class: "votacion-cabecera__estado" }, chipResultado(v.resultado),
+        v.sesion && el("span", { class: "nota" }, `Sesión ${v.sesion.toLowerCase()}`)),
       v.observacion && el("p", { class: "nota" }, v.observacion),
-      v.mocion && el("p", {}, el("strong", {}, "Moción: "), v.mocion),
+      v.mocion && el("p", { class: "votacion-cabecera__mocion" }, el("strong", {}, "Moción: "), v.mocion),
       v.mociones && el("ol", { class: "lista-simple" }, Object.entries(v.mociones).map(([n, t]) => el("li", { value: n }, t))),
-      el("details", { class: "acapite" }, el("summary", {}, "Acápite completo"), el("p", {}, v.acapite || "—")),
-      el("p", {}, el("a", { href: v.url, rel: "noopener" }, "Ver la votación en SILpy"))),
+      el("p", { class: "perfil-cabecera__acciones" }, el("a", { class: "boton", href: v.url, rel: "noopener" }, "Ver la votación en SILpy ", el("span", { "aria-hidden": "true" }, "↗")))),
 
     el("section", { class: "seccion panel", "aria-labelledby": "t-res" },
       el("h2", { id: "t-res" }, "Resultado"),
-      barraTotales(v.totales, { conLeyenda: true }),
+      el("div", { class: "cifras-votacion" }, cifras.map(([kk, c]) => el("div", { class: ["stat", "stat-voto", VOTOS[c].clase] },
+        el("span", { class: "stat__etiqueta" }, el("span", { class: ["punto", VOTOS[c].clase], "aria-hidden": "true" }), ` ${etiquetaVoto(c)}`),
+        el("span", { class: "stat__valor" }, numero(v.totales[kk]))))),
+      barraTotales(v.totales),
       el("figure", { class: "figura-hemiciclo" },
         hemiciclo(presentes, {
           claseDe: (l) => VOTOS[l.ch].clase,
@@ -62,7 +67,7 @@ function render(d, v) {
           tituloDe: (l) => `${l.nombre} (${l.partido}): ${etiquetaVoto(l.ch)}`,
           etiqueta: `Voto de cada ${d.info.miembro} en esta votación, agrupados por voto`,
         }),
-        el("figcaption", {}, `${numero(presentes.length)} ${d.info.miembros} en el registro, agrupados por voto y, dentro de cada voto, por partido.`))),
+        el("figcaption", { class: "nota nota-centrada" }, `${numero(presentes.length)} ${d.info.miembros} en el registro, agrupados por voto y, dentro de cada voto, por partido. Tocá un asiento para ver el perfil.`))),
 
     el("section", { class: "seccion panel", "aria-labelledby": "t-part" },
       el("h2", { id: "t-part" }, "Cómo votó cada partido"),

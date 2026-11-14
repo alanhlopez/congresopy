@@ -959,15 +959,24 @@ h3 { font-size: var(--t-md); line-height: 1.3; margin: 0 0 var(--e-2); }
 }
 
 /* Votación */
-.votacion-cabecera { display: flex; flex-direction: column; gap: 0.5rem; }
+.votacion-cabecera { display: flex; flex-direction: column; gap: var(--e-2); padding: var(--e-5) var(--e-6); }
 .votacion-cabecera > * { margin: 0; }
-.votacion-cabecera h1 { font-size: clamp(1.35rem, 1.1rem + 1.4vw, 2rem); }
-.votacion-cabecera__meta { display: flex; flex-wrap: wrap; gap: 0.15rem 0.9rem; color: var(--texto-suave); font-size: 0.9rem; }
+.votacion-cabecera h1 { font-size: clamp(1.5rem, 1.2rem + 1.6vw, 2.25rem); }
+.votacion-cabecera__exp { color: var(--texto-suave); font-weight: 500; }
+.votacion-cabecera__titulo { max-width: 60rem; font-size: 0.9375rem; }
+.votacion-cabecera__estado { display: flex; flex-wrap: wrap; align-items: center; gap: var(--e-2) var(--e-3); margin-top: var(--e-1) !important; }
+.votacion-cabecera__estado .chip-resultado { font-size: var(--t-sm); padding: 0.2rem 0.7rem; }
+.votacion-cabecera__mocion { color: var(--texto-suave); font-size: var(--t-sm); max-width: 60rem; }
+@media (max-width: 520px) { .votacion-cabecera { padding: var(--e-4); } }
+.cifras-votacion { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 7rem), 1fr)); gap: var(--e-3); margin-bottom: var(--e-4); }
+.stat-voto .stat__valor { color: var(--texto); }
+.stat-voto .stat__etiqueta { display: inline-flex; align-items: center; gap: 0.35rem; }
+.cifras-votacion + .barra-totales { height: 0.9rem; margin-bottom: var(--e-4); }
 .acapite summary { cursor: pointer; color: var(--enlace); }
 .acapite p { color: var(--texto-suave); font-size: 0.92rem; }
-.grupos-voto { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr)); gap: 1rem 1.5rem; }
-.grupo-voto h3 { display: flex; align-items: center; gap: 0.4rem; }
-.lista-nombres { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.25rem; font-size: 0.93rem; }
+.grupos-voto { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr)); gap: var(--e-4) var(--e-5); }
+.grupo-voto h3 { display: flex; align-items: center; gap: 0.4rem; font-size: var(--t-base); padding-bottom: var(--e-2); border-bottom: 1px solid var(--borde); }
+.lista-nombres { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.3rem; font-size: 0.93rem; }
 
 /* Tablas */
 .tabla-scroll { overflow-x: auto; }
