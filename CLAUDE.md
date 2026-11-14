@@ -16,7 +16,7 @@ silver/     CSV limpios y validados por cámara: el contrato de datos del proyec
 salidas/    productos del análisis que no se publican en el sitio (salidas/votometro/ = referencia de regresión)
 site/       el sitio estático (lo que se despliega). Datos en site/datos/congreso/
 tests/      pytest. tests/referencia/ guarda el JSON de referencia del prototipo
-docs/       CONTINUAR.md y docs/referencia-datacp/ (capturas de datacp.ar/congreso)
+docs/       CONTINUAR.md; docs/referencia-datacp/ (capturas de datacp.ar/congreso) es solo local, fuera de git
 ```
 
 ## Comandos

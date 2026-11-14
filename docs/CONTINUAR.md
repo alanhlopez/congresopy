@@ -9,7 +9,7 @@ Responder en español (voseo), crítico y sin complacencia.
 - **Decisión tomada:** proyecto **independiente** `congresopy`, al lado de esa carpeta, que respete las convenciones de kalaguichi.com para que se pueda copiar o linkear después. Prototipo desplegado en Vercel. Se desarrolla con Claude Code desde la terminal.
 - **Próximo paso: tarea 1.1** (abajo). Todavía no se ejecutó.
 - **Kalaguichi** está procesando con OCR unas 275.000 páginas de PDFs del Congreso para subirlas a Kalaguichi (iba ~12 % al 31/10). Sirve para proyectos, discursos y textos (fases siguientes). **No reemplaza** los votos nominales, que salen del HTML de SILpy y ya están en caché. No esperar a ese dataset para la Fase 1.
-- **Referencia visual:** `docs/referencia-datacp/` tiene 15 capturas de datacp.ar/congreso, el modelo que seguimos.
+- **Referencia visual:** `docs/referencia-datacp/` tiene 15 capturas de datacp.ar/congreso, el modelo que seguimos. Son material de terceros: quedan solo en local (en `.gitignore`), no en el repo público.
 
 ## Cómo retomar
 
@@ -28,7 +28,7 @@ Vamos a crear un proyecto nuevo, `congresopy`: un monitor del Congreso paraguayo
 - NO modifiques nada dentro de `VotometroCongresoPy/`. Copiá, no muevas. Queda como referencia.
 - El repo nuevo va en `./congresopy/`, al lado.
 - El sitio tiene que poder copiarse más adelante a kalaguichi.com sin reescribirlo. Por eso sigue sus convenciones desde el día uno (ver las reglas abajo). Por ahora se despliega solo, en Vercel.
-- La referencia de producto es datacp.ar/congreso (Argentina). Las capturas están en `VotometroCongresoPy/docs/referencia-datacp/`: copialas a `congresopy/docs/referencia-datacp/` junto con la sección "Referencia visual" de CONTINUAR.md. En esta tarea no se usan, pero tienen que quedar en el repo.
+- La referencia de producto es datacp.ar/congreso (Argentina). Las capturas están en `VotometroCongresoPy/docs/referencia-datacp/`: copialas a `congresopy/docs/referencia-datacp/` junto con la sección "Referencia visual" de CONTINUAR.md. En esta tarea no se usan. (Después se decidió dejarlas fuera de git porque el repo es público.)
 
 ## Estructura objetivo
 congresopy/

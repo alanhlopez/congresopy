@@ -60,5 +60,5 @@ lo que ya está en `bronze/`.
 - **Fuente:** SILpy – Congreso Nacional del Paraguay, publicado bajo
   [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/deed.es). Al reutilizar estos datos, citá al
   Congreso Nacional como fuente original.
-- `docs/referencia-datacp/` son capturas de datacp.ar, de sus autores, usadas solo como referencia interna.
-  No están cubiertas por las licencias de arriba.
+- Las capturas de datacp.ar que usamos como referencia de estructura son de sus autores: quedan solo en local
+  (`docs/referencia-datacp/`, en `.gitignore`) y no se publican.
