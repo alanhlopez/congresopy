@@ -18,7 +18,7 @@ function cabecera(d, l) {
     el("div", { class: "perfil-cabecera__texto" },
       el("h1", {}, l.nombre),
       el("p", { class: "perfil-cabecera__meta" }, chipPartido(l.partido), el("span", {}, partidoNombre(l.partido)),
-        el("span", {}, l.cargo || d.info.nombreLargo)),
+        el("span", {}, l.cargo || d.info.nombreLargo), l.departamento ? el("span", {}, `Departamento: ${l.departamento}`) : null),
       el("p", { class: "nota" }, l.bancada || "Sin bancada declarada", l.cargo_bancada ? ` · ${l.cargo_bancada.toLowerCase()} de bancada` : ""),
       el("p", { class: "nota" },
         l.estado === "activos" ? "En ejercicio. " : "Ya no está en el cargo. ",

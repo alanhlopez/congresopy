@@ -5,8 +5,8 @@ import { alCambiarHash, escribirEstado, leerEstado } from "../lib/estado.js";
 import { normalizar, numero, partidoNombre, porcentaje } from "../lib/formato.js";
 import { avatar, chipPartido, enlaceLegislador, listaPaginada } from "../lib/componentes.js";
 
-const DEFECTOS = { q: "", camara: "todas", partido: "", estado: "activos", orden: "nombre" };
-const campos = { q: $("#f-q"), camara: $("#f-camara"), partido: $("#f-partido"), estado: $("#f-estado"), orden: $("#f-orden") };
+const DEFECTOS = { q: "", camara: "todas", partido: "", departamento: "", estado: "activos", orden: "nombre" };
+const campos = { q: $("#f-q"), camara: $("#f-camara"), partido: $("#f-partido"), departamento: $("#f-departamento"), estado: $("#f-estado"), orden: $("#f-orden") };
 let todos = [];
 
 const presencia = (l) => (l.votaciones ? 1 - l.conteo.ausente / l.votaciones : null);
@@ -19,7 +19,7 @@ function tarjeta(l) {
       el("span", { class: "tarjeta-legislador__cuerpo" },
         el("span", { class: "tarjeta-legislador__nombre" }, l.nombre),
         el("span", { class: "tarjeta-legislador__meta" }, chipPartido(l.partido),
-          el("span", {}, info.nombre), l.estado !== "activos" && el("span", { class: "chip" }, "Ya no está en el cargo")),
+          el("span", {}, l.departamento ? `${info.nombre} · ${l.departamento}` : info.nombre), l.estado !== "activos" && el("span", { class: "chip" }, "Ya no está en el cargo")),
         el("span", { class: "tarjeta-legislador__bancada" }, l.bancada || "Sin bancada declarada")),
       el("span", { class: "tarjeta-legislador__dato" },
         el("strong", {}, porcentaje(presencia(l))),
@@ -32,6 +32,7 @@ function aplicar() {
   const q = normalizar(e.q);
   let lista = todos.filter((l) => (e.camara === "todas" || l.camara === e.camara)
     && (!e.partido || l.partido === e.partido)
+    && (!e.departamento || l.departamento === e.departamento)
     && (e.estado === "todos" || l.estado === "activos")
     && (!q || l._busqueda.includes(q)));
   if (e.orden === "presencia") lista.sort((a, b) => presencia(a) - presencia(b));
@@ -51,10 +52,13 @@ async function iniciar() {
   try {
     const cams = await Promise.all(Object.keys(CAMARAS).map(camara));
     todos = cams.flatMap((d) => d.legisladores.map((l) => ({
-      ...l, camara: d.clave, _busqueda: normalizar(`${l.nombre} ${l.nombre_corto} ${l.bancada} ${l.partido} ${partidoNombre(l.partido)}`),
+      ...l, camara: d.clave, _busqueda: normalizar(`${l.nombre} ${l.nombre_corto} ${l.bancada} ${l.partido} ${partidoNombre(l.partido)} ${l.departamento || ""}`),
     })));
     const partidos = [...new Set(todos.map((l) => l.partido))].sort((a, b) => partidoNombre(a).localeCompare(partidoNombre(b), "es"));
     for (const p of partidos) campos.partido.append(el("option", { value: p }, `${partidoNombre(p)} (${p})`));
+    // Departamentos: solo Diputados (el Senado se elige en circunscripción nacional).
+    const deptos = [...new Set(todos.map((l) => l.departamento).filter(Boolean))].sort((a, b) => a.localeCompare(b, "es"));
+    for (const dp of deptos) campos.departamento.append(el("option", { value: dp }, dp));
     aplicar();
   } catch (err) {
     mostrarError($("#lista"), `No se pudieron cargar los datos: ${err.message}`);
@@ -63,6 +67,6 @@ async function iniciar() {
 
 $("#filtros").addEventListener("submit", (ev) => ev.preventDefault());
 campos.q.addEventListener("input", guardar);
-for (const k of ["camara", "partido", "estado", "orden"]) campos[k].addEventListener("change", guardar);
+for (const k of ["camara", "partido", "departamento", "estado", "orden"]) campos[k].addEventListener("change", guardar);
 alCambiarHash(aplicar);
 iniciar();

@@ -42,7 +42,7 @@
     <h1>Legisladores</h1>
     <form class="filtros" id="filtros" role="search">
       <label class="filtro filtro-ancho">Buscar
-        <input type="search" id="f-q" name="q" placeholder="Nombre o bancada" autocomplete="off">
+        <input type="search" id="f-q" name="q" placeholder="Nombre, bancada o departamento" autocomplete="off">
       </label>
       <label class="filtro">Cámara
         <select id="f-camara" name="camara">
@@ -53,6 +53,9 @@
       </label>
       <label class="filtro">Partido
         <select id="f-partido" name="partido"><option value="">Todos</option></select>
+      </label>
+      <label class="filtro">Departamento
+        <select id="f-departamento" name="departamento"><option value="">Todos</option></select>
       </label>
       <label class="filtro">Estado
         <select id="f-estado" name="estado">
@@ -78,6 +81,8 @@
         <dd>Votaciones nominales y electrónicas publicadas en <a href="https://silpy.congreso.gov.py/" rel="noopener">SILpy</a>, el Sistema de Información Legislativa del Congreso Nacional (CC BY 4.0). Última votación incluida: <span data-actualizado>—</span>.</dd>
         <dt>Método</dt>
         <dd>La presencia es el porcentaje de votaciones nominales de su período en el cargo en las que el legislador no figura como «ausente». Cada tarjeta lleva al perfil con el detalle.</dd>
+        <dt>Departamento</dt>
+        <dd>Es la circunscripción por la que fue electo cada diputado, según su ficha en SILpy (Capital es Asunción). Los senadores se eligen en circunscripción nacional, así que no tienen departamento.</dd>
         <dt>Fotos</dt>
         <dd>Las fotos son las publicadas en SILpy (CC BY 4.0). Si un legislador no tiene foto, se muestran sus iniciales.</dd>
         <dt>Límites</dt>

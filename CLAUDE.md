@@ -124,6 +124,16 @@ responsable del proyecto antes (como se hizo con los snapshots del listado del p
 $P pipeline/comisiones.py descargar && $P pipeline/comisiones.py silver && $P pipeline/exportar_sitio.py
 ```
 
+Circunscripciones (`pipeline/circunscripciones.py`, sin red): el campo «Circunscripción» de las mismas fichas da
+`silver/{camara}/circunscripciones.csv` (id_legislador, circunscripcion, departamento). Senado: siempre Nacional,
+departamento vacío. Diputados: uno de los 18 de `DEPARTAMENTOS` (Capital incluida); un valor desconocido no escribe
+nada y sale con 1. `exportar_sitio.py` lo publica como `departamento` en `legisladores.json` (null en el Senado).
+Un legislador nuevo necesita su ficha (`comisiones.py descargar`) antes de correrlo.
+
+```bash
+$P pipeline/circunscripciones.py && $P pipeline/exportar_sitio.py
+```
+
 `legisladores.py` exige `--out` y no sobrescribe archivos (su parser, `parsear_nomina`, lo usa bancadas.py). Nunca lo apuntes a `silver/{camara}/legisladores.csv`:
 los dos tienen `nombre_corto` cargado a mano y el de Diputados se armó entero a mano.
 
@@ -135,7 +145,7 @@ Sitio en local: `python3 -m http.server -d site 8000`
 |---|---|---|
 | `index.html` | Resumen de cada cámara y últimas votaciones | — |
 | `camaras.html` | Composición actual: hemiciclo por partido o agrupado por bancada | `camara`, `vista` |
-| `legisladores.html` | Listado de las dos cámaras con búsqueda y filtros | `q`, `camara`, `partido`, `estado`, `orden` |
+| `legisladores.html` | Listado de las dos cámaras con búsqueda y filtros | `q`, `camara`, `partido`, `departamento`, `estado`, `orden` |
 | `legislador.html` | Perfil: presencia, conteo de votos, votos por año, similitud de voto, historial | `camara`, `id`, `q`, `voto`, `tipo`, `anio` |
 | `votaciones.html` | Votaciones de una cámara con buscador y filtros | `camara`, `q`, `tipo`, `anio`, `res` |
 | `votacion.html` | Detalle: textos, totales, hemiciclo por voto, votos por partido y lista nominal | `camara`, `id` |
@@ -197,6 +207,9 @@ rompe; cambiar la lógica sí. Los datos vivos (`salidas/`, `site/datos/`) se re
   sin contacto no hay request), con una sesión falsa, sin red.
 - `test_validacion.py`: con un HTML real de SILpy (`tests/fixtures/silpy/104208.html`) y una copia con un voto
   alterado, verifica que la votación que no cuadra con el sumario no llega a silver/ y que `reparsear` falla.
+- `test_circunscripciones.py`: con fichas reales de un senador y un diputado, el departamento se lee bien (Concepción
+  sin tilde en SILpy incluida), se rechazan la ficha de otro legislador y un valor desconocido, silver/ cubre las 80
+  bancas en los 18 departamentos y el sitio lo publica (null en el Senado).
 - `test_actualizacion.py`: sin bronze/ completo (como en Actions), `detalle` registra la rechazada y no la
   vuelve a bajar, `fechas` no baja un período cerrado que ya está en silver/ y `reparsear` no borra lo que falta.
 

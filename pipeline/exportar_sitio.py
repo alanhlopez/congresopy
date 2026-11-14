@@ -2,7 +2,7 @@
 
 Uso: python3 pipeline/exportar_sitio.py [--destino DIR]
 Salida (por defecto site/datos/congreso/):
-  {senado,diputados}/legisladores.json  una fila por legislador que votó: datos y conteo de votos
+  {senado,diputados}/legisladores.json  una fila por legislador que votó: datos, departamento (Diputados) y conteo
   {senado,diputados}/votaciones.json    una fila por votación (más reciente primero): textos, totales, link a SILpy
   {senado,diputados}/votos.json         una cadena por legislador con su voto en cada votación, en el orden
                                         de votaciones.json (códigos en comun.CODIGO_VOTO; "-" = fuera del cargo)
@@ -11,7 +11,7 @@ Salida (por defecto site/datos/congreso/):
   fotos/{id}.jpg                        fotos de legisladores copiadas de silver/fotos/ (si hay)
   manifiesto.json                       por archivo: fecha de generación, filas, bytes, sha256 (y resumen de fotos)
 
-Lee votacion.csv, voto.csv, fechas.csv, legisladores.csv, bancadas_hist.csv y comisiones.csv. NO lee codificacion_sugerida.csv:
+Lee votacion.csv, voto.csv, fechas.csv, legisladores.csv, bancadas_hist.csv, circunscripciones.csv y comisiones.csv. NO lee codificacion_sugerida.csv:
 el índice de alineamiento con el Ejecutivo no se publica en la Fase 1.
 
 El contenido es determinístico. Un archivo cuyo sha256 no cambió conserva su fecha de generación
@@ -80,6 +80,10 @@ def exportar_camara(cam, fotos=None):
             hist.setdefault(t["id_legislador"], []).append(
                 {k: texto(t[k]) for k in ("partido", "bancada", "cargo_bancada", "estado", "visto_desde", "visto_hasta", "cambio_detectado")})
     L = {r["id_legislador"]: r for r in leer(silver / "legisladores.csv")}
+    # Departamento de cada diputado (pipeline/circunscripciones.py); en el Senado la circunscripción es nacional.
+    depto = {}
+    if (silver / "circunscripciones.csv").exists():
+        depto = {r["id_legislador"]: texto(r["departamento"]) for r in leer(silver / "circunscripciones.csv")}
 
     sin_fecha = [r["id_votacion"] for r in vt if not fechas.get(r["id_votacion"], {}).get("fecha")]
     if sin_fecha:
@@ -155,6 +159,7 @@ def exportar_camara(cam, fotos=None):
             "partido": texto(info.get("partido")),
             "bancada": texto(info.get("bancada")),
             "cargo_bancada": texto(info.get("cargo_bancada")),
+            "departamento": depto.get(str(int(lid))),
             "en_nomina": bool(info),
             "votaciones": len(en_cargo),
             "primera": min(en_cargo),
