@@ -1,24 +1,57 @@
-# CONTINUAR — Monitor del Congreso Paraguayo (`congresopy`)
+# CONTINUAR — Votómetro, Congreso del Paraguay (`congresopy`)
 
-Archivo de traspaso. Si sos Claude (en el chat o en Claude Code), leé esto entero antes de hacer nada.
+Archivo de traspaso. Si sos Claude (en el chat o en Claude Code), leé esto entero antes de hacer nada, y después
+`CLAUDE.md`, que tiene los comandos, las reglas y las advertencias al día.
 Responder en español (voseo), crítico y sin complacencia.
 
-## Dónde estamos (31/10/2026)
+## Dónde estamos (14/11/2026)
 
-- **Prototipo que ya funciona:** `../VotometroCongresoPy/` (carpeta hermana de este repo). Tiene el scraper de SILpy, los votos nominales de Senado y Diputados del 30/06/2023 en adelante y un dashboard (`votometro.html`). Ver `README.md`.
-- **Decisión tomada:** proyecto **independiente** `congresopy`, al lado de esa carpeta, que respete las convenciones de kalaguichi.com para que se pueda copiar o linkear después. Prototipo desplegado en Vercel. Se desarrolla con Claude Code desde la terminal.
-- **Próximo paso: tarea 1.1** (abajo). Todavía no se ejecutó.
-- **Kalaguichi** está procesando con OCR unas 275.000 páginas de PDFs del Congreso para subirlas a Kalaguichi (iba ~12 % al 31/10). Sirve para proyectos, discursos y textos (fases siguientes). **No reemplaza** los votos nominales, que salen del HTML de SILpy y ya están en caché. No esperar a ese dataset para la Fase 1.
-- **Referencia visual:** `docs/referencia-datacp/` tiene 15 capturas de datacp.ar/congreso, el modelo que seguimos. Son material de terceros: quedan solo en local (en `.gitignore`), no en el repo público.
+**Fase 1 publicada.** Repo público en GitHub (`alanhlopez/congresopy`), desplegado en Vercel desde `main`.
+El sitio se llama **Votómetro** («Congreso del Paraguay · 2023–2028») desde el rediseño de noviembre de 2026.
 
-## Cómo retomar
+Hecho:
+- **Datos (pipeline → silver/ → site/datos/congreso/):** votaciones nominales de las dos cámaras desde el
+  30/06/2023, validadas contra el sumario de SILpy; nómina con partido, bancada y correcciones manuales
+  documentadas; historial de bancadas por fotos semanales de la nómina; fotos de SILpy; comisiones (asesoras y
+  especiales) y departamento de cada diputado, ambos desde la ficha de cada legislador.
+- **Actualización automática (GitHub Actions):** votaciones martes y viernes, nómina los lunes, tests en cada push.
+- **Sitio (9 páginas):** Inicio, Cámaras (hemiciclo y por bancada), Legisladores (lista con filtros por
+  cámara, partido, departamento y estado), perfil (cómo votó, con quién vota, comisiones), Votaciones, detalle de
+  votación, Comisiones, Proyectos (en preparación) y Datos abiertos.
+- **Rediseño visual (14/11/2026):** sistema de diseño en `congreso.css` (tokens, acento verde petróleo neutral,
+  componentes), identidad propia (logotipo de medidor en SVG), serif del sistema solo en el hero de Inicio.
+  Verificado con Playwright en las 9 páginas a 360, 768 y 1280 px, en los dos temas: sin errores de CSP ni
+  scroll horizontal; contraste AA en los tokens. Las capturas se regeneran en `docs/capturas/` (fuera de git).
+- **Tests:** 91 en verde (regresión del análisis contra el prototipo, reglas del sitio, pipeline sin red).
 
-1. Abrí un chat nuevo y escribí: *"Leé CONTINUAR.md en VotometroCongresoPy y seguimos"* (con la carpeta vinculada), o pegá este archivo.
-2. O bien pasá directo a Claude Code con el prompt 1.1 de abajo, y después traé al chat el resumen final que te dé.
+Pendiente:
+- **Proyectos (fase 1b):** la API `datos.congreso.gov.py` da 502 en todos sus endpoints (13 y 14/11/2026).
+  Alternativa en curso: una copia de SILpy que bajó un tercero. Hace falta: expedientes 2023-2028 de las dos
+  cámaras (número, tipo, título, fecha, cámara de origen, materia, estado) y firmantes con id de legislador y
+  rol (autor/cofirmante); el trámite, si está. Antes de usarla: formato, fecha, cobertura y permiso.
+- **Disciplina de bloque por fecha:** necesita más fotos semanales de la nómina (se juntan solas).
+- **Actualizar comisiones y fichas:** volver a bajar fichas es una excepción a la regla de bronze/; acordarla
+  (por ejemplo, una vez por año después del 1 de julio).
+- **Datos menores:** fotos de Da Silva y Esquivel (404 en SILpy); bancada de Nakayama («Liberal Independiente»
+  en SILpy); el historial de Rubín muestra «Partido: IND → —» porque la nómina dejó el partido vacío.
+- **Decisiones de producto:** votaciones clave frente al gobierno (pendiente 1, abajo) y el dataset de Kalaguichi.
+- **Nombre en el manifiesto:** `pipeline/exportar_sitio.py` todavía escribe `"proyecto": "Monitoreo Congreso del
+  Paraguay"` en `manifiesto.json`; cambiarlo es un cambio de pipeline y de datos publicados, no se tocó en el
+  rediseño.
+
+Contexto que sigue valiendo:
+- **Prototipo:** `../VotometroCongresoPy/` (carpeta hermana). Referencia; no se modifica.
+- **Kalaguichi** procesa con OCR unas 275.000 páginas de PDFs del Congreso. Sirve para proyectos, discursos y
+  textos (fases siguientes). No reemplaza los votos nominales.
+- **Referencia visual:** `docs/referencia-datacp/` (15 capturas de datacp.ar/congreso) es material de terceros:
+  queda solo en local (en `.gitignore`). Se toma estructura y patrones, no identidad.
 
 ---
 
-## Prompt 1.1 (para Claude Code, abierto en la carpeta que contiene `VotometroCongresoPy/` y `congresopy/`)
+Lo que sigue es el prompt original de la tarea 1.1 (ejecutado el 31/10/2026). Se conserva como registro de las
+decisiones iniciales; el estado actual es el de arriba y el de `CLAUDE.md`.
+
+## Prompt 1.1 (histórico, ya ejecutado)
 
 ````text
 Vamos a crear un proyecto nuevo, `congresopy`: un monitor del Congreso paraguayo (votaciones, asistencia y después proyectos) a partir de los datos de SILpy (silpy.congreso.gov.py). Es la tarea 1.1 de la Fase 1: armar la base del repo y migrar lo que ya existe. Todavía no hay que construir páginas.
@@ -122,9 +155,9 @@ Capturas en `docs/referencia-datacp/`. Qué tomamos y qué se puede hacer con lo
 ## Decisiones pendientes
 
 1. **"Votaciones clave vs. gobierno" (captura 09).** Es lo más atractivo del perfil de datacp y es esencialmente nuestro índice de alineamiento con el Ejecutivo, que decidimos no publicar en Fase 1. Opciones: (a) seguir sin publicarlo; (b) publicarlo solo para una lista editorial chica de leyes clave, con la posición del gobierno documentada a mano por ley, como hace datacp, y no como índice automático. La (b) es más defendible metodológicamente.
-2. **Fotos:** ¿de SILpy, de las webs de las cámaras o de Wikimedia? Hace falta licencia clara.
-3. **Presentismo:** datacp usa asistencia a sesiones (119/139). Nosotros hoy solo tenemos ausencia en votaciones nominales. Verificar si SILpy publica asistencia por sesión. Si no, rotularlo explícitamente como "presencia en votaciones nominales".
-4. **Bloques:** en Paraguay las bancadas cambian (por ejemplo, ANR "A" / Honor Colorado). La disciplina tiene que computarse con la bancada vigente en cada fecha (`bancada_hist` en silver), no con la actual.
+2. ~~**Fotos.**~~ Resuelto: fotos de SILpy (CC BY 4.0), servidas desde el sitio; iniciales si no hay.
+3. ~~**Presentismo.**~~ Resuelto: se rotula «presencia en votaciones nominales» y cada página lo aclara.
+4. **Bloques:** la disciplina tiene que computarse con la bancada vigente en cada fecha (`bancadas_hist.csv`), no con la actual. Espera a tener más fotos de la nómina.
 
 ## Preguntas para Kalaguichi (sobre su dataset de PDFs)
 
