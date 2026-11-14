@@ -18,6 +18,17 @@ export function normalizar(t) {
   return (t || "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
 }
 
+/** «Apellido, Nombre» a partir del nombre completo y del nombre_corto cargado a mano («Juan Afara»): la última
+    palabra del nombre corto marca dónde empieza el apellido (y las anteriores, si también están en el corto). Si no aparece en el nombre completo, se deja igual. */
+export function apellidoNombre(nombre, corto) {
+  const partes = (nombre || "").split(/\s+/).filter(Boolean);
+  const enCorto = (corto || "").split(/\s+/).filter(Boolean).slice(1).map(normalizar);
+  let k = partes.findIndex((p, i) => i > 0 && normalizar(p) === enCorto[enCorto.length - 1]);
+  // Apellido compuesto en el nombre corto («Pedro Díaz Verón»): se incluyen las palabras anteriores que también están.
+  while (k > 1 && enCorto.includes(normalizar(partes[k - 1]))) k--;
+  return k > 0 ? `${partes.slice(k).join(" ")}, ${partes.slice(0, k).join(" ")}` : nombre;
+}
+
 /** Iniciales para el avatar: "Juan Eudes Afara Maciel" -> "JA" (primer nombre + primer apellido estimado). */
 export function iniciales(nombre) {
   const p = (nombre || "").split(/\s+/).filter((x) => /^[A-ZÁÉÍÓÚÑ]/i.test(x));

@@ -2,7 +2,7 @@
 import { CAMARAS, camara } from "../lib/datos.js";
 import { el, mostrarError, $ } from "../lib/dom.js";
 import { alCambiarHash, escribirEstado, leerEstado } from "../lib/estado.js";
-import { normalizar, numero, partidoNombre, porcentaje } from "../lib/formato.js";
+import { apellidoNombre, normalizar, numero, partidoNombre, porcentaje } from "../lib/formato.js";
 import { avatar, chipPartido, enlaceLegislador, listaPaginada } from "../lib/componentes.js";
 
 const DEFECTOS = { q: "", camara: "todas", partido: "", departamento: "", estado: "activos", orden: "nombre" };
@@ -11,19 +11,25 @@ let todos = [];
 
 const presencia = (l) => (l.votaciones ? 1 - l.conteo.ausente / l.votaciones : null);
 
-function tarjeta(l) {
+/** Fila de la lista: foto con aro del partido, «Apellido, Nombre», bancada chica, cámara/departamento,
+    sigla del partido y presencia como mini barra con su porcentaje. Toda la fila es el link al perfil. */
+function fila(l) {
   const info = CAMARAS[l.camara];
-  return el("li", {},
-    el("a", { class: "tarjeta-legislador", href: enlaceLegislador(l, l.camara) },
+  const p = presencia(l);
+  return el("li", { class: "fila-legislador" },
+    el("a", { class: "fila-legislador__link", href: enlaceLegislador(l, l.camara) },
       avatar(l),
-      el("span", { class: "tarjeta-legislador__cuerpo" },
-        el("span", { class: "tarjeta-legislador__nombre" }, l.nombre),
-        el("span", { class: "tarjeta-legislador__meta" }, chipPartido(l.partido),
-          el("span", {}, l.departamento ? `${info.nombre} · ${l.departamento}` : info.nombre), l.estado !== "activos" && el("span", { class: "chip" }, "Ya no está en el cargo")),
-        el("span", { class: "tarjeta-legislador__bancada" }, l.bancada || "Sin bancada declarada")),
-      el("span", { class: "tarjeta-legislador__dato" },
-        el("strong", {}, porcentaje(presencia(l))),
-        el("span", {}, `presencia en ${numero(l.votaciones)} votaciones`))));
+      el("span", { class: "fila-legislador__persona" },
+        el("span", { class: "fila-legislador__nombre" }, apellidoNombre(l.nombre, l.nombre_corto)),
+        el("span", { class: "fila-legislador__bancada", title: l.bancada || null },
+          l.bancada || "Sin bancada declarada",
+          l.estado !== "activos" ? " · ya no está en el cargo" : "")),
+      el("span", { class: "fila-legislador__camara" }, info.nombre, l.departamento ? el("span", {}, l.departamento) : null),
+      el("span", { class: "fila-legislador__partido" }, chipPartido(l.partido)),
+      el("span", { class: "fila-legislador__presencia", title: `Presente en ${numero(l.votaciones - l.conteo.ausente)} de ${numero(l.votaciones)} votaciones nominales` },
+        el("span", { class: "medidor", "aria-hidden": "true" }, el("span", { vars: { "--w": `${Math.round((p || 0) * 100)}%` } })),
+        el("strong", {}, porcentaje(p)),
+        el("span", { class: "sr" }, ` de presencia en ${numero(l.votaciones)} votaciones`))));
 }
 
 function aplicar() {
@@ -37,9 +43,9 @@ function aplicar() {
     && (!q || l._busqueda.includes(q)));
   if (e.orden === "presencia") lista.sort((a, b) => presencia(a) - presencia(b));
   else if (e.orden === "presencia-desc") lista.sort((a, b) => presencia(b) - presencia(a));
-  $("#conteo").textContent = `${numero(lista.length)} de ${numero(todos.length)} legisladores`;
-  listaPaginada($("#lista"), lista, tarjeta, { paso: 48, vacio: "Ningún legislador coincide con esos filtros." });
-  $("#lista").firstElementChild?.classList.add("grilla-legisladores");
+  $("#conteo").textContent = lista.length === todos.length
+    ? `${numero(lista.length)} legisladores` : `${numero(lista.length)} de ${numero(todos.length)} legisladores`;
+  listaPaginada($("#lista"), lista, fila, { paso: 50, vacio: "Ningún legislador coincide con esos filtros." });
 }
 
 function guardar() {

@@ -734,31 +734,61 @@ h3 { font-size: var(--t-md); line-height: 1.3; margin: 0 0 var(--e-2); }
 .miembro .avatar { width: 2rem; height: 2rem; font-size: 0.75rem; }
 .miembro:hover span:last-child { text-decoration: underline; }
 
-/* Legisladores */
-.grilla-legisladores {
+/* Legisladores: lista tipo tabla. Se apila según el ancho del contenedor. */
+.lista-legisladores { container-type: inline-size; }
+.columnas-legisladores { display: none; }
+.fila-legislador { border-top: 1px solid var(--borde); }
+.fila-legislador:first-child { border-top: 0; }
+.fila-legislador__link {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr));
-  gap: 0.75rem;
-}
-.tarjeta-legislador {
-  display: flex;
-  gap: 0.75rem;
-  align-items: flex-start;
-  height: 100%;
-  padding: 0.9rem;
-  background: var(--superficie);
-  border: 1px solid var(--borde);
+  grid-template-columns: auto auto minmax(0, 1fr) auto;
+  grid-template-areas: "foto persona persona presencia" "foto partido camara presencia";
+  gap: var(--e-1) var(--e-3);
+  align-items: center;
+  padding: var(--e-3) var(--e-2);
+  margin-inline: calc(-1 * var(--e-2));
   border-radius: var(--radio);
   color: var(--texto);
   text-decoration: none;
 }
-.tarjeta-legislador:hover { border-color: var(--texto-suave); }
-.tarjeta-legislador__cuerpo { display: flex; flex-direction: column; gap: 0.25rem; flex: 1; min-width: 0; }
-.tarjeta-legislador__nombre { font-weight: 600; line-height: 1.3; }
-.tarjeta-legislador__meta { display: flex; flex-wrap: wrap; gap: 0.25rem 0.5rem; align-items: center; font-size: 0.85rem; color: var(--texto-suave); }
-.tarjeta-legislador__bancada { font-size: 0.8rem; color: var(--texto-suave); line-height: 1.35; }
-.tarjeta-legislador__dato { display: flex; flex-direction: column; align-items: flex-end; text-align: right; font-size: 0.75rem; color: var(--texto-suave); max-width: 6.5rem; }
-.tarjeta-legislador__dato strong { font-size: 1.05rem; color: var(--texto); font-variant-numeric: tabular-nums; }
+.fila-legislador__link:hover { background: var(--superficie-2); color: var(--texto); }
+.fila-legislador__link:hover .fila-legislador__nombre { color: var(--acento); text-decoration: underline; }
+.fila-legislador__link > .avatar { grid-area: foto; }
+.fila-legislador__persona { grid-area: persona; display: flex; flex-direction: column; min-width: 0; }
+.fila-legislador__nombre { font-weight: 650; line-height: 1.3; }
+.fila-legislador__bancada { font-size: var(--t-xs); color: var(--texto-suave); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+/* En móvil, partido y cámara/departamento van en la segunda línea */
+.fila-legislador__partido { grid-area: partido; justify-self: start; }
+.fila-legislador__camara { grid-area: camara; font-size: var(--t-sm); color: var(--texto-suave); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.fila-legislador__camara span::before { content: " · "; }
+.fila-legislador__presencia { grid-area: presencia; display: flex; flex-direction: column; align-items: flex-end; gap: 0.2rem; font-size: var(--t-sm); }
+.fila-legislador__presencia .medidor { width: 4.5rem; --c: var(--acento); }
+.fila-legislador__presencia strong { font-weight: 650; }
+
+@container (min-width: 46rem) {
+  .columnas-legisladores, .fila-legislador__link {
+    grid-template-columns: 2.5rem minmax(0, 1fr) 11rem 5.5rem 9.5rem;
+    grid-template-areas: "foto persona camara partido presencia";
+    column-gap: var(--e-4);
+  }
+  .columnas-legisladores {
+    display: grid;
+    padding: var(--e-2) 0;
+    border-bottom: 1px solid var(--borde);
+    font-size: var(--t-xs);
+    font-weight: 650;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--texto-suave);
+  }
+  .columnas-legisladores span:nth-child(1) { grid-column: 1 / 3; }
+  .columnas-legisladores span:nth-child(4) { text-align: right; }
+  .fila-legislador__camara { display: flex; flex-direction: column; line-height: 1.3; }
+  .fila-legislador__camara span { font-size: var(--t-xs); }
+  .fila-legislador__camara span::before { content: none; }
+  .fila-legislador__presencia { flex-direction: row; align-items: center; justify-content: flex-end; gap: var(--e-2); }
+  .fila-legislador__presencia strong { min-width: 3.6rem; text-align: right; }
+}
 
 /* Perfil */
 .perfil-cabecera {
