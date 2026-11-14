@@ -269,7 +269,7 @@ rompe; cambiar la lógica sí. Los datos vivos (`salidas/`, `site/datos/`) se re
 - El parser busca `formMain:j_idt93:tabDetalle`, un id autogenerado por JSF que puede cambiar. Si no lo
   encuentra, usa la página entera; la validación contra el sumario lo detectaría.
 - Proyectos (fase 1b): SILpy enlaza desde cada ficha a la API `http://datos.congreso.gov.py/v2/api/legislador/{id}/expedientes`
-  (y `/v2/api/votacion/{id}`). Solo responde por http; por https da 404. El 13/11/2026 respondía 502 Proxy Error,
+  (y `/v2/api/votacion/{id}`). Solo responde por http; por https da 404. El 13/11/2026 respondía 502 Proxy Error (y el 14/11 toda la API, incluida la raíz y `/votacion/{id}`),
   también en un reintento un minuto después: el servidor de atrás no contesta. La pestaña «Expedientes/Proyectos»
   de la ficha se carga por AJAX de PrimeFaces y, reproducida, devolvió «No hay expedientes» incluso para
   legisladores con proyectos. Exploración guardada en `bronze/silpy/exploracion/` y `bronze/datoscongreso/exploracion/`.
