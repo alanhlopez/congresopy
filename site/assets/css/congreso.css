@@ -678,35 +678,44 @@ h3 { font-size: var(--t-md); line-height: 1.3; margin: 0 0 var(--e-2); }
 .cifras-votos strong { color: var(--texto); font-weight: 650; }
 
 /* Inicio */
+.seccion-inicio h2 { margin-bottom: var(--e-4); }
 .tarjetas-camara {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
+  gap: var(--e-4);
 }
-.tarjeta-camara {
-  background: var(--superficie);
-  border: 1px solid var(--borde);
-  border-radius: var(--radio);
-  padding: 1.25rem;
+.tarjeta-camara { padding: var(--e-5); display: flex; flex-direction: column; gap: var(--e-4); }
+.tarjeta-camara__cabeza { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: var(--e-2); }
+.tarjeta-camara h3 { font-size: var(--t-lg); margin: 0; }
+.tarjeta-camara h3 a { color: var(--texto); text-decoration: none; }
+.tarjeta-camara h3 a:hover { color: var(--acento); text-decoration: underline; }
+.tarjeta-camara__principal .stat__valor { font-size: clamp(2.5rem, 2rem + 2vw, 3.5rem); color: var(--acento); }
+.tarjeta-camara__secundarios {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--e-3);
+  padding-top: var(--e-4);
+  border-top: 1px solid var(--borde);
 }
-.tarjeta-camara h3 { font-size: 1.2rem; }
-.tarjeta-camara h3 a { color: var(--texto); }
+.tarjeta-camara__secundarios .stat__valor { font-size: var(--t-lg); }
+.tarjeta-camara__secundarios .stat__etiqueta { letter-spacing: 0.04em; text-transform: none; font-size: var(--t-xs); }
+.tarjeta-camara__acciones { display: flex; flex-wrap: wrap; gap: var(--e-2); margin: 0; }
 .cifras {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.75rem 1rem;
-  margin: 0.75rem 0;
+  gap: var(--e-3) var(--e-4);
+  margin: var(--e-3) 0;
 }
-.cifras dt { font-size: 0.85rem; color: var(--texto-suave); }
-.cifras dd { margin: 0; font-size: 1.6rem; font-weight: 700; font-variant-numeric: tabular-nums; }
-.acciones { display: flex; flex-wrap: wrap; gap: 0.5rem 1.25rem; margin: 0.5rem 0 0; }
+.cifras dt { font-size: var(--t-sm); color: var(--texto-suave); }
+.cifras dd { margin: 0; font-size: 1.6rem; font-weight: 700; }
+.acciones { display: flex; flex-wrap: wrap; gap: var(--e-2) var(--e-5); margin: var(--e-2) 0 0; }
 .columnas-camara {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
-  gap: 1.5rem;
-  margin-bottom: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 24rem), 1fr));
+  gap: var(--e-5) var(--e-6);
 }
 .columna-camara { min-width: 0; }
+.columna-camara__titulo { font-size: var(--t-sm); font-weight: 650; letter-spacing: 0.08em; text-transform: uppercase; color: var(--texto-suave); padding-bottom: var(--e-2); border-bottom: 1px solid var(--borde-fuerte); margin: 0; }
 
 /* Cámaras */
 .figura-hemiciclo { margin: 0.5rem 0 0; text-align: center; }

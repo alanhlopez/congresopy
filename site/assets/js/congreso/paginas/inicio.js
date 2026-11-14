@@ -3,7 +3,7 @@ import { CAMARAS, camara, manifiesto } from "../lib/datos.js";
 import { el, mostrarError, vaciar, $ } from "../lib/dom.js";
 import { enlace } from "../lib/estado.js";
 import { fecha, numero } from "../lib/formato.js";
-import { filaVotacion } from "../lib/componentes.js";
+import { filaVotacion, revisarRecortes } from "../lib/componentes.js";
 
 async function iniciar() {
   const resumen = $("#resumen-camaras");
@@ -14,21 +14,29 @@ async function iniciar() {
       const c = m.camaras[d.clave];
       const activos = d.legisladores.filter((l) => l.estado === "activos").length;
       const leyes = d.votaciones.filter((v) => v.es_ley).length;
-      return el("article", { class: "tarjeta-camara" },
-        el("h3", {}, el("a", { href: enlace("camaras.html", { camara: d.clave }) }, d.info.nombreLargo)),
-        el("dl", { class: "cifras" },
-          el("div", {}, el("dt", {}, "Votaciones nominales"), el("dd", {}, numero(c.votaciones))),
-          el("div", {}, el("dt", {}, "Sobre proyectos de ley"), el("dd", {}, numero(leyes))),
-          el("div", {}, el("dt", {}, "Votos individuales"), el("dd", {}, numero(c.votos))),
-          el("div", {}, el("dt", {}, `${d.info.miembros[0].toUpperCase()}${d.info.miembros.slice(1)} en ejercicio`), el("dd", {}, numero(activos)))),
-        el("p", { class: "nota" }, `Del ${fecha(c.desde)} al ${fecha(c.hasta)}.`),
-        el("p", { class: "acciones" },
-          el("a", { href: enlace("legisladores.html", { camara: d.clave }) }, `Ver ${d.info.miembros}`),
-          el("a", { href: enlace("votaciones.html", { camara: d.clave }) }, "Ver votaciones")));
+      const stat = (etiqueta, valor, nota) => el("div", { class: "stat" },
+        el("span", { class: "stat__etiqueta" }, etiqueta), el("span", { class: "stat__valor" }, valor),
+        nota && el("span", { class: "stat__nota" }, nota));
+      return el("article", { class: "tarjeta tarjeta-camara" },
+        el("div", { class: "tarjeta-camara__cabeza" },
+          el("h3", {}, el("a", { href: enlace("camaras.html", { camara: d.clave }) }, d.info.nombreLargo)),
+          el("span", { class: "stat__nota" }, `${d.info.bancas} bancas`)),
+        el("div", { class: "tarjeta-camara__principal" },
+          stat("Votaciones nominales", numero(c.votaciones), `del ${fecha(c.desde)} al ${fecha(c.hasta)}`)),
+        el("div", { class: "tarjeta-camara__secundarios" },
+          stat("Sobre proyectos de ley", numero(leyes)),
+          stat("Votos individuales", numero(c.votos)),
+          // legisladores.json solo trae a quien ya votó: puede haber menos que bancas (recién asumidos)
+          stat(`${d.info.miembros[0].toUpperCase()}${d.info.miembros.slice(1)} en ejercicio`, numero(activos),
+            activos < d.info.bancas ? `de ${d.info.bancas} bancas` : null)),
+        el("p", { class: "tarjeta-camara__acciones" },
+          el("a", { class: "boton", href: enlace("legisladores.html", { camara: d.clave }) }, `Ver ${d.info.miembros}`),
+          el("a", { class: "boton", href: enlace("votaciones.html", { camara: d.clave }) }, "Ver votaciones")));
     }));
-    vaciar(ultimas, cams.map((d) => el("div", { class: "columna-camara" },
-      el("h3", {}, d.info.nombreLargo),
+    vaciar(ultimas, cams.map((d) => el("div", { class: "columna-camara lista-votaciones" },
+      el("h3", { class: "columna-camara__titulo" }, d.info.nombreLargo),
       el("ul", { class: "lista" }, d.votaciones.slice(0, 5).map((v) => filaVotacion(v, d.clave))))));
+    revisarRecortes(ultimas);
   } catch (e) {
     mostrarError(resumen, `No se pudieron cargar los datos: ${e.message}`);
     ultimas.replaceChildren();
