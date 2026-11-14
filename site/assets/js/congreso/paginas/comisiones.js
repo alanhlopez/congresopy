@@ -49,13 +49,16 @@ function barraPartidos(d, ids) {
 function tarjeta(d, c, filas, camara, abierta) {
   const ids = [...new Set(filas.map(([id]) => id))];
   const directivos = filas.filter(([, , cargo]) => DIRECTIVOS.has(cargo));
-  const det = el("details", { class: "comision panel", id: `comision-${c.id}`, open: abierta },
+  // SILpy publica algunos nombres en MAYÚSCULAS (comisiones de amistad): no se convierten, se muestran más chicos.
+  const mayus = c.nombre === c.nombre.toUpperCase();
+  const det = el("details", { class: "comision", id: `comision-${c.id}`, open: abierta },
     el("summary", { class: "comision__resumen" },
-      el("span", { class: "comision__nombre" }, c.nombre),
-      el("span", { class: "comision__meta" },
-        `${numero(ids.length)} integrante${ids.length === 1 ? "" : "s"}`,
-        directivos.length ? ` · ${directivos.map(([id, , cargo]) => `${cargo.replace("/a", "")}: ${nombreDe(d, id)}`).join(" · ")}` : ""),
-      barraPartidos(d, ids)),
+      el("span", { class: "comision__texto" },
+        el("span", { class: ["comision__nombre", mayus && "comision__nombre--mayus"] }, c.nombre),
+        el("span", { class: "comision__meta" },
+          `${numero(ids.length)} integrante${ids.length === 1 ? "" : "s"}`,
+          directivos.length ? ` · ${directivos.map(([id, , cargo]) => `${cargo.replace("/a", "")}: ${nombreDe(d, id)}`).join(" · ")}` : "")),
+      el("span", { class: "comision__barra" }, barraPartidos(d, ids))),
     el("div", { class: "tabla-scroll" },
       el("table", { class: "tabla" },
         el("thead", {}, el("tr", {}, el("th", { scope: "col" }, "Cargo"), el("th", { scope: "col" }, "Integrante"), el("th", { scope: "col" }, "Partido"))),
@@ -66,7 +69,7 @@ function tarjeta(d, c, filas, camara, abierta) {
             el("th", { scope: "row" }, personaEnlace(d, id, camara), info.estado && info.estado !== "activos" ? el("span", { class: "nota" }, " (ya no está en el cargo)") : null),
             el("td", {}, chipPartido(info.partido)));
         })))),
-    el("p", { class: "nota" }, el("a", { href: c.url, rel: "noopener" }, "Comisión en SILpy")));
+    el("p", { class: "nota" }, el("a", { href: c.url, rel: "noopener" }, "Comisión en SILpy ", el("span", { "aria-hidden": "true" }, "↗"))));
   det.addEventListener("toggle", () => {
     const e = leerEstado(DEFECTOS);
     if (det.open) e.c = String(c.id);
@@ -110,7 +113,8 @@ async function aplicar() {
       xs.push([c, filas]);
     }
     const total = d.comisiones.filter((c) => c.tipo === e.tipo && c.integrantes.some(([, p]) => p === e.periodo)).length;
-    $("#conteo").textContent = `${numero(xs.length)} de ${numero(total)} comisiones ${e.tipo === "asesora" ? "asesoras" : "especiales y de amistad"} de la ${CAMARAS[e.camara].nombreLargo}, período ${e.periodo}`;
+    $("#nombre-camara").textContent = CAMARAS[e.camara].nombreLargo;
+    $("#conteo").textContent = `${xs.length === total ? numero(total) : `${numero(xs.length)} de ${numero(total)}`} comisiones ${e.tipo === "asesora" ? "asesoras" : "especiales y de amistad"}, período ${e.periodo}`;
     vaciar($("#lista"), xs.length
       ? el("div", { class: "comisiones" }, xs.map(([c, filas]) => tarjeta(d, c, filas, e.camara, e.c === String(c.id))))
       : el("p", { class: "vacio" }, "Ninguna comisión coincide con la búsqueda."));
