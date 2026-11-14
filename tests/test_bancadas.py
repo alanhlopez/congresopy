@@ -59,6 +59,16 @@ def test_columna_no_registrada_no_es_cambio(silver):
     assert [t["estado"] for t in por[2]] == ["activos", "inactivos"]
 
 
+def test_partido_vacio_no_es_cambio(silver):
+    """Si SILpy deja vacío el partido de un legislador, se conserva el anterior; el cargo sí cambia."""
+    foto(silver, "D", "2026-01-01", [leg(1, partido="IND", cargo_bancada=""), leg(2)])
+    foto(silver, "D", "2026-02-01", [leg(1, partido="", cargo_bancada="LIDER"), leg(2)])
+    foto(silver, "D", "2026-03-01", [leg(1, partido="", cargo_bancada="LIDER"), leg(2)])
+    tramos, _ = bancadas.historial("D")
+    uno = [t for t in tramos if t["id_legislador"] == 1]
+    assert [(t["partido"], t["cargo_bancada"]) for t in uno] == [("IND", ""), ("IND", "LIDER")]
+
+
 def test_sincronizar_conserva_lo_manual(silver):
     ruta = silver / "senado" / "legisladores.csv"
     cols = ["id_legislador", "nombre", "cargo", "periodo", "estado", "partido", "bancada", "cargo_bancada", "color", "nombre_corto"]

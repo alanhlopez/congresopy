@@ -97,8 +97,16 @@ def historial(letra: str):
     fechas = [f for f, _, _ in fotos]
     tramos = []
     abiertos = {}   # id -> tramo en curso
+    ultimo_partido = {}   # id -> último partido no vacío
     for k, (fecha, filas, registradas) in enumerate(fotos):
         for lid, r in filas.items():
+            # Todo legislador tiene partido (o IND): un partido vacío en una foto es un dato que SILpy no
+            # registró, no un cambio. Se conserva el último conocido (mismo criterio que sincronizar).
+            # Con la bancada y el cargo no se hace: pueden quedar vacíos de verdad.
+            if not r["partido"] and ultimo_partido.get(lid):
+                r = {**r, "partido": ultimo_partido[lid]}
+            elif r["partido"]:
+                ultimo_partido[lid] = r["partido"]
             t = abiertos.get(lid)
             if t and t["_ultima"] == k - 1:
                 # Solo se comparan las columnas registradas en las dos fotos; las que faltaban se completan.

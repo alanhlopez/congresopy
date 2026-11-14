@@ -33,11 +33,8 @@ Pendiente:
 - **Actualizar comisiones y fichas:** volver a bajar fichas es una excepción a la regla de bronze/; acordarla
   (por ejemplo, una vez por año después del 1 de julio).
 - **Datos menores:** fotos de Da Silva y Esquivel (404 en SILpy); bancada de Nakayama («Liberal Independiente»
-  en SILpy); el historial de Rubín muestra «Partido: IND → —» porque la nómina dejó el partido vacío.
+  en SILpy). Rubín se declara independiente; SILpy todavía no lo actualizó (corrección manual vigente).
 - **Decisiones de producto:** votaciones clave frente al gobierno (pendiente 1, abajo) y el dataset de Kalaguichi.
-- **Nombre en el manifiesto:** `pipeline/exportar_sitio.py` todavía escribe `"proyecto": "Monitoreo Congreso del
-  Paraguay"` en `manifiesto.json`; cambiarlo es un cambio de pipeline y de datos publicados, no se tocó en el
-  rediseño.
 
 Contexto que sigue valiendo:
 - **Prototipo:** `../VotometroCongresoPy/` (carpeta hermana). Referencia; no se modifica.

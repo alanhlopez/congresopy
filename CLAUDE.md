@@ -100,7 +100,7 @@ Historial de bancadas (`pipeline/bancadas.py`): SILpy solo publica la nómina de
 fechadas y se comparan. `foto` baja la nómina de cada cámara (2 requests, una foto por día) a
 `bronze/silpy/nomina/` y la parsea a `silver/nomina/{S|D}/{fecha}.csv` (en git); `historial` arma
 `silver/{camara}/bancadas_hist.csv` (tramos con visto_desde, visto_hasta y cambio_detectado; una columna vacía en
-toda una foto se toma como no registrada); `sincronizar` pasa partido, bancada, cargo y estado de la última foto
+toda una foto se toma como no registrada, y un partido vacío en una fila también: se conserva el anterior); `sincronizar` pasa partido, bancada, cargo y estado de la última foto
 a `legisladores.csv`, conserva `nombre_corto`, no borra un dato que SILpy dejó vacío y aplica después
 `silver/{camara}/correcciones_legisladores.csv` (id_legislador, campo, valor, fuente). Las primeras fotos son las
 nóminas del prototipo (S 21/10/2026, D 22/10/2026; ver `silver/nomina/LEEME.md`). El workflow
