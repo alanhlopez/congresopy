@@ -38,6 +38,9 @@ export async function camara(c) {
 /** presencia.json de una cámara: quienes menos votos registran en los últimos 12 meses (lo calcula el pipeline). */
 export const presencia = (c) => json(`${camaraValida(c)}/presencia.json`);
 
+/** asistencia.json de una cámara: análisis de presencia de todo el mandato (página Asistencia). */
+export const asistencia = (c) => json(`${camaraValida(c)}/asistencia.json`);
+
 /** comisiones.json de una cámara, o null si no está publicado (es opcional: el resto del sitio anda sin él). */
 export async function comisiones(c) {
   const clave = camaraValida(c);
