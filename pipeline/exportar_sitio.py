@@ -6,6 +6,7 @@ Salida (por defecto site/datos/congreso/):
   {senado,diputados}/votaciones.json    una fila por votación (más reciente primero): textos, totales, link a SILpy
   {senado,diputados}/votos.json         una cadena por legislador con su voto en cada votación, en el orden
                                         de votaciones.json (códigos en comun.CODIGO_VOTO; "-" = fuera del cargo)
+  {senado,diputados}/presencia.json     quienes menos votos registran en los últimos 12 meses (ver exportar_presencia)
   {senado,diputados}/comisiones.json    integrantes de cada comisión por período, desde la ficha de SILpy
                                         (solo si hay silver/{camara}/comisiones.csv; ver pipeline/comisiones.py)
   fotos/{id}.jpg                        fotos de legisladores copiadas de silver/fotos/ (si hay)
@@ -22,9 +23,11 @@ import csv
 import hashlib
 import json
 import shutil
+import statistics
 import sys
 from collections import Counter
-from datetime import datetime, timezone
+from datetime import date, datetime, timedelta, timezone
+from fractions import Fraction
 from pathlib import Path
 
 import config
@@ -182,6 +185,7 @@ def exportar_camara(cam, fotos=None):
     salida = {"legisladores.json": (legisladores, len(legisladores)),
               "votaciones.json": (votaciones, len(votaciones)),
               "votos.json": (votos_json, len(votos_json["legisladores"]))}
+    salida["presencia.json"] = (presencia := exportar_presencia(votaciones, cadenas, L), len(presencia["menor_presencia"]))
     if comisiones:
         salida["comisiones.json"] = (comisiones, len(comisiones["comisiones"]))
     return salida, cobertura
@@ -189,6 +193,64 @@ def exportar_camara(cam, fotos=None):
 
 # Orden de los cargos dentro de una comisión; los que no están acá van después, en orden alfabético.
 ORDEN_CARGOS = ["Presidente/a", "Vicepresidente/a", "Relator/a", "Secretario/a", "Titular", "Miembro"]
+
+
+# Ranking de presencia (Inicio): quienes menos votos registran en votaciones nominales.
+MESES_VENTANA = 12
+MINIMO_POSIBLES = Fraction(1, 2)   # haber estado en el cargo en al menos la mitad de las votaciones de la ventana
+PUESTOS = 3                        # se muestran los puestos 1 a 3, con todos los empatados
+
+
+def un_anio_antes(d: date) -> date:
+    try:
+        return d.replace(year=d.year - 1)
+    except ValueError:              # 29 de febrero
+        return d.replace(year=d.year - 1, day=28)
+
+
+def exportar_presencia(votaciones, cadenas, L):
+    """Presencia en los últimos 12 meses hasta la última votación de la cámara.
+
+    - Ventana: del día siguiente a (última votación - 1 año) hasta la última votación, inclusive.
+    - Votaciones posibles de un legislador: las de la ventana en las que figura en el registro (estaba en el cargo).
+    - Ausencias: las que figura como AUSENTE (código X). En Diputados «no vota» se registra como AUSENTE; en el
+      Senado «presente, no vota» cuenta como presente. Quien preside figura con su voto, como el resto (verificado
+      con la Mesa Directiva de SILpy, 15/11/2026), así que no se excluye a nadie por presidir.
+    - Elegibles: en ejercicio según la nómina y con votaciones posibles >= MINIMO_POSIBLES de la ventana.
+    - Puesto: menor presencia primero; misma presencia, mismo puesto (1, 2, 2, 4…). Dentro de un empate, primero
+      quien tuvo más votaciones posibles. Se publican todos los de puesto <= PUESTOS.
+    """
+    hasta = max(v["fecha"] for v in votaciones)
+    desde = (un_anio_antes(date.fromisoformat(hasta)) + timedelta(days=1)).isoformat()
+    en_ventana = [k for k, v in enumerate(votaciones) if desde <= v["fecha"] <= hasta]
+    n = len(en_ventana)
+    filas = []
+    for lid, cad in cadenas.items():
+        info = L.get(lid, {})
+        if info.get("estado") != "activos":
+            continue
+        posibles = sum(1 for k in en_ventana if cad[k] != "-")
+        if not posibles or Fraction(posibles, n) < MINIMO_POSIBLES:
+            continue
+        ausencias = sum(1 for k in en_ventana if cad[k] == CODIGO_VOTO["AUSENTE"])
+        filas.append({"id": int(lid), "presencia": 1 - Fraction(ausencias, posibles), "ausencias": ausencias, "posibles": posibles})
+    filas.sort(key=lambda f: (f["presencia"], -f["posibles"], f["id"]))
+    ranking = []
+    for k, f in enumerate(filas):
+        puesto = ranking[-1]["puesto"] if ranking and filas[k - 1]["presencia"] == f["presencia"] else k + 1
+        if puesto > PUESTOS:
+            break
+        ranking.append({**f, "puesto": puesto})
+    redondeo = lambda x: round(float(x), 4)
+    return {
+        "ventana": {"desde": desde, "hasta": hasta, "votaciones": n},
+        "minimo_posibles": float(MINIMO_POSIBLES),
+        "en_ejercicio": sum(1 for r in L.values() if r.get("estado") == "activos"),
+        "elegibles": len(filas),
+        "mediana": redondeo(statistics.median(f["presencia"] for f in filas)) if filas else None,
+        "menor_presencia": [{"puesto": f["puesto"], "id": f["id"], "presencia": redondeo(f["presencia"]),
+                             "ausencias": f["ausencias"], "posibles": f["posibles"]} for f in ranking],
+    }
 
 
 def exportar_comisiones(silver, L, con_votos):

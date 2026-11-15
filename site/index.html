@@ -63,6 +63,30 @@
       </div>
     </section>
 
+    <section class="tarjeta" aria-labelledby="t-menos">
+      <div class="tarjeta__cabecera">
+        <div>
+          <h2 id="t-menos">Menos votos registrados</h2>
+          <p class="tarjeta__descripcion" id="menos-bajada">Últimos 12 meses, en votaciones nominales</p>
+        </div>
+      </div>
+      <div id="menos-votos" class="columnas-camara tarjeta__cuerpo">
+        <div class="esqueleto" aria-hidden="true"><span></span><span></span><span></span></div>
+      </div>
+      <details class="tarjeta__metodologia">
+        <summary>Cómo se calcula</summary>
+        <ul>
+          <li>Se cuentan las votaciones nominales de los últimos 12 meses hasta la última votación de cada cámara: <span id="menos-ventanas">—</span>.</li>
+          <li>Presencia es el porcentaje de esas votaciones en las que el legislador no figura como «ausente». Es lo que registra SILpy en cada votación, no la asistencia a la sesión.</li>
+          <li>En Diputados, «no vota» se registra como «ausente». En el Senado, «presente, no vota» cuenta como presente. Por eso no conviene comparar los porcentajes entre cámaras.</li>
+          <li>SILpy no distingue licencias, permisos ni misiones oficiales: una ausencia con permiso cuenta igual que cualquier otra.</li>
+          <li>Entran solo los legisladores en ejercicio que estuvieron en el cargo en al menos la mitad de las votaciones del período.</li>
+          <li>Quien preside cada cámara figura con su voto, como el resto, así que no se excluye a nadie.</li>
+          <li>Con la misma presencia comparten el puesto, y se muestran todos los empatados en el tercero. Dentro de un empate va primero quien tuvo más votaciones posibles.</li>
+        </ul>
+      </details>
+    </section>
+
     <section class="tarjeta" aria-labelledby="t-ultimas">
       <div class="tarjeta__cabecera">
         <div>

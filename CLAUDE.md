@@ -196,6 +196,8 @@ rompe; cambiar la lógica sí. Los datos vivos (`salidas/`, `site/datos/`) se re
 - `test_exportar.py`: `site/datos/congreso/` está al día con silver/, el manifiesto coincide con los archivos
   (sha256, bytes, filas), las cadenas de `votos.json` son idénticas al `vc` de `analisis.py`, los conteos
   cierran con los totales y ningún JSON del sitio trae campos del índice del Ejecutivo.
+- `test_exportar.py` también recalcula `presencia.json` desde `votos.json` y la nómina, y prueba empates y
+  mínimo de elegibilidad con datos sintéticos.
 - `test_bancadas.py`: historial (cambios, altas, bajas, columnas no registradas), sincronizar (conserva
   nombre_corto, no borra vacíos, aplica correcciones, respeta el fin de línea) y rechazo de nóminas incompletas.
 - `test_fotos.py`: descarga sin repetir, rechazo de respuestas que no son imágenes, sin contacto no hay requests,
@@ -242,6 +244,10 @@ rompe; cambiar la lógica sí. Los datos vivos (`salidas/`, `site/datos/`) se re
   - `{camara}/votos.json`: `orden` (ids de votación, en el orden de votaciones.json), `codigos` y, por id de
     legislador, una cadena con un carácter por votación (S N A X V 1 2 3; `-` = fuera del cargo).
   - `{camara}/legisladores.json`: datos de la nómina y `conteo` de votos por tipo.
+  - `{camara}/presencia.json`: ranking de menor presencia de Inicio (últimos 12 meses hasta la última votación
+    de la cámara; solo en ejercicio y con al menos la mitad de las votaciones posibles; puestos 1 a 3 con
+    empates; mediana). Lo calcula `exportar_presencia()`; quien preside figura con su voto (verificado con la
+    Mesa Directiva de SILpy), así que no se excluye a nadie.
 - Cada página muestra fuente, método y límites (por ejemplo, que en Diputados "NO VOTA" se registra como AUSENTE).
 - Responsive desde 360 px, sin scroll horizontal.
 - `docs/referencia-datacp/` es referencia de estructura y contenido, no de identidad visual: no copiar su
