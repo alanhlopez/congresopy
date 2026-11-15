@@ -30,6 +30,13 @@ PERIODO_ABIERTO = 100267
 
 # --- SILpy ---
 BASE = "https://silpy.congreso.gov.py/web"
+# Página Asistencia (exportar_sitio.exportar_asistencia): umbrales del análisis de presencia.
+ASISTENCIA_MIN_POSIBLES = 50       # votaciones en el cargo para entrar en los gráficos
+ASISTENCIA_UMBRAL_CONSENSO = 0.05  # consenso: la minoría (entre Sí y No) sacó menos de esto
+ASISTENCIA_UMBRAL_RENIDA = 0.25    # reñida: la minoría sacó esto o más
+ASISTENCIA_MIN_POR_TIPO = 15       # votaciones de consenso y reñidas que hacen falta para el gráfico de dispersión
+ASISTENCIA_SALA_VACIA = 10         # votaciones con más ausentes que se listan
+
 DELAY = 1.5   # segundos entre requests. robots.txt de SILpy no autoriza automatización: no lo bajes.
 # El contacto no va en el código: sale de la variable de entorno CONGRESOPY_CONTACTO (ver .env.example).
 CONTACTO = os.environ.get("CONGRESOPY_CONTACTO", "").strip()

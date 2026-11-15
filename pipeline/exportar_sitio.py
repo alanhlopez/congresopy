@@ -6,6 +6,7 @@ Salida (por defecto site/datos/congreso/):
   {senado,diputados}/votaciones.json    una fila por votación (más reciente primero): textos, totales, link a SILpy
   {senado,diputados}/votos.json         una cadena por legislador con su voto en cada votación, en el orden
                                         de votaciones.json (códigos en comun.CODIGO_VOTO; "-" = fuera del cargo)
+  {senado,diputados}/asistencia.json    análisis de presencia de todo el mandato (página Asistencia; ver exportar_asistencia)
   {senado,diputados}/presencia.json     quienes menos votos registran en los últimos 12 meses (ver exportar_presencia)
   {senado,diputados}/comisiones.json    integrantes de cada comisión por período, desde la ficha de SILpy
                                         (solo si hay silver/{camara}/comisiones.csv; ver pipeline/comisiones.py)
@@ -186,6 +187,7 @@ def exportar_camara(cam, fotos=None):
               "votaciones.json": (votaciones, len(votaciones)),
               "votos.json": (votos_json, len(votos_json["legisladores"]))}
     salida["presencia.json"] = (presencia := exportar_presencia(votaciones, cadenas, L), len(presencia["menor_presencia"]))
+    salida["asistencia.json"] = (asistencia := exportar_asistencia(votaciones, cadenas, L), len(asistencia["legisladores"]))
     if comisiones:
         salida["comisiones.json"] = (comisiones, len(comisiones["comisiones"]))
     return salida, cobertura
@@ -250,6 +252,136 @@ def exportar_presencia(votaciones, cadenas, L):
         "mediana": redondeo(statistics.median(f["presencia"] for f in filas)) if filas else None,
         "menor_presencia": [{"puesto": f["puesto"], "id": f["id"], "presencia": redondeo(f["presencia"]),
                              "ausencias": f["ausencias"], "posibles": f["posibles"]} for f in ranking],
+    }
+
+
+# Agrupaciones que se mencionan si dominan la lista de «sala medio vacía» (por texto del título de SILpy)
+TEMAS_SALA_VACIA = [("expropiaciones", r"EXPROPIA"), ("desafectaciones de bienes", r"DESAFECTA"),
+                    ("pensiones graciables", r"PENSI[OÓ]N GRACIABLE")]
+
+
+def exportar_asistencia(votaciones, cadenas, L):
+    """Presencia en votaciones nominales de todo el mandato, para la página Asistencia.
+
+    Mismo criterio que exportar_presencia (Inicio): presente = no figurar como AUSENTE (X), entre las votaciones en
+    las que la persona estaba en el cargo («-» no cuenta). En el Senado «no vota» cuenta como presente; en
+    Diputados SILpy lo registra como AUSENTE. Quien preside figura con su voto. Partido: el actual de la nómina.
+    """
+    import re
+    X = CODIGO_VOTO["AUSENTE"]
+    cron = sorted(range(len(votaciones)), key=lambda k: (votaciones[k]["fecha"], votaciones[k]["id"]))
+    meses = sorted({votaciones[k]["fecha"][:7] for k in cron})
+    pos_mes = {m: i for i, m in enumerate(meses)}
+    redondeo = lambda x: round(float(x), 4)
+    info = lambda lid: L.get(lid, {})
+
+    # --- por legislador: total, por mes, y por tipo de votación (consenso / reñida) ---
+    tipo = {}
+    n_tipo = Counter()
+    for k, v in enumerate(votaciones):
+        t = v["totales"]
+        if v["tipo_votacion"] == "mociones":
+            continue
+        s, n = t.get("si", 0), t.get("no", 0)
+        if s + n == 0:
+            continue
+        minoria = Fraction(min(s, n), s + n)
+        if minoria < Fraction(config.ASISTENCIA_UMBRAL_CONSENSO).limit_denominator(1000):
+            tipo[k] = "consenso"
+        elif minoria >= Fraction(config.ASISTENCIA_UMBRAL_RENIDA).limit_denominator(1000):
+            tipo[k] = "renida"
+        if k in tipo:
+            n_tipo[tipo[k]] += 1
+
+    legisladores, sin_datos, puntos, por_mes = [], [], [], {}
+    cam_mes = [[0, 0] for _ in meses]   # presentes, posibles de la cámara por mes
+    for lid, cad in cadenas.items():
+        posibles = sum(1 for c in cad if c != "-")
+        presentes = sum(1 for c in cad if c not in ("-", X))
+        mes = [[0, 0] for _ in meses]
+        cuenta = {"consenso": [0, 0], "renida": [0, 0]}
+        for k in cron:
+            c = cad[k]
+            if c == "-":
+                continue
+            i = pos_mes[votaciones[k]["fecha"][:7]]
+            mes[i][1] += 1; cam_mes[i][1] += 1
+            if c != X:
+                mes[i][0] += 1; cam_mes[i][0] += 1
+            if k in tipo:
+                cuenta[tipo[k]][1] += 1
+                cuenta[tipo[k]][0] += c != X
+        if posibles < config.ASISTENCIA_MIN_POSIBLES:
+            sin_datos.append({"id": int(lid), "posibles": posibles, "presentes": presentes})
+            continue
+        legisladores.append({"id": int(lid), "presencia": redondeo(Fraction(presentes, posibles)), "presentes": presentes,
+                             "posibles": posibles, "partido": info(lid).get("partido") or "",
+                             "en_ejercicio": info(lid).get("estado") == "activos"})
+        por_mes[str(int(lid))] = [m if m[1] else None for m in mes]
+        (pc, nc), (pr, nr) = cuenta["consenso"], cuenta["renida"]
+        if nc >= config.ASISTENCIA_MIN_POR_TIPO and nr >= config.ASISTENCIA_MIN_POR_TIPO:
+            puntos.append({"id": int(lid), "consenso": redondeo(Fraction(pc, nc)), "renidas": redondeo(Fraction(pr, nr)),
+                           "n_consenso": nc, "n_renidas": nr, "diferencia": redondeo(Fraction(pr, nr) - Fraction(pc, nc))})
+    legisladores.sort(key=lambda r: (r["presencia"], -r["posibles"], r["id"]))
+    sin_datos.sort(key=lambda r: (-r["posibles"], r["id"]))
+    puntos.sort(key=lambda r: (r["diferencia"], r["id"]))
+
+    # --- indicadores ---
+    pres = [Fraction(r["presentes"], r["posibles"]) for r in legisladores]
+    aus_votacion = [Fraction(v["totales"].get("ausente", 0), v["totales"]["total"]) for v in votaciones if v["totales"].get("total")]
+    maximo = max(legisladores, key=lambda r: (r["presencia"], r["posibles"])) if legisladores else None
+
+    # --- partidos (actuales): mediana por partido; los de un solo integrante van a «Otros» ---
+    grupos = {}
+    for r in legisladores:
+        grupos.setdefault(r["partido"], []).append(r)
+    partidos, otros = [], []
+    for p, xs in grupos.items():
+        if len(xs) == 1:
+            otros.extend(xs)
+        else:
+            partidos.append({"partido": p, "n": len(xs), "mediana": redondeo(statistics.median(Fraction(r["presentes"], r["posibles"]) for r in xs)),
+                             "ids": [r["id"] for r in xs]})
+    partidos.sort(key=lambda g: (-g["n"], g["partido"]))
+    if otros:
+        partidos.append({"partido": "", "otros": sorted({r["partido"] for r in otros}), "n": len(otros),
+                         "mediana": redondeo(statistics.median(Fraction(r["presentes"], r["posibles"]) for r in otros)),
+                         "ids": [r["id"] for r in otros]})
+
+    # --- votaciones con la sala más vacía ---
+    orden = sorted(votaciones, key=lambda v: (-Fraction(v["totales"].get("ausente", 0), v["totales"]["total"] or 1), v["fecha"], v["id"]))
+    top = orden[:config.ASISTENCIA_SALA_VACIA]
+    temas = []
+    for nombre, patron in TEMAS_SALA_VACIA:
+        n = sum(1 for v in top if re.search(patron, f"{v['titulo']} {v['acapite']}"))
+        if n >= 3:
+            temas.append({"tema": nombre, "n": n})
+
+    return {
+        "periodo": {"desde": min(v["fecha"] for v in votaciones), "hasta": max(v["fecha"] for v in votaciones), "votaciones": len(votaciones)},
+        "criterios": {"minimo_posibles": config.ASISTENCIA_MIN_POSIBLES, "umbral_consenso": config.ASISTENCIA_UMBRAL_CONSENSO,
+                      "umbral_renida": config.ASISTENCIA_UMBRAL_RENIDA, "minimo_por_tipo": config.ASISTENCIA_MIN_POR_TIPO},
+        "indicadores": {
+            "mediana": redondeo(statistics.median(pres)) if pres else None,
+            "ausentes_votacion_tipica": redondeo(statistics.median(aus_votacion)) if aus_votacion else None,
+            "bajo_50": sum(1 for x in pres if x < Fraction(1, 2)),
+            "maximo": {"id": maximo["id"], "presencia": maximo["presencia"]} if maximo else None,
+        },
+        "legisladores": legisladores,
+        "sin_datos": sin_datos,
+        "partidos": partidos,
+        "mensual": {
+            "meses": meses,
+            "camara": [{"mes": m, "presencia": redondeo(Fraction(p, n)) if n else None, "votaciones": sum(1 for v in votaciones if v["fecha"][:7] == m)}
+                       for m, (p, n) in zip(meses, cam_mes)],
+            "legisladores": por_mes,
+        },
+        "dispersion": {"votaciones_consenso": n_tipo["consenso"], "votaciones_renidas": n_tipo["renida"], "puntos": puntos},
+        "sala_vacia": {
+            "menos_de_la_mitad": sum(1 for v in votaciones if v["totales"].get("total") and v["totales"].get("ausente", 0) * 2 > v["totales"]["total"]),
+            "votaciones": [{"id": v["id"], "ausentes": v["totales"].get("ausente", 0), "total": v["totales"]["total"]} for v in top],
+            "temas": temas,
+        },
     }
 
 

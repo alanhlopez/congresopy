@@ -28,7 +28,7 @@ def cargar(d, rel):
 def test_manifiesto_coincide_con_los_archivos(exportado):
     m = cargar(exportado, "manifiesto.json")
     esperados = {f"{c}/{n}" for c in ("senado", "diputados")
-                 for n in ("legisladores.json", "votaciones.json", "votos.json", "presencia.json")}
+                 for n in ("legisladores.json", "votaciones.json", "votos.json", "presencia.json", "asistencia.json")}
     # comisiones.json es opcional: sale solo si silver/{camara}/comisiones.csv existe
     esperados |= {f"{c}/comisiones.json" for c in ("senado", "diputados") if (config.silver_dir(c) / "comisiones.csv").exists()}
     assert {a["archivo"] for a in m["archivos"]} == esperados
@@ -39,7 +39,8 @@ def test_manifiesto_coincide_con_los_archivos(exportado):
         obj = json.loads(contenido)
         filas = (len(obj["legisladores"]) if a["archivo"].endswith("votos.json")
                  else len(obj["comisiones"]) if a["archivo"].endswith("comisiones.json")
-                 else len(obj["menor_presencia"]) if a["archivo"].endswith("presencia.json") else len(obj))
+                 else len(obj["menor_presencia"]) if a["archivo"].endswith("presencia.json")
+                 else len(obj["legisladores"]) if a["archivo"].endswith("asistencia.json") else len(obj))
         assert filas == a["filas"]
         assert a["generado"].endswith("Z")
 
@@ -142,3 +143,66 @@ def test_presencia_empates_y_minimo():
     assert p["ventana"]["votaciones"] == 10 and p["elegibles"] == 6   # 7 tiene 4 de 10; 8 no está en ejercicio
     assert [(r["puesto"], r["id"]) for r in p["menor_presencia"]] == [(1, 6), (2, 1), (3, 2), (3, 3), (3, 4)]
     assert p["menor_presencia"][0]["posibles"] == 8 and p["menor_presencia"][0]["ausencias"] == 8
+
+
+def test_asistencia_recalculada_desde_votos(exportado):
+    """asistencia.json coincide con un cálculo independiente sobre votos.json y votaciones.json."""
+    import statistics
+    for carpeta in config.CAMARAS.values():
+        a = cargar(exportado, f"{carpeta}/asistencia.json")
+        vots = cargar(exportado, f"{carpeta}/votaciones.json")
+        votos = cargar(exportado, f"{carpeta}/votos.json")
+        cr = a["criterios"]
+        assert cr["minimo_posibles"] == config.ASISTENCIA_MIN_POSIBLES
+        pres = {}
+        for lid, cad in votos["legisladores"].items():
+            pos = sum(c != "-" for c in cad)
+            pres[int(lid)] = (sum(c not in "-X" for c in cad), pos)
+        eleg = {i for i, (_, n) in pres.items() if n >= cr["minimo_posibles"]}
+        assert {r["id"] for r in a["legisladores"]} == eleg
+        assert {r["id"] for r in a["sin_datos"]} == set(pres) - eleg
+        for r in a["legisladores"]:
+            assert (r["presentes"], r["posibles"]) == pres[r["id"]]
+            assert abs(r["presencia"] - r["presentes"] / r["posibles"]) < 1e-4
+        valores = [pres[i][0] / pres[i][1] for i in eleg]
+        ind = a["indicadores"]
+        assert abs(ind["mediana"] - statistics.median(valores)) < 1e-4
+        assert ind["bajo_50"] == sum(x < 0.5 for x in valores)
+        assert abs(ind["maximo"]["presencia"] - max(valores)) < 1e-4
+        assert abs(ind["ausentes_votacion_tipica"] - statistics.median(v["totales"]["ausente"] / v["totales"]["total"] for v in vots)) < 1e-4
+        # Mismo criterio que presencia.json (Inicio): para quien entra en los dos, la presencia por votación coincide.
+        # Mensual: la suma de los meses da el total de cada legislador y el de la cámara.
+        m = a["mensual"]
+        for r in a["legisladores"]:
+            celdas = [c for c in m["legisladores"][str(r["id"])] if c]
+            assert sum(c[0] for c in celdas) == r["presentes"] and sum(c[1] for c in celdas) == r["posibles"]
+        assert sum(x["votaciones"] for x in m["camara"]) == len(vots) == a["periodo"]["votaciones"]
+        # Partidos: cada elegible está en exactamente un grupo; «Otros» junta a los partidos de un integrante.
+        ids = [i for g in a["partidos"] for i in g["ids"]]
+        assert sorted(ids) == sorted(eleg)
+        assert all(g["n"] > 1 for g in a["partidos"] if g["partido"])
+        # Dispersión: umbrales sobre Sí y No, sin mociones, con el mínimo por tipo.
+        cons = {v["id"] for v in vots if v["tipo_votacion"] != "mociones" and v["totales"].get("si", 0) + v["totales"].get("no", 0)
+                and min(v["totales"].get("si", 0), v["totales"].get("no", 0)) / (v["totales"].get("si", 0) + v["totales"].get("no", 0)) < cr["umbral_consenso"]}
+        assert a["dispersion"]["votaciones_consenso"] == len(cons)
+        for pto in a["dispersion"]["puntos"]:
+            assert pto["n_consenso"] >= cr["minimo_por_tipo"] and pto["n_renidas"] >= cr["minimo_por_tipo"]
+            assert abs(pto["diferencia"] - (pto["renidas"] - pto["consenso"])) < 2e-4
+        # Sala vacía: las de mayor proporción de ausentes, en orden.
+        props = sorted((v["totales"]["ausente"] / v["totales"]["total"] for v in vots), reverse=True)
+        sv = a["sala_vacia"]
+        assert [x["ausentes"] / x["total"] for x in sv["votaciones"]] == props[:config.ASISTENCIA_SALA_VACIA]
+        assert sv["menos_de_la_mitad"] == sum(v["totales"]["ausente"] * 2 > v["totales"]["total"] for v in vots)
+
+
+def test_asistencia_y_presencia_usan_el_mismo_criterio(exportado):
+    """Recalculando la ventana de Inicio con la regla de asistencia (no figurar como X), da lo mismo que presencia.json."""
+    for carpeta in config.CAMARAS.values():
+        p = cargar(exportado, f"{carpeta}/presencia.json")
+        vots = cargar(exportado, f"{carpeta}/votaciones.json")
+        votos = cargar(exportado, f"{carpeta}/votos.json")
+        idx = [k for k, v in enumerate(vots) if p["ventana"]["desde"] <= v["fecha"] <= p["ventana"]["hasta"]]
+        for r in p["menor_presencia"]:
+            cad = votos["legisladores"][str(r["id"])]
+            pos = sum(cad[k] != "-" for k in idx)
+            assert abs((sum(cad[k] not in "-X" for k in idx) / pos) - r["presencia"]) < 1e-4
