@@ -1166,3 +1166,15 @@ h3 { font-size: var(--t-md); line-height: 1.3; margin: 0 0 var(--e-2); }
 .tooltip__linea { margin: 0.1rem 0; color: var(--texto-suave); }
 .tooltip__acciones { margin: var(--e-2) 0 0; }
 .tooltip__acciones .boton { min-height: 2rem; padding: 0.25rem 0.75rem; }
+.partidos-fila__fondo { fill: var(--superficie-2); opacity: 0.5; }
+.partidos-etiqueta__texto { fill: var(--texto); font-size: 12px; font-weight: 600; font-family: var(--fuente); }
+.partidos-etiqueta--otros { cursor: pointer; }
+.partidos-etiqueta--otros .partidos-etiqueta__texto { text-decoration: underline dotted; }
+.partidos-etiqueta--otros:focus-visible { outline: 3px solid var(--foco); }
+.punto-dato--leyenda { cursor: default; stroke: none; }
+.punto-dato--transparente { fill-opacity: 0.55; }
+.punto-dato--transparente:hover, .punto-dato--transparente:focus-visible, .punto-dato--transparente.es-fijado { fill-opacity: 1; }
+.raya-mediana { stroke: var(--texto); stroke-width: 2.5; stroke-linecap: round; }
+.raya-mediana__texto { fill: var(--texto); font-size: 10px; font-weight: 700; font-family: var(--fuente); }
+.aviso-nota { margin: var(--e-4) 0 0; padding: var(--e-3) var(--e-4); border-left: 3px solid var(--acento); background: var(--acento-suave); border-radius: 0 var(--radio) var(--radio) 0; font-size: var(--t-sm); }
+.tooltip__lista { margin: var(--e-1) 0 0; padding-left: 1.1rem; }

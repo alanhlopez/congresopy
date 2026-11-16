@@ -92,6 +92,27 @@
       </details>
     </section>
 
+    <section class="tarjeta" aria-labelledby="t-partidos">
+      <div class="tarjeta__cabecera">
+        <div>
+          <h2 id="t-partidos">¿Qué partidos están más presentes?</h2>
+          <p class="tarjeta__descripcion">Cada punto es un legislador; la raya es la mediana del partido.</p>
+        </div>
+      </div>
+      <div class="tarjeta__cuerpo">
+        <div class="grafico" id="g-partidos"></div>
+        <p class="aviso-nota">Una presencia baja puede reflejar una decisión política (por ejemplo, retirarse del recinto para no dar quórum), no solo inasistencia.</p>
+      </div>
+      <details class="tarjeta__metodologia">
+        <summary>Metodología</summary>
+        <ul>
+          <li>Se usa el partido que figura hoy en SILpy para cada legislador, no el que tenía en cada votación.</li>
+          <li>Los partidos con un solo integrante entre los legisladores con datos suficientes se agrupan en «Otros».</li>
+          <li>Mediana del partido: la presencia del legislador del medio cuando se ordenan de menor a mayor.</li>
+        </ul>
+      </details>
+    </section>
+
     <section class="metodo" aria-labelledby="metodo-titulo">
       <h2 id="metodo-titulo">Fuente, método y límites</h2>
       <dl>

@@ -114,6 +114,51 @@ function sinDatos(a) {
     })));
 }
 
+// ---------- 2. ¿Qué partidos están más presentes? ----------
+function graficoPartidos(a, ancho) {
+  const angosto = ancho < 560;
+  const li = angosto ? 74 : 190;     // columna de etiquetas
+  const alto = 34;
+  const r = angosto ? 4.5 : 5.5;
+  const lo = pisoDecena(Math.min(...a.legisladores.map((x) => x.presencia)));
+  const x = escala(lo, 1, li + 8, ancho - 10);
+  const grupos = [...a.partidos];
+  const H = grupos.length * alto + 26;
+  const pres = new Map(a.legisladores.map((r2) => [r2.id, r2]));
+  const svg = el("svg:svg", { class: "partidos-grafico", viewBox: `0 0 ${ancho} ${H}`, width: ancho, height: H, role: "group",
+    "aria-label": "Presencia por partido: un punto por legislador y la mediana del partido" });
+  svg.append(ejePorcentaje(x, lo, 0, grupos.length * alto));
+  grupos.forEach((g, i) => {
+    const yc = i * alto + alto / 2;
+    const fila = el("svg:g", { class: "partidos-fila" });
+    if (i % 2 === 0) fila.append(el("svg:rect", { x: 0, y: i * alto, width: ancho, height: alto, class: "partidos-fila__fondo" }));
+    const nombre = g.partido || "Otros";
+    const etiqueta = el("svg:g", { class: ["partidos-etiqueta", !g.partido && "partidos-etiqueta--otros"] },
+      el("svg:circle", { cx: 6, cy: yc, r: 4.5, class: ["punto-dato", "punto-dato--leyenda", g.partido ? partidoClase(g.partido) : "p-otro"] }),
+      el("svg:text", { x: 16, y: yc + 4, class: "partidos-etiqueta__texto" }, angosto ? `${nombre} (${g.n})` : `${g.partido ? partidoNombre(g.partido).replace(/ \(.*\)$/, "") : "Otros"} (${g.n})`));
+    if (!g.partido) {
+      // «Otros»: el tooltip dice quiénes son
+      const quienes = g.ids.map((id) => { const l = persona(id); return `${l.nombre_corto || l.nombre} (${l.partido || "sin partido"})`; });
+      etiqueta.setAttribute("role", "button");
+      etiqueta.setAttribute("aria-label", `Otros: ${quienes.join(", ")}`);
+      conectar(etiqueta, { contenido: () => [el("strong", {}, "Otros: un integrante por partido"), el("ul", { class: "tooltip__lista" }, quienes.map((q) => el("li", {}, q)))] });
+    }
+    fila.append(etiqueta);
+    const xm = x(g.mediana);
+    fila.append(el("svg:line", { x1: xm, x2: xm, y1: yc - 11, y2: yc + 11, class: "raya-mediana" }));
+    if (!angosto) fila.append(el("svg:text", { x: xm, y: yc - 13, "text-anchor": "middle", class: "raya-mediana__texto" }, pct(g.mediana)));
+    for (const id of g.ids) {
+      const p = pres.get(id);
+      const l = persona(id);
+      const c = el("svg:circle", { cx: x(p.presencia).toFixed(1), cy: yc, r, class: ["punto-dato", "punto-dato--transparente", partidoClase(l.partido)] });
+      conectarPersona(c, l, [textoPresencia(p), `Mediana de ${g.partido || "Otros"}: ${pct(g.mediana)}`]);
+      fila.append(c);
+    }
+    svg.append(fila);
+  });
+  return svg;
+}
+
 // ---------- render ----------
 const SECCIONES = [];   // (a, ancho) => void; cada sección dibuja lo suyo
 SECCIONES.push((a) => {
@@ -122,6 +167,7 @@ SECCIONES.push((a) => {
   vaciar($("#leyenda-partidos"), leyendaPartidos(a));
   vaciar($("#sin-datos"), sinDatos(a));
 });
+SECCIONES.push((a) => vaciar($("#g-partidos"), graficoPartidos(a, anchoDe($("#g-partidos")))));
 
 function dibujar() {
   if (!D) return;
