@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
   <meta name="color-scheme" content="light dark">
-  <title>Legisladores · Hesaka</title>
+  <title>Legisladores · Hesakã</title>
   <meta name="description" content="Senadores y diputados del Paraguay con su partido, bancada y presencia en votaciones nominales.">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="assets/css/congreso.css">
@@ -19,12 +19,14 @@
     <div class="cabecera__interior">
       <a class="marca" href="index.html">
         <svg class="marca__logo" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
-          <rect class="marca__fondo" width="32" height="32" rx="8"/>
-          <path class="marca__arco" d="M7 21a9 9 0 0 1 18 0"/>
-          <path class="marca__aguja" d="M16 21l5.2-6.6"/>
-          <circle class="marca__eje" cx="16" cy="21" r="2.2"/>
+          <clipPath id="marca-iris"><circle cx="16" cy="16" r="5.6"/></clipPath>
+          <rect width="32" height="32" rx="8" fill="#0f2b31"/>
+          <path d="M3 16C7 9.5 11.2 7 16 7s9 2.5 13 9c-4 6.5-8.2 9-13 9S7 22.5 3 16z" fill="none" stroke="#8fd6d3" stroke-width="2"/>
+          <g clip-path="url(#marca-iris)"><rect x="10" y="10.4" width="12" height="3.74" fill="#d52b1e"/><rect x="10" y="14.14" width="12" height="3.72" fill="#ffffff"/><rect x="10" y="17.86" width="12" height="3.74" fill="#0038a8"/></g>
+          <circle cx="16" cy="16" r="5.6" fill="none" stroke="#ffffff" stroke-width="0.8"/>
+          <circle cx="16" cy="16" r="1.7" fill="#0f2b31"/>
         </svg>
-        <span class="marca__texto"><span class="marca__nombre">Hesaka</span><span class="marca__sub">Congreso del Paraguay · 2023–2028</span></span>
+        <span class="marca__texto"><span class="marca__nombre">Hesakã</span><span class="marca__sub">Congreso del Paraguay · 2023–2028</span></span>
       </a>
     <!-- MENU: se copia igual en cada página (no se inyecta). tests/test_sitio.py verifica que coincida. -->
     <nav class="menu" aria-label="Principal">

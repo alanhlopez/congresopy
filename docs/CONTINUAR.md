@@ -1,4 +1,4 @@
-# CONTINUAR — Hesaka, Congreso del Paraguay (`congresopy`)
+# CONTINUAR — Hesakã, Congreso del Paraguay (`congresopy`)
 
 Archivo de traspaso. Si sos Claude (en el chat o en Claude Code), leé esto entero antes de hacer nada, y después
 `CLAUDE.md`, que tiene los comandos, las reglas y las advertencias al día.
@@ -7,7 +7,7 @@ Responder en español (voseo), crítico y sin complacencia.
 ## Dónde estamos (14/11/2026)
 
 **Fase 1 publicada.** Repo público en GitHub (`alanhlopez/congresopy`), desplegado en Vercel desde `main`.
-El sitio se llama **Hesaka** («Congreso del Paraguay · 2023–2028») desde el 15/11/2026 (antes, «Votómetro» desde el rediseño de noviembre y «Monitoreo Congreso del Paraguay» al principio).
+El sitio se llama **Hesakã** («Congreso del Paraguay · 2023–2028») desde el 15/11/2026 (antes, «Votómetro» desde el rediseño de noviembre y «Monitoreo Congreso del Paraguay» al principio).
 
 Hecho:
 - **Datos (pipeline → silver/ → site/datos/congreso/):** votaciones nominales de las dos cámaras desde el
@@ -24,7 +24,7 @@ Hecho:
   no tienen períodos fuera del cargo mal contados; las 2 votaciones de Diputados con más de la mitad «ausente»
   (19/05/2026) fueron en una sesión con quórum en sus otras 14 votaciones y sin votos en contra.
 - **Rediseño visual (14/11/2026):** sistema de diseño en `congreso.css` (tokens, acento verde petróleo neutral,
-  componentes), identidad propia (logotipo de medidor en SVG), serif del sistema solo en el hero de Inicio.
+  componentes), identidad propia (logotipo en SVG: un ojo con la bandera en el iris; hesakã = transparente, claro), serif del sistema solo en el hero de Inicio.
   Verificado con Playwright en las 9 páginas a 360, 768 y 1280 px, en los dos temas: sin errores de CSP ni
   scroll horizontal; contraste AA en los tokens. Las capturas se regeneran en `docs/capturas/` (fuera de git).
 - **Tests:** 91 en verde (regresión del análisis contra el prototipo, reglas del sitio, pipeline sin red).

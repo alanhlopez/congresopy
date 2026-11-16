@@ -1,6 +1,6 @@
-# congresopy — Hesaka, Congreso del Paraguay
+# congresopy — Hesakã, Congreso del Paraguay
 
-**Hesaka** (Congreso del Paraguay · 2023–2028) es el nombre público del sitio. Muestra cómo vota y cuándo falta cada senador y cada diputado del período
+**Hesakã** (Congreso del Paraguay · 2023–2028) es el nombre público del sitio. Muestra cómo vota y cuándo falta cada senador y cada diputado del período
 2023-2028, votación por votación. Los datos salen de [SILpy](https://silpy.congreso.gov.py/), el Sistema de
 Información Legislativa del Congreso Nacional.
 

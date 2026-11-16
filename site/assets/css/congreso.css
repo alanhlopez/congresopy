@@ -303,11 +303,8 @@ time, .num, .tabla, .stat__valor, .cifras, .cifras-votos, .conteo { font-variant
   min-width: 0;
 }
 .marca:hover { color: var(--texto); }
-.marca__logo { width: 2.25rem; height: 2.25rem; flex-shrink: 0; color: var(--acento); }
-.marca__logo .marca__fondo { fill: var(--acento-suave); }
-.marca__logo .marca__arco { fill: none; stroke: currentColor; stroke-width: 3.2; stroke-linecap: round; }
-.marca__logo .marca__aguja { stroke: var(--texto); stroke-width: 2.6; stroke-linecap: round; }
-.marca__logo .marca__eje { fill: var(--texto); }
+/* Logo: un ojo (hesakã = transparente, claro) con la bandera en el iris; colores fijos en los dos temas */
+.marca__logo { width: 2.25rem; height: 2.25rem; flex-shrink: 0; }
 .marca__texto { display: flex; flex-direction: column; min-width: 0; }
 .marca__nombre { font-weight: 750; font-size: var(--t-md); letter-spacing: -0.01em; }
 .marca__sub { font-weight: 400; font-size: var(--t-xs); color: var(--texto-suave); letter-spacing: 0.01em; }

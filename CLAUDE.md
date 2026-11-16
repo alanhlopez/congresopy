@@ -1,6 +1,6 @@
 # CLAUDE.md — congresopy
 
-**Hesaka** (nombre público del sitio desde el 15/11/2026, con el subtítulo «Congreso del Paraguay · 2023–2028»; el
+**Hesakã** (nombre público del sitio desde el 15/11/2026, con el subtítulo «Congreso del Paraguay · 2023–2028»; el
 repo es `congresopy`): votaciones, asistencia y, más adelante, proyectos, con datos de SILpy (silpy.congreso.gov.py).
 Nombres anteriores: «Monitoreo Congreso del Paraguay» (hasta el rediseño de noviembre de 2026) y «Votómetro» (del
 rediseño al 15/11/2026). «Votómetro» sigue siendo el nombre del prototipo: `../VotometroCongresoPy/` y
