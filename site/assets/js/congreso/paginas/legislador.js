@@ -34,7 +34,9 @@ function cabecera(d, l) {
         // Las dos cámaras registran distinto: la presencia no se compara entre Senado y Diputados.
         el("p", { class: "stat__nota" }, d.clave === "diputados"
           ? "En Diputados «no vota» figura como ausente."
-          : "En el Senado, «presente, no vota» cuenta como presente."))));
+          : "En el Senado, «presente, no vota» cuenta como presente."),
+        el("p", { class: "perfil-cabecera__comparar" },
+          el("a", { href: enlace("asistencia.html", { camara: d.clave, seleccionado: l.id }) }, "Ver cómo se compara ", el("span", { "aria-hidden": "true" }, "→"))))));
 }
 
 /** Cambios de partido, bancada, cargo o estado detectados entre fotos de la nómina de SILpy. */

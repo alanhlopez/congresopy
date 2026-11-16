@@ -1236,3 +1236,5 @@ h3 { font-size: var(--t-md); line-height: 1.3; margin: 0 0 var(--e-2); }
 @container (min-width: 46rem) {
   .fila-sala { grid-template-columns: 6.25rem minmax(0, 1fr) 13rem auto; grid-template-areas: "fecha asunto barra link"; column-gap: var(--e-4); }
 }
+.perfil-cabecera__comparar { font-size: var(--t-sm); font-weight: 600; }
+.sin-datos .es-seleccionado { background: var(--acento-suave); border-radius: var(--radio); }

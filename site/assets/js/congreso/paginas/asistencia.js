@@ -109,7 +109,7 @@ function sinDatos(a) {
     el("p", { class: "nota" }, `Estuvieron en el cargo en menos de ${numero(a.criterios.minimo_posibles)} votaciones: no se calcula su porcentaje.`),
     el("ul", { class: "lista-simple" }, a.sin_datos.map((r) => {
       const l = persona(r.id);
-      return el("li", {}, el("a", { href: enlaceLegislador(l, D.cam.clave) }, l.nombre), " ", chipPartido(l.partido),
+      return el("li", { dataset: { id: r.id } }, el("a", { href: enlaceLegislador(l, D.cam.clave) }, l.nombre), " ", chipPartido(l.partido),
         el("span", { class: "nota" }, ` · ${numero(r.posibles)} votaciones en el cargo`));
     })));
 }
@@ -399,6 +399,12 @@ async function aplicar() {
     $("#periodo-texto").textContent = `${CAMARAS[e.camara].nombreLargo} · del ${fecha(a.periodo.desde)} al ${fecha(a.periodo.hasta)} · ${numero(a.periodo.votaciones)} votaciones nominales`;
     dibujar();
     if (e.seleccionado && anclas.get(e.seleccionado)) anclas.get(e.seleccionado).scrollIntoView({ block: "center" });
+    // Seleccionado sin datos suficientes (no está en los gráficos): se lo marca en la lista aparte
+    else if (e.seleccionado && a.sin_datos.some((r) => String(r.id) === e.seleccionado)) {
+      const li = $(`#sin-datos [data-id="${e.seleccionado}"]`);
+      li?.classList.add("es-seleccionado");
+      li?.scrollIntoView({ block: "center" });
+    }
   } catch (err) {
     mostrarError($("#g-enjambre"), `No se pudieron cargar los datos: ${err.message}`);
   }
