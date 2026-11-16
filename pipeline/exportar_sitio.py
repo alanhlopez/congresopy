@@ -21,6 +21,7 @@ anterior en el manifiesto, para no producir cambios de ruido en git.
 """
 import argparse
 import csv
+import re
 import hashlib
 import json
 import shutil
@@ -255,6 +256,22 @@ def exportar_presencia(votaciones, cadenas, L):
     }
 
 
+# Votaciones sobre algo del Poder Ejecutivo (mensajes y objeciones/vetos), detectadas por el texto de SILpy con la
+# misma regla que codificar.py usa para su `categoria`. Solo se usa la pertenencia, NUNCA la dirección del voto
+# (el índice de alineamiento con el Ejecutivo no se publica en la Fase 1).
+RE_OBJECION_PE = re.compile(r"objeci|SE OBJETA", re.I)
+RE_MENSAJE_PE = re.compile(r"MENSAJE[^,]{0,40}PODER EJECUTIVO|PODER EJECUTIVO[^,]{0,10}MENSAJE", re.I)
+
+
+def tema_pe(v):
+    """"objecion", "mensaje" o None para una votación de votaciones.json."""
+    if RE_OBJECION_PE.search(v.get("mocion") or "") or RE_OBJECION_PE.search((v.get("mociones") or {}).get("1", "")):
+        return "objecion"
+    if RE_MENSAJE_PE.search(v.get("acapite") or ""):
+        return "mensaje"
+    return None
+
+
 # Agrupaciones que se mencionan si dominan la lista de «sala medio vacía» (por texto del título de SILpy)
 TEMAS_SALA_VACIA = [("expropiaciones", r"EXPROPIA"), ("desafectaciones de bienes", r"DESAFECTA"),
                     ("pensiones graciables", r"PENSI[OÓ]N GRACIABLE")]
@@ -267,7 +284,6 @@ def exportar_asistencia(votaciones, cadenas, L):
     las que la persona estaba en el cargo («-» no cuenta). En el Senado «no vota» cuenta como presente; en
     Diputados SILpy lo registra como AUSENTE. Quien preside figura con su voto. Partido: el actual de la nómina.
     """
-    import re
     X = CODIGO_VOTO["AUSENTE"]
     cron = sorted(range(len(votaciones)), key=lambda k: (votaciones[k]["fecha"], votaciones[k]["id"]))
     meses = sorted({votaciones[k]["fecha"][:7] for k in cron})
@@ -293,13 +309,15 @@ def exportar_asistencia(votaciones, cadenas, L):
         if k in tipo:
             n_tipo[tipo[k]] += 1
 
-    legisladores, sin_datos, puntos, por_mes = [], [], [], {}
+    pe = {k: tema_pe(v) for k, v in enumerate(votaciones)}
+    n_pe = Counter(t for t in pe.values() if t)
+    legisladores, sin_datos, puntos, puntos_pe, por_mes = [], [], [], [], {}
     cam_mes = [[0, 0] for _ in meses]   # presentes, posibles de la cámara por mes
     for lid, cad in cadenas.items():
         posibles = sum(1 for c in cad if c != "-")
         presentes = sum(1 for c in cad if c not in ("-", X))
         mes = [[0, 0] for _ in meses]
-        cuenta = {"consenso": [0, 0], "renida": [0, 0]}
+        cuenta = {"consenso": [0, 0], "renida": [0, 0], "pe": [0, 0], "resto": [0, 0]}
         for k in cron:
             c = cad[k]
             if c == "-":
@@ -311,6 +329,9 @@ def exportar_asistencia(votaciones, cadenas, L):
             if k in tipo:
                 cuenta[tipo[k]][1] += 1
                 cuenta[tipo[k]][0] += c != X
+            grupo = "pe" if pe[k] else "resto"
+            cuenta[grupo][1] += 1
+            cuenta[grupo][0] += c != X
         if posibles < config.ASISTENCIA_MIN_POSIBLES:
             sin_datos.append({"id": int(lid), "posibles": posibles, "presentes": presentes})
             continue
@@ -322,7 +343,12 @@ def exportar_asistencia(votaciones, cadenas, L):
         if nc >= config.ASISTENCIA_MIN_POR_TIPO and nr >= config.ASISTENCIA_MIN_POR_TIPO:
             puntos.append({"id": int(lid), "consenso": redondeo(Fraction(pc, nc)), "renidas": redondeo(Fraction(pr, nr)),
                            "n_consenso": nc, "n_renidas": nr, "diferencia": redondeo(Fraction(pr, nr) - Fraction(pc, nc))})
+        (pp, npe), (pr2, nre) = cuenta["pe"], cuenta["resto"]
+        if npe >= config.ASISTENCIA_MIN_POR_TIPO and nre >= config.ASISTENCIA_MIN_POR_TIPO:
+            puntos_pe.append({"id": int(lid), "pe": redondeo(Fraction(pp, npe)), "resto": redondeo(Fraction(pr2, nre)),
+                              "n_pe": npe, "n_resto": nre, "diferencia": redondeo(Fraction(pp, npe) - Fraction(pr2, nre))})
     legisladores.sort(key=lambda r: (r["presencia"], -r["posibles"], r["id"]))
+    puntos_pe.sort(key=lambda r: (r["diferencia"], r["id"]))
     sin_datos.sort(key=lambda r: (-r["posibles"], r["id"]))
     puntos.sort(key=lambda r: (r["diferencia"], r["id"]))
 
@@ -377,6 +403,9 @@ def exportar_asistencia(votaciones, cadenas, L):
             "legisladores": por_mes,
         },
         "dispersion": {"votaciones_consenso": n_tipo["consenso"], "votaciones_renidas": n_tipo["renida"], "puntos": puntos},
+        # Presencia en votaciones sobre mensajes y objeciones del Poder Ejecutivo frente al resto (sin dirección del voto)
+        "poder_ejecutivo": {"votaciones": sum(n_pe.values()), "mensajes": n_pe["mensaje"], "objeciones": n_pe["objecion"],
+                            "puntos": puntos_pe},
         "sala_vacia": {
             "menos_de_la_mitad": sum(1 for v in votaciones if v["totales"].get("total") and v["totales"].get("ausente", 0) * 2 > v["totales"]["total"]),
             "votaciones": [{"id": v["id"], "ausentes": v["totales"].get("ausente", 0), "total": v["totales"]["total"]} for v in top],

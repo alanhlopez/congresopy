@@ -39,8 +39,9 @@ Pendiente:
   (por ejemplo, una vez por año después del 1 de julio).
 - **Datos menores:** fotos de Da Silva y Esquivel (404 en SILpy); bancada de Nakayama («Liberal Independiente»
   en SILpy). Rubín se declara independiente; SILpy todavía no lo actualizó (corrección manual vigente).
-- **Decisiones de producto:** votaciones clave frente al gobierno (pendiente 1, abajo), que incluye la idea de
-  una subsección de Asistencia «¿Quién falta más cuando se vota algo del Ejecutivo?», y el dataset de Kalaguichi.
+- **Decisiones de producto:** votaciones clave frente al gobierno (pendiente 1, abajo) y el dataset de Kalaguichi.
+  Asistencia ya tiene «¿Y cuando se vota algo del Poder Ejecutivo?» (presencia en mensajes y vetos frente al
+  resto, sin dirección del voto); «falta cuando la votación es a favor del Ejecutivo» depende del pendiente 1.
 
 Contexto que sigue valiendo:
 - **Prototipo:** `../VotometroCongresoPy/` (carpeta hermana). Referencia; no se modifica.

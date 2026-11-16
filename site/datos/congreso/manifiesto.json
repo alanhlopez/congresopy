@@ -1,6 +1,6 @@
 {
   "proyecto": "Votómetro · Congreso del Paraguay",
-  "generado": "2026-11-15T23:55:09Z",
+  "generado": "2026-11-16T00:25:15Z",
   "fuente": {
     "nombre": "SILpy – Sistema de Información Legislativa, Congreso Nacional del Paraguay",
     "url": "https://silpy.congreso.gov.py/",
@@ -63,10 +63,10 @@
     },
     {
       "archivo": "senado/asistencia.json",
-      "generado": "2026-11-15T23:55:09Z",
+      "generado": "2026-11-16T00:25:15Z",
       "filas": 48,
-      "bytes": 25716,
-      "sha256": "7373b107a30ee9c45468d39528a1054e478827d721c86fbeaa629fe5bebd1eaa"
+      "bytes": 29876,
+      "sha256": "6b7e0aedb9154ae023b5915c5f6160db320483c6510563c306786fee0d541ce7"
     },
     {
       "archivo": "senado/comisiones.json",
@@ -105,10 +105,10 @@
     },
     {
       "archivo": "diputados/asistencia.json",
-      "generado": "2026-11-15T23:55:09Z",
+      "generado": "2026-11-16T00:25:15Z",
       "filas": 84,
-      "bytes": 43848,
-      "sha256": "e27b3a085ef821b9467f678cdc485812ae2c2a5accb0fabb304466173d95b27c"
+      "bytes": 51142,
+      "sha256": "8b36bf5542c7f683226852eaaa61503fbc281a6379e53ff14f54f39c9c55a473"
     },
     {
       "archivo": "diputados/comisiones.json",

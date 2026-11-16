@@ -206,3 +206,23 @@ def test_asistencia_y_presencia_usan_el_mismo_criterio(exportado):
             cad = votos["legisladores"][str(r["id"])]
             pos = sum(cad[k] != "-" for k in idx)
             assert abs((sum(cad[k] not in "-X" for k in idx) / pos) - r["presencia"]) < 1e-4
+
+
+def test_poder_ejecutivo_misma_categoria_que_codificar(exportado):
+    """Las votaciones «sobre algo del Ejecutivo» de asistencia.json son las mismas que codificar.py marca como
+    mensaje_pe u objecion_pe; y asistencia.json no publica ninguna dirección de voto."""
+    import csv
+    import exportar_sitio as ex
+    for carpeta in config.CAMARAS.values():
+        vots = cargar(exportado, f"{carpeta}/votaciones.json")
+        with open(config.silver_dir(carpeta) / "codificacion_sugerida.csv", encoding="utf-8-sig") as fh:
+            cat = {int(r["id_votacion"]): r["categoria"] for r in csv.DictReader(fh)}
+        for v in vots:
+            esperado = {"objecion_pe": "objecion", "mensaje_pe": "mensaje"}.get(cat[v["id"]])
+            assert ex.tema_pe(v) == esperado, v["id"]
+        pe = cargar(exportado, f"{carpeta}/asistencia.json")["poder_ejecutivo"]
+        assert pe["votaciones"] == pe["mensajes"] + pe["objeciones"] == sum(c in ("mensaje_pe", "objecion_pe") for c in cat.values())
+        for p in pe["puntos"]:
+            assert set(p) == {"id", "pe", "resto", "n_pe", "n_resto", "diferencia"}
+            assert p["n_pe"] >= config.ASISTENCIA_MIN_POR_TIPO and p["n_resto"] >= config.ASISTENCIA_MIN_POR_TIPO
+            assert p["n_pe"] + p["n_resto"] == next(r["posibles"] for r in cargar(exportado, f"{carpeta}/asistencia.json")["legisladores"] if r["id"] == p["id"])

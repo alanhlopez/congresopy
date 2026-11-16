@@ -270,19 +270,18 @@ function mapaCalor(a, orden) {
 }
 
 // ---------- 4. ¿Quién falta justo cuando la votación se pone difícil? ----------
-function graficoDispersion(a, ancho) {
-  const pts = a.dispersion.puntos;
-  if (!pts.length) {
-    return el("p", { class: "vacio" }, `Nadie tiene al menos ${a.criterios.minimo_por_tipo} votaciones de cada tipo: hubo ${numero(a.dispersion.votaciones_renidas)} reñidas en el período.`);
-  }
+// Dispersión genérica: x e y son presencias (0..1) en dos grupos de votaciones; debajo de la diagonal, menos en y.
+const signo = (d) => `${d > 0 ? "+" : "−"}${Math.abs(Math.round(d * 100))}`;
+
+function graficoDispersion(pts, ancho, { vacio, xTitulo, yTitulo, zonaTexto, val, lineas, etiqueta }) {
+  if (!pts.length) return el("p", { class: "vacio" }, vacio);
   const ml = 46, mr = 16, mt = 12, mb = 44;
   const alto = Math.round(Math.min(Math.max(ancho * 0.72, 300), 460));
-  const lo = pisoDecena(Math.min(...pts.flatMap((p) => [p.consenso, p.renidas])));
+  const lo = pisoDecena(Math.min(...pts.flatMap((p) => [val.x(p), val.y(p)])));
   const x = escala(lo, 1, ml, ancho - mr);
   const y = escala(lo, 1, alto - mb, mt);
   const r = ancho < 560 ? 4.5 : 5.5;
-  const svg = el("svg:svg", { class: "dispersion", viewBox: `0 0 ${ancho} ${alto}`, width: ancho, height: alto, role: "group",
-    "aria-label": "Presencia en votaciones de consenso (eje horizontal) y en reñidas (eje vertical), un punto por legislador" });
+  const svg = el("svg:svg", { class: "dispersion", viewBox: `0 0 ${ancho} ${alto}`, width: ancho, height: alto, role: "group", "aria-label": etiqueta });
   const eje = el("svg:g", { class: "eje", "aria-hidden": "true" });
   const paso = (1 - lo) > 0.5 ? 0.2 : 0.1;
   for (let v = lo; v <= 1 + 1e-9; v += paso) {
@@ -291,26 +290,24 @@ function graficoDispersion(a, ancho) {
       el("svg:line", { x1: ml, x2: ancho - mr, y1: y(v), y2: y(v), class: "eje__guia" }),
       el("svg:text", { x: ml - 6, y: y(v) + 4, "text-anchor": "end", class: "eje__texto" }, `${Math.round(v * 100)}%`));
   }
-  eje.append(el("svg:text", { x: (ml + ancho - mr) / 2, y: alto - 6, "text-anchor": "middle", class: "eje__titulo" }, "Presencia en votaciones de consenso"),
-    el("svg:text", { x: 12, y: (mt + alto - mb) / 2, "text-anchor": "middle", class: "eje__titulo", transform: `rotate(-90 12 ${(mt + alto - mb) / 2})` }, "Presencia en reñidas"));
-  // Zona debajo de la diagonal: aparecen menos en las reñidas
+  eje.append(el("svg:text", { x: (ml + ancho - mr) / 2, y: alto - 6, "text-anchor": "middle", class: "eje__titulo" }, xTitulo),
+    el("svg:text", { x: 12, y: (mt + alto - mb) / 2, "text-anchor": "middle", class: "eje__titulo", transform: `rotate(-90 12 ${(mt + alto - mb) / 2})` }, yTitulo));
   svg.append(el("svg:polygon", { points: `${x(lo)},${y(lo)} ${x(1)},${y(1)} ${x(1)},${y(lo)}`, class: "zona-baja" }), eje,
     el("svg:line", { x1: x(lo), y1: y(lo), x2: x(1), y2: y(1), class: "diagonal" }),
-    el("svg:text", { x: x(1) - 8, y: y(lo) - 8, "text-anchor": "end", class: "zona-baja__texto" }, "aparecen menos en las reñidas"));
+    el("svg:text", { x: x(1) - 8, y: y(lo) - 8, "text-anchor": "end", class: "zona-baja__texto" }, zonaTexto));
   for (const p of pts) {
     const l = persona(p.id);
-    const c = el("svg:circle", { cx: x(p.consenso).toFixed(1), cy: y(p.renidas).toFixed(1), r, class: ["punto-dato", partidoClase(l.partido)] });
-    conectarPersona(c, l, [`Consenso: ${pct(p.consenso)} de ${numero(p.n_consenso)} votaciones`, `Reñidas: ${pct(p.renidas)} de ${numero(p.n_renidas)}`,
-      `Diferencia: ${p.diferencia > 0 ? "+" : "−"}${Math.abs(Math.round(p.diferencia * 100))} puntos`]);
+    const c = el("svg:circle", { cx: x(val.x(p)).toFixed(1), cy: y(val.y(p)).toFixed(1), r, class: ["punto-dato", partidoClase(l.partido)] });
+    conectarPersona(c, l, lineas(p));
     svg.append(c);
   }
-  // Etiquetas para los 3 con mayor caída (después de los puntos, con halo): del lado con más espacio,
-  // dentro del área del gráfico y sin solaparse verticalmente.
-  const caen = pts.slice(0, 3).map((p) => ({ p, cx: x(p.consenso), cy: y(p.renidas) })).sort((u, v) => u.cy - v.cy);
+  // Etiquetas para los 3 con mayor caída (los puntos vienen ordenados por diferencia, de menor a mayor),
+  // después de los puntos y con halo: del lado con más espacio, dentro del gráfico y sin solaparse.
+  const caen = pts.slice(0, 3).map((p) => ({ p, cx: x(val.x(p)), cy: y(val.y(p)) })).sort((u, v) => u.cy - v.cy);
   let ultimo = -Infinity;
   for (const e of caen) {
     const l = persona(e.p.id);
-    const texto = `${l.nombre_corto || l.nombre} ${e.p.diferencia > 0 ? "+" : "−"}${Math.abs(Math.round(e.p.diferencia * 100))}`;
+    const texto = `${l.nombre_corto || l.nombre} ${signo(e.p.diferencia)}`;
     const w = anchoTexto(texto, 12);
     const ty = Math.max(e.cy + 4, ultimo + 15);
     ultimo = ty;
@@ -319,6 +316,29 @@ function graficoDispersion(a, ancho) {
     svg.append(el("svg:text", { x: tx.toFixed(1), y: ty.toFixed(1), class: ["etiqueta-dato", "etiqueta-dato--halo"] }, texto));
   }
   return svg;
+}
+
+function dispersionRenidas(a, ancho) {
+  return graficoDispersion(a.dispersion.puntos, ancho, {
+    vacio: `Nadie tiene al menos ${a.criterios.minimo_por_tipo} votaciones de cada tipo: hubo ${numero(a.dispersion.votaciones_renidas)} reñidas en el período.`,
+    xTitulo: "Presencia en votaciones de consenso", yTitulo: "Presencia en reñidas", zonaTexto: "aparecen menos en las reñidas",
+    etiqueta: "Presencia en votaciones de consenso (eje horizontal) y en reñidas (eje vertical), un punto por legislador",
+    val: { x: (p) => p.consenso, y: (p) => p.renidas },
+    lineas: (p) => [`Consenso: ${pct(p.consenso)} de ${numero(p.n_consenso)} votaciones`, `Reñidas: ${pct(p.renidas)} de ${numero(p.n_renidas)}`,
+      `Diferencia: ${signo(p.diferencia)} puntos`],
+  });
+}
+
+function dispersionPE(a, ancho) {
+  const pe = a.poder_ejecutivo;
+  return graficoDispersion(pe.puntos, ancho, {
+    vacio: `Nadie tiene al menos ${a.criterios.minimo_por_tipo} votaciones de cada grupo.`,
+    xTitulo: "Presencia en el resto de las votaciones", yTitulo: "Presencia en las del Ejecutivo", zonaTexto: "aparecen menos cuando es del Ejecutivo",
+    etiqueta: "Presencia en el resto de las votaciones (eje horizontal) y en las votaciones sobre mensajes y vetos del Poder Ejecutivo (eje vertical)",
+    val: { x: (p) => p.resto, y: (p) => p.pe },
+    lineas: (p) => [`Mensajes y vetos del Ejecutivo: ${pct(p.pe)} de ${numero(p.n_pe)} votaciones`, `Resto: ${pct(p.resto)} de ${numero(p.n_resto)}`,
+      `Diferencia: ${signo(p.diferencia)} puntos`],
+  });
 }
 
 // ---------- 5. ¿Qué se votó con la sala medio vacía? ----------
@@ -371,7 +391,10 @@ SECCIONES.push((a) => {
 });
 SECCIONES.push((a) => {
   const g = $("#g-dispersion");
-  vaciar(g, graficoDispersion(a, Math.min(anchoDe(g), 760)));
+  vaciar(g, dispersionRenidas(a, Math.min(anchoDe(g), 760)));
+  vaciar($("#g-pe"), dispersionPE(a, Math.min(anchoDe($("#g-pe")), 760)));
+  const pe = a.poder_ejecutivo;
+  $("#pe-conteo").textContent = `En el mandato hubo ${numero(pe.votaciones)}: ${numero(pe.mensajes)} sobre mensajes y ${numero(pe.objeciones)} sobre vetos; entran ${numero(pe.puntos.length)} ${D.cam.info.miembros}.`;
   const c = a.criterios;
   for (const s of document.querySelectorAll("[data-umbral-consenso]")) s.textContent = `${Math.round(c.umbral_consenso * 100)} %`;
   for (const s of document.querySelectorAll("[data-umbral-renida]")) s.textContent = `${Math.round(c.umbral_renida * 100)} %`;

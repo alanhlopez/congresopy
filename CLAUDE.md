@@ -247,7 +247,10 @@ rompe; cambiar la lógica sí. Los datos vivos (`salidas/`, `site/datos/`) se re
   - `{camara}/legisladores.json`: datos de la nómina y `conteo` de votos por tipo.
   - `{camara}/asistencia.json`: página Asistencia (todo el mandato). Lo calcula `exportar_asistencia()` con
     el mismo criterio de presencia que Inicio; umbrales en `config.py` (`ASISTENCIA_*`: mínimo 50 votaciones
-    posibles, consenso < 5 %, reñida >= 25 %, 15 de cada tipo, 10 votaciones con más ausentes).
+    posibles, consenso < 5 %, reñida >= 25 %, 15 de cada tipo, 10 votaciones con más ausentes). El bloque
+    `poder_ejecutivo` compara la presencia en votaciones sobre mensajes y vetos del Ejecutivo con el resto:
+    `tema_pe()` usa la misma regla de texto que la `categoria` de `codificar.py` (lo verifica un test), pero
+    NO la dirección del voto, que sigue sin publicarse.
   - `{camara}/presencia.json`: ranking de menor presencia de Inicio (últimos 12 meses hasta la última votación
     de la cámara; solo en ejercicio y con al menos la mitad de las votaciones posibles; puestos 1 a 3 con
     empates; mediana). Lo calcula `exportar_presencia()`; quien preside figura con su voto (verificado con la
