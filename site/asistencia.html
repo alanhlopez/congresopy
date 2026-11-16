@@ -150,6 +150,27 @@
       </details>
     </section>
 
+    <section class="tarjeta" aria-labelledby="t-renidas">
+      <div class="tarjeta__cabecera">
+        <div>
+          <h2 id="t-renidas">¿Quién falta justo cuando la votación se pone difícil?</h2>
+          <p class="tarjeta__descripcion">Presencia en votaciones de consenso frente a presencia en votaciones reñidas. Debajo de la diagonal están quienes aparecen menos cuando el resultado está disputado.</p>
+        </div>
+      </div>
+      <div class="tarjeta__cuerpo">
+        <div class="grafico grafico--dispersion" id="g-dispersion"></div>
+      </div>
+      <details class="tarjeta__metodologia" open>
+        <summary>Metodología</summary>
+        <ul>
+          <li>Consenso: votaciones en las que la minoría, entre Sí y No, sacó menos del <span data-umbral-consenso>5 %</span>. Reñidas: la minoría sacó el <span data-umbral-renida>25 %</span> o más. Las del medio no entran en ninguno de los dos grupos.</li>
+          <li>Las votaciones entre mociones (sin Sí ni No) quedan fuera de esta clasificación.</li>
+          <li>Solo aparecen quienes estuvieron en el cargo en al menos <span data-minimo-tipo>15</span> votaciones de cada tipo. <span id="dispersion-conteo"></span></li>
+          <li>Una diferencia no prueba intención: puede haber licencias, comisiones o coincidencias de agenda.</li>
+        </ul>
+      </details>
+    </section>
+
     <section class="metodo" aria-labelledby="metodo-titulo">
       <h2 id="metodo-titulo">Fuente, método y límites</h2>
       <dl>

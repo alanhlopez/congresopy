@@ -6,7 +6,7 @@ import { alCambiarHash, escribirEstado, leerEstado } from "../lib/estado.js";
 import { apellidoNombre, fecha, numero, ordenPartido, partidoClase, partidoNombre } from "../lib/formato.js";
 import { avatar, chipPartido, enlaceLegislador } from "../lib/componentes.js";
 import { alSoltarTooltip, conectar, fijar, soltar } from "../lib/tooltip.js";
-import { anchoDe, ejePorcentaje, enjambre, escala, filasDeEtiquetas, pisoDecena } from "../lib/graficos.js";
+import { anchoDe, anchoTexto, ejePorcentaje, enjambre, escala, filasDeEtiquetas, pisoDecena } from "../lib/graficos.js";
 
 const DEFECTOS = { camara: "senado", orden: "asc", seleccionado: "" };
 const pct = (x) => `${Math.round(x * 100)} %`;
@@ -258,6 +258,58 @@ function mapaCalor(a, orden) {
   return tabla;
 }
 
+// ---------- 4. ¿Quién falta justo cuando la votación se pone difícil? ----------
+function graficoDispersion(a, ancho) {
+  const pts = a.dispersion.puntos;
+  if (!pts.length) {
+    return el("p", { class: "vacio" }, `Nadie tiene al menos ${a.criterios.minimo_por_tipo} votaciones de cada tipo: hubo ${numero(a.dispersion.votaciones_renidas)} reñidas en el período.`);
+  }
+  const ml = 46, mr = 16, mt = 12, mb = 44;
+  const alto = Math.round(Math.min(Math.max(ancho * 0.72, 300), 460));
+  const lo = pisoDecena(Math.min(...pts.flatMap((p) => [p.consenso, p.renidas])));
+  const x = escala(lo, 1, ml, ancho - mr);
+  const y = escala(lo, 1, alto - mb, mt);
+  const r = ancho < 560 ? 4.5 : 5.5;
+  const svg = el("svg:svg", { class: "dispersion", viewBox: `0 0 ${ancho} ${alto}`, width: ancho, height: alto, role: "group",
+    "aria-label": "Presencia en votaciones de consenso (eje horizontal) y en reñidas (eje vertical), un punto por legislador" });
+  const eje = el("svg:g", { class: "eje", "aria-hidden": "true" });
+  const paso = (1 - lo) > 0.5 ? 0.2 : 0.1;
+  for (let v = lo; v <= 1 + 1e-9; v += paso) {
+    eje.append(el("svg:line", { x1: x(v), x2: x(v), y1: mt, y2: alto - mb, class: "eje__guia" }),
+      el("svg:text", { x: x(v), y: alto - mb + 16, "text-anchor": "middle", class: "eje__texto" }, `${Math.round(v * 100)}%`),
+      el("svg:line", { x1: ml, x2: ancho - mr, y1: y(v), y2: y(v), class: "eje__guia" }),
+      el("svg:text", { x: ml - 6, y: y(v) + 4, "text-anchor": "end", class: "eje__texto" }, `${Math.round(v * 100)}%`));
+  }
+  eje.append(el("svg:text", { x: (ml + ancho - mr) / 2, y: alto - 6, "text-anchor": "middle", class: "eje__titulo" }, "Presencia en votaciones de consenso"),
+    el("svg:text", { x: 12, y: (mt + alto - mb) / 2, "text-anchor": "middle", class: "eje__titulo", transform: `rotate(-90 12 ${(mt + alto - mb) / 2})` }, "Presencia en reñidas"));
+  // Zona debajo de la diagonal: aparecen menos en las reñidas
+  svg.append(el("svg:polygon", { points: `${x(lo)},${y(lo)} ${x(1)},${y(1)} ${x(1)},${y(lo)}`, class: "zona-baja" }), eje,
+    el("svg:line", { x1: x(lo), y1: y(lo), x2: x(1), y2: y(1), class: "diagonal" }),
+    el("svg:text", { x: x(1) - 8, y: y(lo) - 8, "text-anchor": "end", class: "zona-baja__texto" }, "aparecen menos en las reñidas"));
+  for (const p of pts) {
+    const l = persona(p.id);
+    const c = el("svg:circle", { cx: x(p.consenso).toFixed(1), cy: y(p.renidas).toFixed(1), r, class: ["punto-dato", partidoClase(l.partido)] });
+    conectarPersona(c, l, [`Consenso: ${pct(p.consenso)} de ${numero(p.n_consenso)} votaciones`, `Reñidas: ${pct(p.renidas)} de ${numero(p.n_renidas)}`,
+      `Diferencia: ${p.diferencia > 0 ? "+" : "−"}${Math.abs(Math.round(p.diferencia * 100))} puntos`]);
+    svg.append(c);
+  }
+  // Etiquetas para los 3 con mayor caída (después de los puntos, con halo): del lado con más espacio,
+  // dentro del área del gráfico y sin solaparse verticalmente.
+  const caen = pts.slice(0, 3).map((p) => ({ p, cx: x(p.consenso), cy: y(p.renidas) })).sort((u, v) => u.cy - v.cy);
+  let ultimo = -Infinity;
+  for (const e of caen) {
+    const l = persona(e.p.id);
+    const texto = `${l.nombre_corto || l.nombre} ${e.p.diferencia > 0 ? "+" : "−"}${Math.abs(Math.round(e.p.diferencia * 100))}`;
+    const w = anchoTexto(texto, 12);
+    const ty = Math.max(e.cy + 4, ultimo + 15);
+    ultimo = ty;
+    const derecha = (ancho - mr) - e.cx >= e.cx - ml;
+    const tx = derecha ? Math.min(e.cx + 9, ancho - mr - w) : Math.max(e.cx - 9 - w, ml + 2);
+    svg.append(el("svg:text", { x: tx.toFixed(1), y: ty.toFixed(1), class: ["etiqueta-dato", "etiqueta-dato--halo"] }, texto));
+  }
+  return svg;
+}
+
 // ---------- render ----------
 const SECCIONES = [];   // (a, ancho) => void; cada sección dibuja lo suyo
 SECCIONES.push((a) => {
@@ -272,6 +324,15 @@ SECCIONES.push((a) => {
   const orden = leerEstado(DEFECTOS).orden;
   $("#f-orden").value = ORDENES[orden] ? orden : "asc";
   vaciar($("#g-mapa"), mapaCalor(a, $("#f-orden").value));
+});
+SECCIONES.push((a) => {
+  const g = $("#g-dispersion");
+  vaciar(g, graficoDispersion(a, Math.min(anchoDe(g), 760)));
+  const c = a.criterios;
+  for (const s of document.querySelectorAll("[data-umbral-consenso]")) s.textContent = `${Math.round(c.umbral_consenso * 100)} %`;
+  for (const s of document.querySelectorAll("[data-umbral-renida]")) s.textContent = `${Math.round(c.umbral_renida * 100)} %`;
+  for (const s of document.querySelectorAll("[data-minimo-tipo]")) s.textContent = numero(c.minimo_por_tipo);
+  $("#dispersion-conteo").textContent = `En el mandato hubo ${numero(a.dispersion.votaciones_consenso)} votaciones de consenso y ${numero(a.dispersion.votaciones_renidas)} reñidas; entran ${numero(a.dispersion.puntos.length)} ${D.cam.info.miembros}.`;
 });
 
 function dibujar() {

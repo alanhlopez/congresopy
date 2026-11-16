@@ -1207,3 +1207,8 @@ h3 { font-size: var(--t-md); line-height: 1.3; margin: 0 0 var(--e-2); }
 .mapa__total { padding: 2px var(--e-2); white-space: nowrap; text-align: right; font-weight: 650; color: var(--texto); font-variant-numeric: tabular-nums; }
 .mapa__ancla { position: absolute; inset: 0; }
 @media (max-width: 480px) { .mapa__nombre { max-width: 7.5rem; } }
+.grafico--dispersion { display: flex; justify-content: center; }
+.zona-baja { fill: var(--acento-suave); opacity: 0.7; }
+.zona-baja__texto { fill: var(--acento); font-size: 12px; font-weight: 650; font-family: var(--fuente); }
+.diagonal { stroke: var(--texto-suave); stroke-width: 1.2; stroke-dasharray: 5 4; }
+.etiqueta-dato--halo { paint-order: stroke; stroke: var(--superficie); stroke-width: 3.5px; stroke-linejoin: round; pointer-events: none; }
