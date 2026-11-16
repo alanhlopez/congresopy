@@ -1212,3 +1212,27 @@ h3 { font-size: var(--t-md); line-height: 1.3; margin: 0 0 var(--e-2); }
 .zona-baja__texto { fill: var(--acento); font-size: 12px; font-weight: 650; font-family: var(--fuente); }
 .diagonal { stroke: var(--texto-suave); stroke-width: 1.2; stroke-dasharray: 5 4; }
 .etiqueta-dato--halo { paint-order: stroke; stroke: var(--superficie); stroke-width: 3.5px; stroke-linejoin: round; pointer-events: none; }
+.lista-sala { container-type: inline-size; }
+.fila-sala {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas: "fecha link" "asunto asunto" "barra barra";
+  gap: var(--e-2) var(--e-3);
+  align-items: center;
+  padding: var(--e-3) 0;
+  border-top: 1px solid var(--borde);
+}
+.fila-sala:first-child { border-top: 0; }
+.fila-sala__fecha { grid-area: fecha; font-size: var(--t-sm); color: var(--texto-suave); white-space: nowrap; }
+.fila-sala__asunto { grid-area: asunto; min-width: 0; }
+.fila-sala__tipo { font-weight: 650; }
+.fila-sala__tipo .sep { color: var(--texto-tenue); font-weight: 400; }
+.fila-sala__barra { grid-area: barra; min-width: 0; }
+.fila-sala__barra .cifras-votos { gap: 0 var(--e-3); }
+.fila-sala__link { grid-area: link; min-height: 2.1rem; padding: 0.25rem 0.75rem; }
+.seg--presentes { --c: var(--acento); }
+.titulo-silpy.clamp-1.clamp { -webkit-line-clamp: 1; line-clamp: 1; }
+.aviso-nota + .lista-sala, #sala-recuadro:not(:empty) { margin-bottom: var(--e-3); }
+@container (min-width: 46rem) {
+  .fila-sala { grid-template-columns: 6.25rem minmax(0, 1fr) 13rem auto; grid-template-areas: "fecha asunto barra link"; column-gap: var(--e-4); }
+}

@@ -4,7 +4,7 @@ import { CAMARAS, asistencia, camara, camaraValida } from "../lib/datos.js";
 import { el, mostrarError, vaciar, $ } from "../lib/dom.js";
 import { alCambiarHash, escribirEstado, leerEstado } from "../lib/estado.js";
 import { apellidoNombre, fecha, numero, ordenPartido, partidoClase, partidoNombre } from "../lib/formato.js";
-import { avatar, chipPartido, enlaceLegislador } from "../lib/componentes.js";
+import { avatar, chipPartido, enlaceLegislador, enlaceVotacion, revisarRecortes, tipoCorto, tituloSilpy } from "../lib/componentes.js";
 import { alSoltarTooltip, conectar, fijar, soltar } from "../lib/tooltip.js";
 import { anchoDe, anchoTexto, ejePorcentaje, enjambre, escala, filasDeEtiquetas, pisoDecena } from "../lib/graficos.js";
 
@@ -310,6 +310,39 @@ function graficoDispersion(a, ancho) {
   return svg;
 }
 
+// ---------- 5. ¿Qué se votó con la sala medio vacía? ----------
+function recuadroSala(a) {
+  const sv = a.sala_vacia;
+  const partes = [];
+  if (sv.menos_de_la_mitad > 0) {
+    partes.push(D.cam.clave === "diputados"
+      ? `En ${numero(sv.menos_de_la_mitad)} votacion${sv.menos_de_la_mitad === 1 ? "" : "es"} votó menos de la mitad de la cámara.`
+      : `En ${numero(sv.menos_de_la_mitad)} votacion${sv.menos_de_la_mitad === 1 ? "" : "es"} más de la mitad de la cámara figuró como ausente.`);
+  }
+  for (const t of sv.temas) partes.push(`${numero(t.n)} de las ${numero(sv.votaciones.length)} son ${t.tema}.`);
+  return partes.length ? el("p", { class: "aviso-nota" }, partes.join(" ")) : null;
+}
+
+function filaSala(x) {
+  const v = D.cam.votaciones[D.cam.posVotacion.get(x.id)];
+  const presentes = x.total - x.ausentes;
+  const [titulo, verMas] = tituloSilpy(v.titulo);
+  titulo.classList.add("clamp-1");
+  return el("li", { class: "fila-sala" },
+    el("time", { class: "fila-sala__fecha", datetime: v.fecha }, fecha(v.fecha)),
+    el("div", { class: "fila-sala__asunto" },
+      el("span", { class: "fila-sala__tipo" }, v.es_ley ? "Proyecto de ley" : tipoCorto(v.tipo_proyecto),
+        v.expediente && [el("span", { class: "sep", "aria-hidden": "true" }, " · "), v.expediente]),
+      titulo, verMas),
+    el("div", { class: "fila-sala__barra" },
+      el("div", { class: "barra-totales", role: "img", "aria-label": `Presentes ${presentes}, ausentes ${x.ausentes}, de ${x.total}` },
+        el("span", { class: "seg seg--presentes", vars: { "--w": `${(100 * presentes) / x.total}%` } }),
+        el("span", { class: ["seg", "v-aus"], vars: { "--w": `${(100 * x.ausentes) / x.total}%` } })),
+      el("p", { class: "cifras-votos", "aria-hidden": "true" }, el("span", {}, "Presentes ", el("strong", {}, numero(presentes))),
+        el("span", {}, "Ausentes ", el("strong", {}, numero(x.ausentes))), el("span", {}, pct(x.ausentes / x.total)))),
+    el("a", { class: "boton fila-sala__link", href: enlaceVotacion(v, D.cam.clave) }, "Ver votación", el("span", { class: "sr" }, ` del ${fecha(v.fecha)}`)));
+}
+
 // ---------- render ----------
 const SECCIONES = [];   // (a, ancho) => void; cada sección dibuja lo suyo
 SECCIONES.push((a) => {
@@ -332,6 +365,10 @@ SECCIONES.push((a) => {
   for (const s of document.querySelectorAll("[data-umbral-consenso]")) s.textContent = `${Math.round(c.umbral_consenso * 100)} %`;
   for (const s of document.querySelectorAll("[data-umbral-renida]")) s.textContent = `${Math.round(c.umbral_renida * 100)} %`;
   for (const s of document.querySelectorAll("[data-minimo-tipo]")) s.textContent = numero(c.minimo_por_tipo);
+  vaciar($("#sala-recuadro"), recuadroSala(a));
+  const ul = el("ol", { class: "lista" }, a.sala_vacia.votaciones.map(filaSala));
+  vaciar($("#g-sala"), ul);
+  revisarRecortes(ul);
   $("#dispersion-conteo").textContent = `En el mandato hubo ${numero(a.dispersion.votaciones_consenso)} votaciones de consenso y ${numero(a.dispersion.votaciones_renidas)} reñidas; entran ${numero(a.dispersion.puntos.length)} ${D.cam.info.miembros}.`;
 });
 
