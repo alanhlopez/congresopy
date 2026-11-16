@@ -154,6 +154,7 @@ Sitio en local: `python3 -m http.server -d site 8000`
 | `asistencia.html` | Presencia en votaciones nominales del mandato: buscador de legisladores (resalta a la persona en todos los gráficos), indicadores y enjambre, por partido, mensual y mapa legislador × mes, consenso vs. reñidas y mensajes/vetos del Ejecutivo, sala vacía | `camara`, `orden`, `seleccionado` |
 | `proyectos.html` | En preparación (fase 1b: expedientes y autoría) | — |
 | `datos.html` | Datos abiertos: archivos del manifiesto, formato y licencia | — |
+| `acerca.html` | Qué es el proyecto, fuentes, metodología resumida, crédito a datacp.ar y licencia | — |
 
 JS en `site/assets/js/congreso/`: `main.js` (tema y fecha de datos, en todas las páginas), `lib/` (módulos
 compartidos: `dom.js` arma nodos sin HTML como texto, `estado.js` el #hash, `datos.js` la carga de JSON,
@@ -163,7 +164,7 @@ los componentes solo leen `--c`; los valores por tema están en los tokens de `c
 los colores oficiales de la nómina de SILpy (columna `color`), ajustados solo donde el original no se ve contra
 el fondo (PEN y PDP más oscuros y PPC gris en tema claro; Cruzada Nacional negro con borde fino en los dos temas).
 
-- El menú está copiado igual en las 10 páginas entre `<!-- MENU: ... -->` y `<!-- /MENU -->`. Si se cambia, se
+- El menú está copiado igual en las 11 páginas entre `<!-- MENU: ... -->` y `<!-- /MENU -->`. Si se cambia, se
   cambia en todas (lo verifica `test_menu_identico_en_cada_pagina`).
 - Decisiones: fotos de SILpy (CC BY 4.0) con aro del color del partido, o iniciales si no hay; la
   «presencia» es no figurar como AUSENTE en votaciones nominales (en el Senado «no vota» cuenta como presente);
@@ -258,6 +259,8 @@ rompe; cambiar la lógica sí. Los datos vivos (`salidas/`, `site/datos/`) se re
     Mesa Directiva de SILpy), así que no se excluye a nadie.
 - Cada página muestra fuente, método y límites (por ejemplo, que en Diputados "NO VOTA" se registra como AUSENTE).
 - Responsive desde 360 px, sin scroll horizontal.
+- Crédito a datacp.ar: en el pie de todas las páginas, al final de Inicio y en `acerca.html` («Idea y estructura
+  inspiradas en el Monitor de Actividad del Congreso de datacp.ar», con link). Sin su logo ni su nombre como marca.
 - `docs/referencia-datacp/` es referencia de estructura y contenido, no de identidad visual: no copiar su
   logo, sus tipografías ni sus ilustraciones.
 

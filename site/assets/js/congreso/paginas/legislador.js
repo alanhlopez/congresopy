@@ -229,8 +229,8 @@ function historial(d, l, cadena) {
         el("label", { class: "filtro" }, "Tipo", campos.tipo),
         el("label", { class: "filtro" }, "Año", campos.anio))),
     el("div", { class: "tarjeta__lista lista-votaciones" },
-      el("div", { class: "columnas-votaciones", "aria-hidden": "true" },
-        el("span", {}, "Fecha"), el("span", {}, "Asunto"), el("span", {}, "Resultado"), el("span", {}, "Su voto")),
+      el("div", { class: "columnas-votaciones columnas-votaciones--historial", "aria-hidden": "true" },
+        el("span", {}, "Fecha"), el("span", {}, "Asunto"), el("span", {}, "Resultado"), el("span", {}, "Su voto"), el("span", {}, "Fuente")),
       lista));
 }
 
@@ -246,7 +246,7 @@ function filtrarHistorial() {
     && (!q || f.busqueda.includes(q)));
   h.conteo.textContent = `${numero(xs.length)} de ${numero(h.filas.length)} votaciones`;
   // Misma fila que en Votaciones, con su voto en la última columna en lugar de la barra de totales.
-  listaPaginada(h.lista, xs, (f) => el("li", { class: "fila-votacion" },
+  listaPaginada(h.lista, xs, (f) => el("li", { class: "fila-votacion fila-votacion--historial" },
     el("time", { class: "fila-votacion__fecha", datetime: f.v.fecha }, fecha(f.v.fecha)),
     el("div", { class: "fila-votacion__asunto" },
       el("a", { href: enlaceVotacion(f.v, actual.datos.clave), class: "fila-votacion__link" },
@@ -254,7 +254,9 @@ function filtrarHistorial() {
         f.v.expediente && [el("span", { class: "sep", "aria-hidden": "true" }, "·"), el("span", { class: "fila-votacion__expediente" }, f.v.expediente)]),
       tituloSilpy(f.v.titulo)),
     el("div", { class: "fila-votacion__resultado" }, chipResultado(f.v.resultado)),
-    el("div", { class: "fila-votacion__votos fila-votacion__su-voto" }, el("span", { class: "sr" }, "Su voto: "), chipVoto(f.ch))),
+    el("div", { class: "fila-votacion__votos fila-votacion__su-voto" }, el("span", { class: "sr" }, "Su voto: "), chipVoto(f.ch)),
+    el("a", { class: "fila-votacion__fuente", href: f.v.url, target: "_blank", rel: "noopener" }, "SILpy ", el("span", { "aria-hidden": "true" }, "↗"),
+      el("span", { class: "sr" }, " (la votación en SILpy, se abre en otra pestaña)"))),
   { paso: 30, vacio: "Ninguna votación coincide con esos filtros." });
 }
 
