@@ -123,15 +123,16 @@ function graficoPartidos(a, ancho) {
   const lo = pisoDecena(Math.min(...a.legisladores.map((x) => x.presencia)));
   const x = escala(lo, 1, li + 8, ancho - 10);
   const grupos = [...a.partidos];
-  const H = grupos.length * alto + 26;
+  const arriba = angosto ? 4 : 16;   // lugar para el valor de la mediana de la primera fila
+  const H = arriba + grupos.length * alto + 26;
   const pres = new Map(a.legisladores.map((r2) => [r2.id, r2]));
   const svg = el("svg:svg", { class: "partidos-grafico", viewBox: `0 0 ${ancho} ${H}`, width: ancho, height: H, role: "group",
     "aria-label": "Presencia por partido: un punto por legislador y la mediana del partido" });
-  svg.append(ejePorcentaje(x, lo, 0, grupos.length * alto));
+  svg.append(ejePorcentaje(x, lo, arriba, arriba + grupos.length * alto));
   grupos.forEach((g, i) => {
-    const yc = i * alto + alto / 2;
+    const yc = arriba + i * alto + alto / 2;
     const fila = el("svg:g", { class: "partidos-fila" });
-    if (i % 2 === 0) fila.append(el("svg:rect", { x: 0, y: i * alto, width: ancho, height: alto, class: "partidos-fila__fondo" }));
+    if (i % 2 === 0) fila.append(el("svg:rect", { x: 0, y: arriba + i * alto, width: ancho, height: alto, class: "partidos-fila__fondo" }));
     const nombre = g.partido || "Otros";
     const etiqueta = el("svg:g", { class: ["partidos-etiqueta", !g.partido && "partidos-etiqueta--otros"] },
       el("svg:circle", { cx: 6, cy: yc, r: 4.5, class: ["punto-dato", "punto-dato--leyenda", g.partido ? partidoClase(g.partido) : "p-otro"] }),
@@ -145,8 +146,6 @@ function graficoPartidos(a, ancho) {
     }
     fila.append(etiqueta);
     const xm = x(g.mediana);
-    fila.append(el("svg:line", { x1: xm, x2: xm, y1: yc - 11, y2: yc + 11, class: "raya-mediana" }));
-    if (!angosto) fila.append(el("svg:text", { x: xm, y: yc - 13, "text-anchor": "middle", class: "raya-mediana__texto" }, pct(g.mediana)));
     for (const id of g.ids) {
       const p = pres.get(id);
       const l = persona(id);
@@ -154,6 +153,9 @@ function graficoPartidos(a, ancho) {
       conectarPersona(c, l, [textoPresencia(p), `Mediana de ${g.partido || "Otros"}: ${pct(g.mediana)}`]);
       fila.append(c);
     }
+    // La raya y su valor van encima de los puntos, con halo, para que se lean
+    fila.append(el("svg:line", { x1: xm, x2: xm, y1: yc - 11, y2: yc + 11, class: "raya-mediana" }));
+    if (!angosto) fila.append(el("svg:text", { x: xm, y: yc - 13, "text-anchor": "middle", class: ["raya-mediana__texto", "etiqueta-dato--halo"] }, pct(g.mediana)));
     svg.append(fila);
   });
   return svg;
