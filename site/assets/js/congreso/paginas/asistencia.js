@@ -211,6 +211,15 @@ const ORDENES = {
   partido: (p, q) => ordenPartido(p.partido) - ordenPartido(q.partido) || p.presencia - q.presencia,
 };
 const MAPA_INICIAL = 20;
+// Escala del mapa: amarillo (pocas ausencias) → naranja → rojo oscuro (muchas). Secuencial y legible con
+// daltonismo rojo-verde; los mismos cortes que el degradé de la leyenda (congreso.css, .leyenda-mapa__escala).
+const ESCALA_AUSENCIA = [[255, 247, 188], [254, 217, 118], [253, 141, 60], [227, 26, 28], [128, 0, 38]];
+function colorAusencia(t) {
+  const k = Math.min(ESCALA_AUSENCIA.length - 2, Math.floor(t * (ESCALA_AUSENCIA.length - 1)));
+  const f = t * (ESCALA_AUSENCIA.length - 1) - k;
+  const [a, b] = [ESCALA_AUSENCIA[k], ESCALA_AUSENCIA[k + 1]];
+  return `rgb(${a.map((v, i) => Math.round(v + (b[i] - v) * f)).join(" ")})`;
+}
 let mapaCompleto = false;
 
 function mapaCalor(a, orden) {
@@ -234,12 +243,12 @@ function mapaCalor(a, orden) {
       celdas.map((c, i) => {
         if (!c) return el("td", { class: "mapa__celda mapa__celda--vacia", "aria-label": `${nombreMes(meses[i])}: sin votaciones en el cargo` });
         const aus = 1 - c[0] / c[1];
-        return el("td", { class: "mapa__celda", vars: { "--a": aus.toFixed(3) }, dataset: { id: r.id, mes: meses[i], p: c[0], n: c[1] },
+        return el("td", { class: "mapa__celda", vars: { "--celda": colorAusencia(aus) }, dataset: { id: r.id, mes: meses[i], p: c[0], n: c[1] },
           "aria-label": `${nombreMes(meses[i])}: presente en ${c[0]} de ${c[1]}` });
       }),
       el("td", { class: "mapa__total" }, pct(r.presencia)));
   }));
-  const tabla = el("table", { class: "mapa" }, el("caption", { class: "sr" }, "Presencia mensual por legislador: más oscuro, más ausencias"), thead, tbody);
+  const tabla = el("table", { class: "mapa" }, el("caption", { class: "sr" }, "Presencia mensual por legislador: de amarillo a rojo oscuro, más ausencias"), thead, tbody);
   // Tooltip por celda (delegado: son cientos de celdas)
   const ancla = el("span", { class: "mapa__ancla", "aria-hidden": "true" });
   tabla.addEventListener("mouseover", (ev) => {
