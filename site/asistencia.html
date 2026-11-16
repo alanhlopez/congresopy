@@ -63,6 +63,16 @@
       <p class="nota" id="periodo-texto" aria-live="polite"></p>
     </div>
 
+    <div class="buscador" role="search">
+      <label class="filtro buscador__etiqueta" for="f-buscar">Buscar un legislador</label>
+      <div class="buscador__campo">
+        <input type="search" id="f-buscar" placeholder="Nombre o apellido (Senado o Diputados)" autocomplete="off"
+          role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="buscador-lista">
+        <ul class="buscador__lista" id="buscador-lista" role="listbox" aria-label="Legisladores que coinciden" hidden></ul>
+      </div>
+      <div class="seleccion" id="seleccion-resumen" aria-live="polite" hidden></div>
+    </div>
+
     <section class="tarjeta" aria-labelledby="t-quien">
       <div class="tarjeta__cabecera">
         <div>

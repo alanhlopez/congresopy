@@ -150,7 +150,7 @@ Sitio en local: `python3 -m http.server -d site 8000`
 | `legislador.html` | Perfil: presencia, conteo de votos, votos por año, similitud de voto, historial | `camara`, `id`, `q`, `voto`, `tipo`, `anio` |
 | `votaciones.html` | Votaciones de una cámara con buscador y filtros | `camara`, `q`, `tipo`, `anio`, `res` |
 | `votacion.html` | Detalle: textos, totales, hemiciclo por voto, votos por partido y lista nominal | `camara`, `id` |
-| `asistencia.html` | Presencia en votaciones nominales del mandato: indicadores y enjambre, por partido, mensual y mapa legislador × mes, consenso vs. reñidas, sala vacía | `camara`, `orden`, `seleccionado` |
+| `asistencia.html` | Presencia en votaciones nominales del mandato: buscador de legisladores (resalta a la persona en todos los gráficos), indicadores y enjambre, por partido, mensual y mapa legislador × mes, consenso vs. reñidas y mensajes/vetos del Ejecutivo, sala vacía | `camara`, `orden`, `seleccionado` |
 | `proyectos.html` | En preparación (fase 1b: expedientes y autoría) | — |
 | `datos.html` | Datos abiertos: archivos del manifiesto, formato y licencia | — |
 

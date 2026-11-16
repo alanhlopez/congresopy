@@ -3,8 +3,8 @@
 import { CAMARAS, asistencia, camara, camaraValida } from "../lib/datos.js";
 import { el, mostrarError, vaciar, $ } from "../lib/dom.js";
 import { alCambiarHash, escribirEstado, leerEstado } from "../lib/estado.js";
-import { apellidoNombre, fecha, numero, ordenPartido, partidoClase, partidoNombre } from "../lib/formato.js";
-import { avatar, chipPartido, enlaceLegislador, enlaceVotacion, revisarRecortes, tipoCorto, tituloSilpy } from "../lib/componentes.js";
+import { apellidoNombre, fecha, normalizar, numero, ordenPartido, partidoClase, partidoNombre } from "../lib/formato.js";
+import { avatar, chipPartido, chipVoto, enlaceLegislador, enlaceVotacion, revisarRecortes, tipoCorto, tituloSilpy } from "../lib/componentes.js";
 import { alSoltarTooltip, conectar, fijar, soltar } from "../lib/tooltip.js";
 import { anchoDe, anchoTexto, ejePorcentaje, enjambre, escala, filasDeEtiquetas, pisoDecena } from "../lib/graficos.js";
 
@@ -12,6 +12,8 @@ const DEFECTOS = { camara: "senado", orden: "asc", seleccionado: "" };
 const pct = (x) => `${Math.round(x * 100)} %`;
 let D = null;                 // { cam, a, porId }
 const anclas = new Map();     // id -> punto del gráfico principal (para fijar el seleccionado)
+const sel = () => leerEstado(DEFECTOS).seleccionado;   // id del legislador seleccionado (buscador o click), o ""
+let tooltipFijo = false;      // el tooltip queda fijo solo si se eligió con click en un punto (no desde el buscador)
 
 // ---------- tooltip de un legislador ----------
 function tarjetaPersona(l, lineas, fijo) {
@@ -28,15 +30,16 @@ function textoPresencia(r) {
 }
 
 function conectarPersona(nodo, l, lineas) {
+  nodo.dataset.persona = l.id;   // para resaltar al seleccionado en todos los gráficos
   nodo.setAttribute("role", "button");
   nodo.setAttribute("aria-label", `${l.nombre}, ${partidoNombre(l.partido)}. ${lineas.join(". ")}`);
   conectar(nodo, {
     contenido: (fijo) => tarjetaPersona(l, lineas, fijo),
     clave: String(l.id),
-    alFijar: (id) => escribirEstado({ ...leerEstado(DEFECTOS), seleccionado: id }, DEFECTOS),
+    alFijar: (id) => { tooltipFijo = true; escribirEstado({ ...leerEstado(DEFECTOS), seleccionado: id }, DEFECTOS); dibujar(); },
   });
 }
-alSoltarTooltip(() => escribirEstado({ ...leerEstado(DEFECTOS), seleccionado: "" }, DEFECTOS));
+alSoltarTooltip(() => { tooltipFijo = false; escribirEstado({ ...leerEstado(DEFECTOS), seleccionado: "" }, DEFECTOS); dibujar(); });
 
 const persona = (id) => D.porId.get(id) || { id, nombre: `Legislador ${id}`, nombre_corto: "", partido: "" };
 
@@ -62,7 +65,11 @@ function graficoEnjambre(a, ancho) {
   const x = escala(lo, 1, mi, ancho - md);
   const { puntos, max } = enjambre(a.legisladores.map((x2) => ({ ...x2, valor: x2.presencia })), x, r, { separacion: 1.2 });
   // Etiquetas fijas: los 3 de menor presencia, en filas arriba para no solaparse
-  const bajos = [...a.legisladores].slice(0, 3).map((x2) => ({ id: x2.id, x: x(x2.presencia),
+  // y el seleccionado, si no está entre ellos
+  const conEtiqueta = [...a.legisladores].slice(0, 3);
+  const elegido = a.legisladores.find((x2) => String(x2.id) === sel());
+  if (elegido && !conEtiqueta.includes(elegido)) conEtiqueta.push(elegido);
+  const bajos = conEtiqueta.map((x2) => ({ id: x2.id, x: x(x2.presencia), sel: x2 === elegido,
     texto: `${persona(x2.id).nombre_corto || persona(x2.id).nombre} ${pct(x2.presencia)}` }));
   const etiquetas = filasDeEtiquetas(bajos, ancho);
   const filasEt = Math.max(0, ...etiquetas.map((e) => e.fila + 1));
@@ -81,7 +88,7 @@ function graficoEnjambre(a, ancho) {
     const p = pos.get(e.id);
     const ye = 8 + e.fila * 16 + 11;
     svg.append(el("svg:line", { x1: p.cx, x2: p.cx, y1: ye + 3, y2: centro + p.dy - r, class: "etiqueta-linea" }),
-      el("svg:text", { x: e.ancla === "start" ? p.cx + 2 : p.cx - 2, y: ye, "text-anchor": e.ancla, class: "etiqueta-dato" }, e.texto));
+      el("svg:text", { x: e.ancla === "start" ? p.cx + 2 : p.cx - 2, y: ye, "text-anchor": e.ancla, class: ["etiqueta-dato", e.sel && "etiqueta-dato--sel"] }, e.texto));
   }
   anclas.clear();
   for (const p of puntos) {
@@ -192,6 +199,17 @@ function graficoLinea(a, ancho) {
   let d = "";
   serie.forEach((s, i) => { if (s.presencia !== null) d += `${d && serie[i - 1]?.presencia !== null ? "L" : "M"}${x(i).toFixed(1)},${y(s.presencia).toFixed(1)}`; });
   svg.append(el("svg:path", { d, class: "linea-serie" }));
+  // Serie del legislador seleccionado, fina, encima de la de la cámara
+  const propia = sel() && a.mensual.legisladores[sel()];
+  if (propia) {
+    let dp = "";
+    propia.forEach((c, i) => { if (c) dp += `${dp && propia[i - 1] ? "L" : "M"}${x(i).toFixed(1)},${y(Math.max(lo, c[0] / c[1])).toFixed(1)}`; });
+    const l = persona(Number(sel()));
+    const ult = propia.findLastIndex((c) => c);
+    svg.append(el("svg:path", { d: dp, class: "linea-persona" }));
+    if (ult >= 0) svg.append(el("svg:text", { x: Math.min(x(ult) + 4, ancho - mr - 4), y: y(Math.max(lo, propia[ult][0] / propia[ult][1])) - 6, "text-anchor": "end",
+      class: ["etiqueta-dato", "etiqueta-dato--halo", "etiqueta-dato--sel"] }, l.nombre_corto || l.nombre));
+  }
   serie.forEach((s, i) => {
     if (s.presencia === null) return;
     const c = el("svg:circle", { cx: x(i).toFixed(1), cy: y(s.presencia).toFixed(1), r: (2 + 5 * Math.sqrt(s.votaciones / maxN)).toFixed(1), class: "punto-serie" });
@@ -225,6 +243,8 @@ let mapaCompleto = false;
 function mapaCalor(a, orden) {
   const meses = a.mensual.meses;
   const filas = [...a.legisladores].sort(ORDENES[orden] || ORDENES.asc);
+  const ks = filas.findIndex((r) => String(r.id) === sel());
+  if (ks > 0) filas.unshift(...filas.splice(ks, 1));   // el seleccionado arriba de todo
   const visibles = mapaCompleto ? filas : filas.slice(0, MAPA_INICIAL);
   // Encabezado: fila de años (colspan) y fila de meses (inicial)
   const anios = [];
@@ -237,7 +257,7 @@ function mapaCalor(a, orden) {
   const tbody = el("tbody", {}, visibles.map((r) => {
     const l = persona(r.id);
     const celdas = a.mensual.legisladores[String(r.id)];
-    return el("tr", {},
+    return el("tr", { class: String(r.id) === sel() && "mapa__fila--sel" },
       el("th", { scope: "row", class: "mapa__nombre" }, el("a", { href: enlaceLegislador(l, D.cam.clave) }, l.nombre_corto || l.nombre),
         el("span", { class: ["punto", partidoClase(l.partido)], "aria-hidden": "true" })),
       celdas.map((c, i) => {
@@ -303,7 +323,10 @@ function graficoDispersion(pts, ancho, { vacio, xTitulo, yTitulo, zonaTexto, val
   }
   // Etiquetas para los 3 con mayor caída (los puntos vienen ordenados por diferencia, de menor a mayor),
   // después de los puntos y con halo: del lado con más espacio, dentro del gráfico y sin solaparse.
-  const caen = pts.slice(0, 3).map((p) => ({ p, cx: x(val.x(p)), cy: y(val.y(p)) })).sort((u, v) => u.cy - v.cy);
+  const elegido = pts.find((p) => String(p.id) === sel());
+  const marcados = pts.slice(0, 3);
+  if (elegido && !marcados.includes(elegido)) marcados.push(elegido);
+  const caen = marcados.map((p) => ({ p, cx: x(val.x(p)), cy: y(val.y(p)) })).sort((u, v) => u.cy - v.cy);
   let ultimo = -Infinity;
   for (const e of caen) {
     const l = persona(e.p.id);
@@ -313,7 +336,7 @@ function graficoDispersion(pts, ancho, { vacio, xTitulo, yTitulo, zonaTexto, val
     ultimo = ty;
     const derecha = (ancho - mr) - e.cx >= e.cx - ml;
     const tx = derecha ? Math.min(e.cx + 9, ancho - mr - w) : Math.max(e.cx - 9 - w, ml + 2);
-    svg.append(el("svg:text", { x: tx.toFixed(1), y: ty.toFixed(1), class: ["etiqueta-dato", "etiqueta-dato--halo"] }, texto));
+    svg.append(el("svg:text", { x: tx.toFixed(1), y: ty.toFixed(1), class: ["etiqueta-dato", "etiqueta-dato--halo", e.p === elegido && "etiqueta-dato--sel"] }, texto));
   }
   return svg;
 }
@@ -371,7 +394,18 @@ function filaSala(x) {
         el("span", { class: ["seg", "v-aus"], vars: { "--w": `${(100 * x.ausentes) / x.total}%` } })),
       el("p", { class: "cifras-votos", "aria-hidden": "true" }, el("span", {}, "Presentes ", el("strong", {}, numero(presentes))),
         el("span", {}, "Ausentes ", el("strong", {}, numero(x.ausentes))), el("span", {}, pct(x.ausentes / x.total)))),
+    votoSeleccionado(x.id),
     el("a", { class: "boton fila-sala__link", href: enlaceVotacion(v, D.cam.clave) }, "Ver votación", el("span", { class: "sr" }, ` del ${fecha(v.fecha)}`)));
+}
+
+/** En la tabla de la sala vacía: cómo figuró el seleccionado en esa votación. */
+function votoSeleccionado(idVotacion) {
+  const cad = sel() && D.cam.votos.legisladores[sel()];
+  if (!cad) return null;
+  const ch = cad[D.cam.posVotacion.get(idVotacion)];
+  const l = persona(Number(sel()));
+  return el("p", { class: "fila-sala__sel" }, `${l.nombre_corto || l.nombre}: `,
+    ch === "-" ? el("span", { class: "nota" }, "no estaba en el cargo") : chipVoto(ch));
 }
 
 // ---------- render ----------
@@ -406,11 +440,52 @@ SECCIONES.push((a) => {
   $("#dispersion-conteo").textContent = `En el mandato hubo ${numero(a.dispersion.votaciones_consenso)} votaciones de consenso y ${numero(a.dispersion.votaciones_renidas)} reñidas; entran ${numero(a.dispersion.puntos.length)} ${D.cam.info.miembros}.`;
 });
 
+/** Resalta al seleccionado en todos los gráficos (los demás se atenúan) y lo lleva al frente. */
+function resaltar() {
+  const id = sel();
+  for (const n of document.querySelectorAll("#contenido [data-persona]")) {
+    const es = id && n.dataset.persona === id;
+    n.classList.toggle("es-seleccionado", Boolean(es));
+    n.classList.toggle("es-atenuado", Boolean(id) && !es);
+    if (es) n.parentNode.append(n);
+  }
+  document.querySelector("#contenido").classList.toggle("hay-seleccion", Boolean(id));
+}
+
+/** Barra con el resumen del seleccionado, debajo del buscador. */
+function resumenSeleccion() {
+  const caja = $("#seleccion-resumen");
+  const id = sel();
+  if (!id || !D) { caja.hidden = true; caja.replaceChildren(); return; }
+  const l = persona(Number(id));
+  const k = D.a.legisladores.findIndex((r) => String(r.id) === id);
+  const sd = D.a.sin_datos.find((r) => String(r.id) === id);
+  let texto;
+  if (k >= 0) {
+    const r = D.a.legisladores[k];
+    texto = `Presente en ${numero(r.presentes)} de ${numero(r.posibles)} votaciones (${pct(r.presencia)}) · mediana de la cámara ${pct(D.a.indicadores.mediana)} · puesto ${numero(k + 1)} de ${numero(D.a.legisladores.length)} de menor presencia`;
+  } else if (sd) {
+    texto = `Estuvo en el cargo en ${numero(sd.posibles)} votaciones: menos de ${numero(D.a.criterios.minimo_posibles)}, así que no aparece en los gráficos.`;
+  } else {
+    texto = "Todavía no tiene votaciones nominales registradas.";
+  }
+  const quitar = el("button", { type: "button", class: "seleccion__quitar", "aria-label": `Quitar a ${l.nombre}` }, "×");
+  quitar.addEventListener("click", () => { soltar(false); escribirEstado({ ...leerEstado(DEFECTOS), seleccionado: "" }, DEFECTOS); $("#f-buscar").value = ""; dibujar(); });
+  caja.replaceChildren(avatar(l), el("div", { class: "seleccion__texto" },
+    el("strong", {}, apellidoNombre(l.nombre, l.nombre_corto)), " ", chipPartido(l.partido),
+    el("span", { class: "seleccion__dato" }, texto)),
+  el("a", { class: "boton", href: enlaceLegislador(l, D.cam.clave) }, "Ver perfil"), quitar);
+  caja.hidden = false;
+  if (!$("#f-buscar").value) $("#f-buscar").value = l.nombre;
+}
+
 function dibujar() {
   if (!D) return;
   for (const s of SECCIONES) s(D.a);
+  resaltar();
+  resumenSeleccion();
   const sel = leerEstado(DEFECTOS).seleccionado;
-  const ancla = sel && anclas.get(sel);
+  const ancla = tooltipFijo && sel && anclas.get(sel);
   if (ancla) {
     const l = persona(Number(sel));
     const r = D.a.legisladores.find((x) => String(x.id) === sel);
@@ -419,6 +494,7 @@ function dibujar() {
 }
 
 let camaraCargada = "";
+let primeraCarga = true;
 async function aplicar() {
   const e = leerEstado(DEFECTOS);
   e.camara = camaraValida(e.camara);
@@ -432,13 +508,15 @@ async function aplicar() {
     for (const s of document.querySelectorAll("[data-minimo]")) s.textContent = numero(a.criterios.minimo_posibles);
     $("#periodo-texto").textContent = `${CAMARAS[e.camara].nombreLargo} · del ${fecha(a.periodo.desde)} al ${fecha(a.periodo.hasta)} · ${numero(a.periodo.votaciones)} votaciones nominales`;
     dibujar();
-    if (e.seleccionado && anclas.get(e.seleccionado)) anclas.get(e.seleccionado).scrollIntoView({ block: "center" });
+    // Solo al abrir la página con alguien seleccionado (por ejemplo, desde su perfil) se baja hasta su punto
+    if (primeraCarga && e.seleccionado && anclas.get(e.seleccionado)) anclas.get(e.seleccionado).scrollIntoView({ block: "center" });
     // Seleccionado sin datos suficientes (no está en los gráficos): se lo marca en la lista aparte
-    else if (e.seleccionado && a.sin_datos.some((r) => String(r.id) === e.seleccionado)) {
+    else if (primeraCarga && e.seleccionado && a.sin_datos.some((r) => String(r.id) === e.seleccionado)) {
       const li = $(`#sin-datos [data-id="${e.seleccionado}"]`);
       li?.classList.add("es-seleccionado");
       li?.scrollIntoView({ block: "center" });
     }
+    primeraCarga = false;
   } catch (err) {
     mostrarError($("#g-enjambre"), `No se pudieron cargar los datos: ${err.message}`);
   }
@@ -449,8 +527,69 @@ $("#mapa-mas").addEventListener("click", () => {
   mapaCompleto = !mapaCompleto;
   vaciar($("#g-mapa"), mapaCalor(D.a, $("#f-orden").value));
 });
+// ---------- buscador (las dos cámaras) ----------
+let indice = [];
+Promise.all(Object.keys(CAMARAS).map(camara)).then((cams) => {
+  indice = cams.flatMap((d) => d.legisladores.map((l) => ({ l, camara: d.clave,
+    clave: normalizar(`${l.nombre} ${l.nombre_corto} ${apellidoNombre(l.nombre, l.nombre_corto)}`) })));
+}).catch(() => {});
+const entrada = $("#f-buscar");
+const listaB = $("#buscador-lista");
+let opciones = [];
+let activa = -1;
+
+function cerrarLista() { listaB.hidden = true; entrada.setAttribute("aria-expanded", "false"); entrada.removeAttribute("aria-activedescendant"); activa = -1; }
+
+function elegir(o) {
+  cerrarLista();
+  tooltipFijo = false;
+  entrada.value = o.l.nombre;
+  soltar(false);
+  escribirEstado({ ...leerEstado(DEFECTOS), camara: o.camara, seleccionado: String(o.l.id) }, DEFECTOS);
+  aplicar();
+}
+
+function marcarActiva(k) {
+  activa = k;
+  [...listaB.children].forEach((li, i) => li.setAttribute("aria-selected", String(i === k)));
+  if (k >= 0) entrada.setAttribute("aria-activedescendant", listaB.children[k].id);
+}
+
+entrada.addEventListener("input", () => {
+  const q = normalizar(entrada.value.trim());
+  if (q.length < 2) { cerrarLista(); return; }
+  const palabras = q.split(/\s+/);
+  opciones = indice.filter((o) => palabras.every((p) => o.clave.includes(p))).slice(0, 8);
+  listaB.replaceChildren(...(opciones.length ? opciones.map((o, i) => {
+    const li = el("li", { id: `opcion-${i}`, role: "option", "aria-selected": "false", class: "buscador__opcion" },
+      avatar(o.l), el("span", {}, el("strong", {}, apellidoNombre(o.l.nombre, o.l.nombre_corto)), " ", chipPartido(o.l.partido),
+        el("span", { class: "nota" }, ` · ${CAMARAS[o.camara].nombre}${o.l.estado !== "activos" ? " · ya no está en el cargo" : ""}`)));
+    li.addEventListener("mousedown", (ev) => { ev.preventDefault(); elegir(o); });
+    return li;
+  }) : [el("li", { class: "buscador__vacio" }, "Ningún legislador coincide.")]));
+  listaB.hidden = false;
+  entrada.setAttribute("aria-expanded", "true");
+  marcarActiva(-1);
+});
+entrada.addEventListener("keydown", (ev) => {
+  if (listaB.hidden || !opciones.length) return;
+  if (ev.key === "ArrowDown") { ev.preventDefault(); marcarActiva((activa + 1) % opciones.length); }
+  else if (ev.key === "ArrowUp") { ev.preventDefault(); marcarActiva((activa - 1 + opciones.length) % opciones.length); }
+  else if (ev.key === "Enter") { ev.preventDefault(); elegir(opciones[Math.max(0, activa)]); }
+  else if (ev.key === "Escape") { cerrarLista(); }
+});
+entrada.addEventListener("blur", () => setTimeout(cerrarLista, 100));
+// La «×» del campo (o borrar todo el texto) también quita la selección
+entrada.addEventListener("search", () => {
+  if (entrada.value || !sel()) return;
+  tooltipFijo = false;
+  soltar(false);
+  escribirEstado({ ...leerEstado(DEFECTOS), seleccionado: "" }, DEFECTOS);
+  dibujar();
+});
+
 for (const b of document.querySelectorAll("#selector-camara button")) {
-  b.addEventListener("click", () => { escribirEstado({ ...leerEstado(DEFECTOS), camara: b.dataset.camara, seleccionado: "" }, DEFECTOS); aplicar(); });
+  b.addEventListener("click", () => { $("#f-buscar").value = ""; escribirEstado({ ...leerEstado(DEFECTOS), camara: b.dataset.camara, seleccionado: "" }, DEFECTOS); aplicar(); });
 }
 // Los gráficos se adaptan al ancho: se redibujan cuando cambia (sin redibujar por cambios de alto)
 let anchoPrevio = 0;
