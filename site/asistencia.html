@@ -113,6 +113,43 @@
       </details>
     </section>
 
+    <section class="tarjeta" aria-labelledby="t-tiempo">
+      <div class="tarjeta__cabecera">
+        <div>
+          <h2 id="t-tiempo">¿Se falta más que antes?</h2>
+          <p class="tarjeta__descripcion">Presencia de la cámara mes a mes. El tamaño del punto indica cuántas votaciones hubo ese mes.</p>
+        </div>
+      </div>
+      <div class="tarjeta__cuerpo">
+        <div class="grafico" id="g-linea"></div>
+        <div class="mapa-cabecera">
+          <h3 id="t-mapa">Mes a mes, legislador por legislador</h3>
+          <label class="filtro filtro-orden">Ordenar
+            <select id="f-orden">
+              <option value="asc">Menos presentes primero</option>
+              <option value="desc">Más presentes primero</option>
+              <option value="apellido">Apellido</option>
+              <option value="partido">Partido (y menos presentes primero)</option>
+            </select>
+          </label>
+        </div>
+        <div class="leyenda-mapa" aria-hidden="true">
+          <span>Menos ausencias</span><span class="leyenda-mapa__escala"></span><span>Más ausencias</span>
+          <span class="leyenda-mapa__vacia"></span><span>Sin votaciones o fuera del cargo</span>
+        </div>
+        <div class="mapa-scroll" id="g-mapa" tabindex="0" role="region" aria-labelledby="t-mapa"></div>
+        <p class="lista-pie"><button type="button" class="boton" id="mapa-mas" hidden></button></p>
+      </div>
+      <details class="tarjeta__metodologia">
+        <summary>Metodología</summary>
+        <ul>
+          <li>Presencia mensual de la cámara: votos registrados (no «ausente») sobre el total de legisladores en el cargo en las votaciones de ese mes.</li>
+          <li>Mapa: cada celda es el porcentaje de ausencias de esa persona en las votaciones del mes. Los meses con pocas votaciones pesan poco: un 100 % sobre 2 votaciones no es lo mismo que sobre 40 (el detalle está al pasar el mouse).</li>
+          <li>La columna «Total» es la presencia de todo el mandato. «Partido» ordena por partido y, dentro de cada uno, de menor a mayor presencia.</li>
+        </ul>
+      </details>
+    </section>
+
     <section class="metodo" aria-labelledby="metodo-titulo">
       <h2 id="metodo-titulo">Fuente, método y límites</h2>
       <dl>

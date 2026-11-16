@@ -159,6 +159,105 @@ function graficoPartidos(a, ancho) {
   return svg;
 }
 
+// ---------- 3. ¿Se falta más que antes? ----------
+const MESES = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
+const nombreMes = (m) => `${MESES[Number(m.slice(5, 7)) - 1]} de ${m.slice(0, 4)}`;
+
+function graficoLinea(a, ancho) {
+  const serie = a.mensual.camara;
+  const ml = 40, mr = 14, mt = 14, mb = 30;
+  const alto = ancho < 560 ? 200 : 240;
+  const lo = pisoDecena(Math.min(...serie.filter((s) => s.presencia !== null).map((s) => s.presencia)));
+  const x = escala(0, serie.length - 1, ml, ancho - mr);
+  const y = escala(lo, 1, alto - mb, mt);
+  const maxN = Math.max(...serie.map((s) => s.votaciones));
+  const svg = el("svg:svg", { class: "linea-grafico", viewBox: `0 0 ${ancho} ${alto}`, width: ancho, height: alto, role: "group",
+    "aria-label": `Presencia mensual de la ${D.cam.info.nombreLargo}` });
+  const eje = el("svg:g", { class: "eje", "aria-hidden": "true" });
+  const pasoY = (1 - lo) > 0.5 ? 0.2 : 0.1;
+  for (let v = 1; v >= lo - 1e-9; v -= pasoY) {
+    eje.append(el("svg:line", { x1: ml, x2: ancho - mr, y1: y(v), y2: y(v), class: "eje__guia" }),
+      el("svg:text", { x: ml - 6, y: y(v) + 4, "text-anchor": "end", class: "eje__texto" }, `${Math.round(v * 100)}%`));
+  }
+  // Años: una guía vertical y la etiqueta en el primer mes de cada año
+  serie.forEach((s, i) => {
+    if (i === 0 || s.mes.slice(5) === "01" || s.mes.slice(0, 4) !== serie[i - 1].mes.slice(0, 4)) {
+      eje.append(el("svg:line", { x1: x(i), x2: x(i), y1: mt, y2: alto - mb, class: "eje__guia eje__guia--anio" }),
+        el("svg:text", { x: x(i) + 3, y: alto - mb + 18, class: "eje__texto eje__texto--anio" }, s.mes.slice(0, 4)));
+    }
+  });
+  svg.append(eje);
+  let d = "";
+  serie.forEach((s, i) => { if (s.presencia !== null) d += `${d && serie[i - 1]?.presencia !== null ? "L" : "M"}${x(i).toFixed(1)},${y(s.presencia).toFixed(1)}`; });
+  svg.append(el("svg:path", { d, class: "linea-serie" }));
+  serie.forEach((s, i) => {
+    if (s.presencia === null) return;
+    const c = el("svg:circle", { cx: x(i).toFixed(1), cy: y(s.presencia).toFixed(1), r: (2 + 5 * Math.sqrt(s.votaciones / maxN)).toFixed(1), class: "punto-serie" });
+    const texto = `${nombreMes(s.mes)}: presencia ${pct(s.presencia)} en ${numero(s.votaciones)} votación${s.votaciones === 1 ? "" : "es"}`;
+    c.setAttribute("aria-label", texto);
+    conectar(c, { contenido: () => [el("strong", {}, nombreMes(s.mes)), el("p", { class: "tooltip__linea" }, `Presencia de la cámara: ${pct(s.presencia)}`),
+      el("p", { class: "tooltip__linea" }, `${numero(s.votaciones)} votación${s.votaciones === 1 ? "" : "es"}`)] });
+    svg.append(c);
+  });
+  return svg;
+}
+
+const ORDENES = {
+  asc: (p, q) => p.presencia - q.presencia || q.posibles - p.posibles,
+  desc: (p, q) => q.presencia - p.presencia || q.posibles - p.posibles,
+  apellido: (p, q) => apellidoNombre(persona(p.id).nombre, persona(p.id).nombre_corto).localeCompare(apellidoNombre(persona(q.id).nombre, persona(q.id).nombre_corto), "es"),
+  partido: (p, q) => ordenPartido(p.partido) - ordenPartido(q.partido) || p.presencia - q.presencia,
+};
+const MAPA_INICIAL = 20;
+let mapaCompleto = false;
+
+function mapaCalor(a, orden) {
+  const meses = a.mensual.meses;
+  const filas = [...a.legisladores].sort(ORDENES[orden] || ORDENES.asc);
+  const visibles = mapaCompleto ? filas : filas.slice(0, MAPA_INICIAL);
+  // Encabezado: fila de años (colspan) y fila de meses (inicial)
+  const anios = [];
+  for (const m of meses) { const y = m.slice(0, 4); if (anios.at(-1)?.[0] === y) anios.at(-1)[1]++; else anios.push([y, 1]); }
+  const thead = el("thead", {},
+    el("tr", {}, el("th", { class: "mapa__nombre", rowspan: 2, scope: "col" }, "Legislador"),
+      anios.map(([y, n]) => el("th", { colspan: n, scope: "colgroup", class: "mapa__anio" }, y)),
+      el("th", { rowspan: 2, scope: "col", class: "mapa__total" }, "Total")),
+    el("tr", {}, meses.map((m) => el("th", { scope: "col", class: "mapa__mes", "aria-label": nombreMes(m) }, MESES[Number(m.slice(5)) - 1][0].toUpperCase()))));
+  const tbody = el("tbody", {}, visibles.map((r) => {
+    const l = persona(r.id);
+    const celdas = a.mensual.legisladores[String(r.id)];
+    return el("tr", {},
+      el("th", { scope: "row", class: "mapa__nombre" }, el("a", { href: enlaceLegislador(l, D.cam.clave) }, l.nombre_corto || l.nombre),
+        el("span", { class: ["punto", partidoClase(l.partido)], "aria-hidden": "true" })),
+      celdas.map((c, i) => {
+        if (!c) return el("td", { class: "mapa__celda mapa__celda--vacia", "aria-label": `${nombreMes(meses[i])}: sin votaciones en el cargo` });
+        const aus = 1 - c[0] / c[1];
+        return el("td", { class: "mapa__celda", vars: { "--a": aus.toFixed(3) }, dataset: { id: r.id, mes: meses[i], p: c[0], n: c[1] },
+          "aria-label": `${nombreMes(meses[i])}: presente en ${c[0]} de ${c[1]}` });
+      }),
+      el("td", { class: "mapa__total" }, pct(r.presencia)));
+  }));
+  const tabla = el("table", { class: "mapa" }, el("caption", { class: "sr" }, "Presencia mensual por legislador: más oscuro, más ausencias"), thead, tbody);
+  // Tooltip por celda (delegado: son cientos de celdas)
+  const ancla = el("span", { class: "mapa__ancla", "aria-hidden": "true" });
+  tabla.addEventListener("mouseover", (ev) => {
+    const td = ev.target.closest("td.mapa__celda");
+    if (!td || !td.dataset.id) return;
+    const l = persona(Number(td.dataset.id));
+    td.append(ancla);
+    const contenido = () => [el("strong", {}, l.nombre_corto || l.nombre), el("p", { class: "tooltip__linea" }, nombreMes(td.dataset.mes)),
+      el("p", { class: "tooltip__linea" }, `Presente en ${td.dataset.p} de ${td.dataset.n} votaciones`)];
+    if (!ancla.dataset.tooltip) conectar(ancla, { contenido: () => ancla._contenido(), foco: false });
+    ancla._contenido = contenido;
+    ancla.dispatchEvent(new MouseEvent("mouseenter"));
+  });
+  tabla.addEventListener("mouseleave", () => ancla.dispatchEvent(new MouseEvent("mouseleave")));
+  const boton = $("#mapa-mas");
+  boton.hidden = filas.length <= MAPA_INICIAL;
+  boton.textContent = mapaCompleto ? `Ver solo los primeros ${MAPA_INICIAL}` : `Ver los ${numero(filas.length)}`;
+  return tabla;
+}
+
 // ---------- render ----------
 const SECCIONES = [];   // (a, ancho) => void; cada sección dibuja lo suyo
 SECCIONES.push((a) => {
@@ -168,6 +267,12 @@ SECCIONES.push((a) => {
   vaciar($("#sin-datos"), sinDatos(a));
 });
 SECCIONES.push((a) => vaciar($("#g-partidos"), graficoPartidos(a, anchoDe($("#g-partidos")))));
+SECCIONES.push((a) => {
+  vaciar($("#g-linea"), graficoLinea(a, anchoDe($("#g-linea"))));
+  const orden = leerEstado(DEFECTOS).orden;
+  $("#f-orden").value = ORDENES[orden] ? orden : "asc";
+  vaciar($("#g-mapa"), mapaCalor(a, $("#f-orden").value));
+});
 
 function dibujar() {
   if (!D) return;
@@ -201,6 +306,11 @@ async function aplicar() {
   }
 }
 
+$("#f-orden").addEventListener("change", () => { escribirEstado({ ...leerEstado(DEFECTOS), orden: $("#f-orden").value }, DEFECTOS); dibujar(); });
+$("#mapa-mas").addEventListener("click", () => {
+  mapaCompleto = !mapaCompleto;
+  vaciar($("#g-mapa"), mapaCalor(D.a, $("#f-orden").value));
+});
 for (const b of document.querySelectorAll("#selector-camara button")) {
   b.addEventListener("click", () => { escribirEstado({ ...leerEstado(DEFECTOS), camara: b.dataset.camara, seleccionado: "" }, DEFECTOS); aplicar(); });
 }

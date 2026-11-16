@@ -14,11 +14,12 @@ export function ejePorcentaje(x, d0, y0, y1, { paso = 0.1, etiquetas = true } = 
   const g = el("svg:g", { class: "eje", "aria-hidden": "true" });
   // Con poco espacio entre guías, se rotula una de cada dos (las líneas siguen todas)
   const cada = Math.abs(x(d0 + paso) - x(d0)) < 34 ? 2 : 1;
+  const total = Math.round((1 - d0) / paso);   // se cuenta desde el 100 %, que siempre lleva etiqueta
   let k = 0;
   for (let v = d0; v <= 1 + 1e-9; v += paso, k++) {
     const px = x(v);
     g.append(el("svg:line", { x1: px, x2: px, y1: y0, y2: y1, class: "eje__guia" }));
-    if (etiquetas && (k % cada === 0 || v > 1 - 1e-9)) g.append(el("svg:text", { x: px, y: y1 + 16, class: "eje__texto", "text-anchor": "middle" }, `${Math.round(v * 100)}%`));
+    if (etiquetas && (total - k) % cada === 0) g.append(el("svg:text", { x: px, y: y1 + 16, class: "eje__texto", "text-anchor": "middle" }, `${Math.round(v * 100)}%`));
   }
   return g;
 }
