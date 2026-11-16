@@ -1,4 +1,4 @@
-# CONTINUAR — Votómetro, Congreso del Paraguay (`congresopy`)
+# CONTINUAR — Hesaka, Congreso del Paraguay (`congresopy`)
 
 Archivo de traspaso. Si sos Claude (en el chat o en Claude Code), leé esto entero antes de hacer nada, y después
 `CLAUDE.md`, que tiene los comandos, las reglas y las advertencias al día.
@@ -7,7 +7,7 @@ Responder en español (voseo), crítico y sin complacencia.
 ## Dónde estamos (14/11/2026)
 
 **Fase 1 publicada.** Repo público en GitHub (`alanhlopez/congresopy`), desplegado en Vercel desde `main`.
-El sitio se llama **Votómetro** («Congreso del Paraguay · 2023–2028») desde el rediseño de noviembre de 2026.
+El sitio se llama **Hesaka** («Congreso del Paraguay · 2023–2028») desde el 15/11/2026 (antes, «Votómetro» desde el rediseño de noviembre y «Monitoreo Congreso del Paraguay» al principio).
 
 Hecho:
 - **Datos (pipeline → silver/ → site/datos/congreso/):** votaciones nominales de las dos cámaras desde el

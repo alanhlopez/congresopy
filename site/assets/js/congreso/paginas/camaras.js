@@ -79,7 +79,7 @@ async function render() {
   try {
     const d = await camara(e.camara);
     const activos = d.legisladores.filter((l) => l.estado === "activos");
-    document.title = `${d.info.nombreLargo} · Votómetro`;
+    document.title = `${d.info.nombreLargo} · Hesaka`;
     $("#nombre-camara").textContent = d.info.nombreLargo;
     vaciar(contenedor, e.vista === "hemiciclo" ? vistaHemiciclo(d, activos) : vistaBancadas(d, activos));
   } catch (err) {

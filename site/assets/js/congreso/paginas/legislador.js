@@ -323,7 +323,7 @@ async function render() {
     const { datos: d, legislador: l } = r;
     const cadena = d.votos.legisladores[String(l.id)];
     actual = { datos: d, legislador: l };
-    document.title = `${l.nombre} · Votómetro`;
+    document.title = `${l.nombre} · Hesaka`;
     $("#volver").setAttribute("href", enlace("legisladores.html", { camara: d.clave }));
     const comisiones = await comisionesDe(l.id, d.clave);
     const paneles = {

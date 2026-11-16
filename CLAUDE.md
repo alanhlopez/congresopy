@@ -1,9 +1,10 @@
 # CLAUDE.md — congresopy
 
-**Votómetro** (nombre público del sitio, con el subtítulo «Congreso del Paraguay · 2023–2028»; el repo es
-`congresopy`): votaciones, asistencia y, más adelante, proyectos, con datos de SILpy (silpy.congreso.gov.py). Hasta
-el rediseño de noviembre de 2026 el sitio se llamaba «Monitoreo Congreso del Paraguay» y «Votómetro» era solo el
-prototipo; `salidas/votometro/` sigue siendo el dashboard heredado del prototipo, que no se publica. Responder en español, con voseo. Ser crítico y no complaciente.
+**Hesaka** (nombre público del sitio desde el 15/11/2026, con el subtítulo «Congreso del Paraguay · 2023–2028»; el
+repo es `congresopy`): votaciones, asistencia y, más adelante, proyectos, con datos de SILpy (silpy.congreso.gov.py).
+Nombres anteriores: «Monitoreo Congreso del Paraguay» (hasta el rediseño de noviembre de 2026) y «Votómetro» (del
+rediseño al 15/11/2026). «Votómetro» sigue siendo el nombre del prototipo: `../VotometroCongresoPy/` y
+`salidas/votometro/` (el dashboard heredado, que no se publica) no cambian de nombre. Responder en español, con voseo. Ser crítico y no complaciente.
 
 Contexto y decisiones de producto: `docs/CONTINUAR.md`. Prototipo original (no tocar, sirve de referencia):
 `../VotometroCongresoPy/`.
