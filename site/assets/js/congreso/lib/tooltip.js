@@ -39,8 +39,8 @@ function ubicar(ancla) {
 
 function mostrar(ancla, contenido, fijo) {
   crear();
-  if (fijado && !fijo && fijado.ancla !== ancla) return;   // uno fijado no se pisa con un hover
-  cuerpo.replaceChildren(...[contenido].flat().filter(Boolean));
+  if (fijado && !fijo) return;   // uno fijado no se pisa con un hover (ni siquiera sobre su propio punto)
+  cuerpo.replaceChildren(...[contenido].flat(Infinity).filter((n) => n !== null && n !== undefined && n !== false));
   caja.classList.toggle("tooltip--fijo", fijo);
   caja.hidden = false;
   anclaActual?.removeAttribute("aria-describedby");

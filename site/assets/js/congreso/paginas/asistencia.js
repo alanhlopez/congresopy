@@ -13,7 +13,9 @@ const pct = (x) => `${Math.round(x * 100)} %`;
 let D = null;                 // { cam, a, porId }
 const anclas = new Map();     // id -> punto del gráfico principal (para fijar el seleccionado)
 const sel = () => leerEstado(DEFECTOS).seleccionado;   // id del legislador seleccionado (buscador o click), o ""
-let tooltipFijo = false;      // el tooltip queda fijo solo si se eligió con click en un punto (no desde el buscador)
+// Tooltip fijado con click en un punto: en qué gráfico y con qué contenido (al redibujar se vuelve a fijar sobre
+// el mismo punto de ese gráfico). null si no hay ninguno o si la selección vino del buscador.
+let tooltipFijo = null;
 
 // ---------- tooltip de un legislador ----------
 function tarjetaPersona(l, lineas, fijo) {
@@ -36,10 +38,10 @@ function conectarPersona(nodo, l, lineas) {
   conectar(nodo, {
     contenido: (fijo) => tarjetaPersona(l, lineas, fijo),
     clave: String(l.id),
-    alFijar: (id) => { tooltipFijo = true; escribirEstado({ ...leerEstado(DEFECTOS), seleccionado: id }, DEFECTOS); dibujar(); },
+    alFijar: (id) => { tooltipFijo = { grafico: nodo.closest(".grafico")?.id, contenido: () => tarjetaPersona(l, lineas, true) }; escribirEstado({ ...leerEstado(DEFECTOS), seleccionado: id }, DEFECTOS); dibujar(); },
   });
 }
-alSoltarTooltip(() => { tooltipFijo = false; escribirEstado({ ...leerEstado(DEFECTOS), seleccionado: "" }, DEFECTOS); dibujar(); });
+alSoltarTooltip(() => { tooltipFijo = null; escribirEstado({ ...leerEstado(DEFECTOS), seleccionado: "" }, DEFECTOS); dibujar(); });
 
 const persona = (id) => D.porId.get(id) || { id, nombre: `Legislador ${id}`, nombre_corto: "", partido: "" };
 
@@ -213,10 +215,10 @@ function graficoLinea(a, ancho) {
   serie.forEach((s, i) => {
     if (s.presencia === null) return;
     const c = el("svg:circle", { cx: x(i).toFixed(1), cy: y(s.presencia).toFixed(1), r: (2 + 5 * Math.sqrt(s.votaciones / maxN)).toFixed(1), class: "punto-serie" });
-    const texto = `${nombreMes(s.mes)}: presencia ${pct(s.presencia)} en ${numero(s.votaciones)} votación${s.votaciones === 1 ? "" : "es"}`;
+    const texto = `${nombreMes(s.mes)}: presencia ${pct(s.presencia)} en ${numero(s.votaciones)} ${s.votaciones === 1 ? "votación" : "votaciones"}`;
     c.setAttribute("aria-label", texto);
     conectar(c, { contenido: () => [el("strong", {}, nombreMes(s.mes)), el("p", { class: "tooltip__linea" }, `Presencia de la cámara: ${pct(s.presencia)}`),
-      el("p", { class: "tooltip__linea" }, `${numero(s.votaciones)} votación${s.votaciones === 1 ? "" : "es"}`)] });
+      el("p", { class: "tooltip__linea" }, `${numero(s.votaciones)} ${s.votaciones === 1 ? "votación" : "votaciones"}`)] });
     svg.append(c);
   });
   return svg;
@@ -370,8 +372,8 @@ function recuadroSala(a) {
   const partes = [];
   if (sv.menos_de_la_mitad > 0) {
     partes.push(D.cam.clave === "diputados"
-      ? `En ${numero(sv.menos_de_la_mitad)} votacion${sv.menos_de_la_mitad === 1 ? "" : "es"} votó menos de la mitad de la cámara.`
-      : `En ${numero(sv.menos_de_la_mitad)} votacion${sv.menos_de_la_mitad === 1 ? "" : "es"} más de la mitad de la cámara figuró como ausente.`);
+      ? `En ${numero(sv.menos_de_la_mitad)} ${sv.menos_de_la_mitad === 1 ? "votación" : "votaciones"} votó menos de la mitad de la cámara.`
+      : `En ${numero(sv.menos_de_la_mitad)} ${sv.menos_de_la_mitad === 1 ? "votación" : "votaciones"} más de la mitad de la cámara figuró como ausente.`);
   }
   for (const t of sv.temas) partes.push(`${numero(t.n)} de las ${numero(sv.votaciones.length)} son ${t.tema}.`);
   return partes.length ? el("p", { class: "aviso-nota" }, partes.join(" ")) : null;
@@ -485,12 +487,9 @@ function dibujar() {
   resaltar();
   resumenSeleccion();
   const sel = leerEstado(DEFECTOS).seleccionado;
-  const ancla = tooltipFijo && sel && anclas.get(sel);
-  if (ancla) {
-    const l = persona(Number(sel));
-    const r = D.a.legisladores.find((x) => String(x.id) === sel);
-    fijar(ancla, tarjetaPersona(l, [textoPresencia(r)], true), sel);
-  }
+  const ancla = tooltipFijo && sel && document.querySelector(`#${tooltipFijo.grafico} [data-persona="${sel}"]`);
+  if (ancla) fijar(ancla, tooltipFijo.contenido(), sel);
+  else tooltipFijo = null;
 }
 
 let camaraCargada = "";
@@ -542,7 +541,7 @@ function cerrarLista() { listaB.hidden = true; entrada.setAttribute("aria-expand
 
 function elegir(o) {
   cerrarLista();
-  tooltipFijo = false;
+  tooltipFijo = null;
   entrada.value = o.l.nombre;
   soltar(false);
   escribirEstado({ ...leerEstado(DEFECTOS), camara: o.camara, seleccionado: String(o.l.id) }, DEFECTOS);
@@ -582,7 +581,7 @@ entrada.addEventListener("blur", () => setTimeout(cerrarLista, 100));
 // La «×» del campo (o borrar todo el texto) también quita la selección
 entrada.addEventListener("search", () => {
   if (entrada.value || !sel()) return;
-  tooltipFijo = false;
+  tooltipFijo = null;
   soltar(false);
   escribirEstado({ ...leerEstado(DEFECTOS), seleccionado: "" }, DEFECTOS);
   dibujar();
