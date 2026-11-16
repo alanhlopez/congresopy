@@ -150,6 +150,7 @@ Sitio en local: `python3 -m http.server -d site 8000`
 | `legislador.html` | Perfil: presencia, conteo de votos, votos por año, similitud de voto, historial | `camara`, `id`, `q`, `voto`, `tipo`, `anio` |
 | `votaciones.html` | Votaciones de una cámara con buscador y filtros | `camara`, `q`, `tipo`, `anio`, `res` |
 | `votacion.html` | Detalle: textos, totales, hemiciclo por voto, votos por partido y lista nominal | `camara`, `id` |
+| `asistencia.html` | Presencia en votaciones nominales del mandato: indicadores y enjambre, por partido, mensual y mapa legislador × mes, consenso vs. reñidas, sala vacía | `camara`, `orden`, `seleccionado` |
 | `proyectos.html` | En preparación (fase 1b: expedientes y autoría) | — |
 | `datos.html` | Datos abiertos: archivos del manifiesto, formato y licencia | — |
 
@@ -161,7 +162,7 @@ los componentes solo leen `--c`; los valores por tema están en los tokens de `c
 los colores oficiales de la nómina de SILpy (columna `color`), ajustados solo donde el original no se ve contra
 el fondo (PEN y PDP más oscuros y PPC gris en tema claro; Cruzada Nacional negro con borde fino en los dos temas).
 
-- El menú está copiado igual en las 8 páginas entre `<!-- MENU: ... -->` y `<!-- /MENU -->`. Si se cambia, se
+- El menú está copiado igual en las 10 páginas entre `<!-- MENU: ... -->` y `<!-- /MENU -->`. Si se cambia, se
   cambia en todas (lo verifica `test_menu_identico_en_cada_pagina`).
 - Decisiones: fotos de SILpy (CC BY 4.0) con aro del color del partido, o iniciales si no hay; la
   «presencia» es no figurar como AUSENTE en votaciones nominales (en el Senado «no vota» cuenta como presente);
@@ -196,8 +197,8 @@ rompe; cambiar la lógica sí. Los datos vivos (`salidas/`, `site/datos/`) se re
 - `test_exportar.py`: `site/datos/congreso/` está al día con silver/, el manifiesto coincide con los archivos
   (sha256, bytes, filas), las cadenas de `votos.json` son idénticas al `vc` de `analisis.py`, los conteos
   cierran con los totales y ningún JSON del sitio trae campos del índice del Ejecutivo.
-- `test_exportar.py` también recalcula `presencia.json` desde `votos.json` y la nómina, y prueba empates y
-  mínimo de elegibilidad con datos sintéticos.
+- `test_exportar.py` también recalcula `presencia.json` y `asistencia.json` desde `votos.json` y la nómina
+  (con el mismo criterio entre los dos), y prueba empates y mínimo de elegibilidad con datos sintéticos.
 - `test_bancadas.py`: historial (cambios, altas, bajas, columnas no registradas), sincronizar (conserva
   nombre_corto, no borra vacíos, aplica correcciones, respeta el fin de línea) y rechazo de nóminas incompletas.
 - `test_fotos.py`: descarga sin repetir, rechazo de respuestas que no son imágenes, sin contacto no hay requests,
@@ -244,6 +245,9 @@ rompe; cambiar la lógica sí. Los datos vivos (`salidas/`, `site/datos/`) se re
   - `{camara}/votos.json`: `orden` (ids de votación, en el orden de votaciones.json), `codigos` y, por id de
     legislador, una cadena con un carácter por votación (S N A X V 1 2 3; `-` = fuera del cargo).
   - `{camara}/legisladores.json`: datos de la nómina y `conteo` de votos por tipo.
+  - `{camara}/asistencia.json`: página Asistencia (todo el mandato). Lo calcula `exportar_asistencia()` con
+    el mismo criterio de presencia que Inicio; umbrales en `config.py` (`ASISTENCIA_*`: mínimo 50 votaciones
+    posibles, consenso < 5 %, reñida >= 25 %, 15 de cada tipo, 10 votaciones con más ausentes).
   - `{camara}/presencia.json`: ranking de menor presencia de Inicio (últimos 12 meses hasta la última votación
     de la cámara; solo en ejercicio y con al menos la mitad de las votaciones posibles; puestos 1 a 3 con
     empates; mediana). Lo calcula `exportar_presencia()`; quien preside figura con su voto (verificado con la

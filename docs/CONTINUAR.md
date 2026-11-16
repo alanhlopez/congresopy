@@ -15,9 +15,14 @@ Hecho:
   documentadas; historial de bancadas por fotos semanales de la nómina; fotos de SILpy; comisiones (asesoras y
   especiales) y departamento de cada diputado, ambos desde la ficha de cada legislador.
 - **Actualización automática (GitHub Actions):** votaciones martes y viernes, nómina los lunes, tests en cada push.
-- **Sitio (9 páginas):** Inicio, Cámaras (hemiciclo y por bancada), Legisladores (lista con filtros por
-  cámara, partido, departamento y estado), perfil (cómo votó, con quién vota, comisiones), Votaciones, detalle de
-  votación, Comisiones, Proyectos (en preparación) y Datos abiertos.
+- **Sitio (10 páginas):** Inicio (con «Menos votos registrados» de los últimos 12 meses), Cámaras (hemiciclo y
+  por bancada), Legisladores (lista con filtros por cámara, partido, departamento y estado), perfil (cómo votó,
+  con quién vota, comisiones), Votaciones, detalle de votación, Asistencia (presencia del mandato: enjambre, por
+  partido, mensual y mapa legislador × mes, consenso vs. reñidas, sala vacía), Comisiones, Proyectos (en
+  preparación) y Datos abiertos.
+- **Verificaciones de presencia (15/11/2026):** quien preside figura con su voto (no como ausente); Núñez y Rubín
+  no tienen períodos fuera del cargo mal contados; las 2 votaciones de Diputados con más de la mitad «ausente»
+  (19/05/2026) fueron en una sesión con quórum en sus otras 14 votaciones y sin votos en contra.
 - **Rediseño visual (14/11/2026):** sistema de diseño en `congreso.css` (tokens, acento verde petróleo neutral,
   componentes), identidad propia (logotipo de medidor en SVG), serif del sistema solo en el hero de Inicio.
   Verificado con Playwright en las 9 páginas a 360, 768 y 1280 px, en los dos temas: sin errores de CSP ni
@@ -34,7 +39,8 @@ Pendiente:
   (por ejemplo, una vez por año después del 1 de julio).
 - **Datos menores:** fotos de Da Silva y Esquivel (404 en SILpy); bancada de Nakayama («Liberal Independiente»
   en SILpy). Rubín se declara independiente; SILpy todavía no lo actualizó (corrección manual vigente).
-- **Decisiones de producto:** votaciones clave frente al gobierno (pendiente 1, abajo) y el dataset de Kalaguichi.
+- **Decisiones de producto:** votaciones clave frente al gobierno (pendiente 1, abajo), que incluye la idea de
+  una subsección de Asistencia «¿Quién falta más cuando se vota algo del Ejecutivo?», y el dataset de Kalaguichi.
 
 Contexto que sigue valiendo:
 - **Prototipo:** `../VotometroCongresoPy/` (carpeta hermana). Referencia; no se modifica.
