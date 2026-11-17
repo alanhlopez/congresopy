@@ -124,5 +124,16 @@
     "bytes": 663660,
     "sha256": "a2650192065ee84c50c3f4305ecf3b55609ce601c65e1cfc5af71f089533611b",
     "fuente": "SILpy – Congreso Nacional del Paraguay (CC BY 4.0)"
+  },
+  "por_legislador": {
+    "carpeta": "{camara}/legisladores/{id}/",
+    "archivos": 423,
+    "bytes": 11808661,
+    "contenido": [
+      "analisis.json",
+      "votos.csv",
+      "resumen.json"
+    ],
+    "sha256": "66dfa60fe26642e67dcf016ebdb5a815f1e4c8e990f8097396f13c3ef0ac5ce5"
   }
 }

@@ -1,0 +1,67 @@
+fecha,id_votacion,expediente,su_voto,resultado,url
+2025-09-24,107765,S-2401043,ABSTENCIÓN/BLANCO,APROBADO CON MODIFICACIONES,https://silpy.congreso.gov.py/web/votacion/107765
+2025-10-08,107835,S-2502459,NO,APROBADAS LAS MODIFICACIONES,https://silpy.congreso.gov.py/web/votacion/107835
+2025-10-08,107836,S-2502829,SI,RECHAZADO,https://silpy.congreso.gov.py/web/votacion/107836
+2025-10-08,107845,S-2502830,SI,RECHAZADO,https://silpy.congreso.gov.py/web/votacion/107845
+2025-10-08,107855,S-2502827,NO,APRUEBA DECLARACIÓN UNICAMERAL,https://silpy.congreso.gov.py/web/votacion/107855
+2025-10-22,107955,D-2583882,NO,APROBADO,https://silpy.congreso.gov.py/web/votacion/107955
+2025-10-29,107965,D-29102025,NO,DESIGNA MIEMBROS,https://silpy.congreso.gov.py/web/votacion/107965
+2025-10-29,107975,S-2401436,SI,RECHAZADAS LAS MODIFICACIONES,https://silpy.congreso.gov.py/web/votacion/107975
+2025-11-05,108035,D-2584595,NO,APROBADO,https://silpy.congreso.gov.py/web/votacion/108035
+2025-11-05,108036,D-2162170,ABSTENCIÓN/BLANCO,SE RATIFICA,https://silpy.congreso.gov.py/web/votacion/108036
+2025-11-19,108095,D-2583898,NO,NO SE RATIFICA,https://silpy.congreso.gov.py/web/votacion/108095
+2025-11-27,108106,,NO,APROBADO CON MODIFICACIONES,https://silpy.congreso.gov.py/web/votacion/108106
+2025-11-27,108115,,SI,APROBADO CON MODIFICACIONES,https://silpy.congreso.gov.py/web/votacion/108115
+2025-11-27,108125,,AUSENTE,APROBADO CON MODIFICACIONES,https://silpy.congreso.gov.py/web/votacion/108125
+2025-12-03,108105,D-2267016,SI,NO SE RATIFICA,https://silpy.congreso.gov.py/web/votacion/108105
+2025-12-10,108155,S-2502566,ABSTENCIÓN/BLANCO,APROBADAS LAS MODIFICACIONES,https://silpy.congreso.gov.py/web/votacion/108155
+2025-12-10,108165,S-2400986,ABSTENCIÓN/BLANCO,APROBADAS LAS MODIFICACIONES,https://silpy.congreso.gov.py/web/votacion/108165
+2025-12-10,108166,D-2585746,NO,APROBADO,https://silpy.congreso.gov.py/web/votacion/108166
+2025-12-17,108185,S-2503052,AUSENTE,APROBADO,https://silpy.congreso.gov.py/web/votacion/108185
+2025-12-17,108195,S-2503053,AUSENTE,APROBADO,https://silpy.congreso.gov.py/web/votacion/108195
+2026-03-04,108205,S-2211212,SI,APROBADO,https://silpy.congreso.gov.py/web/votacion/108205
+2026-03-04,108215,S-2603151,NO,APROBADO,https://silpy.congreso.gov.py/web/votacion/108215
+2026-03-04,108225,S-2603153,SI,APROBADO,https://silpy.congreso.gov.py/web/votacion/108225
+2026-03-11,108245,S-2401699,SI,NO SE RATIFICA,https://silpy.congreso.gov.py/web/votacion/108245
+2026-03-11,108255,S-2502305,SI,RECHAZADAS LAS MODIFICACIONES,https://silpy.congreso.gov.py/web/votacion/108255
+2026-03-11,108297,S-2502278,SI,RECHAZADAS LAS MODIFICACIONES,https://silpy.congreso.gov.py/web/votacion/108297
+2026-03-18,108296,S-2603272,SI,RECHAZADO,https://silpy.congreso.gov.py/web/votacion/108296
+2026-03-18,108298,S-2502123,SI,APROBADO,https://silpy.congreso.gov.py/web/votacion/108298
+2026-03-25,108305,D-2482002,SI,NO SE RATIFICA,https://silpy.congreso.gov.py/web/votacion/108305
+2026-03-25,108315,D-2586742,SI,POSTERGADO,https://silpy.congreso.gov.py/web/votacion/108315
+2026-03-30,108325,S-260330,AUSENTE,RECHAZADO,https://silpy.congreso.gov.py/web/votacion/108325
+2026-03-30,108335,S-2603321,AUSENTE,APRUEBA RESOLUCION UNICAMERAL,https://silpy.congreso.gov.py/web/votacion/108335
+2026-04-08,108345,S-2401421,SI,RECHAZADAS LAS MODIFICACIONES,https://silpy.congreso.gov.py/web/votacion/108345
+2026-04-08,108355,S-2502779,SI,APROBADO,https://silpy.congreso.gov.py/web/votacion/108355
+2026-04-15,108385,D-2375375,SI,POSTERGADO,https://silpy.congreso.gov.py/web/votacion/108385
+2026-04-22,108375,S-2602204,NO,APRUEBA RESOLUCION UNICAMERAL,https://silpy.congreso.gov.py/web/votacion/108375
+2026-05-06,108395,D-2586742,NO,APROBADO CON MODIFICACIONES,https://silpy.congreso.gov.py/web/votacion/108395
+2026-05-06,108435,,SI,APROBADO CON MODIFICACIONES,https://silpy.congreso.gov.py/web/votacion/108435
+2026-05-12,108416,D-2482204,SI,SE RATIFICA,https://silpy.congreso.gov.py/web/votacion/108416
+2026-05-12,108417,D-2583291,SI,SE RATIFICA,https://silpy.congreso.gov.py/web/votacion/108417
+2026-05-12,108425,D-2375375,SI,SE RATIFICA,https://silpy.congreso.gov.py/web/votacion/108425
+2026-05-27,108445,S-2603446,AUSENTE,APROBADO,https://silpy.congreso.gov.py/web/votacion/108445
+2026-05-27,108446,D-2583951,AUSENTE,APROBADO,https://silpy.congreso.gov.py/web/votacion/108446
+2026-05-27,108447,D-2584229,AUSENTE,NO SE RATIFICA,https://silpy.congreso.gov.py/web/votacion/108447
+2026-05-27,108455,D-2587217,AUSENTE,APROBADO,https://silpy.congreso.gov.py/web/votacion/108455
+2026-06-10,108565,S-2502514,NO,NO SE RATIFICA,https://silpy.congreso.gov.py/web/votacion/108565
+2026-06-17,108755,D-2481449,AUSENTE,NO SE RATIFICA,https://silpy.congreso.gov.py/web/votacion/108755
+2026-06-24,108795,D-2583988,NO,RECHAZADO,https://silpy.congreso.gov.py/web/votacion/108795
+2026-07-01,108875,D-2072026,AUSENTE,DESIGNA MIEMBROS,https://silpy.congreso.gov.py/web/votacion/108875
+2026-07-01,108885,D-1072026,AUSENTE,DESIGNA MIEMBROS,https://silpy.congreso.gov.py/web/votacion/108885
+2026-07-15,108985,D-2586463,SI,SE RATIFICA,https://silpy.congreso.gov.py/web/votacion/108985
+2026-07-15,108995,S-2401182,ABSTENCIÓN/BLANCO,RECHAZADO,https://silpy.congreso.gov.py/web/votacion/108995
+2026-07-29,109075,S-2211133,ABSTENCIÓN/BLANCO,APROBADO,https://silpy.congreso.gov.py/web/votacion/109075
+2026-08-12,109117,S-2502310,SI,RECHAZADAS LAS MODIFICACIONES,https://silpy.congreso.gov.py/web/votacion/109117
+2026-08-12,109119,S-2603764,SI,APROBADO,https://silpy.congreso.gov.py/web/votacion/109119
+2026-08-26,109205,S-2603676,ABSTENCIÓN/BLANCO,APRUEBA TERNA (MAYORIA ABSOLUTA),https://silpy.congreso.gov.py/web/votacion/109205
+2026-08-26,109206,S-2603676,ABSTENCIÓN/BLANCO,APRUEBA TERNA (MAYORIA ABSOLUTA),https://silpy.congreso.gov.py/web/votacion/109206
+2026-09-09,109285,D-2482677,SI,APROBADO CON MODIFICACIONES,https://silpy.congreso.gov.py/web/votacion/109285
+2026-09-23,109365,S-2603413,SI,POSTERGADO,https://silpy.congreso.gov.py/web/votacion/109365
+2026-09-29,109385,S-2502805,SI,RECHAZADO,https://silpy.congreso.gov.py/web/votacion/109385
+2026-09-29,109386,S-2603407,NO VOTA,APROBADAS LAS MODIFICACIONES,https://silpy.congreso.gov.py/web/votacion/109386
+2026-10-14,109395,S-2603294,AUSENTE,SE RATIFICA,https://silpy.congreso.gov.py/web/votacion/109395
+2026-11-03,109405,S-2604225,SI,APROBADO CON MODIFICACIONES,https://silpy.congreso.gov.py/web/votacion/109405
+2026-11-04,109415,S-2603863,SI,APRUEBA TERNA,https://silpy.congreso.gov.py/web/votacion/109415
+2026-11-04,109425,S-2603863,NO VOTA,APRUEBA TERNA,https://silpy.congreso.gov.py/web/votacion/109425
+2026-11-06,109435,D-2696185,SI,DECLARA CULPABLE EN MAYORÍA 2/3 Y SEPARA DEL CARGO,https://silpy.congreso.gov.py/web/votacion/109435

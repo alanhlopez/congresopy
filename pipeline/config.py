@@ -37,6 +37,11 @@ ASISTENCIA_UMBRAL_RENIDA = 0.25    # reñida: la minoría sacó esto o más
 ASISTENCIA_MIN_POR_TIPO = 15       # votaciones de consenso y reñidas que hacen falta para el gráfico de dispersión
 ASISTENCIA_SALA_VACIA = 10         # votaciones con más ausentes que se listan
 
+# Votaciones clave en el perfil: lista editorial en silver/{camara}/leyes_clave.csv (id_votacion, titulo, gobierno,
+# fuente), con la posición del gobierno documentada a mano. Apagado hasta que el responsable revise la lista
+# (borrador en docs/leyes_clave_propuesta.md). Mientras sea False, nada de esto llega al sitio.
+LEYES_CLAVE_PUBLICADAS = False
+
 DELAY = 1.5   # segundos entre requests. robots.txt de SILpy no autoriza automatización: no lo bajes.
 # El contacto no va en el código: sale de la variable de entorno CONGRESOPY_CONTACTO (ver .env.example).
 CONTACTO = os.environ.get("CONGRESOPY_CONTACTO", "").strip()

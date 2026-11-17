@@ -1,0 +1,5 @@
+fecha,id_votacion,expediente,su_voto,resultado,url
+2026-11-03,109405,S-2604225,SI,APROBADO CON MODIFICACIONES,https://silpy.congreso.gov.py/web/votacion/109405
+2026-11-04,109415,S-2603863,NO,APRUEBA TERNA,https://silpy.congreso.gov.py/web/votacion/109415
+2026-11-04,109425,S-2603863,SI,APRUEBA TERNA,https://silpy.congreso.gov.py/web/votacion/109425
+2026-11-06,109435,D-2696185,SI,DECLARA CULPABLE EN MAYORÍA 2/3 Y SEPARA DEL CARGO,https://silpy.congreso.gov.py/web/votacion/109435

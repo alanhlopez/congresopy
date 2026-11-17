@@ -1,0 +1,41 @@
+fecha,id_votacion,expediente,su_voto,resultado,url
+2023-07-05,106675,D-23002,SI,DESIGNA MIEMBROS,https://silpy.congreso.gov.py/web/votacion/106675
+2023-07-05,106676,D-23003,SI,DESIGNA MIEMBROS,https://silpy.congreso.gov.py/web/votacion/106676
+2023-07-12,104219,S-2311531,SI,APROBADO,https://silpy.congreso.gov.py/web/votacion/104219
+2023-07-12,104220,S-2311531,SI,APROBADO,https://silpy.congreso.gov.py/web/votacion/104220
+2023-07-12,104221,D-2371506,NO,RECHAZADO,https://silpy.congreso.gov.py/web/votacion/104221
+2023-07-12,104222,S-2211293,AUSENTE,RECHAZADO,https://silpy.congreso.gov.py/web/votacion/104222
+2023-07-12,104223,S-2211195,NO,RECHAZADO,https://silpy.congreso.gov.py/web/votacion/104223
+2023-07-12,104224,S-2211160,NO,RECHAZADO,https://silpy.congreso.gov.py/web/votacion/104224
+2023-07-12,104225,S-2210777,SI,APROBADO CON MODIFICACIONES,https://silpy.congreso.gov.py/web/votacion/104225
+2023-07-12,104226,D-2371794,SI,APROBADO,https://silpy.congreso.gov.py/web/votacion/104226
+2023-07-12,104227,D-2268250,NO,APROBADAS LAS MODIFICACIONES,https://silpy.congreso.gov.py/web/votacion/104227
+2023-07-12,104228,D-2371564,SI,APROBADO,https://silpy.congreso.gov.py/web/votacion/104228
+2023-07-12,104229,D-2163902,NO,APROBADAS LAS MODIFICACIONES,https://silpy.congreso.gov.py/web/votacion/104229
+2023-07-12,104230,D-2372255,SI,APROBADO,https://silpy.congreso.gov.py/web/votacion/104230
+2023-07-12,104231,D-2268943,SI,RECHAZADAS LAS MODIFICACIONES,https://silpy.congreso.gov.py/web/votacion/104231
+2023-07-12,104232,D-2056470,SI,APROBADO,https://silpy.congreso.gov.py/web/votacion/104232
+2023-07-12,104233,S-2210956,AUSENTE,APROBADO,https://silpy.congreso.gov.py/web/votacion/104233
+2023-07-12,104234,D-2371793,AUSENTE,APROBADO,https://silpy.congreso.gov.py/web/votacion/104234
+2023-07-19,104235,S-2311399,SI,APROBADO,https://silpy.congreso.gov.py/web/votacion/104235
+2023-07-19,104236,S-2311399,NO,APROBADO,https://silpy.congreso.gov.py/web/votacion/104236
+2023-07-19,104237,S-221839,SI,APROBADO,https://silpy.congreso.gov.py/web/votacion/104237
+2023-07-19,104238,D-2164788,SI,APROBADO,https://silpy.congreso.gov.py/web/votacion/104238
+2023-07-19,104239,D-2163245,SI,APROBADO,https://silpy.congreso.gov.py/web/votacion/104239
+2023-07-19,104242,D-2266679,SI,APROBADO,https://silpy.congreso.gov.py/web/votacion/104242
+2023-07-19,104251,D-2306233,SI,DESIGNA MIEMBROS,https://silpy.congreso.gov.py/web/votacion/104251
+2023-07-19,104253,D-2372708,SI,DESIGNA MIEMBROS,https://silpy.congreso.gov.py/web/votacion/104253
+2023-07-26,104247,S-2210886,AUSENTE,RECHAZADO,https://silpy.congreso.gov.py/web/votacion/104247
+2023-07-26,104248,D-2372576,SI,APROBADO,https://silpy.congreso.gov.py/web/votacion/104248
+2023-07-26,104249,D-1848553,SI,RECHAZADO,https://silpy.congreso.gov.py/web/votacion/104249
+2023-07-26,104250,S-2211698,SI,APRUEBA EN MAYORIA DE 2/3,https://silpy.congreso.gov.py/web/votacion/104250
+2023-07-26,104252,D-2270886,SI,APROBADO,https://silpy.congreso.gov.py/web/votacion/104252
+2023-07-26,104254,D-2372577,AUSENTE,APROBADO,https://silpy.congreso.gov.py/web/votacion/104254
+2023-07-26,104256,D-1848068,SI,RECHAZADO,https://silpy.congreso.gov.py/web/votacion/104256
+2023-07-26,104257,D-1848742,SI,RECHAZADO,https://silpy.congreso.gov.py/web/votacion/104257
+2023-07-26,104258,D-1848359,SI,RECHAZADO,https://silpy.congreso.gov.py/web/votacion/104258
+2023-07-26,104259,D-1951522,SI,RECHAZADO,https://silpy.congreso.gov.py/web/votacion/104259
+2023-08-02,104260,S-2311437,AUSENTE,APROBADO,https://silpy.congreso.gov.py/web/votacion/104260
+2023-08-02,104261,D-2372623,AUSENTE,APROBADO,https://silpy.congreso.gov.py/web/votacion/104261
+2023-08-02,104262,D-1538349,AUSENTE,APROBADO,https://silpy.congreso.gov.py/web/votacion/104262
+2023-08-02,104263,S-211749,AUSENTE,APROBADO,https://silpy.congreso.gov.py/web/votacion/104263

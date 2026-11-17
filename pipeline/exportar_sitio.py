@@ -10,6 +10,8 @@ Salida (por defecto site/datos/congreso/):
   {senado,diputados}/presencia.json     quienes menos votos registran en los últimos 12 meses (ver exportar_presencia)
   {senado,diputados}/comisiones.json    integrantes de cada comisión por período, desde la ficha de SILpy
                                         (solo si hay silver/{camara}/comisiones.csv; ver pipeline/comisiones.py)
+  {senado,diputados}/legisladores/{id}/ analisis.json, votos.csv y resumen.json de cada legislador (ver
+                                        detalle_legislador.py); resumidos en el manifiesto como «por_legislador»
   fotos/{id}.jpg                        fotos de legisladores copiadas de silver/fotos/ (si hay)
   manifiesto.json                       por archivo: fecha de generación, filas, bytes, sha256 (y resumen de fotos)
 
@@ -33,6 +35,7 @@ from fractions import Fraction
 from pathlib import Path
 
 import config
+import detalle_legislador
 from comun import CODIGO_VOTO, titulo_corto
 
 URL_VOTACION = "https://silpy.congreso.gov.py/web/votacion/{}"
@@ -191,7 +194,32 @@ def exportar_camara(cam, fotos=None):
     salida["asistencia.json"] = (asistencia := exportar_asistencia(votaciones, cadenas, L), len(asistencia["legisladores"]))
     if comisiones:
         salida["comisiones.json"] = (comisiones, len(comisiones["comisiones"]))
-    return salida, cobertura
+    detalle = detalle_legislador.calcular(votaciones, cadenas, L, cam)
+    return salida, cobertura, detalle
+
+
+def escribir_detalle(destino, carpeta, detalle):
+    """Escribe {carpeta}/legisladores/{id}/ (analisis.json, votos.csv, resumen.json); borra lo que ya no corresponde.
+    Devuelve (archivos, bytes, líneas «ruta:sha256») para el resumen del manifiesto."""
+    raiz = destino / carpeta / "legisladores"
+    raiz.mkdir(parents=True, exist_ok=True)
+    vigentes = {str(int(lid)) for lid in detalle}
+    for d in raiz.iterdir():
+        if d.name not in vigentes:
+            shutil.rmtree(d) if d.is_dir() else d.unlink()
+    n, total, lineas = 0, 0, []
+    for lid, x in sorted(detalle.items(), key=lambda kv: int(kv[0])):
+        d = raiz / str(int(lid))
+        d.mkdir(exist_ok=True)
+        for nombre, contenido in (("analisis.json", serializar(x["analisis"])), ("resumen.json", serializar(x["resumen"])),
+                                  ("votos.csv", x["votos_csv"].encode("utf-8"))):
+            f = d / nombre
+            if not f.exists() or f.read_bytes() != contenido:
+                f.write_bytes(contenido)
+            n += 1
+            total += len(contenido)
+            lineas.append(f"{carpeta}/legisladores/{int(lid)}/{nombre}:{hashlib.sha256(contenido).hexdigest()}")
+    return n, total, lineas
 
 
 # Orden de los cargos dentro de una comisión; los que no están acá van después, en orden alfabético.
@@ -506,8 +534,9 @@ def main():
 
     fotos = fotos_disponibles()
     archivos, camaras = [], {}
+    det_n, det_bytes, det_lineas = 0, 0, []
     for cam in config.CAMARAS:
-        datos, cobertura = exportar_camara(cam, fotos)
+        datos, cobertura, detalle = exportar_camara(cam, fotos)
         carpeta = config.camara_dir(cam)
         camaras[carpeta] = {"nombre": NOMBRE_CAMARA[cam], **cobertura}
         (destino / carpeta).mkdir(exist_ok=True)
@@ -521,6 +550,9 @@ def main():
             archivos.append({"archivo": rel, "generado": generado, "filas": filas,
                              "bytes": len(contenido), "sha256": sha})
             print(f"{rel:28} {filas:5} filas {len(contenido):9,} bytes{'  (sin cambios)' if generado != ahora else ''}")
+        n, b, lineas = escribir_detalle(destino, carpeta, detalle)
+        det_n += n; det_bytes += b; det_lineas += lineas
+        print(f"{carpeta}/legisladores/        {len(detalle):5} legisladores, {n} archivos {b:9,} bytes")
 
     resumen_fotos = copiar_fotos(fotos, destino)
 
@@ -536,6 +568,12 @@ def main():
     }
     if resumen_fotos:
         manifiesto["fotos"] = resumen_fotos
+    manifiesto["por_legislador"] = {
+        "carpeta": "{camara}/legisladores/{id}/", "archivos": det_n, "bytes": det_bytes,
+        "contenido": ["analisis.json", "votos.csv", "resumen.json"],
+        # sha256 de las líneas «ruta:sha256» ordenadas: cambia si cambia cualquier archivo por legislador
+        "sha256": hashlib.sha256("\n".join(sorted(det_lineas)).encode()).hexdigest(),
+    }
     mp.write_text(json.dumps(manifiesto, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(f"manifiesto.json: {len(archivos)} archivos")
 
