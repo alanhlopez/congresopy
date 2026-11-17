@@ -20,6 +20,10 @@ Hecho:
   con quién vota, comisiones), Votaciones, detalle de votación, Asistencia (presencia del mandato: enjambre, por
   partido, mensual y mapa legislador × mes, consenso vs. reñidas, sala vacía), Comisiones, Proyectos (en
   preparación) y Datos abiertos.
+- **Votómetro, segunda vuelta (17/11/2026):** se sumó el ausentismo selectivo del prototipo (primero), el buscador
+  de Asistencia (ahora en `lib/buscador.js`, compartido), y el orden quedó: ausentismo, mapa en el tiempo,
+  posición y asistencia, experimental, disciplina, voto decisivo, más veces del lado ganador. Los vetos siguen en
+  «El voto decisivo» a prueba. La línea del 0 de los mapas se rotula «centro de la cámara».
 - **Votómetro (17/11/2026):** página con disciplina de partido, votaciones decisivas, mapa político en ventanas de
   12 meses y mapa 2D experimental. Decisiones: el mapa por semestre no es viable (pocas votaciones divididas por
   semestre) y se usan ventanas de 12 meses que avanzan cada 6; el período 2026-27 no se ofrece hasta que haya

@@ -1,16 +1,18 @@
 // Votómetro: comportamiento de voto de toda la cámara. Los números salen de votometro.json (pipeline:
-// votometro.py); acá solo se dibujan. Estado en el #hash: camara, periodo, partido (ranking de disciplina) y aparto
-// (id del legislador cuyas votaciones «se apartó» están abiertas).
+// votometro.py); acá solo se dibujan. Estado en el #hash: camara, periodo, partido (ranking de disciplina), aparto
+// (id del legislador cuyas votaciones «se apartó» están abiertas) y seleccionado (buscador: se resalta en todo).
 import { camara, camaraValida, votometro } from "../lib/datos.js";
 import { el, mostrarError, vaciar, $ } from "../lib/dom.js";
 import { alCambiarHash, escribirEstado, leerEstado } from "../lib/estado.js";
 import { apellidoNombre, fecha, numero, ordenPartido, partidoClase, partidoNombre } from "../lib/formato.js";
 import { avatar, chipPartido, chipResultado, chipVoto, enlaceLegislador, enlaceVotacion, listaPaginada, tipoCorto } from "../lib/componentes.js";
-import { conectar } from "../lib/tooltip.js";
+import { conectar, soltar } from "../lib/tooltip.js";
+import { crearBuscador, resaltar } from "../lib/buscador.js";
 import { anchoDe, escala } from "../lib/graficos.js";
 import { segmentado } from "./perfil-analisis.js";
 
-const DEFECTOS = { camara: "senado", periodo: "mandato", partido: "", aparto: "" };
+const DEFECTOS = { camara: "senado", periodo: "mandato", partido: "", aparto: "", seleccionado: "" };
+const sel = () => leerEstado(DEFECTOS).seleccionado;
 const pct = (x) => (x === null || x === undefined ? "—" : `${Math.round(x * 100)} %`);
 const MESES = ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"];
 let D = null;   // { cam, vm }
@@ -20,6 +22,7 @@ const nombreCorto = (l) => l.nombre_corto || l.nombre;
 
 /** Tooltip de una persona con «Ver perfil» al fijarlo (click o Enter). */
 function conectarPersona(nodo, l, lineas) {
+  nodo.dataset.persona = l.id;   // para resaltar al elegido en el buscador
   nodo.setAttribute("role", "button");
   nodo.setAttribute("aria-label", `${l.nombre}, ${partidoNombre(l.partido)}. ${lineas.join(". ")}`);
   conectar(nodo, { contenido: (fijo) => [
@@ -48,18 +51,21 @@ function filaApartamiento(r) {
 function disciplina(pp, e) {
   const filas = pp.disciplina.legisladores;
   const partidos = [...new Set(filas.map((f) => f.partido))].sort((a, b) => filas.filter((f) => f.partido === b).length - filas.filter((f) => f.partido === a).length || ordenPartido(a) - ordenPartido(b));
-  const elegido = partidos.includes(e.partido) ? e.partido : partidos[0];
+  const delSel = filas.find((f) => String(f.id) === e.seleccionado);
+  const elegido = partidos.includes(e.partido) ? e.partido : delSel ? delSel.partido : partidos[0];
   const sel = $("#f-partido");
   sel.replaceChildren(...partidos.map((p) => el("option", { value: p, selected: p === elegido || null }, `${partidoNombre(p).replace(/ \(.*\)$/, "")} (${p})`)));
   // De menos a más disciplinado (lo que más interesa arriba), de a 10
   const delPartido = filas.filter((f) => f.partido === elegido).sort((x, y) => y.puesto - x.puesto || x.id - y.id);
+  const k = delPartido.findIndex((f) => String(f.id) === e.seleccionado);
+  if (k > 0) delPartido.unshift(...delPartido.splice(k, 1));   // el elegido en el buscador, arriba de todo
   listaPaginada($("#g-disciplina"), delPartido, (f) => {
     const l = persona(f.id);
     const abiertas = String(f.id) === e.aparto;
     const veces = f.comun - f.igual;
     const lista = el("div", { class: "aparto", hidden: !abiertas, id: `aparto-${f.id}` });
     if (abiertas) listaPaginada(lista, pp.disciplina.se_aparto[String(f.id)], filaApartamiento, { paso: 10, vacio: "Nunca se apartó." });
-    return el("li", { class: "fila-disciplina" },
+    return el("li", { class: "fila-disciplina", dataset: { filaPersona: f.id } },
       el("span", { class: "fila-disciplina__puesto" }, `${f.puesto}.º`, el("span", { class: "nota" }, ` de ${f.de}`)),
       avatar(l),
       el("span", { class: "fila-disciplina__nombre" }, el("a", { href: enlaceLegislador(l, D.cam.clave) }, apellidoNombre(l.nombre, l.nombre_corto))),
@@ -124,9 +130,18 @@ function frase(f) {
   return f.alcanzaba_con_ausentes ? `${base} Había ${numero(f.ausentes)} ausentes: con ${numero(f.para_dar_vuelta)} de ellos se alcanzaba.` : base;
 }
 
+/** En cada votación decisiva: cómo votó el legislador elegido en el buscador. */
+function votoElegido(k) {
+  const id = sel();
+  const cad = id && D.cam.votos.legisladores[id];
+  if (!cad) return null;
+  const l = persona(id);
+  return el("p", { class: "fila-sala__sel" }, `${nombreCorto(l)}: `, cad[k] === "-" ? el("span", { class: "nota" }, "no estaba en el cargo") : chipVoto(cad[k]));
+}
+
 function decisivas(pp) {
   const dec = pp.decisivas;
-  if (!dec.votaciones.length) { vaciar($("#g-decisivas"), el("p", { class: "vacio" }, "No hubo votaciones así en este período.")); vaciar($("#g-ganadores")); return; }
+  if (!dec.votaciones.length) { vaciar($("#g-decisivas"), el("p", { class: "vacio" }, "No hubo votaciones así en este período.")); vaciar($("#g-ganadores"), el("p", { class: "vacio" }, "No hubo votaciones decisivas en este período.")); return; }
   listaPaginada($("#g-decisivas"), dec.votaciones, (f) => {
     const k = D.cam.posVotacion.get(f.id);
     const v = D.cam.votaciones[k];
@@ -135,15 +150,20 @@ function decisivas(pp) {
       el("div", { class: "fila-decisiva__asunto" }, el("a", { class: "fila-decisiva__link", href: enlaceVotacion(v, D.cam.clave) }, v.es_ley ? "Proyecto de ley" : tipoCorto(v.tipo_proyecto),
         v.expediente ? el("span", { class: "nota" }, ` · ${v.expediente}`) : null),
         el("p", { class: "titulo-silpy clamp clamp-1" }, v.titulo),
-        el("p", { class: "fila-decisiva__frase" }, frase(f))),
+        el("p", { class: "fila-decisiva__frase" }, frase(f)),
+        votoElegido(k)),
       el("span", { class: "fila-decisiva__resultado" }, chipResultado(v.resultado)));
   }, { paso: 8, vacio: "" });
   const max = dec.ranking[0]?.veces || 0;
   // los 10 primeros puestos, con todos los empatados en el último
   const corte = dec.ranking[Math.min(9, dec.ranking.length - 1)]?.veces ?? 0;
-  vaciar($("#g-ganadores"), dec.ranking.filter((r) => r.veces >= corte).map((r) => {
+  const visibles = dec.ranking.filter((r) => r.veces >= corte);
+  // el elegido en el buscador, aunque no esté entre los primeros
+  const suyo = dec.ranking.find((r) => String(r.id) === sel());
+  if (suyo && !visibles.includes(suyo)) visibles.push(suyo);
+  vaciar($("#g-ganadores"), visibles.map((r) => {
     const l = persona(r.id);
-    return el("li", { class: "fila-ganador" }, avatar(l),
+    return el("li", { class: "fila-ganador", dataset: { filaPersona: r.id } }, avatar(l),
       el("a", { href: enlaceLegislador(l, D.cam.clave) }, apellidoNombre(l.nombre, l.nombre_corto)), chipPartido(l.partido),
       el("span", { class: "medidor", "aria-hidden": "true" }, el("span", { class: partidoClase(l.partido), vars: { "--w": `${Math.round((100 * r.veces) / max)}%` } })),
       el("strong", {}, `${numero(r.veces)} de ${numero(dec.votaciones.length)}`));
@@ -179,7 +199,7 @@ function trayectoria(tr, ancho) {
     let d = "";
     serie.forEach((p, i) => { if (p !== null) d += `${d && serie[i - 1] !== null && serie[i - 1] !== undefined ? "L" : "M"}${x(i).toFixed(1)},${y(p).toFixed(1)}`; });
     if (!d) continue;
-    const dest = destacados.has(id);
+    const dest = destacados.has(id) || id === sel();
     const g = el("svg:g", { class: ["trayecto", partidoClase(l.partido), dest && "trayecto--destacado"] },
       el("svg:path", { d, class: "trayecto__linea" }),
       serie.map((p, i) => (p === null ? null : el("svg:circle", { cx: x(i).toFixed(1), cy: y(p).toFixed(1), r: dest ? 3.5 : 2, class: "trayecto__punto" }))));
@@ -199,6 +219,76 @@ function trayectoria(tr, ancho) {
   return [svg, el("p", { class: "nota" }, "Debajo de cada ventana, cuánto de las diferencias de voto resume la posición (varianza explicada). Se resaltan los 5 que más se movieron.")];
 }
 
+// ---------- Ausentismo selectivo ----------
+function graficoAusentismo(a, ancho) {
+  const pts = a.puntos;
+  if (!pts.length) return el("p", { class: "vacio" }, `Hubo ${numero(a.votaciones_objeciones)} votaciones sobre vetos en el período: muy pocas para comparar (hacen falta al menos ${numero(a.minimos.objeciones)} en el cargo).`);
+  const ml = 46, mr = 16, mt = 12, mb = 44;
+  const alto = Math.round(Math.min(Math.max(ancho * 0.72, 300), 460));
+  const hi = Math.min(1, Math.ceil(Math.max(...pts.flatMap((p) => [p.objeciones, p.resto])) * 10 - 1e-9) / 10);
+  const x = escala(0, hi, ml, ancho - mr);
+  const y = escala(0, hi, alto - mb, mt);
+  const svg = el("svg:svg", { class: "dispersion", viewBox: `0 0 ${ancho} ${alto}`, width: ancho, height: alto, role: "group",
+    "aria-label": "Ausencia en el resto de las votaciones (horizontal) y en las votaciones sobre vetos (vertical)" });
+  const eje = el("svg:g", { class: "eje", "aria-hidden": "true" });
+  const paso = hi > 0.5 ? 0.2 : 0.1;
+  for (let v = 0; v <= hi + 1e-9; v += paso) {
+    eje.append(el("svg:line", { x1: x(v), x2: x(v), y1: mt, y2: alto - mb, class: "eje__guia" }), el("svg:text", { x: x(v), y: alto - mb + 16, "text-anchor": "middle", class: "eje__texto" }, `${Math.round(v * 100)}%`),
+      el("svg:line", { x1: ml, x2: ancho - mr, y1: y(v), y2: y(v), class: "eje__guia" }), el("svg:text", { x: ml - 6, y: y(v) + 4, "text-anchor": "end", class: "eje__texto" }, `${Math.round(v * 100)}%`));
+  }
+  eje.append(el("svg:text", { x: (ml + ancho - mr) / 2, y: alto - 6, "text-anchor": "middle", class: "eje__titulo" }, "ausencia en el resto de las votaciones"),
+    el("svg:text", { x: 12, y: (mt + alto - mb) / 2, "text-anchor": "middle", class: "eje__titulo", transform: `rotate(-90 12 ${(mt + alto - mb) / 2})` }, "ausencia en los vetos"));
+  svg.append(el("svg:polygon", { points: `${x(0)},${y(0)} ${x(hi)},${y(hi)} ${x(0)},${y(hi)}`, class: "zona-baja" }), eje,
+    el("svg:line", { x1: x(0), y1: y(0), x2: x(hi), y2: y(hi), class: "diagonal" }),
+    el("svg:text", { x: x(0) + 8, y: y(hi) + 14, class: "zona-baja__texto" }, "faltan más en los vetos"));
+  const r = ancho < 560 ? 4.5 : 5.5;
+  for (const p of pts) {
+    const l = persona(p.id);
+    const c = el("svg:circle", { cx: x(p.resto).toFixed(1), cy: y(p.objeciones).toFixed(1), r, class: ["punto-dato", partidoClase(l.partido)] });
+    conectarPersona(c, l, [`Ausente en ${pct(p.objeciones)} de ${numero(p.n_objeciones)} votaciones sobre vetos`, `Ausente en ${pct(p.resto)} de ${numero(p.n_resto)} del resto`,
+      `Diferencia: ${p.diferencia >= 0 ? "+" : "−"}${Math.abs(Math.round(p.diferencia * 100))} puntos`]);
+    svg.append(c);
+  }
+  const marcados = pts.filter((p) => p.diferencia > 0).slice(0, 3);
+  const elegido = pts.find((p) => String(p.id) === sel());
+  if (elegido && !marcados.includes(elegido)) marcados.push(elegido);
+  let ultimo = -Infinity;
+  for (const p of [...marcados].sort((u, v) => y(u.objeciones) - y(v.objeciones))) {
+    const l = persona(p.id);
+    const d = Math.round(p.diferencia * 100);
+    const texto = `${nombreCorto(l)} ${d >= 0 ? "+" : "−"}${Math.abs(d)}`;
+    const cx = x(p.resto), ty = Math.max(y(p.objeciones) + 4, ultimo + 15);
+    ultimo = ty;
+    const w = texto.length * 6.7;
+    const tx = cx + 9 + w < ancho - mr ? cx + 9 : Math.max(ml + 2, cx - 9 - w);
+    svg.append(el("svg:text", { x: tx.toFixed(1), y: ty.toFixed(1), class: ["etiqueta-dato", "etiqueta-dato--halo"] }, texto));
+  }
+  return svg;
+}
+
+// ---------- Resumen del elegido en el buscador ----------
+function resumenSeleccion(pp) {
+  const caja = $("#seleccion-resumen");
+  const id = sel();
+  if (!id || !D) { caja.hidden = true; caja.replaceChildren(); return; }
+  const l = persona(id);
+  const partes = [];
+  const au = pp.ausentismo.puntos.find((p) => String(p.id) === id);
+  if (au) partes.push(`ausente en el ${pct(au.objeciones)} de los vetos y el ${pct(au.resto)} del resto`);
+  const di = pp.disciplina.legisladores.find((f) => String(f.id) === id);
+  if (di) partes.push(`votó como su partido el ${pct(di.pct)} de las veces (${di.puesto}.º de ${di.de} en ${di.partido})`);
+  const ga = pp.decisivas.ranking.find((r) => String(r.id) === id);
+  if (pp.decisivas.votaciones.length) partes.push(`del lado ganador en ${numero(ga ? ga.veces : 0)} de ${numero(pp.decisivas.votaciones.length)} votaciones decisivas`);
+  if (!partes.length) partes.push("no tiene votaciones suficientes en este período para estos análisis");
+  const quitar = el("button", { type: "button", class: "seleccion__quitar", "aria-label": `Quitar a ${l.nombre}` }, "×");
+  quitar.addEventListener("click", () => { soltar(false); $("#f-buscar").value = ""; cambiar({ seleccionado: "" }); });
+  caja.replaceChildren(avatar(l), el("div", { class: "seleccion__texto" }, el("strong", {}, apellidoNombre(l.nombre, l.nombre_corto)), " ", chipPartido(l.partido),
+    el("span", { class: "seleccion__dato" }, `En el período: ${partes.join(" · ")}.`)),
+  el("a", { class: "boton", href: enlaceLegislador(l, D.cam.clave) }, "Ver perfil"), quitar);
+  caja.hidden = false;
+  if (!$("#f-buscar").value) $("#f-buscar").value = l.nombre;
+}
+
 // ---------- 4 y 5. Dispersión genérica ----------
 function dispersion(puntos, ancho, { ejeX, ejeY, valX, valY, dominioY, lineas, etiqueta }) {
   const ml = 46, mr = 14, mt = 12, mb = 42;
@@ -211,7 +301,9 @@ function dispersion(puntos, ancho, { ejeX, ejeY, valX, valY, dominioY, lineas, e
   const y = escala(y0, y1, alto - mb, mt);
   const svg = el("svg:svg", { class: "dispersion", viewBox: `0 0 ${ancho} ${alto}`, width: ancho, height: alto, role: "group", "aria-label": etiqueta });
   const eje = el("svg:g", { class: "eje", "aria-hidden": "true" });
-  eje.append(el("svg:line", { x1: x(0), x2: x(0), y1: mt, y2: alto - mb, class: "eje__guia eje__guia--anio" }));
+  // La línea del 0 es el centro de la cámara (el escalamiento está centrado en el promedio): se rotula
+  eje.append(el("svg:line", { x1: x(0), x2: x(0), y1: mt, y2: alto - mb, class: "eje__guia eje__guia--anio" }),
+    el("svg:text", { x: x(0) + 4, y: mt + 10, class: "eje__texto" }, "centro de la cámara"));
   if (!dominioY) eje.append(el("svg:line", { x1: ml, x2: ancho - mr, y1: y(0), y2: y(0), class: "eje__guia eje__guia--anio" }));
   else for (let v = 0; v <= 1; v += 0.25) eje.append(el("svg:line", { x1: ml, x2: ancho - mr, y1: y(v), y2: y(v), class: "eje__guia" }), el("svg:text", { x: ml - 5, y: y(v) + 4, "text-anchor": "end", class: "eje__texto" }, `${v * 100}%`));
   eje.append(el("svg:text", { x: (ml + ancho - mr) / 2, y: alto - 8, "text-anchor": "middle", class: "eje__titulo" }, ejeX),
@@ -241,6 +333,11 @@ function dibujar() {
   $("#periodo-texto").textContent = `${D.cam.info.nombreLargo} · del ${fecha(info.desde)} al ${fecha(info.hasta)} · ${numero(info.votaciones)} votaciones nominales`;
   vaciar($("#periodo-aviso"), info.aviso ? el("p", { class: "aviso-nota" }, info.aviso) : null);
   for (const s of document.querySelectorAll("[data-min-disciplina]")) s.textContent = numero(D.vm.criterios.minimo_disciplina);
+  const au = pp.ausentismo;
+  vaciar($("#g-ausentismo"), graficoAusentismo(au, Math.min(anchoDe($("#g-ausentismo")), 760)));
+  for (const x of document.querySelectorAll("[data-min-vetos]")) x.textContent = numero(au.minimos.objeciones);
+  for (const x of document.querySelectorAll("[data-min-resto]")) x.textContent = numero(au.minimos.resto);
+  $("#ausentismo-conteo").textContent = `En el período hubo ${numero(au.votaciones_objeciones)} votaciones sobre vetos y ${numero(au.votaciones_resto)} del resto; entran ${numero(au.puntos.length)}.`;
   disciplina(pp, e);
   cohesionBarras(pp);
   vaciar($("#g-cohesion-mensual"), cohesionMensual(pp, anchoDe($("#g-cohesion-mensual"))));
@@ -257,6 +354,8 @@ function dibujar() {
     ejeX: `dimensión 1 (${pct(mapa.var1)})`, ejeY: `dimensión 2 (${pct(mapa.var2)})`, valX: (p) => p.d1, valY: (p) => p.d2,
     lineas: (p) => [`Dimensión 1: ${p.d1.toFixed(2).replace(".", ",")}`, `Dimensión 2: ${p.d2.toFixed(2).replace(".", ",")}`],
     etiqueta: "Mapa de dos dimensiones del escalamiento (experimental)" }));
+  resumenSeleccion(pp);
+  resaltar(e.seleccionado);
   if (e.aparto) document.getElementById(`aparto-${e.aparto}`)?.scrollIntoView({ block: "nearest" });
 }
 
@@ -277,8 +376,14 @@ async function aplicar() {
 }
 
 for (const b of document.querySelectorAll("#selector-camara button")) {
-  b.addEventListener("click", () => { escribirEstado({ ...leerEstado(DEFECTOS), camara: b.dataset.camara, partido: "", aparto: "" }, DEFECTOS); aplicar(); });
+  b.addEventListener("click", () => { $("#f-buscar").value = ""; escribirEstado({ ...leerEstado(DEFECTOS), camara: b.dataset.camara, partido: "", aparto: "", seleccionado: "" }, DEFECTOS); aplicar(); });
 }
+crearBuscador({
+  entrada: $("#f-buscar"),
+  lista: $("#buscador-lista"),
+  alElegir: (o) => { soltar(false); escribirEstado({ ...leerEstado(DEFECTOS), camara: o.camara, seleccionado: String(o.l.id), partido: "", aparto: "" }, DEFECTOS); aplicar(); },
+  alLimpiar: () => { if (sel()) { soltar(false); cambiar({ seleccionado: "" }); } },
+});
 $("#f-partido").addEventListener("change", () => cambiar({ partido: $("#f-partido").value, aparto: "" }));
 let anchoPrevio = 0;
 new ResizeObserver(([x]) => {

@@ -6,6 +6,7 @@ import { alCambiarHash, escribirEstado, leerEstado } from "../lib/estado.js";
 import { apellidoNombre, fecha, normalizar, numero, ordenPartido, partidoClase, partidoNombre } from "../lib/formato.js";
 import { avatar, chipPartido, chipVoto, enlaceLegislador, enlaceVotacion, revisarRecortes, tipoCorto, tituloSilpy } from "../lib/componentes.js";
 import { alSoltarTooltip, conectar, fijar, soltar } from "../lib/tooltip.js";
+import { crearBuscador, resaltar } from "../lib/buscador.js";
 import { anchoDe, anchoTexto, ejePorcentaje, enjambre, escala, filasDeEtiquetas, pisoDecena } from "../lib/graficos.js";
 
 const DEFECTOS = { camara: "senado", orden: "asc", seleccionado: "" };
@@ -442,18 +443,6 @@ SECCIONES.push((a) => {
   $("#dispersion-conteo").textContent = `En el mandato hubo ${numero(a.dispersion.votaciones_consenso)} votaciones de consenso y ${numero(a.dispersion.votaciones_renidas)} reñidas; entran ${numero(a.dispersion.puntos.length)} ${D.cam.info.miembros}.`;
 });
 
-/** Resalta al seleccionado en todos los gráficos (los demás se atenúan) y lo lleva al frente. */
-function resaltar() {
-  const id = sel();
-  for (const n of document.querySelectorAll("#contenido [data-persona]")) {
-    const es = id && n.dataset.persona === id;
-    n.classList.toggle("es-seleccionado", Boolean(es));
-    n.classList.toggle("es-atenuado", Boolean(id) && !es);
-    if (es) n.parentNode.append(n);
-  }
-  document.querySelector("#contenido").classList.toggle("hay-seleccion", Boolean(id));
-}
-
 /** Barra con el resumen del seleccionado, debajo del buscador. */
 function resumenSeleccion() {
   const caja = $("#seleccion-resumen");
@@ -484,7 +473,7 @@ function resumenSeleccion() {
 function dibujar() {
   if (!D) return;
   for (const s of SECCIONES) s(D.a);
-  resaltar();
+  resaltar(leerEstado(DEFECTOS).seleccionado);
   resumenSeleccion();
   const sel = leerEstado(DEFECTOS).seleccionado;
   const ancla = tooltipFijo && sel && document.querySelector(`#${tooltipFijo.grafico} [data-persona="${sel}"]`);
@@ -526,65 +515,23 @@ $("#mapa-mas").addEventListener("click", () => {
   mapaCompleto = !mapaCompleto;
   vaciar($("#g-mapa"), mapaCalor(D.a, $("#f-orden").value));
 });
-// ---------- buscador (las dos cámaras) ----------
-let indice = [];
-Promise.all(Object.keys(CAMARAS).map(camara)).then((cams) => {
-  indice = cams.flatMap((d) => d.legisladores.map((l) => ({ l, camara: d.clave,
-    clave: normalizar(`${l.nombre} ${l.nombre_corto} ${apellidoNombre(l.nombre, l.nombre_corto)}`) })));
-}).catch(() => {});
-const entrada = $("#f-buscar");
-const listaB = $("#buscador-lista");
-let opciones = [];
-let activa = -1;
-
-function cerrarLista() { listaB.hidden = true; entrada.setAttribute("aria-expanded", "false"); entrada.removeAttribute("aria-activedescendant"); activa = -1; }
-
-function elegir(o) {
-  cerrarLista();
-  tooltipFijo = null;
-  entrada.value = o.l.nombre;
-  soltar(false);
-  escribirEstado({ ...leerEstado(DEFECTOS), camara: o.camara, seleccionado: String(o.l.id) }, DEFECTOS);
-  aplicar();
-}
-
-function marcarActiva(k) {
-  activa = k;
-  [...listaB.children].forEach((li, i) => li.setAttribute("aria-selected", String(i === k)));
-  if (k >= 0) entrada.setAttribute("aria-activedescendant", listaB.children[k].id);
-}
-
-entrada.addEventListener("input", () => {
-  const q = normalizar(entrada.value.trim());
-  if (q.length < 2) { cerrarLista(); return; }
-  const palabras = q.split(/\s+/);
-  opciones = indice.filter((o) => palabras.every((p) => o.clave.includes(p))).slice(0, 8);
-  listaB.replaceChildren(...(opciones.length ? opciones.map((o, i) => {
-    const li = el("li", { id: `opcion-${i}`, role: "option", "aria-selected": "false", class: "buscador__opcion" },
-      avatar(o.l), el("span", {}, el("strong", {}, apellidoNombre(o.l.nombre, o.l.nombre_corto)), " ", chipPartido(o.l.partido),
-        el("span", { class: "nota" }, ` · ${CAMARAS[o.camara].nombre}${o.l.estado !== "activos" ? " · ya no está en el cargo" : ""}`)));
-    li.addEventListener("mousedown", (ev) => { ev.preventDefault(); elegir(o); });
-    return li;
-  }) : [el("li", { class: "buscador__vacio" }, "Ningún legislador coincide.")]));
-  listaB.hidden = false;
-  entrada.setAttribute("aria-expanded", "true");
-  marcarActiva(-1);
-});
-entrada.addEventListener("keydown", (ev) => {
-  if (listaB.hidden || !opciones.length) return;
-  if (ev.key === "ArrowDown") { ev.preventDefault(); marcarActiva((activa + 1) % opciones.length); }
-  else if (ev.key === "ArrowUp") { ev.preventDefault(); marcarActiva((activa - 1 + opciones.length) % opciones.length); }
-  else if (ev.key === "Enter") { ev.preventDefault(); elegir(opciones[Math.max(0, activa)]); }
-  else if (ev.key === "Escape") { cerrarLista(); }
-});
-entrada.addEventListener("blur", () => setTimeout(cerrarLista, 100));
-// La «×» del campo (o borrar todo el texto) también quita la selección
-entrada.addEventListener("search", () => {
-  if (entrada.value || !sel()) return;
-  tooltipFijo = null;
-  soltar(false);
-  escribirEstado({ ...leerEstado(DEFECTOS), seleccionado: "" }, DEFECTOS);
-  dibujar();
+// ---------- buscador (las dos cámaras; lib/buscador.js) ----------
+crearBuscador({
+  entrada: $("#f-buscar"),
+  lista: $("#buscador-lista"),
+  alElegir: (o) => {
+    tooltipFijo = null;
+    soltar(false);
+    escribirEstado({ ...leerEstado(DEFECTOS), camara: o.camara, seleccionado: String(o.l.id) }, DEFECTOS);
+    aplicar();
+  },
+  alLimpiar: () => {
+    if (!sel()) return;
+    tooltipFijo = null;
+    soltar(false);
+    escribirEstado({ ...leerEstado(DEFECTOS), seleccionado: "" }, DEFECTOS);
+    dibujar();
+  },
 });
 
 for (const b of document.querySelectorAll("#selector-camara button")) {

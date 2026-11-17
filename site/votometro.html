@@ -56,7 +56,7 @@
     <header class="encabezado-pagina">
       <p class="eyebrow">Votómetro</p>
       <h1>¿Cómo vota cada cámara?</h1>
-      <p class="bajada">Cuánto se apartan los legisladores de su partido, qué votaciones se definieron por pocos votos y cómo se agrupan según lo que votan.</p>
+      <p class="bajada">Quién falta cuando se votan vetos, cómo se agrupan los legisladores según lo que votan, cuánto se apartan de su partido y qué votaciones se definieron por pocos votos.</p>
     </header>
 
     <div class="controles-pagina">
@@ -66,8 +66,95 @@
       </div>
       <div id="selector-periodo"></div>
     </div>
+    <div class="buscador" role="search">
+      <label class="filtro buscador__etiqueta" for="f-buscar">Buscar un legislador</label>
+      <div class="buscador__campo">
+        <input type="search" id="f-buscar" placeholder="Nombre o apellido (Senado o Diputados)" autocomplete="off"
+          role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="buscador-lista">
+        <ul class="buscador__lista" id="buscador-lista" role="listbox" aria-label="Legisladores que coinciden" hidden></ul>
+      </div>
+      <div class="seleccion" id="seleccion-resumen" aria-live="polite" hidden></div>
+    </div>
     <p class="nota" id="periodo-texto" aria-live="polite"></p>
     <div id="periodo-aviso"></div>
+
+    <section class="tarjeta" aria-labelledby="t-ausentismo">
+      <div class="tarjeta__cabecera">
+        <div>
+          <h2 id="t-ausentismo">Ausentismo selectivo</h2>
+          <p class="tarjeta__descripcion">¿Se ausenta más justo cuando se votan vetos del Poder Ejecutivo? Ausencia en las votaciones sobre vetos (vertical) frente a la ausencia en el resto (horizontal). Arriba de la diagonal están quienes faltan más en los vetos.</p>
+        </div>
+      </div>
+      <div class="tarjeta__cuerpo"><div class="grafico grafico--dispersion" id="g-ausentismo"></div></div>
+      <details class="tarjeta__metodologia" open>
+        <summary>Metodología</summary>
+        <ul>
+          <li>Para rechazar un veto hace falta la mayoría absoluta de los miembros de la cámara (23 en el Senado, 41 en Diputados): no votar ayuda, en los hechos, a que el veto se mantenga. Por eso acá cuenta como ausencia tanto «ausente» como «presente, no vota», como en el prototipo del proyecto.</li>
+          <li>Vetos: votaciones sobre una objeción del Ejecutivo, detectadas por el texto de la moción en SILpy (la misma regla que usa Asistencia). Se mide la presencia, no si votó a favor o en contra del veto.</li>
+          <li>Entran quienes estuvieron en el cargo en al menos <span data-min-vetos>8</span> votaciones sobre vetos y <span data-min-resto>20</span> del resto. <span id="ausentismo-conteo"></span></li>
+          <li>Una diferencia no prueba intención: puede haber licencias, comisiones o coincidencias de agenda.</li>
+        </ul>
+      </details>
+    </section>
+
+    <section class="tarjeta" aria-labelledby="t-tiempo">
+      <div class="tarjeta__cabecera">
+        <div>
+          <h2 id="t-tiempo">Mapa político en el tiempo</h2>
+          <p class="tarjeta__descripcion">Posición de cada legislador estimada a partir de sus votos, en ventanas de 12 meses que avanzan cada 6. Se resaltan quienes más se movieron. Tocá una línea para ver el detalle.</p>
+        </div>
+      </div>
+      <div class="tarjeta__cuerpo"><div class="grafico" id="g-trayectoria"></div></div>
+      <details class="tarjeta__metodologia">
+        <summary>Metodología</summary>
+        <ul>
+          <li>Para cada ventana se toman las votaciones divididas (la minoría tiene al menos el 2,5 %) y los legisladores que votaron en suficientes de ellas (el 25 % de las divididas, entre 10 y 25). Con las coincidencias de voto entre cada par se calcula un escalamiento multidimensional (MDS) y se usa su primera dimensión.</li>
+          <li>La posición se normaliza en cada ventana (de −1 a 1) para poder compararlas. El lado positivo es el lado donde se ubica la mayoría del ANR: es una orientación del gráfico, no una etiqueta de oposición u oficialismo.</li>
+          <li>Las ventanas se superponen 6 meses: el movimiento sale suavizado. Una ventana entra solo con al menos 15 votaciones divididas y 10 legisladores.</li>
+          <li>Es una posición relativa a los demás en esa ventana: si alguien «se mueve» puede ser porque cambió su voto o porque cambiaron los demás.</li>
+        </ul>
+      </details>
+    </section>
+
+    <section class="tarjeta" aria-labelledby="t-pos-pres">
+      <div class="tarjeta__cabecera">
+        <div>
+          <h2 id="t-pos-pres">Posición y asistencia</h2>
+          <p class="tarjeta__descripcion">Posición estimada a partir de los votos (horizontal) y porcentaje de votaciones del período en las que votó (vertical). La asistencia se mide en votaciones nominales, no en sesiones.</p>
+        </div>
+      </div>
+      <div class="tarjeta__cuerpo"><p class="nota" id="nota-mapa"></p><div class="grafico grafico--dispersion" id="g-pos-pres"></div></div>
+      <details class="tarjeta__metodologia">
+        <summary>Metodología</summary>
+        <ul>
+          <li>Posición: primera dimensión del MDS del período, con el lado donde se ubica la mayoría del ANR a la derecha.</li>
+          <li>Votó: votaciones del período en el cargo en las que registró Sí, No, Abstención o una moción (no figura como ausente ni como presente sin votar).</li>
+        </ul>
+      </details>
+    </section>
+
+    <section class="tarjeta" aria-labelledby="t-experimental">
+      <div class="tarjeta__cabecera">
+        <div>
+          <h2 id="t-experimental">Posición política estimada <span class="chip chip-experimental">Experimental</span></h2>
+          <p class="tarjeta__descripcion">El mapa completo del escalamiento: dos dimensiones que resumen en qué votaciones cada legislador coincide con los demás.</p>
+        </div>
+      </div>
+      <div class="tarjeta__cuerpo">
+        <div class="aviso-nota aviso-nota--arriba">
+          <p><strong>Qué es:</strong> un dibujo en el que quedan cerca los legisladores que votan parecido y lejos los que votan distinto. Cada eje dice cuánto de esas diferencias resume (<span id="var-ejes">—</span>).</p>
+          <p><strong>Qué no es:</strong> no es una medida de ideología declarada ni de izquierda y derecha. Depende de qué se votó en el período: si cambian los temas, cambia el mapa. La segunda dimensión explica poco y conviene leerla con cuidado.</p>
+        </div>
+        <div class="grafico grafico--dispersion" id="g-experimental"></div>
+      </div>
+      <details class="tarjeta__metodologia">
+        <summary>Metodología</summary>
+        <ul>
+          <li>Escalamiento multidimensional clásico sobre la matriz de coincidencias de voto (Sí = 1, No = −1; abstenciones y ausencias no cuentan) en las votaciones divididas del período, como en el prototipo del proyecto.</li>
+          <li>Las dimensiones se orientan para que el promedio del ANR quede del lado positivo de cada eje.</li>
+        </ul>
+      </details>
+    </section>
 
     <section class="tarjeta" aria-labelledby="t-disciplina">
       <div class="tarjeta__cabecera">
@@ -107,11 +194,6 @@
       </div>
       <div class="tarjeta__cuerpo">
         <ul class="lista decisivas" id="g-decisivas"></ul>
-        <div class="subseccion" aria-labelledby="t-ganadores">
-          <h3 id="t-ganadores">Más veces del lado ganador</h3>
-          <p class="tarjeta__descripcion">Cuántas de estas votaciones votó del lado que ganó. Con tan pocos votos de diferencia, su voto pudo cambiar el resultado; no quiere decir que lo haya decidido solo.</p>
-          <ol class="ranking-ganadores" id="g-ganadores"></ol>
-        </div>
       </div>
       <details class="tarjeta__metodologia">
         <summary>Metodología</summary>
@@ -124,61 +206,19 @@
       </details>
     </section>
 
-    <section class="tarjeta" aria-labelledby="t-tiempo">
+    <section class="tarjeta" aria-labelledby="t-ganadores">
       <div class="tarjeta__cabecera">
         <div>
-          <h2 id="t-tiempo">Mapa político en el tiempo</h2>
-          <p class="tarjeta__descripcion">Posición de cada legislador estimada a partir de sus votos, en ventanas de 12 meses que avanzan cada 6. Se resaltan quienes más se movieron. Tocá una línea para ver el detalle.</p>
+          <h2 id="t-ganadores">Más veces del lado ganador</h2>
+          <p class="tarjeta__descripcion">Cuántas de las votaciones de «El voto decisivo» votó del lado que ganó. Con tan pocos votos de diferencia, su voto pudo cambiar el resultado; no quiere decir que lo haya decidido solo.</p>
         </div>
       </div>
-      <div class="tarjeta__cuerpo"><div class="grafico" id="g-trayectoria"></div></div>
+      <div class="tarjeta__cuerpo"><ol class="ranking-ganadores" id="g-ganadores"></ol></div>
       <details class="tarjeta__metodologia">
         <summary>Metodología</summary>
         <ul>
-          <li>Para cada ventana se toman las votaciones divididas (la minoría tiene al menos el 2,5 %) y los legisladores que votaron en suficientes de ellas (el 25 % de las divididas, entre 10 y 25). Con las coincidencias de voto entre cada par se calcula un escalamiento multidimensional (MDS) y se usa su primera dimensión.</li>
-          <li>La posición se normaliza en cada ventana (de −1 a 1) para poder compararlas. El lado positivo es el lado donde se ubica la mayoría del ANR: es una orientación del gráfico, no una etiqueta de oposición u oficialismo.</li>
-          <li>Las ventanas se superponen 6 meses: el movimiento sale suavizado. Una ventana entra solo con al menos 15 votaciones divididas y 10 legisladores.</li>
-          <li>Es una posición relativa a los demás en esa ventana: si alguien «se mueve» puede ser porque cambió su voto o porque cambiaron los demás.</li>
-        </ul>
-      </details>
-    </section>
-
-    <section class="tarjeta" aria-labelledby="t-pos-pres">
-      <div class="tarjeta__cabecera">
-        <div>
-          <h2 id="t-pos-pres">Posición y presencia</h2>
-          <p class="tarjeta__descripcion">Posición estimada a partir de los votos (horizontal) y porcentaje de votaciones del período en las que votó (vertical).</p>
-        </div>
-      </div>
-      <div class="tarjeta__cuerpo"><p class="nota" id="nota-mapa"></p><div class="grafico grafico--dispersion" id="g-pos-pres"></div></div>
-      <details class="tarjeta__metodologia">
-        <summary>Metodología</summary>
-        <ul>
-          <li>Posición: primera dimensión del MDS del período, con el lado donde se ubica la mayoría del ANR a la derecha.</li>
-          <li>Votó: votaciones del período en el cargo en las que registró Sí, No, Abstención o una moción (no figura como ausente ni como presente sin votar).</li>
-        </ul>
-      </details>
-    </section>
-
-    <section class="tarjeta" aria-labelledby="t-experimental">
-      <div class="tarjeta__cabecera">
-        <div>
-          <h2 id="t-experimental">Posición política estimada <span class="chip chip-experimental">Experimental</span></h2>
-          <p class="tarjeta__descripcion">El mapa completo del escalamiento: dos dimensiones que resumen en qué votaciones cada legislador coincide con los demás.</p>
-        </div>
-      </div>
-      <div class="tarjeta__cuerpo">
-        <div class="aviso-nota aviso-nota--arriba">
-          <p><strong>Qué es:</strong> un dibujo en el que quedan cerca los legisladores que votan parecido y lejos los que votan distinto. Cada eje dice cuánto de esas diferencias resume (<span id="var-ejes">—</span>).</p>
-          <p><strong>Qué no es:</strong> no es una medida de ideología declarada ni de izquierda y derecha. Depende de qué se votó en el período: si cambian los temas, cambia el mapa. La segunda dimensión explica poco y conviene leerla con cuidado.</p>
-        </div>
-        <div class="grafico grafico--dispersion" id="g-experimental"></div>
-      </div>
-      <details class="tarjeta__metodologia">
-        <summary>Metodología</summary>
-        <ul>
-          <li>Escalamiento multidimensional clásico sobre la matriz de coincidencias de voto (Sí = 1, No = −1; abstenciones y ausencias no cuentan) en las votaciones divididas del período, como en el prototipo del proyecto.</li>
-          <li>Las dimensiones se orientan para que el promedio del ANR quede del lado positivo de cada eje.</li>
+          <li>Se cuentan las votaciones de la sección anterior (margen de 3 votos o menos, o mayoría calificada alcanzada o no por 3 votos o menos) en las que votó lo mismo que el lado ganador.</li>
+          <li>Se muestran los 10 primeros puestos, con todos los empatados en el último.</li>
         </ul>
       </details>
     </section>
