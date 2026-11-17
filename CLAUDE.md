@@ -141,6 +141,18 @@ los dos tienen `nombre_corto` cargado a mano y el de Diputados se armó entero a
 
 Sitio en local: `python3 -m http.server -d site 8000`
 
+Verificación visual (`tools/capturas.py`, con `requirements-dev.txt` y Chrome instalado): recorre las páginas a
+360, 768 y 1280 px en los dos temas, guarda capturas en `docs/capturas/` (fuera de git) y falla si hay errores de
+consola o de CSP, scroll horizontal de página o un HTTP >= 400. Sin `--base` sirve `site/` en local; con
+`--base https://congresopy.vercel.app` revisa el sitio publicado (ahí la CSP llega también como header).
+
+```bash
+uv pip install -p .venv/bin/python -r requirements-dev.txt
+$P tools/capturas.py                                        # todas las páginas, en local
+$P tools/capturas.py --base https://congresopy.vercel.app  # el sitio publicado
+$P tools/capturas.py "legislador.html#camara=diputados&id=101431&sub=analisis" --anchos 360,1280
+```
+
 ## Sitio
 
 | Página | Qué muestra | Estado en el #hash |

@@ -1,0 +1,3 @@
+# Desarrollo: verificación visual del sitio (tools/capturas.py). No lo usa el pipeline ni el sitio.
+-r requirements.txt
+playwright==1.65.2
