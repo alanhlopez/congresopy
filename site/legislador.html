@@ -64,7 +64,7 @@
         <dt>Fuente</dt>
         <dd>Votaciones nominales y electrónicas publicadas en <a href="https://silpy.congreso.gov.py/" rel="noopener">SILpy</a>, el Sistema de Información Legislativa del Congreso Nacional (CC BY 4.0). Última votación incluida: <span data-actualizado>—</span>.</dd>
         <dt>Método</dt>
-        <dd>Se cuentan todas las votaciones nominales en las que el legislador figura en el registro de SILpy. La presencia es el porcentaje en las que no figura como «ausente». La similitud de voto es el porcentaje de votaciones en las que dos legisladores votaron lo mismo, contando solo las que ambos votaron (sí, no, abstención o moción) y con al menos 20 en común.</dd>
+        <dd>Se cuentan todas las votaciones nominales en las que el legislador figura en el registro de SILpy. La presencia es el porcentaje en las que no figura como «ausente». La similitud de voto es el porcentaje de votaciones en las que dos legisladores votaron lo mismo, contando solo las que los dos votaron Sí, No o Abstención, con al menos 20 en común; la coincidencia con un partido compara con la opción que eligió más de la mitad de sus legisladores. Todo se calcula en el pipeline del proyecto, por período (mandato, últimos 12 meses y cada período legislativo).</dd>
         <dt>Fotos</dt>
         <dd>Las fotos son las publicadas en SILpy (CC BY 4.0). Si un legislador no tiene foto, se muestran sus iniciales.</dd>
         <dt>Límites</dt>
@@ -73,7 +73,7 @@
             <li>La similitud no distingue votaciones importantes de trámites: casi todo se aprueba por amplia mayoría, así que los porcentajes son altos para todos. Mirá las diferencias, no el nivel.</li>
             <li>En Diputados, «no vota» se registra como «ausente»: no compares el ausentismo entre cámaras.</li>
             <li>Partido y bancada son los que figuran hoy en SILpy, no los que tenía cada legislador en la fecha de cada votación.</li>
-            <li>Todavía no se calcula la disciplina de bloque: hace falta la bancada que tenía cada legislador en cada fecha.</li>
+            <li>La coincidencia con los partidos usa el partido actual, no la bancada que tenía cada legislador en cada votación: el historial de bancadas empieza en octubre de 2026.</li>
           </ul>
         </dd>
       </dl>

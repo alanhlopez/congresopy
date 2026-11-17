@@ -38,6 +38,10 @@ export async function camara(c) {
 /** presencia.json de una cámara: quienes menos votos registran en los últimos 12 meses (lo calcula el pipeline). */
 export const presencia = (c) => json(`${camaraValida(c)}/presencia.json`);
 
+/** Archivos por legislador (pipeline: detalle_legislador.py): analisis.json y resumen.json. */
+export const analisisLegislador = (c, id) => json(`${camaraValida(c)}/legisladores/${id}/analisis.json`);
+export const resumenLegislador = (c, id) => json(`${camaraValida(c)}/legisladores/${id}/resumen.json`);
+
 /** asistencia.json de una cámara: análisis de presencia de todo el mandato (página Asistencia). */
 export const asistencia = (c) => json(`${camaraValida(c)}/asistencia.json`);
 

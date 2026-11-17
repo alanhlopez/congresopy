@@ -1279,3 +1279,44 @@ h3 { font-size: var(--t-md); line-height: 1.3; margin: 0 0 var(--e-2); }
 /* Crédito a datacp.ar */
 .credito { margin: 0; padding: var(--e-4) var(--e-5); border: 1px solid var(--borde); border-radius: var(--radio-grande); background: var(--superficie); font-size: var(--t-sm); color: var(--texto-suave); }
 .credito strong { color: var(--texto); }
+
+/* ============================== Perfil: período, subpestañas y análisis ============================== */
+.selector-periodo { display: flex; flex-wrap: wrap; align-items: flex-end; gap: var(--e-2) var(--e-4); }
+.selector-periodo__leg { min-width: 10rem; }
+.selector-periodo__rango { margin: 0; flex-basis: 100%; }
+.segmentado--chico button { min-height: 2rem; padding: 0.2rem 0.7rem; font-size: 0.82rem; }
+.segmentado button:disabled { opacity: 0.4; cursor: not-allowed; }
+.subpestanas { display: flex; gap: var(--e-2); border-bottom: 1px solid var(--borde-fuerte); overflow-x: auto; }
+.subpestana { padding: var(--e-2) var(--e-3); border: 0; border-bottom: 3px solid transparent; margin-bottom: -1px; background: none; color: var(--texto-suave); font: inherit; font-weight: 650; white-space: nowrap; cursor: pointer; }
+.subpestana:hover { color: var(--texto); }
+.subpestana[aria-selected="true"] { color: var(--texto); border-bottom-color: var(--acento); }
+.seg-barra { fill: var(--c); }
+.barra-tramo { cursor: pointer; outline: none; }
+.barra-tramo:hover .seg-barra, .barra-tramo:focus-visible .seg-barra { stroke: var(--texto); stroke-width: 1; }
+.barra-tramo:focus-visible { outline: 2px solid var(--foco); }
+.linea-mediana-camara { fill: none; stroke: var(--texto-suave); stroke-width: 1.6; stroke-dasharray: 5 4; }
+.leyenda-linea { display: inline-block; width: 1.4rem; height: 0; border-top: 2.5px solid var(--acento); vertical-align: middle; }
+.leyenda-linea--punteada { border-top: 2px dashed var(--texto-suave); }
+.aviso-nota--arriba { margin: 0 0 var(--e-3); }
+.leyenda-votos + .grafico { margin-top: var(--e-2); }
+/* Similitud con fotos (como datacp): cada legislador es una foto con aro de su partido */
+.similitud--fotos .similitud__pista { height: calc(var(--carriles) * 2.1rem + 0.5rem); }
+.foto-sim { position: absolute; left: var(--x); top: calc(var(--carril) * 2.1rem + 0.25rem); margin-left: -0.95rem; padding: 0; border: 0; background: none; border-radius: 50%; cursor: pointer; }
+.foto-sim .avatar { width: 1.9rem; height: 1.9rem; font-size: 0.65rem; }
+.foto-sim:hover, .foto-sim:focus-visible { z-index: 2; }
+.foto-sim:hover .avatar, .foto-sim:focus-visible .avatar { transform: scale(1.25); }
+.foto-sim.es-elegida .avatar { box-shadow: 0 0 0 3px var(--c), 0 0 0 6px var(--foco); }
+.similitud__otros { flex-basis: 100%; font-size: var(--t-xs); }
+.detalle-con { margin-top: var(--e-5); padding-top: var(--e-4); border-top: 1px solid var(--borde); }
+.detalle-con__cabeza { display: flex; flex-wrap: wrap; align-items: center; gap: var(--e-3); }
+.detalle-con__cabeza p { margin: 0; flex: 1; min-width: 14rem; }
+.fila-coincidencia { display: grid; grid-template-columns: 6rem minmax(0, 1fr); gap: 0.1rem var(--e-2); padding: var(--e-2) 0; border-bottom: 1px solid var(--borde); font-size: var(--t-sm); }
+.fila-coincidencia time { color: var(--texto-suave); }
+.fila-coincidencia__votos { grid-column: 2; display: flex; align-items: center; gap: 0.2rem; flex-wrap: wrap; }
+.bloques-sim { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--e-2); }
+.bloques-sim__fila { display: grid; grid-template-columns: minmax(0, 1fr) minmax(6rem, 14rem) 7.5rem; align-items: center; gap: var(--e-3); font-size: var(--t-sm); }
+.bloques-sim__barra { width: 100%; height: 0.6rem; }
+.bloques-sim__dato { text-align: right; white-space: nowrap; }
+@media (max-width: 560px) { .bloques-sim__fila { grid-template-columns: minmax(0, 1fr) auto; } .bloques-sim__barra { grid-column: 1 / -1; grid-row: 2; } }
+.descargas { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--e-3); }
+.descargas .boton { font-family: var(--fuente-mono); }
