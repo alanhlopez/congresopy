@@ -3,7 +3,7 @@ import { camara, camaraValida } from "../lib/datos.js";
 import { el, mostrarError, vaciar, $ } from "../lib/dom.js";
 import { alCambiarHash, escribirEstado, leerEstado } from "../lib/estado.js";
 import { normalizar, numero } from "../lib/formato.js";
-import { filaVotacion, leyendaVotos, listaPaginada } from "../lib/componentes.js";
+import { coincide, filaVotacion, leyendaVotos, listaPaginada, textoBusqueda } from "../lib/componentes.js";
 
 const DEFECTOS = { camara: "senado", q: "", tipo: "todas", anio: "", res: "" };
 const campos = { q: $("#f-q"), tipo: $("#f-tipo"), anio: $("#f-anio"), res: $("#f-res") };
@@ -47,15 +47,15 @@ async function aplicar() {
       if (e.res === "divididas" && enContra(v) < 0.1) return false;
       if (e.res === "unanimes" && enContra(v) > 0) return false;
       if (q) {
-        if (!busqueda.has(v)) busqueda.set(v, normalizar(`${v.titulo} ${v.acapite} ${v.mocion} ${v.expediente} ${v.resultado} ${v.sesion}`));
-        if (!busqueda.get(v).includes(q)) return false;
+        if (!busqueda.has(v)) busqueda.set(v, textoBusqueda(v));
+        if (!coincide(busqueda.get(v), q)) return false;
       }
       return true;
     });
     $("#conteo").textContent = xs.length === d.votaciones.length
       ? `${numero(xs.length)} votaciones nominales`
       : `${numero(xs.length)} de ${numero(d.votaciones.length)} votaciones nominales`;
-    listaPaginada($("#lista"), xs, (v) => filaVotacion(v, d.clave), { paso: 40, vacio: "Ninguna votación coincide con esos filtros." });
+    listaPaginada($("#lista"), xs, (v) => filaVotacion(v, d.clave), { paso: 40, vacio: "Ninguna votación nominal coincide con esos filtros. La búsqueda cubre solo votaciones nominales: lo que se vota a mano alzada no queda registrado con el voto de cada legislador." });
   } catch (err) {
     mostrarError($("#lista"), `No se pudieron cargar los datos: ${err.message}`);
   }

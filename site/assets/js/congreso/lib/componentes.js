@@ -1,7 +1,7 @@
 // Piezas de interfaz reutilizadas entre páginas.
 import { el } from "./dom.js";
 import { enlace } from "./estado.js";
-import { VOTOS, fecha, iniciales, numero, partidoClase, partidoNombre, porcentaje } from "./formato.js";
+import { VOTOS, fecha, iniciales, normalizar, numero, partidoClase, partidoNombre, porcentaje } from "./formato.js";
 
 export const chipPartido = (p) =>
   el("span", { class: ["chip", "chip-partido", partidoClase(p)], title: partidoNombre(p) }, p || "—");
@@ -157,6 +157,23 @@ export function revisarRecortes(raiz) {
       if (boton && boton.classList.contains("ver-mas")) boton.hidden = p.scrollHeight <= p.clientHeight + 1;
     }
   });
+}
+
+// Buscador de votaciones: el texto se reduce a palabras (minúsculas, sin tildes, sin signos) separadas por un
+// espacio, con un espacio adelante; cada palabra buscada tiene que coincidir con el COMIENZO de una palabra del
+// texto. Así «prest» encuentra «préstamo» y «2696185» el expediente «D-2696185», pero «ueno» no encuentra «buenos».
+const palabrasDe = (t) => normalizar(t).replace(/[^a-z0-9]+/g, " ").trim();
+
+/** Todo el texto de una votación, preparado para el buscador: título, acápite, moción y el texto de cada moción,
+    expediente, tipo, resultado, observación y sesión. */
+export function textoBusqueda(v) {
+  return " " + palabrasDe([v.titulo, v.acapite, v.mocion, ...Object.values(v.mociones || {}), v.expediente, v.tipo_proyecto,
+    v.es_ley ? "proyecto de ley" : tipoCorto(v.tipo_proyecto), v.resultado, v.observacion, v.sesion].filter(Boolean).join(" "));
+}
+
+/** ¿Están todas las palabras de la búsqueda, en cualquier orden, como comienzo de palabras del texto? */
+export function coincide(texto, q) {
+  return palabrasDe(q).split(" ").filter(Boolean).every((p) => texto.includes(" " + p));
 }
 
 /** Fila de una votación: Fecha | Asunto (tipo + expediente arriba, título de SILpy abajo) | Resultado | Votos. */

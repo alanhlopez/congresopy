@@ -4,8 +4,7 @@ import { buscarLegislador, comisionesDe } from "../lib/datos.js";
 import { el, mostrarError, vaciar, $ } from "../lib/dom.js";
 import { alCambiarHash, enlace, escribirEstado, leerEstado } from "../lib/estado.js";
 import { EMITIDOS, fecha, normalizar, numero, ordenPartido, partidoClase, partidoNombre, porcentaje } from "../lib/formato.js";
-import { anillo, avatar, chipPartido, chipResultado, chipVoto, enlaceLegislador, enlaceVotacion, listaPaginada, tipoCorto,
-  tituloSilpy } from "../lib/componentes.js";
+import { anillo, avatar, chipPartido, chipResultado, chipVoto, coincide, enlaceLegislador, enlaceVotacion, listaPaginada, textoBusqueda, tipoCorto, tituloSilpy } from "../lib/componentes.js";
 
 const DEFECTOS = { camara: "", id: "", vista: "votos", q: "", voto: "", tipo: "todas", anio: "" };
 const VISTAS = [["votos", "¿Cómo votó?"], ["similitud", "¿Con quién vota?"], ["comisiones", "Comisiones"]];
@@ -203,14 +202,14 @@ function agregarA(n, ...hijos) { n.append(...hijos); return n; }
 function historial(d, l, cadena) {
   const filas = [];
   cadena.split("").forEach((ch, k) => { if (ch !== "-") filas.push({ v: d.votaciones[k], ch }); });
-  for (const f of filas) f.busqueda = normalizar(`${f.v.titulo} ${f.v.acapite} ${f.v.mocion} ${f.v.expediente}`);
+  for (const f of filas) f.busqueda = textoBusqueda(f.v);
   const anios = [...new Set(filas.map((f) => f.v.fecha.slice(0, 4)))].sort().reverse();
   const opcionesVoto = [["", "Todos los votos"], ["S", "Sí"], ["N", "No"], ["A", "Abstención"], ["X", "Ausente"]];
   if (filas.some((f) => f.ch === "V")) opcionesVoto.push(["V", "Presente, no vota"]);
   if (filas.some((f) => "123".includes(f.ch))) opcionesVoto.push(["M", "Mociones"]);
   const sel = (id, opciones) => el("select", { id }, opciones.map(([v, t]) => el("option", { value: v }, t)));
   const campos = {
-    q: el("input", { type: "search", id: "h-q", placeholder: "Tema, expediente o moción", autocomplete: "off" }),
+    q: el("input", { type: "search", id: "h-q", placeholder: "Cualquier palabra del texto, expediente o resultado", autocomplete: "off" }),
     voto: sel("h-voto", opcionesVoto),
     tipo: sel("h-tipo", [["todas", "Todas las votaciones"], ["leyes", "Proyectos de ley"], ["otras", "Otras"]]),
     anio: sel("h-anio", [["", "Todos los años"], ...anios.map((a) => [a, a])]),
@@ -243,7 +242,7 @@ function filtrarHistorial() {
   const xs = h.filas.filter((f) => (!e.voto || (e.voto === "M" ? "123".includes(f.ch) : f.ch === e.voto))
     && (e.tipo === "todas" || (e.tipo === "leyes") === f.v.es_ley)
     && (!e.anio || f.v.fecha.startsWith(e.anio))
-    && (!q || f.busqueda.includes(q)));
+    && (!q || coincide(f.busqueda, q)));
   h.conteo.textContent = `${numero(xs.length)} de ${numero(h.filas.length)} votaciones`;
   // Misma fila que en Votaciones, con su voto en la última columna en lugar de la barra de totales.
   listaPaginada(h.lista, xs, (f) => el("li", { class: "fila-votacion fila-votacion--historial" },
@@ -257,7 +256,7 @@ function filtrarHistorial() {
     el("div", { class: "fila-votacion__votos fila-votacion__su-voto" }, el("span", { class: "sr" }, "Su voto: "), chipVoto(f.ch)),
     el("a", { class: "fila-votacion__fuente", href: f.v.url, target: "_blank", rel: "noopener" }, "SILpy ", el("span", { "aria-hidden": "true" }, "↗"),
       el("span", { class: "sr" }, " (la votación en SILpy, se abre en otra pestaña)"))),
-  { paso: 30, vacio: "Ninguna votación coincide con esos filtros." });
+  { paso: 30, vacio: "Ninguna votación nominal coincide con esos filtros. La búsqueda cubre solo votaciones nominales: lo que se vota a mano alzada no queda registrado con el voto de cada legislador." });
 }
 
 function guardarFiltros() {
