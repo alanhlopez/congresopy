@@ -148,7 +148,7 @@ Sitio en local: `python3 -m http.server -d site 8000`
 | `index.html` | Resumen de cada cámara y últimas votaciones | — |
 | `camaras.html` | Composición actual: hemiciclo por partido o agrupado por bancada | `camara`, `vista` |
 | `legisladores.html` | Listado de las dos cámaras con búsqueda y filtros | `q`, `camara`, `partido`, `departamento`, `estado`, `orden` |
-| `legislador.html` | Perfil: presencia, conteo de votos, votos por año, similitud de voto, historial | `camara`, `id`, `q`, `voto`, `tipo`, `anio` |
+| `legislador.html` | Perfil: «¿Cómo votó?» con selector de período (mandato, 12 meses, período legislativo) y subpestañas Lista (conteos + historial), Análisis (votos o presencia por semana/mes/año, similitud con legisladores y partidos) y Datos abiertos (descargas por legislador); «Comisiones» | `camara`, `id`, `vista`, `sub`, `periodo`, `gran`, `graf`, `sim`, `con`, `q`, `voto`, `tipo`, `anio` |
 | `votaciones.html` | Votaciones de una cámara con buscador y filtros | `camara`, `q`, `tipo`, `anio`, `res` |
 | `votacion.html` | Detalle: textos, totales, hemiciclo por voto, votos por partido y lista nominal | `camara`, `id` |
 | `asistencia.html` | Presencia en votaciones nominales del mandato: buscador de legisladores (resalta a la persona en todos los gráficos), indicadores y enjambre, por partido, mensual y mapa legislador × mes, consenso vs. reñidas y mensajes/vetos del Ejecutivo, sala vacía | `camara`, `orden`, `seleccionado` |
@@ -201,6 +201,9 @@ rompe; cambiar la lógica sí. Los datos vivos (`salidas/`, `site/datos/`) se re
   cierran con los totales y ningún JSON del sitio trae campos del índice del Ejecutivo.
 - `test_exportar.py` también recalcula `presencia.json` y `asistencia.json` desde `votos.json` y la nómina
   (con el mismo criterio entre los dos), y prueba empates y mínimo de elegibilidad con datos sintéticos.
+- `test_detalle_legislador.py`: los archivos por legislador están al día y en el manifiesto, y se recalculan por
+  un camino independiente (conteos, series, mediana por tramo, similitud, coincidencia con partidos, votos.csv);
+  con la bandera apagada no hay votaciones clave, y el componente se prueba con datos sintéticos.
 - `test_bancadas.py`: historial (cambios, altas, bajas, columnas no registradas), sincronizar (conserva
   nombre_corto, no borra vacíos, aplica correcciones, respeta el fin de línea) y rechazo de nóminas incompletas.
 - `test_fotos.py`: descarga sin repetir, rechazo de respuestas que no son imágenes, sin contacto no hay requests,
@@ -247,6 +250,14 @@ rompe; cambiar la lógica sí. Los datos vivos (`salidas/`, `site/datos/`) se re
   - `{camara}/votos.json`: `orden` (ids de votación, en el orden de votaciones.json), `codigos` y, por id de
     legislador, una cadena con un carácter por votación (S N A X V 1 2 3; `-` = fuera del cargo).
   - `{camara}/legisladores.json`: datos de la nómina y `conteo` de votos por tipo.
+  - `{camara}/legisladores/{id}/`: `analisis.json` (por período: conteo, series por semana/mes/año con la
+    mediana de la cámara, similitud con cada legislador en ejercicio y coincidencia con la mayoría de cada
+    partido; solo votaciones en las que los dos votaron Sí/No/Abstención, mínimo 20 en común), `votos.csv` y
+    `resumen.json` (con licencia y diccionario). Los genera `pipeline/detalle_legislador.py`; el manifiesto los
+    resume en `por_legislador` (cantidad, bytes y sha256 de todos). Unos 12 MB entre las dos cámaras.
+  - Votaciones clave: `config.LEYES_CLAVE_PUBLICADAS = False`. Con la bandera en True, el pipeline lee
+    `silver/{camara}/leyes_clave.csv` (lista editorial; borrador en `docs/leyes_clave_propuesta.md`) y agrega
+    `leyes_clave` a cada `analisis.json`. No activarla sin la revisión del responsable del proyecto.
   - `{camara}/asistencia.json`: página Asistencia (todo el mandato). Lo calcula `exportar_asistencia()` con
     el mismo criterio de presencia que Inicio; umbrales en `config.py` (`ASISTENCIA_*`: mínimo 50 votaciones
     posibles, consenso < 5 %, reñida >= 25 %, 15 de cada tipo, 10 votaciones con más ausentes). El bloque

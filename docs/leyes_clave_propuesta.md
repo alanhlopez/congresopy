@@ -1,0 +1,78 @@
+# Leyes clave: propuesta para revisar (NO publicada)
+
+Borrador para el componente «Votaciones clave» del perfil, que está apagado (`config.LEYES_CLAVE_PUBLICADAS = False`).
+Nada de esto llega al sitio hasta que se revise y se active la bandera.
+
+## Cómo se armó
+
+- Punto de partida: `silver/{camara}/codificacion_sugerida.csv` (mensajes y vetos del Ejecutivo detectados por texto),
+  más el Presupuesto General de cada año (el acápite cita «Que aprueba el Presupuesto General de la Nación para el
+  ejercicio fiscal…»; una votación por año) y el juicio político.
+- Prioridad: juicio político, Presupuesto General, iniciativas del Ejecutivo de alcance amplio (reformas del Estado,
+  finanzas públicas, jubilaciones, Código Penal, organizaciones sin fines de lucro, Estatuto Agrario, etc.) y vetos.
+  Se toman las primeras 22 por cámara y una sola votación por expediente (la primera).
+- Posición del gobierno: **documentada** solo cuando la respalda el propio texto de SILpy (número del mensaje del
+  Ejecutivo en el acápite, decreto de objeción en la moción, o que el acusado sea el presidente). Todo lo demás dice
+  **a confirmar**. No usé declaraciones de prensa: no las verifiqué.
+
+## Lo que falta antes de publicar
+
+1. Revisar la lista: sacar lo menor y sumar lo que falte (por ejemplo, leyes que el oficialismo impulsó sin mensaje
+   del Ejecutivo; para esas hace falta una fuente oficial).
+2. Confirmar la posición del gobierno donde dice «a confirmar», con fuente.
+3. Elegir, para cada ley, la votación que cuenta (en general, en particular, sobre el veto) y un título corto editorial.
+4. Volcar el resultado en `silver/{camara}/leyes_clave.csv` (columnas: id_votacion, titulo, gobierno, fuente) y
+   recién entonces activar la bandera.
+
+## Cámara de Senadores: 22 votaciones (de 33 candidatas)
+
+| Fecha | Expediente | Votación | Por qué es clave | Posición del gobierno | Fuente |
+|---|---|---|---|---|---|
+| 2023-07-20 | S-2211051 | [QUE MODIFICA EL ARTÍCULO 90 INCISO C DE LA LEY N° 6.380/2019 ‘DE MODERNIZACIÓN Y SIMPLIFICACIÓ…](https://silpy.congreso.gov.py/web/votacion/104244) | Veto del Ejecutivo (objeción) | A favor de sostener el veto — **a confirmar** el decreto | Objeción del Ejecutivo según SILpy |
+| 2023-07-27 | S-2210896 | [QUE ESTABLECE LA EXONERACIÓN EN EL PAGO PARA LA EXPEDICIÓN DEL CERTIFICADO DE ANTECEDENTE POLI…](https://silpy.congreso.gov.py/web/votacion/104255) | Veto del Ejecutivo (objeción) | A favor de sostener el veto — **a confirmar** el decreto | Objeción del Ejecutivo según SILpy |
+| 2023-08-09 | D-2265808 | [QUE ESTABLECE UN RÉGIMEN DE INDEMNIZACION DE LOS CONSCRIPTOS QUE PRESTARON SERVICIO DURANTE EL…](https://silpy.congreso.gov.py/web/votacion/104267) | Veto del Ejecutivo (objeción) | A favor de sostener el veto — **a confirmar** el decreto | Objeción del Ejecutivo según SILpy |
+| 2023-08-09 | D-2268747 | [QUE ESTABLECE LA REPARACION A VICTIMAS DE VIOLACION DE SUS DERECHOS HUMANOS POR EXPOSICION AL…](https://silpy.congreso.gov.py/web/votacion/104269) | Veto del Ejecutivo (objeción) | A favor de sostener el veto — **a confirmar** el decreto | Objeción del Ejecutivo según SILpy |
+| 2023-08-09 | D-2266316 | [QUE ESTABLECE UN REGIMEN DE INDEMNIZACION DE LOS CONSCRIPTOS QUE PRESTARON EL SERVICIO MILITAR…](https://silpy.congreso.gov.py/web/votacion/104270) | Veto del Ejecutivo (objeción) | A favor de sostener el veto — **a confirmar** el decreto | Objeción del Ejecutivo según SILpy |
+| 2023-08-30 | S-177757 | [DEL ARCHIVO GENERAL DE LA NACIÓN Y DEL SISTEMA NACIONAL DE ARCHIVOS DE LA REPÚBLICA DEL PARAGU…](https://silpy.congreso.gov.py/web/votacion/104317) | Veto del Ejecutivo (objeción) | A favor de sostener el veto — **a confirmar** el decreto | Objeción del Ejecutivo según SILpy |
+| 2023-09-13 | S-2211252 | [QUE DECLARA DE INTERÉS SOCIAL Y EXPROPIA A FAVOR DEL INSTITUTO NACIONAL DE DESARROLLO RURAL Y…](https://silpy.congreso.gov.py/web/votacion/104339) | Veto del Ejecutivo (objeción) | A favor de sostener el veto — **a confirmar** el decreto | Objeción del Ejecutivo según SILpy |
+| 2023-10-11 | S-2300346 | [POR EL CUAL SE ESTABLECEN MEDIDAS EXTRAORDINARIAS DE GESTIÓN PARA LAS FINANZAS PÚBLICAS](https://silpy.congreso.gov.py/web/votacion/104395) | Iniciativa del Ejecutivo de alcance amplio | A favor **(documentada)** | Mensaje Del Poder Ejecutivo N° 10 (acápite en SILpy) |
+| 2023-12-12 | S-2300618 | [POR EL CUAL SE REGLAMENTA EL ROL SUPERVISOR DEL ESTADO A LAS ENTIDADES DE JUBILACIONES Y PENSI…](https://silpy.congreso.gov.py/web/votacion/104510) | Iniciativa del Ejecutivo de alcance amplio | A favor **(documentada)** | Mensaje Del Poder Ejecutivo N° 41 (acápite en SILpy) |
+| 2023-12-12 | S-2311937 | [QUE MODIFICA Y AMPLÍA LA PROGRAMACIÓN DE INGRESOS, GASTOS Y ANEXO DEL PERSONAL DEL PRESUPUESTO…](https://silpy.congreso.gov.py/web/votacion/104509) | Veto del Ejecutivo (objeción) | A favor de sostener el veto — **a confirmar** el decreto | Objeción del Ejecutivo según SILpy |
+| 2023-12-20 | S-2211138 | [DE FOMENTO Y PROTECCIÓN A LOS PEQUEÑOS Y MEDIANOS PRODUCTORES DE YERBA MATE – ILEX PARAGUARIEN…](https://silpy.congreso.gov.py/web/votacion/104547) | Veto del Ejecutivo (objeción) | A favor de sostener el veto — **a confirmar** el decreto | Objeción del Ejecutivo según SILpy |
+| 2024-06-12 | S-2401044 | [QUE MODIFICA EL ART. 173 DEL CÓDIGO PENAL Y DISPONE LA INCAUTACIÓN Y COMISO DE LOS BIENES ASOC…](https://silpy.congreso.gov.py/web/votacion/105155) | Iniciativa del Ejecutivo de alcance amplio | A favor **(documentada)** | Mensaje Del Poder Ejecutivo N° 100 (acápite en SILpy) |
+| 2024-06-12 | D-2268943 | [QUE REGLAMENTA EL ARTÍCULO 192 DE LA CONSTITUCIÓN NACIONAL, DEL PEDIDO DE INFORMES](https://silpy.congreso.gov.py/web/votacion/105157) | Veto del Ejecutivo (objeción) | A favor de sostener el veto — **a confirmar** el decreto | Objeción del Ejecutivo según SILpy |
+| 2024-06-12 | S-2211331 | [QUE DEROGA EL INCISO ‘F’ DEL ARTÍCULO 194 DE LA LEY 125/91 MODIFICADO POR LEY 2421/04 EN CUANT…](https://silpy.congreso.gov.py/web/votacion/105158) | Veto del Ejecutivo (objeción) | A favor de sostener el veto — **a confirmar** el decreto | Objeción del Ejecutivo según SILpy |
+| 2024-10-29 | S-2401435 | [QUE CREA EL REGISTRO UNIFICADO NACIONAL - RUN](https://silpy.congreso.gov.py/web/votacion/106155) | Iniciativa del Ejecutivo de alcance amplio | A favor **(documentada)** | Mensaje Del Poder Ejecutivo N.º 139 (acápite en SILpy) |
+| 2024-10-30 | S-2211196 | [QUE DECLARA DE INTERÉS SOCIAL Y EXPROPIA A FAVOR DEL ESTADO PARAGUAYO – MINISTERIO DE URBANISM…](https://silpy.congreso.gov.py/web/votacion/106196) | Veto del Ejecutivo (objeción) | A favor de sostener el veto — **a confirmar** el decreto | Objeción del Ejecutivo según SILpy |
+| 2024-11-13 | S-221841 | [DE LA FUNCIÓN PÚBLICA Y LA CARRERA DEL SERVICIO CIVIL](https://silpy.congreso.gov.py/web/votacion/106297) | Iniciativa del Ejecutivo de alcance amplio | A favor **(documentada)** | Mensaje N° 709 (acápite en SILpy) |
+| 2024-11-28 | — | [QUE APRUEBA EL PRESUPUESTO GENERAL DE LA NACIÓN PARA EL EJERCICIO FISCAL 2025](https://silpy.congreso.gov.py/web/votacion/106445) | Presupuesto General de la Nación 2025 | A favor del proyecto del Ejecutivo — **a confirmar**: se votó la versión con modificaciones de la Comisión Bicameral | Constitución, art. 216 (el Ejecutivo presenta el presupuesto); confirmar la posición sobre las modificaciones |
+| 2025-06-04 | S-2502234 | [QUE APRUEBA EL CONTRATO DE PRÉSTAMO N° 5940/ OC – PR SUSCRITO EN FECHA 27 DE ENERO DE 2025, EN…](https://silpy.congreso.gov.py/web/votacion/107096) | Iniciativa del Ejecutivo de alcance amplio | A favor **(documentada)** | Mensaje Del Poder Ejecutivo N.º 256 (acápite en SILpy) |
+| 2025-11-27 | — | [QUE APRUEBA EL PRESUPUESTO GENERAL DE LA NACIÓN PARA EL EJERCICIO FISCAL 2026](https://silpy.congreso.gov.py/web/votacion/108106) | Presupuesto General de la Nación 2026 | A favor del proyecto del Ejecutivo — **a confirmar**: se votó la versión con modificaciones de la Comisión Bicameral | Mensaje Del Poder Ejecutivo Nº 316/2025; confirmar la posición sobre las modificaciones |
+| 2026-09-23 | S-2603413 | [QUE MODIFICA EL ARTÍCULO 52 DE LA LEY N° 1862/02 ‘QUE ESTABLECE EL ESTATUTO AGRARIO’, EL ARTÍC…](https://silpy.congreso.gov.py/web/votacion/109365) | Iniciativa del Ejecutivo de alcance amplio | A favor **(documentada)** | Mensaje Del Poder Ejecutivo N.º 372 (acápite en SILpy) |
+| 2026-11-06 | D-2696185 | [QUE DISPONE LA FORMULACIÓN DE LA ACUSACIÓN EN JUICIO POLÍTICO CONTRA EL PRESIDENTE DE LA REPÚB…](https://silpy.congreso.gov.py/web/votacion/109435) | Juicio político al presidente de la República | En contra **(documentada)** | El acusado es el presidente de la República |
+## Cámara de Diputados: 22 votaciones (de 59 candidatas)
+
+| Fecha | Expediente | Votación | Por qué es clave | Posición del gobierno | Fuente |
+|---|---|---|---|---|---|
+| 2023-07-12 | D-2371506 | [QUE AMPLIA EL PRESUPUESTO GENERAL DE LA NACIÓN PARA EL EJERCICIO FISCAL 2023, APROBADO POR LEY…](https://silpy.congreso.gov.py/web/votacion/104221) | Veto del Ejecutivo (objeción) | A favor de sostener el veto **(documentada)** | Decreto N° 9331 (moción en SILpy) |
+| 2023-07-12 | S-2211160 | [QUE DECLARA DE UTILIDAD PÚBLICA Y EXPROPIA A FAVOR DEL MINISTERIO DE OBRAS PÚBLICAS Y COMUNICA…](https://silpy.congreso.gov.py/web/votacion/104224) | Veto del Ejecutivo (objeción) | A favor de sostener el veto **(documentada)** | Decreto Nº 9181 (moción en SILpy) |
+| 2023-07-12 | D-2056470 | [QUE MODIFICA LOS ARTÌCULOS 187 - ESTAFA Y 192 – LESIÓN DE CONFIANZA DEL CÓDIGO PENAL, LEY 1160…](https://silpy.congreso.gov.py/web/votacion/104232) | Veto del Ejecutivo (objeción) | A favor de sostener el veto **(documentada)** | Decreto N° 9422 (moción en SILpy) |
+| 2023-07-12 | S-2210956 | [QUE MODIFICA EL ARTÍCULO 420 DE LA LEY N° 1.286/1998 ‘CODIGO PROCESAL PENAL](https://silpy.congreso.gov.py/web/votacion/104233) | Veto del Ejecutivo (objeción) | A favor de sostener el veto **(documentada)** | Decreto N° 9300 (moción en SILpy) |
+| 2023-08-09 | S-198586 | [QUE DECLARA DE INTERÉS SOCIAL SUJETO A EXPROPIACIÓN PARTE DEL INMUEBLE QUE SIRVE DE ASIENTO AL…](https://silpy.congreso.gov.py/web/votacion/104280) | Veto del Ejecutivo (objeción) | A favor de sostener el veto **(documentada)** | Decreto Nº 9155 (moción en SILpy) |
+| 2023-08-23 | D-2266421 | [QUE ESTABLECE LA INTEGRACION DEL FONDO GANADERO CON EL BANCO NACIONAL DE FOMENTO, EN LO QUE RE…](https://silpy.congreso.gov.py/web/votacion/104300) | Veto del Ejecutivo (objeción) | A favor de sostener el veto **(documentada)** | Decreto Nº 9661 (moción en SILpy) |
+| 2023-09-06 | S-211720 | [QUE APRUEBA EL ACUERDO DE SEDE ENTRE EL GOBIERNO DE LA REPÚBLICA DEL PARAGUAY Y LA ORGANIZACIÓ…](https://silpy.congreso.gov.py/web/votacion/104337) | Iniciativa del Ejecutivo de alcance amplio | A favor **(documentada)** | Mensaje Del Poder Ejecutivo N° 523 (acápite en SILpy) |
+| 2023-09-06 | S-2210896 | [QUE ESTABLECE LA EXONERACIÓN EN EL PAGO PARA LA EXPEDICIÓN DEL CERTIFICADO DE ANTECEDENTE POLI…](https://silpy.congreso.gov.py/web/votacion/104329) | Veto del Ejecutivo (objeción) | A favor de sostener el veto **(documentada)** | Decreto N° 9371 (moción en SILpy) |
+| 2023-09-13 | S-2211051 | [QUE MODIFICA EL ARTÍCULO 90 INCISO C DE LA LEY N° 6.380/2019 ‘DE MODERNIZACIÓN Y SIMPLIFICACIÓ…](https://silpy.congreso.gov.py/web/votacion/104351) | Veto del Ejecutivo (objeción) | A favor de sostener el veto **(documentada)** | Decreto N° 9330 (moción en SILpy) |
+| 2023-09-13 | S-2211213 | [POR EL CUAL SE SUSPENDE TRANSITORIAMENTE EL ARTÍCULO 218 DE LA LEY N° 834/96 ‘QUE ESTABLECE EL…](https://silpy.congreso.gov.py/web/votacion/104353) | Veto del Ejecutivo (objeción) | A favor de sostener el veto **(documentada)** | Decreto N° 9369 (moción en SILpy) |
+| 2023-09-20 | S-2210804 | [QUE DESAFECTA DEL DOMINIO PÚBLICO MUNICIPAL Y AUTORIZA A LA MUNICIPALIDAD DE ASUNCIÓN A TRANSF…](https://silpy.congreso.gov.py/web/votacion/104361) | Veto del Ejecutivo (objeción) | A favor de sostener el veto **(documentada)** | Decreto Nº 9370 (moción en SILpy) |
+| 2023-10-04 | D-2163902 | [QUE DECLARA DE INTERES SOCIAL Y EXPROPIA A FAVOR DEL ESTADO PARAGUAYO – MUNICIPALIDAD DE HERNA…](https://silpy.congreso.gov.py/web/votacion/104378) | Veto del Ejecutivo (objeción) | A favor de sostener el veto **(documentada)** | Decreto N° 9816 (moción en SILpy) |
+| 2023-10-25 | S-2300346 | [POR EL CUAL SE ESTABLECEN MEDIDAS EXTRAORDINARIAS DE GESTIÓN PARA LAS FINANZAS PÚBLICAS](https://silpy.congreso.gov.py/web/votacion/104421) | Iniciativa del Ejecutivo de alcance amplio | A favor **(documentada)** | Mensaje Del Poder Ejecutivo N° 10 (acápite en SILpy) |
+| 2023-11-13 | — | [QUE APRUEBA EL PRESUPUESTO GENERAL DE LA NACIÓN PARA EL EJERCICIO FISCAL 2024](https://silpy.congreso.gov.py/web/votacion/104449) | Presupuesto General de la Nación 2024 | A favor del proyecto del Ejecutivo — **a confirmar**: se votó la versión con modificaciones de la Comisión Bicameral | Constitución, art. 216 (el Ejecutivo presenta el presupuesto); confirmar la posición sobre las modificaciones |
+| 2023-12-13 | S-2300618 | [POR EL CUAL SE REGLAMENTA EL ROL SUPERVISOR DEL ESTADO A LAS ENTIDADES DE JUBILACIONES Y PENSI…](https://silpy.congreso.gov.py/web/votacion/104525) | Iniciativa del Ejecutivo de alcance amplio | A favor **(documentada)** | Mensaje Del Poder Ejecutivo N° 41 (acápite en SILpy) |
+| 2024-04-24 | S-2300002 | [QUE APRUEBA EL CONVENIO ENTRE LA REPÚBLICA DEL PARAGUAY Y EL REINO DE ESPAÑA PARA EVITAR LA DO…](https://silpy.congreso.gov.py/web/votacion/104836) | Iniciativa del Ejecutivo de alcance amplio | A favor **(documentada)** | Mensaje Del Poder Ejecutivo N° 799 (acápite en SILpy) |
+| 2024-09-10 | D-2479034 | [QUE APRUEBA EL PRESUPUESTO GENERAL DE LA NACIÓN PARA EL EJERCICIO FISCAL 2024](https://silpy.congreso.gov.py/web/votacion/105785) | Iniciativa del Ejecutivo de alcance amplio | A favor **(documentada)** | Mensaje Del Poder Ejecutivo Nº 133/2024 (acápite en SILpy) |
+| 2024-11-19 | S-2401435 | [QUE CREA EL REGISTRO UNIFICADO NACIONAL - RUN](https://silpy.congreso.gov.py/web/votacion/106315) | Iniciativa del Ejecutivo de alcance amplio | A favor **(documentada)** | Mensaje Del Poder Ejecutivo N.º 139 (acápite en SILpy) |
+| 2024-12-03 | — | [QUE APRUEBA EL PRESUPUESTO GENERAL DE LA NACIÓN PARA EL EJERCICIO FISCAL 2025](https://silpy.congreso.gov.py/web/votacion/106425) | Presupuesto General de la Nación 2025 | A favor del proyecto del Ejecutivo — **a confirmar**: se votó la versión con modificaciones de la Comisión Bicameral | Constitución, art. 216 (el Ejecutivo presenta el presupuesto); confirmar la posición sobre las modificaciones |
+| 2024-12-17 | S-221841 | [DE LA FUNCIÓN PÚBLICA Y LA CARRERA DEL SERVICIO CIVIL](https://silpy.congreso.gov.py/web/votacion/106565) | Iniciativa del Ejecutivo de alcance amplio | A favor **(documentada)** | Mensaje N° 709 (acápite en SILpy) |
+| 2025-06-24 | S-2502234 | [QUE APRUEBA EL CONTRATO DE PRÉSTAMO N° 5940/ OC – PR SUSCRITO EN FECHA 27 DE ENERO DE 2025, EN…](https://silpy.congreso.gov.py/web/votacion/107355) | Iniciativa del Ejecutivo de alcance amplio | A favor **(documentada)** | Mensaje Del Poder Ejecutivo N.º 256 (acápite en SILpy) |
+| 2025-12-02 | — | [QUE APRUEBA EL PRESUPUESTO GENERAL DE LA NACIÓN PARA EL EJERCICIO FISCAL 2026](https://silpy.congreso.gov.py/web/votacion/108085) | Presupuesto General de la Nación 2026 | A favor del proyecto del Ejecutivo — **a confirmar**: se votó la versión con modificaciones de la Comisión Bicameral | Mensaje Del Poder Ejecutivo Nº 316/2025; confirmar la posición sobre las modificaciones |
