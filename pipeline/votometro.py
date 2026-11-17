@@ -9,6 +9,9 @@ legislativo con datos suficientes para el mapa):
                mayoría calificada identificable (2/3 o absoluta según SILpy; mayoría absoluta para rechazar un veto)
                alcanzada o no por 3 votos o menos. Ranking de veces del lado ganador.
   mapa         MDS clásico (como el prototipo) sobre votaciones divididas: dimensiones 1 y 2, varianza explicada.
+  ausentismo   ausentismo selectivo: % de ausencia (ausente + no vota) en las votaciones sobre vetos del Ejecutivo
+               contra el resto. Para rechazar un veto hace falta la mayoría absoluta de los miembros: no votar ayuda,
+               en los hechos, a que el veto se mantenga. Se mide la presencia, no la dirección del voto.
 Y para todo el mandato:
   trayectoria  MDS en ventanas de 12 meses que avanzan cada 6 meses, con la posición normalizada (−1..1) para
                comparar ventanas; el eje se orienta para que la mayoría del ANR quede del lado positivo.
@@ -31,8 +34,33 @@ MAPA_MIN_LEGISLADORES = 10
 MAPA_MIN_DIVIDIDAS = 15
 MUESTRA_CHICA = 0.5          # aviso si el mapa cubre menos de la mitad de la cámara
 SIGNO = {"S": 1, "N": -1, "1": 1, "2": -1}
+AUSENTISMO_MIN_VETOS = 8     # votaciones sobre vetos en el cargo para entrar en el gráfico
+AUSENTISMO_MIN_RESTO = 20
 RE_OBJECION = re.compile(r"objeci|SE OBJETA", re.I)
 r4 = lambda x: None if x is None else round(float(x), 4)
+
+
+def es_veto(v):
+    """Votación sobre una objeción (veto) del Ejecutivo: misma regla que exportar_sitio.tema_pe (lo verifica un test)."""
+    return bool(RE_OBJECION.search(v.get("mocion") or "") or RE_OBJECION.search((v.get("mociones") or {}).get("1", "")))
+
+
+def ausentismo(votaciones, cadenas, idx, ids):
+    vetos = [k for k in idx if es_veto(votaciones[k])]
+    resto = [k for k in idx if k not in set(vetos)]
+    filas = []
+    for i in ids:
+        cad = cadenas[i]
+        nv = [k for k in vetos if cad[k] != "-"]
+        nr = [k for k in resto if cad[k] != "-"]
+        if len(nv) < AUSENTISMO_MIN_VETOS or len(nr) < AUSENTISMO_MIN_RESTO:
+            continue
+        av = sum(cad[k] in "XV" for k in nv) / len(nv)
+        ar = sum(cad[k] in "XV" for k in nr) / len(nr)
+        filas.append({"id": int(i), "objeciones": r4(av), "resto": r4(ar), "n_objeciones": len(nv), "n_resto": len(nr), "diferencia": r4(av - ar)})
+    filas.sort(key=lambda f: (-f["diferencia"], f["id"]))
+    return {"votaciones_objeciones": len(vetos), "votaciones_resto": len(resto), "puntos": filas,
+            "minimos": {"objeciones": AUSENTISMO_MIN_VETOS, "resto": AUSENTISMO_MIN_RESTO}}
 
 
 def minimo_votos(n_divididas):
@@ -131,6 +159,7 @@ def calcular(votaciones, cadenas, L, bancas):
         salida_periodos.append({"clave": clave, "nombre": nombre, "desde": votaciones[idx[0]]["fecha"],
                                 "hasta": votaciones[idx[-1]]["fecha"], "votaciones": len(idx), "aviso": aviso})
         por_periodo[clave] = {
+            "ausentismo": ausentismo(votaciones, cadenas, idx, ids),
             "disciplina": disciplina(votaciones, cadenas, partido, idx, ids),
             "cohesion": cohesion(votaciones, cadenas, partido, idx, ids),
             "decisivas": decisivas(votaciones, cadenas, idx, ids, bancas),

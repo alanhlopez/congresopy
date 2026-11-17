@@ -143,3 +143,23 @@ def test_decisivas(exportado, cam):
         assert sorted(f["lado_ganador"]) == sorted(int(i) for i in votos if votos[i][k] == f["ganador"])
     cuenta = Counter(i for f in dec["votaciones"] for i in f["lado_ganador"])
     assert {r["id"]: r["veces"] for r in dec["ranking"]} == dict(cuenta)
+
+
+@pytest.mark.parametrize("cam", CAMARAS)
+def test_ausentismo_selectivo(exportado, cam):
+    """Vetos con la misma regla que Asistencia; ausencia = ausente o no vota, entre las votaciones en el cargo."""
+    import exportar_sitio as ex
+    import votometro as vmod
+    vm, vots, votos, _ = datos(exportado, cam)
+    for v in vots:
+        assert vmod.es_veto(v) == (ex.tema_pe(v) == "objecion"), v["id"]
+    a = vm["por_periodo"]["mandato"]["ausentismo"]
+    vetos = [k for k, v in enumerate(vots) if ex.tema_pe(v) == "objecion"]
+    assert a["votaciones_objeciones"] == len(vetos) and a["votaciones_resto"] == len(vots) - len(vetos)
+    for p in a["puntos"]:
+        cad = votos[str(p["id"])]
+        nv = [k for k in vetos if cad[k] != "-"]
+        nr = [k for k in range(len(vots)) if k not in set(vetos) and cad[k] != "-"]
+        assert (p["n_objeciones"], p["n_resto"]) == (len(nv), len(nr)) and len(nv) >= 8 and len(nr) >= 20
+        assert abs(p["objeciones"] - sum(cad[k] in "XV" for k in nv) / len(nv)) < 1e-4
+        assert abs(p["resto"] - sum(cad[k] in "XV" for k in nr) / len(nr)) < 1e-4
