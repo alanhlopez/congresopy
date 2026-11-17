@@ -39,8 +39,11 @@ Pendiente:
   (por ejemplo, una vez por año después del 1 de julio).
 - **Datos menores:** fotos de Da Silva y Esquivel (404 en SILpy); bancada de Nakayama («Liberal Independiente»
   en SILpy). Rubín se declara independiente; SILpy todavía no lo actualizó (corrección manual vigente).
-- **Perfil: votaciones clave** preparadas detrás de `config.LEYES_CLAVE_PUBLICADAS = False`; falta revisar la
-  propuesta en `docs/leyes_clave_propuesta.md` (22 por cámara; posición del gobierno documentada o «a confirmar»).
+- **Perfil: votaciones clave** preparadas detrás de `config.LEYES_CLAVE_PUBLICADAS = False`. Pendiente del
+  responsable (16/11/2026: «lo analizo con más tiempo»). `docs/leyes_clave_propuesta.md` es un borrador automático
+  difícil de leer (por cámara, con vetos menores y títulos de SILpy); la idea acordada es rehacerlo como 12–15 fichas
+  editoriales por ley (qué hace, por qué es clave, posición del gobierno con fuente, votación que cuenta en cada
+  cámara), en Markdown o en una página de revisión con «entra / no entra».
 - **Fase futura: pestaña «Transparencia»** del perfil (viáticos y declaraciones juradas). Requiere datos que SILpy
   no publica: hay que pedirlos por la Ley 5282 de acceso a la información pública (Congreso y Contraloría). No
   crear una pestaña vacía mientras no estén.
