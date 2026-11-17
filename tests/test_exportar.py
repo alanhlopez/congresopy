@@ -28,7 +28,7 @@ def cargar(d, rel):
 def test_manifiesto_coincide_con_los_archivos(exportado):
     m = cargar(exportado, "manifiesto.json")
     esperados = {f"{c}/{n}" for c in ("senado", "diputados")
-                 for n in ("legisladores.json", "votaciones.json", "votos.json", "presencia.json", "asistencia.json")}
+                 for n in ("legisladores.json", "votaciones.json", "votos.json", "presencia.json", "asistencia.json", "votometro.json")}
     # comisiones.json es opcional: sale solo si silver/{camara}/comisiones.csv existe
     esperados |= {f"{c}/comisiones.json" for c in ("senado", "diputados") if (config.silver_dir(c) / "comisiones.csv").exists()}
     assert {a["archivo"] for a in m["archivos"]} == esperados
@@ -40,7 +40,8 @@ def test_manifiesto_coincide_con_los_archivos(exportado):
         filas = (len(obj["legisladores"]) if a["archivo"].endswith("votos.json")
                  else len(obj["comisiones"]) if a["archivo"].endswith("comisiones.json")
                  else len(obj["menor_presencia"]) if a["archivo"].endswith("presencia.json")
-                 else len(obj["legisladores"]) if a["archivo"].endswith("asistencia.json") else len(obj))
+                 else len(obj["legisladores"]) if a["archivo"].endswith("asistencia.json")
+                 else len(obj["periodos"]) if a["archivo"].endswith("votometro.json") else len(obj))
         assert filas == a["filas"]
         assert a["generado"].endswith("Z")
 

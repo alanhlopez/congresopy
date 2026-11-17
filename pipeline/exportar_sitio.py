@@ -1,4 +1,4 @@
-"""Genera los JSON que consume el sitio, desde silver/ (solo biblioteca estándar).
+"""Genera los JSON que consume el sitio, desde silver/ (biblioteca estándar; votometro.py usa numpy).
 
 Uso: python3 pipeline/exportar_sitio.py [--destino DIR]
 Salida (por defecto site/datos/congreso/):
@@ -6,6 +6,7 @@ Salida (por defecto site/datos/congreso/):
   {senado,diputados}/votaciones.json    una fila por votación (más reciente primero): textos, totales, link a SILpy
   {senado,diputados}/votos.json         una cadena por legislador con su voto en cada votación, en el orden
                                         de votaciones.json (códigos en comun.CODIGO_VOTO; "-" = fuera del cargo)
+  {senado,diputados}/votometro.json     disciplina, votaciones decisivas y mapa político (página Votómetro; ver votometro.py)
   {senado,diputados}/asistencia.json    análisis de presencia de todo el mandato (página Asistencia; ver exportar_asistencia)
   {senado,diputados}/presencia.json     quienes menos votos registran en los últimos 12 meses (ver exportar_presencia)
   {senado,diputados}/comisiones.json    integrantes de cada comisión por período, desde la ficha de SILpy
@@ -36,6 +37,7 @@ from pathlib import Path
 
 import config
 import detalle_legislador
+import votometro
 from comun import CODIGO_VOTO, titulo_corto
 
 URL_VOTACION = "https://silpy.congreso.gov.py/web/votacion/{}"
@@ -192,6 +194,8 @@ def exportar_camara(cam, fotos=None):
               "votos.json": (votos_json, len(votos_json["legisladores"]))}
     salida["presencia.json"] = (presencia := exportar_presencia(votaciones, cadenas, L), len(presencia["menor_presencia"]))
     salida["asistencia.json"] = (asistencia := exportar_asistencia(votaciones, cadenas, L), len(asistencia["legisladores"]))
+    bancas = {"senado": 45, "diputados": 80}[config.camara_dir(cam)]
+    salida["votometro.json"] = (vm := votometro.calcular(votaciones, cadenas, L, bancas), len(vm["periodos"]))
     if comisiones:
         salida["comisiones.json"] = (comisiones, len(comisiones["comisiones"]))
     detalle = detalle_legislador.calcular(votaciones, cadenas, L, cam)
