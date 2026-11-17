@@ -36,7 +36,7 @@ Hecho:
 - **Tests:** 91 en verde (regresión del análisis contra el prototipo, reglas del sitio, pipeline sin red).
 
 Pendiente:
-- **Proyectos (fase 1b):** la API `datos.congreso.gov.py` da 502 en todos sus endpoints (13 y 14/11/2026).
+- **Proyectos (fase 1b):** la API vieja da 502; la nueva (`https://datos.congreso.gov.py/opendata/api`) responde, pero sus datos están congelados a fines de 2023 (verificado el 17/11/2026), así que no sirve para 2024-2026.
   Alternativa en curso: una copia de SILpy que bajó un tercero. Hace falta: expedientes 2023-2028 de las dos
   cámaras (número, tipo, título, fecha, cámara de origen, materia, estado) y firmantes con id de legislador y
   rol (autor/cofirmante); el trámite, si está. Antes de usarla: formato, fecha, cobertura y permiso.

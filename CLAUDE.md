@@ -337,11 +337,16 @@ rompe; cambiar la lógica sí. Los datos vivos (`salidas/`, `site/datos/`) se re
   `config.PERIODO_ABIERTO` y `config.PERIODOS`.
 - El parser busca `formMain:j_idt93:tabDetalle`, un id autogenerado por JSF que puede cambiar. Si no lo
   encuentra, usa la página entera; la validación contra el sumario lo detectaría.
-- Proyectos (fase 1b): SILpy enlaza desde cada ficha a la API `http://datos.congreso.gov.py/v2/api/legislador/{id}/expedientes`
-  (y `/v2/api/votacion/{id}`). Solo responde por http; por https da 404. El 13/11/2026 respondía 502 Proxy Error (y el 14/11 toda la API, incluida la raíz y `/votacion/{id}`),
-  también en un reintento un minuto después: el servidor de atrás no contesta. La pestaña «Expedientes/Proyectos»
-  de la ficha se carga por AJAX de PrimeFaces y, reproducida, devolvió «No hay expedientes» incluso para
-  legisladores con proyectos. Exploración guardada en `bronze/silpy/exploracion/` y `bronze/datoscongreso/exploracion/`.
+- Proyectos (fase 1b): la API vieja `http://datos.congreso.gov.py/v2/api/...` responde 502 (13, 14 y 17/11/2026). El
+  portal se mudó a https: «Datos Abiertos Legislativos» en `https://datos.congreso.gov.py/opendata`, con la API en
+  `https://datos.congreso.gov.py/opendata/api/data/...` (JSON; `proyecto/{id}`, `/autores`, `/tramitaciones`,
+  `/dictamenes`; `parlamentario/camara/{S|D}`, `parlamentario/{id}/proyectos`; `comision`, `ley`, `sesion`,
+  `periodo`). Usa los mismos ids de legislador que SILpy. PERO los datos están congelados a fines de 2023
+  (17/11/2026: los proyectos de Afara llegan hasta el 25/10/2023, los de Jatar Fernández hasta el 27/09/2023, y
+  los estados quedaron «EN TRAMITE»; la «Lista de Datos» dice «actualizados al 31/05/2023»). No sirve para
+  2024-2026. Trae además email y teléfono de los legisladores: no publicarlos. La pestaña «Expedientes/Proyectos»
+  de la ficha de SILpy se carga por AJAX y, reproducida, devolvió «No hay expedientes». Exploración guardada en
+  `bronze/silpy/exploracion/` y `bronze/datoscongreso/exploracion/`. Camino vigente: la copia de SILpy de un tercero.
 - SILpy no publica el historial de bancadas con fecha (la pestaña «Trayectoria Legislativa» solo da el partido
   por período de 5 años): se reconstruye con fotos de la nómina (ver Comandos). Un cambio se ubica entre dos
   fotos, no en un día exacto. `analisis.py` todavía usa la bancada actual; la disciplina de bloque por fecha
