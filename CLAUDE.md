@@ -163,6 +163,7 @@ $P tools/capturas.py "legislador.html#camara=diputados&id=101431&sub=analisis" -
 | `legislador.html` | Perfil: «¿Cómo votó?» con selector de período (mandato, 12 meses, período legislativo) y subpestañas Lista (conteos + historial), Análisis (votos o presencia por semana/mes/año, similitud con legisladores y partidos) y Datos abiertos (descargas por legislador); «Comisiones» | `camara`, `id`, `vista`, `sub`, `periodo`, `gran`, `graf`, `sim`, `con`, `q`, `voto`, `tipo`, `anio` |
 | `votaciones.html` | Votaciones de una cámara con buscador y filtros | `camara`, `q`, `tipo`, `anio`, `res` |
 | `votacion.html` | Detalle: textos, totales, hemiciclo por voto, votos por partido y lista nominal | `camara`, `id` |
+| `votometro.html` | Votómetro: disciplina de partido (ranking y «se apartó»), cohesión (Rice), votaciones decisivas, mapa político en el tiempo (ventanas de 12 meses), posición y presencia, mapa 2D experimental | `camara`, `periodo`, `partido`, `aparto` |
 | `asistencia.html` | Presencia en votaciones nominales del mandato: buscador de legisladores (resalta a la persona en todos los gráficos), indicadores y enjambre, por partido, mensual y mapa legislador × mes, consenso vs. reñidas y mensajes/vetos del Ejecutivo, sala vacía | `camara`, `orden`, `seleccionado` |
 | `proyectos.html` | En preparación (fase 1b: expedientes y autoría) | — |
 | `datos.html` | Datos abiertos: archivos del manifiesto, formato y licencia | — |
@@ -176,7 +177,7 @@ los componentes solo leen `--c`; los valores por tema están en los tokens de `c
 los colores oficiales de la nómina de SILpy (columna `color`), ajustados solo donde el original no se ve contra
 el fondo (PEN y PDP más oscuros y PPC gris en tema claro; Cruzada Nacional negro con borde fino en los dos temas).
 
-- El menú está copiado igual en las 11 páginas entre `<!-- MENU: ... -->` y `<!-- /MENU -->`. Si se cambia, se
+- El menú está copiado igual en las 12 páginas entre `<!-- MENU: ... -->` y `<!-- /MENU -->`. Si se cambia, se
   cambia en todas (lo verifica `test_menu_identico_en_cada_pagina`).
 - Decisiones: fotos de SILpy (CC BY 4.0) con aro del color del partido, o iniciales si no hay; la
   «presencia» es no figurar como AUSENTE en votaciones nominales (en el Senado «no vota» cuenta como presente);
@@ -216,6 +217,9 @@ rompe; cambiar la lógica sí. Los datos vivos (`salidas/`, `site/datos/`) se re
 - `test_detalle_legislador.py`: los archivos por legislador están al día y en el manifiesto, y se recalculan por
   un camino independiente (conteos, series, mediana por tramo, similitud, coincidencia con partidos, votos.csv);
   con la bandera apagada no hay votaciones clave, y el componente se prueba con datos sintéticos.
+- `test_votometro.py`: períodos ofrecidos, MDS igual al de `analisis.py` (varianza y quiénes entran),
+  orientación del ANR en cada período y ventana, ventanas de 12 meses cada 6, disciplina y Rice recalculados, y
+  criterios de las votaciones decisivas (todas las de margen <= 3 están; umbrales; ranking de ganadores).
 - `test_bancadas.py`: historial (cambios, altas, bajas, columnas no registradas), sincronizar (conserva
   nombre_corto, no borra vacíos, aplica correcciones, respeta el fin de línea) y rechazo de nóminas incompletas.
 - `test_fotos.py`: descarga sin repetir, rechazo de respuestas que no son imágenes, sin contacto no hay requests,
@@ -270,6 +274,14 @@ rompe; cambiar la lógica sí. Los datos vivos (`salidas/`, `site/datos/`) se re
   - Votaciones clave: `config.LEYES_CLAVE_PUBLICADAS = False`. Con la bandera en True, el pipeline lee
     `silver/{camara}/leyes_clave.csv` (lista editorial; borrador en `docs/leyes_clave_propuesta.md`) y agrega
     `leyes_clave` a cada `analisis.json`. No activarla sin la revisión del responsable del proyecto.
+  - `{camara}/votometro.json`: página Votómetro (`pipeline/votometro.py`, con numpy). Por período (mandato y cada
+    período legislativo con votaciones divididas suficientes para el mapa; hoy sin 2026-27): disciplina (mayoría
+    clara del partido >= 60 %, solo Sí/No/Abstención, mínimo 20), cohesión (índice de Rice), votaciones decisivas
+    (margen Sí−No <= 3, o mayoría calificada identificable —2/3 o absoluta según SILpy, absoluta para rechazar
+    un veto— alcanzada o no por 3 votos o menos) y el MDS clásico del prototipo (dimensiones 1 y 2, varianza
+    explicada). Para el mandato, la trayectoria en ventanas de 12 meses que avanzan cada 6 (desde julio de 2023;
+    mínimo de votos = 25 % de las divididas, entre 10 y 25), normalizada a −1..1. El eje siempre se orienta con
+    la mayoría del ANR del lado positivo: es una orientación del gráfico, no «oposición–oficialismo».
   - `{camara}/asistencia.json`: página Asistencia (todo el mandato). Lo calcula `exportar_asistencia()` con
     el mismo criterio de presencia que Inicio; umbrales en `config.py` (`ASISTENCIA_*`: mínimo 50 votaciones
     posibles, consenso < 5 %, reñida >= 25 %, 15 de cada tipo, 10 votaciones con más ausentes). El bloque

@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+  <meta name="color-scheme" content="light dark">
+  <title>Votómetro · Hesakã</title>
+  <meta name="description" content="Cómo vota cada cámara del Congreso del Paraguay: disciplina de partido, votaciones decisivas y un mapa político estimado a partir de los votos.">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/css/congreso.css">
+  <script type="module" src="assets/js/congreso/main.js"></script>
+  <script type="module" src="assets/js/congreso/paginas/votometro.js"></script>
+</head>
+<body>
+  <a class="saltar" href="#contenido">Saltar al contenido</a>
+
+  <header class="cabecera">
+    <div class="cabecera__interior">
+      <a class="marca" href="index.html">
+        <svg class="marca__logo" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+          <clipPath id="marca-iris"><circle cx="16" cy="16" r="5.6"/></clipPath>
+          <rect width="32" height="32" rx="8" fill="#0f2b31"/>
+          <path d="M3 16C7 9.5 11.2 7 16 7s9 2.5 13 9c-4 6.5-8.2 9-13 9S7 22.5 3 16z" fill="none" stroke="#8fd6d3" stroke-width="2"/>
+          <g clip-path="url(#marca-iris)"><rect x="10" y="10.4" width="12" height="3.74" fill="#d52b1e"/><rect x="10" y="14.14" width="12" height="3.72" fill="#ffffff"/><rect x="10" y="17.86" width="12" height="3.74" fill="#0038a8"/></g>
+          <circle cx="16" cy="16" r="5.6" fill="none" stroke="#ffffff" stroke-width="0.8"/>
+          <circle cx="16" cy="16" r="1.7" fill="#0f2b31"/>
+        </svg>
+        <span class="marca__texto"><span class="marca__nombre">Hesakã</span><span class="marca__sub">Congreso del Paraguay · 2023–2028</span></span>
+      </a>
+    <!-- MENU: se copia igual en cada página (no se inyecta). tests/test_sitio.py verifica que coincida. -->
+    <nav class="menu" aria-label="Principal">
+      <ul>
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="camaras.html">Cámaras</a></li>
+        <li><a href="legisladores.html">Legisladores</a></li>
+        <li><a href="votaciones.html">Votaciones</a></li>
+        <li><a href="votometro.html" aria-current="page">Votómetro</a></li>
+        <li><a href="asistencia.html">Asistencia</a></li>
+        <li><a href="comisiones.html">Comisiones</a></li>
+        <li><a href="proyectos.html">Proyectos</a></li>
+        <li><a href="datos.html">Datos abiertos</a></li>
+        <li><a href="acerca.html">Acerca de</a></li>
+      </ul>
+    </nav>
+    <!-- /MENU -->
+      <button type="button" class="tema" id="boton-tema" aria-label="Cambiar a tema oscuro">
+        <svg class="tema__luna" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg>
+        <svg class="tema__sol" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <span class="tema__texto sr">Tema oscuro</span>
+      </button>
+    </div>
+  </header>
+
+  <main id="contenido" class="contenido">
+    <header class="encabezado-pagina">
+      <p class="eyebrow">Votómetro</p>
+      <h1>¿Cómo vota cada cámara?</h1>
+      <p class="bajada">Cuánto se apartan los legisladores de su partido, qué votaciones se definieron por pocos votos y cómo se agrupan según lo que votan.</p>
+    </header>
+
+    <div class="controles-pagina">
+      <div class="segmentado" role="group" aria-label="Cámara" id="selector-camara">
+        <button type="button" data-camara="senado" aria-pressed="true">Senado</button>
+        <button type="button" data-camara="diputados" aria-pressed="false">Diputados</button>
+      </div>
+      <div id="selector-periodo"></div>
+    </div>
+    <p class="nota" id="periodo-texto" aria-live="polite"></p>
+    <div id="periodo-aviso"></div>
+
+    <section class="tarjeta" aria-labelledby="t-disciplina">
+      <div class="tarjeta__cabecera">
+        <div>
+          <h2 id="t-disciplina">Disciplina de partido</h2>
+          <p class="tarjeta__descripcion">Porcentaje de votaciones en las que cada legislador votó igual que la mayoría de su partido, cuando el partido tuvo una mayoría clara. De menos a más disciplinado; el puesto cuenta desde el más disciplinado.</p>
+        </div>
+        <div class="tarjeta__acciones"><label class="filtro">Partido <select id="f-partido"></select></label></div>
+      </div>
+      <div class="tarjeta__cuerpo">
+        <p class="aviso-nota aviso-nota--arriba">Disciplina por bancada: disponible cuando haya más historia de bancadas. Por ahora se usa el partido actual de cada legislador.</p>
+        <ol class="ranking-disciplina" id="g-disciplina"></ol>
+        <div class="subseccion" aria-labelledby="t-cohesion">
+          <h3 id="t-cohesion">Cohesión de cada partido</h3>
+          <p class="tarjeta__descripcion">Índice de Rice: 1 si todos los del partido votaron igual, 0 si se dividieron mitad y mitad. Promedio del período y evolución mes a mes.</p>
+          <ul class="cohesion-barras" id="g-cohesion"></ul>
+          <div class="grafico" id="g-cohesion-mensual"></div>
+        </div>
+      </div>
+      <details class="tarjeta__metodologia">
+        <summary>Metodología</summary>
+        <ul>
+          <li>Mayoría clara: al menos el 60 % de los legisladores del partido que votaron Sí, No o Abstención eligieron lo mismo (sin contar a la persona que se mide). Si no hubo mayoría clara, esa votación no cuenta.</li>
+          <li>Solo cuentan las votaciones en las que la persona votó Sí, No o Abstención; las ausencias no cuentan. Entra en el ranking con al menos <span data-min-disciplina>20</span> votaciones así.</li>
+          <li>Índice de Rice por votación: |Sí − No| / (Sí + No) del partido, con al menos 2 votos. Solo partidos con 2 o más integrantes.</li>
+          <li>Se usa el partido que figura hoy en SILpy: el historial de bancadas empieza en octubre de 2026 y no cubre el período.</li>
+        </ul>
+      </details>
+    </section>
+
+    <section class="tarjeta" aria-labelledby="t-decisivo">
+      <div class="tarjeta__cabecera">
+        <div>
+          <h2 id="t-decisivo">El voto decisivo</h2>
+          <p class="tarjeta__descripcion">Votaciones en las que pocos votos podían cambiar el resultado, y quiénes estuvieron del lado que ganó.</p>
+        </div>
+      </div>
+      <div class="tarjeta__cuerpo">
+        <ul class="lista decisivas" id="g-decisivas"></ul>
+        <div class="subseccion" aria-labelledby="t-ganadores">
+          <h3 id="t-ganadores">Más veces del lado ganador</h3>
+          <p class="tarjeta__descripcion">Cuántas de estas votaciones votó del lado que ganó. Con tan pocos votos de diferencia, su voto pudo cambiar el resultado; no quiere decir que lo haya decidido solo.</p>
+          <ol class="ranking-ganadores" id="g-ganadores"></ol>
+        </div>
+      </div>
+      <details class="tarjeta__metodologia">
+        <summary>Metodología</summary>
+        <ul>
+          <li>Entran las votaciones de Sí o No con un margen de 3 votos o menos entre Sí y No.</li>
+          <li>También las que necesitaban una mayoría calificada que SILpy permite identificar (dos tercios o mayoría absoluta según el resultado publicado; mayoría absoluta para rechazar un veto) y que se alcanzó o no por 3 votos o menos. En los vetos, SILpy no dice qué lado necesitaba la mayoría: se toma el más cercano al umbral.</li>
+          <li>«Con N de los ausentes, el resultado se daba vuelta»: cuántos de los que figuran ausentes tendrían que haber votado del lado perdedor. En Diputados, ausente incluye a quien estaba y no votó.</li>
+          <li>Las votaciones entre mociones no entran.</li>
+        </ul>
+      </details>
+    </section>
+
+    <section class="tarjeta" aria-labelledby="t-tiempo">
+      <div class="tarjeta__cabecera">
+        <div>
+          <h2 id="t-tiempo">Mapa político en el tiempo</h2>
+          <p class="tarjeta__descripcion">Posición de cada legislador estimada a partir de sus votos, en ventanas de 12 meses que avanzan cada 6. Se resaltan quienes más se movieron. Tocá una línea para ver el detalle.</p>
+        </div>
+      </div>
+      <div class="tarjeta__cuerpo"><div class="grafico" id="g-trayectoria"></div></div>
+      <details class="tarjeta__metodologia">
+        <summary>Metodología</summary>
+        <ul>
+          <li>Para cada ventana se toman las votaciones divididas (la minoría tiene al menos el 2,5 %) y los legisladores que votaron en suficientes de ellas (el 25 % de las divididas, entre 10 y 25). Con las coincidencias de voto entre cada par se calcula un escalamiento multidimensional (MDS) y se usa su primera dimensión.</li>
+          <li>La posición se normaliza en cada ventana (de −1 a 1) para poder compararlas. El lado positivo es el lado donde se ubica la mayoría del ANR: es una orientación del gráfico, no una etiqueta de oposición u oficialismo.</li>
+          <li>Las ventanas se superponen 6 meses: el movimiento sale suavizado. Una ventana entra solo con al menos 15 votaciones divididas y 10 legisladores.</li>
+          <li>Es una posición relativa a los demás en esa ventana: si alguien «se mueve» puede ser porque cambió su voto o porque cambiaron los demás.</li>
+        </ul>
+      </details>
+    </section>
+
+    <section class="tarjeta" aria-labelledby="t-pos-pres">
+      <div class="tarjeta__cabecera">
+        <div>
+          <h2 id="t-pos-pres">Posición y presencia</h2>
+          <p class="tarjeta__descripcion">Posición estimada a partir de los votos (horizontal) y porcentaje de votaciones del período en las que votó (vertical).</p>
+        </div>
+      </div>
+      <div class="tarjeta__cuerpo"><p class="nota" id="nota-mapa"></p><div class="grafico grafico--dispersion" id="g-pos-pres"></div></div>
+      <details class="tarjeta__metodologia">
+        <summary>Metodología</summary>
+        <ul>
+          <li>Posición: primera dimensión del MDS del período, con el lado donde se ubica la mayoría del ANR a la derecha.</li>
+          <li>Votó: votaciones del período en el cargo en las que registró Sí, No, Abstención o una moción (no figura como ausente ni como presente sin votar).</li>
+        </ul>
+      </details>
+    </section>
+
+    <section class="tarjeta" aria-labelledby="t-experimental">
+      <div class="tarjeta__cabecera">
+        <div>
+          <h2 id="t-experimental">Posición política estimada <span class="chip chip-experimental">Experimental</span></h2>
+          <p class="tarjeta__descripcion">El mapa completo del escalamiento: dos dimensiones que resumen en qué votaciones cada legislador coincide con los demás.</p>
+        </div>
+      </div>
+      <div class="tarjeta__cuerpo">
+        <div class="aviso-nota aviso-nota--arriba">
+          <p><strong>Qué es:</strong> un dibujo en el que quedan cerca los legisladores que votan parecido y lejos los que votan distinto. Cada eje dice cuánto de esas diferencias resume (<span id="var-ejes">—</span>).</p>
+          <p><strong>Qué no es:</strong> no es una medida de ideología declarada ni de izquierda y derecha. Depende de qué se votó en el período: si cambian los temas, cambia el mapa. La segunda dimensión explica poco y conviene leerla con cuidado.</p>
+        </div>
+        <div class="grafico grafico--dispersion" id="g-experimental"></div>
+      </div>
+      <details class="tarjeta__metodologia">
+        <summary>Metodología</summary>
+        <ul>
+          <li>Escalamiento multidimensional clásico sobre la matriz de coincidencias de voto (Sí = 1, No = −1; abstenciones y ausencias no cuentan) en las votaciones divididas del período, como en el prototipo del proyecto.</li>
+          <li>Las dimensiones se orientan para que el promedio del ANR quede del lado positivo de cada eje.</li>
+        </ul>
+      </details>
+    </section>
+
+    <p class="credito"><a href="asistencia.html">¿Quién falta cuando la votación se pone difícil? → Asistencia</a></p>
+
+    <section class="metodo" aria-labelledby="metodo-titulo">
+      <h2 id="metodo-titulo">Fuente, método y límites</h2>
+      <dl>
+        <dt>Fuente</dt>
+        <dd>Votaciones nominales y electrónicas publicadas en <a href="https://silpy.congreso.gov.py/" rel="noopener">SILpy</a>, el Sistema de Información Legislativa del Congreso Nacional (CC BY 4.0). Última votación incluida: <span data-actualizado>—</span>.</dd>
+        <dt>Método</dt>
+        <dd>Todo se calcula en el pipeline del proyecto (<a href="datos/congreso/senado/votometro.json">senado/votometro.json</a>, <a href="datos/congreso/diputados/votometro.json">diputados/votometro.json</a>). Períodos: todo el mandato y cada período legislativo con votaciones divididas suficientes para el mapa.</dd>
+        <dt>Límites</dt>
+        <dd>
+          <ul>
+            <li>Solo votaciones nominales: lo que se vota a mano alzada no queda registrado con el voto de cada legislador.</li>
+            <li>El partido es el actual, no el que tenía cada legislador en cada votación.</li>
+            <li>Casi todo se aprueba por amplia mayoría: los análisis de posición usan solo las votaciones divididas, que son una parte chica del total.</li>
+            <li>Las posiciones son estimaciones estadísticas a partir de los votos, no una clasificación ideológica.</li>
+          </ul>
+        </dd>
+      </dl>
+    </section>
+  </main>
+
+  <footer class="pie">
+    <p>Fuente: <a href="https://silpy.congreso.gov.py/" rel="noopener">SILpy – Congreso Nacional</a> (CC BY 4.0).</p>
+    <p>Datos derivados: CC BY-SA 4.0 · Código: AGPL-3.0 · <a href="datos.html">Datos abiertos</a> · <a href="acerca.html">Acerca de</a></p>
+    <p>Idea y estructura inspiradas en el <a href="https://www.datacp.ar/congreso" rel="noopener">Monitor de Actividad del Congreso</a> de datacp.ar.</p>
+  </footer>
+</body>
+</html>

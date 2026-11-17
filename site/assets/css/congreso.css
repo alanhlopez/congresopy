@@ -1320,3 +1320,48 @@ h3 { font-size: var(--t-md); line-height: 1.3; margin: 0 0 var(--e-2); }
 @media (max-width: 560px) { .bloques-sim__fila { grid-template-columns: minmax(0, 1fr) auto; } .bloques-sim__barra { grid-column: 1 / -1; grid-row: 2; } }
 .descargas { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--e-3); }
 .descargas .boton { font-family: var(--fuente-mono); }
+
+/* ============================== Votómetro ============================== */
+.ranking-disciplina, .ranking-ganadores { list-style: none; margin: 0; padding: 0; }
+.fila-disciplina { display: grid; grid-template-columns: 4.2rem auto minmax(0, 1fr) minmax(5rem, 11rem) 7rem; grid-template-areas: "puesto foto nombre barra dato" ". . boton boton boton" "lista lista lista lista lista"; align-items: center; gap: var(--e-1) var(--e-3); padding: var(--e-2) 0; border-bottom: 1px solid var(--borde); font-size: var(--t-sm); }
+.fila-disciplina__puesto { grid-area: puesto; color: var(--texto-suave); font-weight: 650; white-space: nowrap; font-size: var(--t-sm); }
+.fila-disciplina__puesto .nota { font-weight: 400; font-size: var(--t-xs); }
+.fila-disciplina > .avatar { grid-area: foto; width: 2rem; height: 2rem; font-size: 0.7rem; }
+.fila-disciplina__nombre { grid-area: nombre; min-width: 0; }
+.fila-disciplina__nombre a { color: var(--texto); font-weight: 650; text-decoration: none; }
+.fila-disciplina__nombre a:hover { color: var(--acento); text-decoration: underline; }
+.fila-disciplina__barra { grid-area: barra; width: 100%; height: 0.55rem; }
+.fila-disciplina__dato { grid-area: dato; text-align: right; white-space: nowrap; }
+.fila-disciplina__boton { grid-area: boton; justify-self: start; }
+.fila-disciplina .aparto { grid-area: lista; padding-left: 2.5rem; }
+@media (max-width: 560px) {
+  .fila-disciplina { grid-template-columns: auto auto minmax(0, 1fr) auto; grid-template-areas: "puesto foto nombre nombre" "barra barra barra dato" "boton boton boton boton" "lista lista lista lista"; }
+  .fila-disciplina__puesto .nota { display: none; }
+  .fila-disciplina .aparto { padding-left: 0; }
+}
+.cohesion-barras { list-style: none; margin: 0 0 var(--e-4); padding: 0; display: grid; gap: var(--e-2); }
+.linea-partido { fill: none; stroke: var(--c); stroke-width: 2; opacity: 0.85; }
+.punto-dato--chico { stroke-width: 0.8; }
+.fila-decisiva { display: grid; grid-template-columns: 6.25rem minmax(0, 1fr) auto; grid-template-areas: "fecha asunto resultado"; gap: var(--e-1) var(--e-4); align-items: start; padding: var(--e-3) 0; border-bottom: 1px solid var(--borde); }
+.fila-decisiva__fecha { grid-area: fecha; font-size: var(--t-sm); color: var(--texto-suave); white-space: nowrap; }
+.fila-decisiva__asunto { grid-area: asunto; min-width: 0; }
+.fila-decisiva__link { color: var(--texto); font-weight: 650; text-decoration: none; }
+.fila-decisiva__link:hover { color: var(--acento); text-decoration: underline; }
+.fila-decisiva__resultado { grid-area: resultado; }
+.fila-decisiva__frase { margin: var(--e-1) 0 0; font-size: var(--t-sm); }
+@media (max-width: 560px) { .fila-decisiva { grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "fecha resultado" "asunto asunto"; } }
+.fila-ganador { display: grid; grid-template-columns: auto minmax(0, 1fr) auto minmax(4rem, 10rem) auto; align-items: center; gap: var(--e-2) var(--e-3); padding: var(--e-2) 0; border-bottom: 1px solid var(--borde); font-size: var(--t-sm); }
+.fila-ganador .avatar { width: 1.8rem; height: 1.8rem; font-size: 0.65rem; }
+.fila-ganador .medidor { width: 100%; height: 0.5rem; }
+@media (max-width: 560px) { .fila-ganador { grid-template-columns: auto minmax(0, 1fr) auto; } .fila-ganador .medidor { display: none; } }
+.trayecto { cursor: pointer; outline: none; }
+.trayecto__linea { fill: none; stroke: var(--c); stroke-width: 1; opacity: 0.28; }
+.trayecto__punto { fill: var(--c); opacity: 0.4; }
+.trayecto--destacado .trayecto__linea { stroke-width: 2.6; opacity: 1; }
+.trayecto--destacado .trayecto__punto { opacity: 1; stroke: var(--superficie); stroke-width: 1; }
+.trayecto:hover .trayecto__linea, .trayecto:focus-visible .trayecto__linea, .trayecto.es-fijado .trayecto__linea { stroke-width: 3; opacity: 1; }
+.trayecto:hover .trayecto__punto, .trayecto:focus-visible .trayecto__punto, .trayecto.es-fijado .trayecto__punto { opacity: 1; }
+.trayecto:focus-visible .trayecto__linea { stroke: var(--foco); }
+.chip-experimental { vertical-align: middle; margin-left: var(--e-2); border-color: var(--aviso-borde); background: var(--aviso-fondo); }
+.aviso-nota p { margin: 0 0 var(--e-2); }
+.aviso-nota p:last-child { margin-bottom: 0; }

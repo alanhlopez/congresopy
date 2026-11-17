@@ -23,7 +23,7 @@ from playwright.sync_api import sync_playwright
 
 RAIZ = Path(__file__).resolve().parent.parent
 # Todas las páginas, con un legislador y una votación de ejemplo para las de detalle
-PAGINAS = ["index.html", "camaras.html", "legisladores.html", "legislador.html#camara=senado&id=101378",
+PAGINAS = ["index.html", "camaras.html", "legisladores.html", "legislador.html#camara=senado&id=101378", "votometro.html",
            "votaciones.html", "votacion.html#camara=diputados&id=109395", "asistencia.html",
            "comisiones.html", "proyectos.html", "datos.html", "acerca.html"]
 

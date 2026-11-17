@@ -42,6 +42,9 @@ export const presencia = (c) => json(`${camaraValida(c)}/presencia.json`);
 export const analisisLegislador = (c, id) => json(`${camaraValida(c)}/legisladores/${id}/analisis.json`);
 export const resumenLegislador = (c, id) => json(`${camaraValida(c)}/legisladores/${id}/resumen.json`);
 
+/** votometro.json de una cámara: disciplina, votaciones decisivas y mapa político (página Votómetro). */
+export const votometro = (c) => json(`${camaraValida(c)}/votometro.json`);
+
 /** asistencia.json de una cámara: análisis de presencia de todo el mandato (página Asistencia). */
 export const asistencia = (c) => json(`${camaraValida(c)}/asistencia.json`);
 

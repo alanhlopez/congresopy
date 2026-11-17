@@ -20,6 +20,12 @@ Hecho:
   con quién vota, comisiones), Votaciones, detalle de votación, Asistencia (presencia del mandato: enjambre, por
   partido, mensual y mapa legislador × mes, consenso vs. reñidas, sala vacía), Comisiones, Proyectos (en
   preparación) y Datos abiertos.
+- **Votómetro (17/11/2026):** página con disciplina de partido, votaciones decisivas, mapa político en ventanas de
+  12 meses y mapa 2D experimental. Decisiones: el mapa por semestre no es viable (pocas votaciones divididas por
+  semestre) y se usan ventanas de 12 meses que avanzan cada 6; el período 2026-27 no se ofrece hasta que haya
+  votaciones divididas suficientes; la disciplina va por partido hasta que el historial de bancadas cubra el
+  período (hoy 4 fotos, desde el 21/10/2026). Varianza explicada por la dimensión 1 en el mandato: Senado 57,7 %,
+  Diputados 55,8 %.
 - **Verificaciones de presencia (15/11/2026):** quien preside figura con su voto (no como ausente); Núñez y Rubín
   no tienen períodos fuera del cargo mal contados; las 2 votaciones de Diputados con más de la mitad «ausente»
   (19/05/2026) fueron en una sesión con quórum en sus otras 14 votaciones y sin votos en contra.
