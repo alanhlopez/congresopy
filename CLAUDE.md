@@ -180,6 +180,13 @@ el fondo (PEN y PDP más oscuros y PPC gris en tema claro; Cruzada Nacional negr
 
 - El menú está copiado igual en las 12 páginas entre `<!-- MENU: ... -->` y `<!-- /MENU -->`. Si se cambia, se
   cambia en todas (lo verifica `test_menu_identico_en_cada_pagina`).
+- Cabecera (17/11/2026): sticky, logotipo «Hesakã» (link a Inicio; en Inicio lleva `aria-current`), navegación y
+  tema. El bloque MENU trae dos copias de los mismos links: la de escritorio (>= 1024 px, una línea: Cámaras ·
+  Legisladores · Votaciones · Votómetro · Asistencia · Proyectos · Más ▾) y el panel móvil (< 1024 px, botón
+  «Menú» con «Más» como subtítulo); cada una se oculta con `display: none` en el ancho que no le toca. Desplegables con
+  `<details>` (andan sin JS); `lib/menu.js` cierra con click afuera, Escape, Tab afuera o al abrir otro, y
+  sincroniza `aria-expanded`. Activo: `aria-current="page"` en las dos copias; el botón del grupo se marca por CSS
+  (`:has`). «Congreso del Paraguay · 2023–2028» va en el eyebrow, el `<title>` y el pie, no en la cabecera.
 - Decisiones: fotos de SILpy (CC BY 4.0) con aro del color del partido, o iniciales si no hay; la
   «presencia» es no figurar como AUSENTE en votaciones nominales (en el Senado «no vota» cuenta como presente);
   el hemiciclo ordena oposición a la izquierda y ANR a la derecha. No se publica nada del índice del Ejecutivo

@@ -93,7 +93,15 @@ def test_menu_identico_en_cada_pagina():
     for n, m in menus.items():
         if n in ("legislador.html", "votacion.html"):
             continue   # páginas de detalle: no son un ítem del menú
-        assert f'href="{n}" aria-current="page"' in m, f"{n}: falta aria-current en su ítem"
+        if n == "index.html":
+            # Inicio no está en el menú: lo cubre el logotipo, que en Inicio lleva aria-current
+            assert '<a class="marca" href="index.html" aria-label="Hesakã, inicio" aria-current="page">' in (SITE / n).read_text(encoding="utf-8")
+            continue
+        # en la navegación de escritorio y en el panel móvil
+        assert m.count(f'href="{n}" aria-current="page"') == 2, f"{n}: falta aria-current en su ítem"
+    for p in PAGINAS:
+        marca = re.search(r'<a class="marca"[^>]*>', p.read_text(encoding="utf-8")).group(0)
+        assert ("aria-current" in marca) == (p.name == "index.html"), f"{p.name}: aria-current del logotipo"
 
 
 @pytest.mark.parametrize("pagina", PAGINAS, ids=lambda p: p.name)

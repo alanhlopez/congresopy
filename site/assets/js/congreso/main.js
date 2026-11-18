@@ -2,6 +2,8 @@
 // Tema: data-theme="light|dark" en <html>. Respeta prefers-color-scheme y recuerda la
 // elección del usuario en localStorage (dentro de try/catch: puede no estar disponible).
 
+import { iniciarMenu } from "./lib/menu.js";
+
 const CLAVE_TEMA = "congreso:tema";
 const raiz = document.documentElement;
 const consulta = window.matchMedia ? window.matchMedia("(prefers-color-scheme: dark)") : null;
@@ -53,6 +55,7 @@ if (consulta) {
 }
 
 function iniciar() {
+  iniciarMenu();
   actualizarBoton(raiz.getAttribute("data-theme") || temaDelSistema());
   const boton = document.getElementById("boton-tema");
   if (boton) {

@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
   <meta name="color-scheme" content="light dark">
-  <title>Cámaras · Hesakã</title>
+  <title>Cámaras · Hesakã · Congreso del Paraguay · 2023–2028</title>
   <meta name="description" content="Composición actual del Senado y de la Cámara de Diputados del Paraguay por partido y bancada.">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="assets/css/congreso.css">
@@ -17,7 +17,7 @@
 
   <header class="cabecera">
     <div class="cabecera__interior">
-      <a class="marca" href="index.html">
+      <a class="marca" href="index.html" aria-label="Hesakã, inicio">
         <svg class="marca__logo" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
           <clipPath id="marca-iris"><circle cx="16" cy="16" r="5.6"/></clipPath>
           <rect width="32" height="32" rx="8" fill="#0f2b31"/>
@@ -26,23 +26,53 @@
           <circle cx="16" cy="16" r="5.6" fill="none" stroke="#ffffff" stroke-width="0.8"/>
           <circle cx="16" cy="16" r="1.7" fill="#0f2b31"/>
         </svg>
-        <span class="marca__texto"><span class="marca__nombre">Hesakã</span><span class="marca__sub">Congreso del Paraguay · 2023–2028</span></span>
+        <span class="marca__nombre">Hesakã</span>
       </a>
     <!-- MENU: se copia igual en cada página (no se inyecta). tests/test_sitio.py verifica que coincida. -->
     <nav class="menu" aria-label="Principal">
-      <ul>
-        <li><a href="index.html">Inicio</a></li>
-        <li><a href="camaras.html" aria-current="page">Cámaras</a></li>
-        <li><a href="legisladores.html">Legisladores</a></li>
-        <li><a href="votaciones.html">Votaciones</a></li>
-        <li><a href="votometro.html">Votómetro</a></li>
-        <li><a href="asistencia.html">Asistencia</a></li>
-        <li><a href="comisiones.html">Comisiones</a></li>
-        <li><a href="proyectos.html">Proyectos</a></li>
-        <li><a href="datos.html">Datos abiertos</a></li>
-        <li><a href="acerca.html">Acerca de</a></li>
+      <ul class="menu__lista">
+        <li class="menu__item"><a href="camaras.html" aria-current="page">Cámaras</a></li>
+        <li class="menu__item"><a href="legisladores.html">Legisladores</a></li>
+        <li class="menu__item"><a href="votaciones.html">Votaciones</a></li>
+        <li class="menu__item"><a href="votometro.html">Votómetro</a></li>
+        <li class="menu__item"><a href="asistencia.html">Asistencia</a></li>
+        <li class="menu__item"><a href="proyectos.html">Proyectos</a></li>
+        <li class="menu__item">
+          <details class="menu__grupo menu__grupo--derecha">
+            <summary class="menu__boton">Más<svg class="menu__chevron" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M3 4.5 6 7.5l3-3"/></svg></summary>
+            <ul class="menu__desplegable">
+              <li><a href="comisiones.html">Comisiones</a></li>
+              <li><a href="datos.html">Datos abiertos</a></li>
+              <li><a href="acerca.html">Acerca de</a></li>
+            </ul>
+          </details>
+        </li>
       </ul>
     </nav>
+    <details class="menu-movil">
+      <summary class="menu-movil__boton" aria-label="Menú principal">
+        <svg class="menu-movil__icono" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path class="menu-movil__abierto" d="M4 7h16M4 12h16M4 17h16"/><path class="menu-movil__cerrar" d="M6 6l12 12M18 6 6 18"/></svg>
+        <span class="menu-movil__texto">Menú</span>
+      </summary>
+      <nav class="menu-movil__panel" aria-label="Principal">
+        <div class="menu-movil__interior">
+          <ul>
+            <li><a href="camaras.html" aria-current="page">Cámaras</a></li>
+            <li><a href="legisladores.html">Legisladores</a></li>
+            <li><a href="votaciones.html">Votaciones</a></li>
+            <li><a href="votometro.html">Votómetro</a></li>
+            <li><a href="asistencia.html">Asistencia</a></li>
+            <li><a href="proyectos.html">Proyectos</a></li>
+          </ul>
+          <p class="menu-movil__grupo" id="menu-movil-mas">Más</p>
+          <ul aria-labelledby="menu-movil-mas">
+            <li><a href="comisiones.html">Comisiones</a></li>
+            <li><a href="datos.html">Datos abiertos</a></li>
+            <li><a href="acerca.html">Acerca de</a></li>
+          </ul>
+        </div>
+      </nav>
+    </details>
     <!-- /MENU -->
       <button type="button" class="tema" id="boton-tema" aria-label="Cambiar a tema oscuro">
         <svg class="tema__luna" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg>
@@ -104,6 +134,7 @@
   </main>
 
   <footer class="pie">
+    <p><strong>Hesakã</strong> · Congreso del Paraguay · 2023–2028</p>
     <p>Fuente: <a href="https://silpy.congreso.gov.py/" rel="noopener">SILpy – Congreso Nacional</a> (CC BY 4.0).</p>
     <p>Datos derivados: CC BY-SA 4.0 · Código: AGPL-3.0 · <a href="datos.html">Datos abiertos</a> · <a href="acerca.html">Acerca de</a></p>
     <p>Idea y estructura inspiradas en el <a href="https://www.datacp.ar/congreso" rel="noopener">Monitor de Actividad del Congreso</a> de datacp.ar.</p>

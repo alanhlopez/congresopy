@@ -320,7 +320,7 @@ async function render() {
     const { datos: d, legislador: l } = r;
     const cadena = d.votos.legisladores[String(l.id)];
     actual = { datos: d, legislador: l };
-    document.title = `${l.nombre} · Hesakã`;
+    document.title = `${l.nombre} · Hesakã · Congreso del Paraguay · 2023–2028`;
     $("#volver").setAttribute("href", enlace("legisladores.html", { camara: d.clave }));
     const [comisiones, A] = await Promise.all([comisionesDe(l.id, d.clave), analisisLegislador(d.clave, l.id)]);
     actual.A = A;

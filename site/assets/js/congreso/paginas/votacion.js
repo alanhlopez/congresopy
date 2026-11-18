@@ -34,7 +34,7 @@ function render(d, v) {
     partidos.get(l.partido)[l.ch] = (partidos.get(l.partido)[l.ch] || 0) + 1;
   }
 
-  document.title = `${v.titulo.slice(0, 70)} · Votación · Hesakã`;
+  document.title = `${v.titulo.slice(0, 70)} · Votación · Hesakã · Congreso del Paraguay · 2023–2028`;
   $("#volver").setAttribute("href", enlace("votaciones.html", { camara: d.clave }));
 
   // Cifras protagonistas: cada tipo de voto con su total (en el orden de la barra)
