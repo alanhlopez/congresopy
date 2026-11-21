@@ -70,7 +70,7 @@ def test_mapa_igual_al_metodo_del_prototipo(exportado, cam):
         assert np.mean(anr) > 0
     claves = [v["clave"] for v in vm["trayectoria"]["ventanas"]]
     for k, c in enumerate(claves):
-        anr = [s[k] for i, s in vm["trayectoria"]["posiciones"].items() if s[k] is not None and leg.get(int(i), {}).get("partido") == "ANR"]
+        anr = [s[k] for i, s in vm["trayectoria"]["mds"]["posiciones"].items() if s[k] is not None and leg.get(int(i), {}).get("partido") == "ANR"]
         assert np.mean(anr) > 0, c
 
 
@@ -83,8 +83,10 @@ def test_ventanas_de_12_meses_cada_6(exportado, cam):
         y, m = map(int, v["desde"].split("-"))
         assert v["hasta"] == f"{y + 1}-{m:02d}" and m in (1, 7)
         assert v["legisladores"] >= 10 and v["divididas"] >= 15
-    for i, serie in vm["trayectoria"]["posiciones"].items():
+    for i, serie in vm["trayectoria"]["mds"]["posiciones"].items():
         assert len(serie) == len(vs) and all(x is None or -1 <= x <= 1 for x in serie)
+    for i, serie in vm["trayectoria"]["anr"]["posiciones"].items():
+        assert len(serie) == len(vs) and all(x is None or 0 <= x <= 1 for x in serie)
 
 
 @pytest.mark.parametrize("cam", CAMARAS)
@@ -163,3 +165,67 @@ def test_ausentismo_selectivo(exportado, cam):
         assert (p["n_objeciones"], p["n_resto"]) == (len(nv), len(nr)) and len(nv) >= 8 and len(nr) >= 20
         assert abs(p["objeciones"] - sum(cad[k] in "XV" for k in nv) / len(nv)) < 1e-4
         assert abs(p["resto"] - sum(cad[k] in "XV" for k in nr) / len(nr)) < 1e-4
+
+
+def coincidencia_independiente(vots, votos, partido, idx):
+    """Coincidencia con la mayoría del ANR, recalculada sin numpy ni el módulo del pipeline."""
+    signo = {"S": 1, "N": -1, "1": 1, "2": -1}
+    div = []
+    for k in idx:
+        si = sum(signo.get(c[k]) == 1 for c in votos.values())
+        no = sum(signo.get(c[k]) == -1 for c in votos.values())
+        if si + no and min(si, no) / (si + no) >= 0.025:
+            div.append(k)
+    minimo = max(10, min(25, int(0.25 * len(div))))
+    out = {}
+    for i, cad in votos.items():
+        igual = comun = 0
+        for k in div:
+            v = cad[k]
+            if v not in ("S", "N", "A"):
+                continue
+            c = Counter(votos[j][k] for j in votos if j != i and partido[j] == "ANR" and votos[j][k] in ("S", "N", "A"))
+            orden = c.most_common()
+            if not orden or (len(orden) > 1 and orden[0][1] == orden[1][1]):
+                continue
+            comun += 1
+            igual += v == orden[0][0]
+        if comun >= minimo:
+            out[int(i)] = (igual / comun, comun)
+    return out, len(div), minimo
+
+
+@pytest.mark.parametrize("cam", CAMARAS)
+def test_posicion_coincidencia_con_la_anr(exportado, cam):
+    """«Coincidencia con la ANR»: divididas, mayoría del ANR sin el propio voto, mínimo como el MDS; filas,
+    medianas, cruzados y correlación con la dimensión 1."""
+    vm, vots, votos, leg = datos(exportado, cam)
+    partido = {i: leg.get(int(i), {}).get("partido") or "" for i in votos}
+    for clave, pp in vm["por_periodo"].items():
+        idx = range(len(vots)) if clave == "mandato" else [k for k, v in enumerate(vots) if str(v["periodo_id"]) == clave]
+        esperado, n_div, minimo = coincidencia_independiente(vots, votos, partido, list(idx))
+        a = pp["posicion"]["anr"]
+        assert (a["divididas"], a["minimo_votos"]) == (n_div, minimo), clave
+        assert {p["id"] for p in a["puntos"]} == set(esperado), clave
+        for p in a["puntos"]:
+            assert abs(p["valor"] - esperado[p["id"]][0]) < 1e-4 and p["n"] == esperado[p["id"]][1]
+        if clave == "mandato":
+            assert a["minimo_votos"] == 25
+        # la dimensión 1 es la misma del mapa
+        assert {p["id"]: p["valor"] for p in pp["posicion"]["mds"]["puntos"]} == {p["id"]: p["d1"] for p in pp["mapa"]["puntos"]}
+        val = {"anr": {p["id"]: p["valor"] for p in a["puntos"]}, "mds": {p["id"]: p["valor"] for p in pp["posicion"]["mds"]["puntos"]}}
+        comunes = sorted(set(val["anr"]) & set(val["mds"]))
+        r = np.corrcoef([val["anr"][i] for i in comunes], [val["mds"][i] for i in comunes])[0, 1]
+        assert abs(pp["posicion"]["correlacion"] - r) < 1e-3
+        for m in ("anr", "mds"):
+            pm = pp["posicion"][m]
+            cuenta = Counter(partido[str(i)] for i in val[m])
+            grupo = {i: partido[str(i)] if partido[str(i)] in ("ANR", "PLRA") or cuenta[partido[str(i)]] >= 3 else "Otros" for i in val[m]}
+            assert {int(i): g for i, g in pm["grupo"].items()} == grupo
+            med = {f["grupo"]: f["mediana"] for f in pm["filas"]}
+            for g in med:
+                assert abs(med[g] - float(np.median([val[m][i] for i in grupo if grupo[i] == g]))) < 1e-4
+            partidos = {g: x for g, x in med.items() if g != "Otros"}
+            cruz = {i for i in val[m] if grupo[i] != "Otros" and len(partidos) > 1
+                    and min(abs(val[m][i] - x) for h, x in partidos.items() if h != grupo[i]) < abs(val[m][i] - partidos[grupo[i]])}
+            assert {c["id"] for c in pm["cruzados"]} == cruz, (clave, m)

@@ -9,6 +9,9 @@ legislativo con datos suficientes para el mapa):
                mayoría calificada identificable (2/3 o absoluta según SILpy; mayoría absoluta para rechazar un veto)
                alcanzada o no por 3 votos o menos. Ranking de veces del lado ganador.
   mapa         MDS clásico (como el prototipo) sobre votaciones divididas: dimensiones 1 y 2, varianza explicada.
+  posicion     dos medidas de posición en un eje: «anr» (coincidencia con la mayoría de los legisladores del ANR
+               presentes en las votaciones divididas) y «mds» (dimensión 1 del escalamiento). Para cada una: filas por
+               partido con su mediana y los «cruzados» (más cerca de la mediana de otro partido que de la del suyo).
   ausentismo   ausentismo selectivo: % de ausencia (ausente + no vota) en las votaciones sobre vetos del Ejecutivo
                contra el resto. Para rechazar un veto hace falta la mayoría absoluta de los miembros: no votar ayuda,
                en los hechos, a que el veto se mantenga. Se mide la presencia, no la dirección del voto.
@@ -34,6 +37,7 @@ MAPA_MIN_LEGISLADORES = 10
 MAPA_MIN_DIVIDIDAS = 15
 MUESTRA_CHICA = 0.5          # aviso si el mapa cubre menos de la mitad de la cámara
 SIGNO = {"S": 1, "N": -1, "1": 1, "2": -1}
+GRUPO_MIN = 3                # integrantes para tener fila propia en el gráfico de posición (si no, «Otros»)
 AUSENTISMO_MIN_VETOS = 8     # votaciones sobre vetos en el cargo para entrar en el gráfico
 AUSENTISMO_MIN_RESTO = 20
 RE_OBJECION = re.compile(r"objeci|SE OBJETA", re.I)
@@ -68,14 +72,89 @@ def minimo_votos(n_divididas):
     return max(10, min(25, int(0.25 * n_divididas)))
 
 
+def mascara_divididas(X):
+    """Votación dividida: la minoría (Sí o No, mociones incluidas) tiene al menos el 2,5 % de esos votos."""
+    si, no = (X == 1).sum(axis=0), (X == -1).sum(axis=0)
+    total = np.maximum((~np.isnan(X)).sum(axis=0), 1)
+    return np.minimum(si, no) / total >= MINORIA_MIN
+
+
+def divididas_de(cadenas, idx, ids):
+    X = np.array([[SIGNO.get(cadenas[i][k], np.nan) for k in idx] for i in ids], dtype=float)
+    return [k for k, ok in zip(idx, mascara_divididas(X)) if ok] if X.size else []
+
+
+def coincidencia_anr(cadenas, partido, idx, ids, minimo=None):
+    """Mínimo de votos: el mismo que el MDS (el 25 % de las divididas, entre 10 y 25; 25 en el mandato).
+    % de votaciones divididas en las que votó igual que la mayoría de los legisladores del ANR presentes
+    (solo Sí/No/Abstención; a un legislador del ANR no se lo cuenta en esa mayoría). Sin mayoría única: no cuenta."""
+    div = divididas_de(cadenas, idx, ids)
+    minimo = minimo_votos(len(div)) if minimo is None else minimo
+    anr = {k: Counter(cadenas[i][k] for i in ids if partido[i] == "ANR" and cadenas[i][k] in "SNA") for k in div}
+    out = {}
+    for i in ids:
+        igual = comun = 0
+        for k in div:
+            v = cadenas[i][k]
+            if v not in "SNA":
+                continue
+            c = Counter(anr[k])
+            if partido[i] == "ANR":
+                c[v] -= 1
+            c = +c
+            if not c:
+                continue
+            (m, n1), *resto = c.most_common(2) + [(None, -1)]
+            if resto[0][1] == n1:
+                continue   # empate: no hay una mayoría
+            comun += 1
+            igual += v == m
+        if comun >= minimo:
+            out[i] = (igual / comun, comun)
+    return out, len(div), minimo
+
+
+def mediana(xs):
+    return float(np.median(xs)) if xs else None
+
+
+def posicion(valores, partido):
+    """Filas por partido (ANR, PLRA y los de al menos GRUPO_MIN integrantes; el resto en «Otros»), mediana de cada
+    una y los «cruzados»: quien queda más cerca de la mediana de otra fila de partido que de la del suyo."""
+    cuenta = Counter(partido[i] for i in valores)
+    grupo = {i: (partido[i] if partido[i] in ("ANR", "PLRA") or cuenta[partido[i]] >= GRUPO_MIN else "Otros") for i in valores}
+    nombres = sorted(set(grupo.values()), key=lambda g: (g == "Otros", g != "ANR", g != "PLRA", -cuenta.get(g, 0), g))
+    filas = []
+    for g in nombres:
+        xs = [valores[i] for i in valores if grupo[i] == g]
+        filas.append({"grupo": g, "partidos": sorted({partido[i] for i in valores if grupo[i] == g}), "integrantes": len(xs), "mediana": r4(mediana(xs))})
+    med = {f["grupo"]: f["mediana"] for f in filas if f["grupo"] != "Otros"}
+    cruzados = []
+    for i, x in valores.items():
+        g = grupo[i]
+        if g == "Otros" or len(med) < 2:
+            continue
+        otro = min((h for h in med if h != g), key=lambda h: abs(x - med[h]))
+        if abs(x - med[otro]) < abs(x - med[g]):
+            cruzados.append({"id": int(i), "grupo": g, "cerca_de": otro})
+    por_id = {int(i): x for i, x in valores.items()}
+    cruzados.sort(key=lambda c: (c["grupo"], por_id[c["id"]]))
+    return {"filas": filas, "grupo": {str(int(i)): g for i, g in grupo.items()}, "cruzados": cruzados}
+
+
+def correlacion(a, b):
+    comunes = [i for i in a if i in b]
+    if len(comunes) < 3:
+        return None
+    return r4(float(np.corrcoef([a[i] for i in comunes], [b[i] for i in comunes])[0, 1]))
+
+
 def mds(cadenas, idx, ids):
     """MDS clásico sobre votaciones divididas de idx. Devuelve dict o None si no hay datos suficientes."""
     X = np.array([[SIGNO.get(cadenas[i][k], np.nan) for k in idx] for i in ids], dtype=float)
     if X.size == 0:
         return None
-    si, no = (X == 1).sum(axis=0), (X == -1).sum(axis=0)
-    total = np.maximum((~np.isnan(X)).sum(axis=0), 1)
-    divididas = np.minimum(si, no) / total >= MINORIA_MIN
+    divididas = mascara_divididas(X)
     X = X[:, divididas]
     n_div = int(divididas.sum())
     minimo = minimo_votos(n_div)
@@ -158,7 +237,20 @@ def calcular(votaciones, cadenas, L, bancas):
                      f"divididas del período: el mapa es una muestra chica.")
         salida_periodos.append({"clave": clave, "nombre": nombre, "desde": votaciones[idx[0]]["fecha"],
                                 "hasta": votaciones[idx[-1]]["fecha"], "votaciones": len(idx), "aviso": aviso})
+        coin, n_div, minimo_coin = coincidencia_anr(cadenas, partido, idx, ids)
+        val_anr = {i: c for i, (c, _) in coin.items()}
+        val_mds = {i: float(d) for i, d in zip(mapa["ids"], mapa["d1"])}
+        pos = {
+            "correlacion": correlacion(val_anr, val_mds),
+            "anr": {"divididas": n_div, "minimo_votos": minimo_coin,
+                    "puntos": [{"id": int(i), "valor": r4(c), "n": n, "voto": r4(voto_pct(cadenas[i], idx))} for i, (c, n) in coin.items()],
+                    **posicion(val_anr, partido)},
+            "mds": {"divididas": mapa["divididas"], "minimo_votos": mapa["minimo"],
+                    "puntos": [{"id": int(i), "valor": r4(v), "voto": r4(voto_pct(cadenas[i], idx))} for i, v in val_mds.items()],
+                    **posicion(val_mds, partido)},
+        }
         por_periodo[clave] = {
+            "posicion": pos,
             "ausentismo": ausentismo(votaciones, cadenas, idx, ids),
             "disciplina": disciplina(votaciones, cadenas, partido, idx, ids),
             "cohesion": cohesion(votaciones, cadenas, partido, idx, ids),
@@ -307,7 +399,9 @@ def ventanas(cron, votaciones):
 
 
 def trayectoria(votaciones, cadenas, partido, ids, cron):
-    salida_v, posiciones = [], defaultdict(dict)
+    """Por ventana: dimensión 1 del MDS normalizada a −1..1 («mds») y coincidencia con la mayoría del ANR («anr»,
+    con el mismo mínimo de votos que el MDS de esa ventana)."""
+    salida_v, posiciones, pos_anr = [], defaultdict(dict), defaultdict(dict)
     for ini, fin in ventanas(cron, votaciones):
         idx = [k for k in cron if ini <= votaciones[k]["fecha"][:7] < fin]
         res = mds(cadenas, idx, ids)
@@ -320,13 +414,18 @@ def trayectoria(votaciones, cadenas, partido, ids, cron):
                          "legisladores": res["legisladores"], "var1": r4(res["var1"])})
         for i, d in zip(res["ids"], res["d1"]):
             posiciones[i][clave] = r4(d / escala)
+        for i, (c, _) in coincidencia_anr(cadenas, partido, idx, ids, res["minimo"])[0].items():
+            pos_anr[i][clave] = r4(c)
     claves = [v["clave"] for v in salida_v]
-    puntos, movimiento = {}, []
-    for i, pos in posiciones.items():
-        serie = [pos.get(c) for c in claves]
-        puntos[str(int(i))] = serie
-        presentes = [x for x in serie if x is not None]
-        if len(presentes) >= 2:
-            movimiento.append({"id": int(i), "rango": r4(max(presentes) - min(presentes)), "ventanas": len(presentes)})
-    movimiento.sort(key=lambda x: (-x["rango"], x["id"]))
-    return {"ventanas": salida_v, "posiciones": puntos, "movimiento": movimiento}
+
+    def series(pp):
+        puntos, movimiento = {}, []
+        for i, pos in pp.items():
+            serie = [pos.get(c) for c in claves]
+            puntos[str(int(i))] = serie
+            presentes = [x for x in serie if x is not None]
+            if len(presentes) >= 2:
+                movimiento.append({"id": int(i), "rango": r4(max(presentes) - min(presentes)), "ventanas": len(presentes)})
+        movimiento.sort(key=lambda x: (-x["rango"], x["id"]))
+        return {"posiciones": puntos, "movimiento": movimiento}
+    return {"ventanas": salida_v, "mds": series(posiciones), "anr": series(pos_anr)}
