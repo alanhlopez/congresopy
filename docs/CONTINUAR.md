@@ -43,7 +43,8 @@ Pendiente:
 - **Proyectos (fase 1b):** la API vieja da 502; la nueva (`https://datos.congreso.gov.py/opendata/api`) responde, pero sus datos están congelados a fines de 2023 (verificado el 17/11/2026), así que no sirve para 2024-2026.
   Camino vigente (21/11/2026): la búsqueda avanzada de SILpy, en `pipeline/silpy_expedientes.py` → `silver/expedientes/`
   (número, tipo, título, fecha, cámara, iniciativa, estado, etapa, número de ley e ids de autores). Ya no hace falta
-  la copia de un tercero. Falta: el rol (autor/cofirmante) y el trámite, que están en `/web/expediente/{id}`
+  la copia de un tercero. Primer snapshot (21/11/2026): 11.746 expedientes (1.606 proyectos de ley, 6.377 pedidos de
+  informes, 2.908 declaraciones), 18.114 autorías, todas de legisladores del mandato; 386 requests. Falta: el rol (autor/cofirmante) y el trámite, que están en `/web/expediente/{id}`
   (una request por expediente), y la página Proyectos.
 - **Disciplina de bloque por fecha:** necesita más fotos semanales de la nómina (se juntan solas).
 - **Actualizar comisiones y fichas:** volver a bajar fichas es una excepción a la regla de bronze/; acordarla

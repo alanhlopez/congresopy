@@ -76,7 +76,7 @@ def test_periodos_legislativos():
 ENCABEZADO = "".join(f"<th>{t}</th>" for t in se.COLUMNAS) + "<th>Expediente</th><th>Etapa Actual</th>"
 
 
-def pagina(desde: date, hasta: date, por_dia=3, camara="S"):
+def pagina(desde: date, hasta: date, por_dia=3, camara="S", base=0):
     """Resultado sintético: `por_dia` expedientes por día del rango; muestra como mucho una página."""
     filas, total = [], 0
     d = desde
@@ -84,9 +84,10 @@ def pagina(desde: date, hasta: date, por_dia=3, camara="S"):
         for k in range(por_dia):
             total += 1
             if len(filas) < se.FILAS_POR_PAGINA:
-                i = int(d.strftime("%Y%m%d")) * 10 + k
+                i = int(d.strftime("%Y%m%d")) * 1000 + base + k
                 celdas = [i, "PROYECTO DE LEY X", f"{camara}-{i}", d.strftime("%d/%m/%Y"), "EN TRAMITE",
-                          "PROYECTO DE LEY", "PARLAMENTARIA", "Primer trámite constitucional", "CAMARA", "",
+                          "PROYECTO DE LEY", "PARLAMENTARIA", "Primer trámite constitucional",
+                          {"S": "CAMARA DE SENADORES", "D": "CAMARA DE DIPUTADOS"}[camara], "",
                           "101378,101352,", "", "", ""]
                 filas.append(f'<tr data-ri="{len(filas)}">' + "".join(f"<td>{c}</td>" for c in celdas) + "</tr>")
         d = date.fromordinal(d.toordinal() + 1)
@@ -166,3 +167,62 @@ def test_sin_contacto_no_hay_requests(bronze, monkeypatch):
     with pytest.raises(SystemExit):
         se.Buscador(s, bronze / "snap").buscar("S", 57, date(2023, 7, 1), date(2023, 7, 2))
     assert s.gets == 0 and s.posts == []
+
+
+def filas_xml(d: date, desde: int, hasta: int):
+    """Respuesta de paginación sintética: filas `desde`..`hasta`-1 del día `d` (partial-response de JSF)."""
+    html = pagina(d, d, por_dia=hasta)
+    trs = re.findall(r'<tr data-ri="\d+">.*?</tr>', html)[desde:hasta] if hasta <= se.FILAS_POR_PAGINA else None
+    if trs is None:   # pagina() corta en 100: se arman las filas a mano
+        trs = []
+        for k in range(desde, hasta):
+            i = int(d.strftime("%Y%m%d")) * 1000 + k
+            celdas = [i, "PEDIDO X", f"D-{i}", d.strftime("%d/%m/%Y"), "CONTESTADO", "PEDIDO DE INFORMES",
+                      "PARLAMENTARIA", "Tramitación terminada", "CAMARA DE DIPUTADOS", "", "101378,", "", "", ""]
+            trs.append(f'<tr data-ri="{k}">' + "".join(f"<td>{c}</td>" for c in celdas) + "</tr>")
+    return ("<?xml version='1.0' encoding='UTF-8'?><partial-response><changes><update id=\"formResult:dtExpediente\">"
+            f"<![CDATA[{''.join(trs)}]]></update></changes></partial-response>")
+
+
+class SesionDiaLleno(SesionFalsa):
+    """Un solo día con 180 expedientes, como Diputados el 25/08/2023 (pedidos de informes)."""
+    TOTAL = 180
+
+    def post(self, url, data, headers, timeout):
+        self.posts.append(data)
+        d = date(2023, 8, 25)
+        if data.get("jakarta.faces.partial.ajax"):
+            assert headers["Faces-Request"] == "partial/ajax" and data["formMain:j_idt56"] == "D"
+            first = int(data["formResult:dtExpediente_first"])
+            return self._r(filas_xml(d, first, min(first + se.FILAS_POR_PAGINA, self.TOTAL)))
+        return self._r(pagina(d, d, por_dia=self.TOTAL, camara="D"))
+
+
+def test_dia_con_mas_de_una_pagina_se_pagina(bronze):
+    s = SesionDiaLleno()
+    d = date(2023, 8, 25)
+    b = se.Buscador(s, bronze / "snap")
+    hojas = b.rango("D", 224, d, d)
+    assert len(s.posts) == 2 and s.posts[1]["formResult:dtExpediente_first"] == "100"
+    assert [h.name for h in hojas] == ["D_224_2023-08-25_2023-08-25.html"]
+    assert (bronze / "snap" / "D_224_2023-08-25_2023-08-25_p1.xml").exists()
+    html = hojas[0].read_text(encoding="utf-8")
+    exps, _ = se.parsear_resultado(html, 224, se.paginas_guardadas(bronze / "snap", hojas[0].name, 180))
+    assert len(exps) == len({e["id_expediente"] for e in exps}) == 180
+    assert {e["camara"] for e in exps} == {"D"}
+    # sin la segunda página no cuadra con el total
+    with pytest.raises(se.ListadoInvalido):
+        se.parsear_resultado(html, 224)
+    # volver a correr no repite nada
+    s2 = SesionDiaLleno()
+    se.Buscador(s2, bronze / "snap").rango("D", 224, d, d)
+    assert s2.posts == [] and s2.gets == 0
+
+
+def test_pagina_vacia_o_corrida_se_rechaza(bronze):
+    d = date(2023, 8, 25)
+    with pytest.raises(se.ListadoInvalido):   # SILpy perdió la búsqueda: la página llega vacía
+        se.filas_de_pagina(filas_xml(d, 100, 100), 1)
+    with pytest.raises(se.ListadoInvalido):   # trae la primera página en vez de la segunda
+        se.filas_de_pagina(filas_xml(d, 0, 50), 1)
+    assert len(se.filas_de_pagina(filas_xml(d, 100, 180), 1)) == 80

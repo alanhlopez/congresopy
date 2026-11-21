@@ -67,6 +67,10 @@ COLUMNAS = {"Id del Expediente": "id_expediente", "Acápite": "acapite", "Númer
 SIN_RESULTADOS = "No hay resultados... Por favor revise su criterio de búsqueda"
 
 
+# Cámara de origen desde «Origen» (el prefijo del número no sirve: hay CPC-, CP-, SD-, «S–» con raya...)
+ORIGEN = {"CAMARA DE SENADORES": "S", "CAMARA DE DIPUTADOS": "D"}
+
+
 class ListadoInvalido(Exception):
     pass
 
@@ -117,6 +121,20 @@ def datos_busqueda(form: dict, camara: str, tipo: int, desde: date, hasta: date)
     return d
 
 
+TABLA = "formResult:dtExpediente"
+
+
+def datos_pagina(form: dict, camara: str, tipo: int, desde: date, hasta: date, pagina: int) -> dict:
+    """Búsqueda y salto de página en un mismo request AJAX. Hace falta así: SILpy no guarda el resultado entre
+    requests, y la paginación sola llega vacía (probado el 21/11/2026). Responde solo las filas de la página."""
+    d = datos_busqueda(form, camara, tipo, desde, hasta)
+    d.update({"jakarta.faces.partial.ajax": "true", "jakarta.faces.source": form["boton"],
+              "jakarta.faces.partial.execute": "formMain formResult", "jakarta.faces.partial.render": TABLA,
+              "formResult": "formResult", TABLA + "_pagination": "true", TABLA + "_encodeFeature": "true",
+              TABLA + "_first": str(pagina * FILAS_POR_PAGINA), TABLA + "_rows": str(FILAS_POR_PAGINA)})
+    return d
+
+
 # --- Resultado ---
 
 def total_filas(html: str) -> int:
@@ -134,14 +152,7 @@ def total_filas(html: str) -> int:
     return total
 
 
-def parsear_resultado(html: str, id_tipo: int):
-    """Filas de una página de resultados -> (expedientes, autores). Valida contra rowCount."""
-    s = BeautifulSoup(html, "html.parser")
-    tabla = s.find(id="formResult:dtExpediente")
-    if tabla is None and total_filas(html) == 0:
-        return [], []
-    if tabla is None:
-        raise ListadoInvalido("la respuesta no tiene la tabla de resultados")
+def _posiciones(tabla) -> dict:
     titulos = [_txt(th) for th in tabla.select("thead th")]
     faltan = set(COLUMNAS) - set(titulos)
     if faltan:
@@ -150,16 +161,19 @@ def parsear_resultado(html: str, id_tipo: int):
     for i, t in enumerate(titulos):   # «Etapa Actual» se repite: vale la primera (la oculta, sin estado ni origen)
         if t in COLUMNAS:
             pos.setdefault(COLUMNAS[t], i)
+    return pos
+
+
+def _filas(trs, pos: dict, id_tipo: int):
     expedientes, autores = [], []
-    for tr in tabla.select("tbody > tr[data-ri]"):
+    for tr in trs:
         celdas = tr.find_all("td", recursive=False)
         v = {k: _txt(celdas[i]) for k, i in pos.items()}
         if not v["id_expediente"].isdigit():
             raise ListadoInvalido(f"id de expediente inválido: {v['id_expediente']!r}")
         id_exp = int(v["id_expediente"])
-        m = re.match(r"([SD])-\d+", v["numero"])
         expedientes.append({
-            "id_expediente": id_exp, "numero": v["numero"], "camara": m.group(1) if m else "",
+            "id_expediente": id_exp, "numero": v["numero"], "camara": ORIGEN.get(v["origen"], ""),
             "tipo": v["tipo"], "id_tipo": id_tipo, "iniciativa": v["iniciativa"],
             "fecha_ingreso": _fecha(v["fecha_ingreso"]) if v["fecha_ingreso"] else "",
             "estado": v["estado"], "etapa": v["etapa"], "origen": v["origen"], "numero_ley": v["numero_ley"],
@@ -168,6 +182,35 @@ def parsear_resultado(html: str, id_tipo: int):
         if any(not x.strip().isdigit() for x in ids):
             raise ListadoInvalido(f"autores inválidos en {id_exp}: {v['autores']!r}")
         autores += [{"id_expediente": id_exp, "orden": k, "id_autor": int(x)} for k, x in enumerate(ids, 1)]
+    return expedientes, autores
+
+
+def filas_de_pagina(xml: str, pagina: int):
+    """Las <tr> de una respuesta de paginación (partial-response de JSF), validando que empiecen en su fila."""
+    m = re.search(r'<update id="formResult:dtExpediente"><!\[CDATA\[(.*?)\]\]></update>', xml, re.S)
+    if not m or "<error" in xml:
+        raise ListadoInvalido(f"la página {pagina} no trae filas")
+    trs = BeautifulSoup(f"<table><tbody>{m.group(1)}</tbody></table>", "html.parser").select("tbody > tr[data-ri]")
+    esperado = list(range(pagina * FILAS_POR_PAGINA, pagina * FILAS_POR_PAGINA + len(trs)))
+    if not trs or [int(tr["data-ri"]) for tr in trs] != esperado:
+        raise ListadoInvalido(f"la página {pagina} no empieza en la fila {pagina * FILAS_POR_PAGINA}")
+    return trs
+
+
+def parsear_resultado(html: str, id_tipo: int, paginas=()):
+    """Primera página de resultados (más las siguientes, si las hay) -> (expedientes, autores).
+    Valida contra rowCount: tienen que estar todas las filas."""
+    s = BeautifulSoup(html, "html.parser")
+    tabla = s.find(id=TABLA)
+    if tabla is None and total_filas(html) == 0:
+        return [], []
+    if tabla is None:
+        raise ListadoInvalido("la respuesta no tiene la tabla de resultados")
+    pos = _posiciones(tabla)
+    trs = tabla.select("tbody > tr[data-ri]")
+    for k, xml in enumerate(paginas, 1):
+        trs += filas_de_pagina(xml, k)
+    expedientes, autores = _filas(trs, pos, id_tipo)
     total = total_filas(html)
     if total == 0 and not expedientes:
         return [], []
@@ -184,6 +227,15 @@ def snapshot_dir(fecha: str | None = None) -> Path:
 
 def nombre_busqueda(camara: str, tipo: int, desde: date, hasta: date) -> str:
     return f"{camara}_{tipo}_{desde.isoformat()}_{hasta.isoformat()}.html"
+
+
+def nombre_pagina(base: str, pagina: int) -> str:
+    return base.removesuffix(".html") + f"_p{pagina}.xml"
+
+
+def paginas_guardadas(carpeta: Path, base: str, total: int) -> list[str]:
+    n = -(-total // FILAS_POR_PAGINA)
+    return [(carpeta / nombre_pagina(base, k)).read_text(encoding="utf-8") for k in range(1, n)]
 
 
 def periodos(hasta: date):
@@ -217,11 +269,15 @@ class Buscador:
             time.sleep(DELAY)
         return self.form
 
-    def tipos(self) -> dict:
+    def tipos_form(self) -> dict:
+        """El formulario guardado en el snapshot (o uno nuevo si todavía no hay)."""
         f = self.destino / "formulario.html"
         if self.form is None and f.exists():
-            return leer_formulario(f.read_text(encoding="utf-8"))["tipos"]
-        return self._formulario()["tipos"]
+            return leer_formulario(f.read_text(encoding="utf-8"))
+        return self._formulario()
+
+    def tipos(self) -> dict:
+        return self.tipos_form()["tipos"]
 
     def buscar(self, camara: str, tipo: int, desde: date, hasta: date) -> str:
         f = self.destino / nombre_busqueda(camara, tipo, desde, hasta)
@@ -242,13 +298,35 @@ class Buscador:
         f.write_text(r.text, encoding="utf-8")
         return r.text
 
+    def pagina(self, camara: str, tipo: int, desde: date, hasta: date, pagina: int) -> str:
+        f = self.destino / nombre_pagina(nombre_busqueda(camara, tipo, desde, hasta), pagina)
+        if f.exists():
+            return f.read_text(encoding="utf-8")
+        form = self._formulario(nuevo=self.form is not None and self.form.get("usado", False))
+        form["usado"] = True
+        r = self.sess.post(URL, data=datos_pagina(form, camara, tipo, desde, hasta, pagina),
+                           headers={**config.headers(), "Faces-Request": "partial/ajax",
+                                    "X-Requested-With": "XMLHttpRequest"}, timeout=120)
+        r.raise_for_status()
+        self.requests += 1
+        time.sleep(DELAY)
+        filas_de_pagina(r.text, pagina)   # que traiga las filas de esa página antes de guardarla
+        f.write_text(r.text, encoding="utf-8")
+        return r.text
+
     def rango(self, camara: str, tipo: int, desde: date, hasta: date):
-        """Archivos de búsqueda que cubren [desde, hasta] con una página cada uno (parte el rango si hace falta)."""
+        """Archivos de búsqueda que cubren [desde, hasta]. Si el rango trae más de una página, se parte en mitades;
+        un solo día con más de una página se pagina (búsqueda y salto de página en el mismo request)."""
         html = self.buscar(camara, tipo, desde, hasta)
-        if total_filas(html) <= FILAS_POR_PAGINA:
-            return [self.destino / nombre_busqueda(camara, tipo, desde, hasta)]
+        total = total_filas(html)
+        base = self.destino / nombre_busqueda(camara, tipo, desde, hasta)
+        if total <= FILAS_POR_PAGINA:
+            return [base]
         if desde == hasta:
-            raise ListadoInvalido(f"{camara} tipo {tipo}: más de {FILAS_POR_PAGINA} expedientes el {desde}")
+            for k in range(1, -(-total // FILAS_POR_PAGINA)):
+                self.pagina(camara, tipo, desde, hasta, k)
+            parsear_resultado(html, tipo, paginas_guardadas(self.destino, base.name, total))   # están todas
+            return [base]
         medio = desde + (hasta - desde) // 2
         return self.rango(camara, tipo, desde, medio) + self.rango(camara, tipo, medio + timedelta(days=1), hasta)
 
@@ -281,7 +359,8 @@ def parsear_snapshot(carpeta: Path):
     expedientes, autores = {}, {}
     for nombre in (carpeta / "completo.txt").read_text(encoding="utf-8").split():
         tipo = int(nombre.split("_")[1])
-        exps, auts = parsear_resultado((carpeta / nombre).read_text(encoding="utf-8"), tipo)
+        html = (carpeta / nombre).read_text(encoding="utf-8")
+        exps, auts = parsear_resultado(html, tipo, paginas_guardadas(carpeta, nombre, total_filas(html)))
         for e in exps:
             expedientes[e["id_expediente"]] = e
         for a in auts:

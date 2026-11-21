@@ -79,7 +79,9 @@ $P pipeline/silpy_expedientes.py reparsear   # silver/expedientes/ desde el últ
 
 Usa la búsqueda avanzada de SILpy (`/web/expedientesavanzado`): cámara (S/D), rango de fecha de ingreso y tipo
 (los 19 del formulario), desde el 1/7/2023. Busca por período legislativo y parte el rango en mitades mientras
-traiga más de una página (100 filas). Cada página se valida contra el total que informa la tabla (`rowCount`).
+traiga más de una página (100 filas); un solo día con más de 100 (Diputados, 25/08/2023: 180 pedidos de
+informes) se pagina con la búsqueda y el salto de página en el mismo request AJAX, porque SILpy no guarda el
+resultado entre requests (`_pN.xml` junto a la primera página). La cámara sale de «Origen», no del prefijo del número. Cada página se valida contra el total que informa la tabla (`rowCount`).
 El listado cambia (estado, etapa), así que se guarda completo como snapshot fechado
 `bronze/silpy/expedientes/{AAAA-MM-DD}/`, uno por día como máximo; dentro del de hoy no se rebaja ninguna búsqueda
 (si se corta, se vuelve a correr y sigue) y `completo.txt` marca que terminó. Va a 3 s entre requests (no 1,5): con 1,5 s
