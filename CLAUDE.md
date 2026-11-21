@@ -13,7 +13,7 @@ Contexto y decisiones de producto: `docs/CONTINUAR.md`. Prototipo original (no t
 
 ```
 pipeline/   Python: adaptadores de fuentes -> silver/, y análisis. Rutas y constantes en pipeline/config.py
-bronze/     datos crudos tal como se bajaron (fuera de git). bronze/silpy/{senado,diputados}/
+bronze/     datos crudos tal como se bajaron (fuera de git). bronze/silpy/{senado,diputados,expedientes}/
 silver/     CSV limpios y validados por cámara: el contrato de datos del proyecto
 salidas/    productos del análisis que no se publican en el sitio (salidas/votometro/ = referencia de regresión)
 site/       el sitio estático (lo que se despliega). Datos en site/datos/congreso/
@@ -69,6 +69,24 @@ pisa los anteriores) y desde ahí usan siempre el más reciente. En un período 
 código 1 si alguna nueva no cuadró o falló. `fechas` ordena por período e id, y para un período cerrado cuyo
 listado no está en bronze/ reutiliza sus fechas de silver/ en vez de bajarlo. `reparsear` se niega a escribir
 si silver/ tiene votaciones cuyo HTML no está en bronze/ (no las borra).
+
+Expedientes (`pipeline/silpy_expedientes.py`, base de la página Proyectos):
+
+```bash
+$P pipeline/silpy_expedientes.py listar      # baja o completa el snapshot de hoy y escribe silver/expedientes/
+$P pipeline/silpy_expedientes.py reparsear   # silver/expedientes/ desde el último snapshot completo, sin red
+```
+
+Usa la búsqueda avanzada de SILpy (`/web/expedientesavanzado`): cámara (S/D), rango de fecha de ingreso y tipo
+(los 19 del formulario), desde el 1/7/2023. Busca por período legislativo y parte el rango en mitades mientras
+traiga más de una página (100 filas). Cada página se valida contra el total que informa la tabla (`rowCount`).
+El listado cambia (estado, etapa), así que se guarda completo como snapshot fechado
+`bronze/silpy/expedientes/{AAAA-MM-DD}/`, uno por día como máximo; dentro del de hoy no se rebaja ninguna búsqueda
+(si se corta, se vuelve a correr y sigue) y `completo.txt` marca que terminó. Va a 3 s entre requests (no 1,5): con 1,5 s
+SILpy respondió 403 en esta búsqueda después de ~330 requests (21/11/2026); ante un 403, parar y seguir otro día. Salida: `expediente.csv` (id,
+número, cámara, tipo, iniciativa, fecha de ingreso, estado, etapa, origen, número de ley, acápite) y `autor.csv`
+(id_expediente, orden, id_autor). El listado no distingue autor principal de cofirmante: está en la página de
+cada expediente (`/web/expediente/{id}`, con trámite, autores, dictámenes y votaciones), que todavía no se baja.
 
 ### Actualización automática (GitHub Actions)
 
@@ -240,6 +258,9 @@ rompe; cambiar la lógica sí. Los datos vivos (`salidas/`, `site/datos/`) se re
   localStorage solo dentro de try/catch; CSS sin `@import` ni `url()` externos.
 - `test_listados.py`: política de listados (cerrado nunca se rebaja; abierto con snapshot fechado diario;
   sin contacto no hay request), con una sesión falsa, sin red.
+- `test_expedientes.py`: con el formulario y un resultado real de la búsqueda avanzada (fixtures de SILpy):
+  campos por etiqueta y no por id de JSF, filas validadas contra `rowCount`, partición de rangos grandes, snapshot
+  que se completa sin repetir búsquedas, silver/ sin duplicados y sin contacto no hay request.
 - `test_validacion.py`: con un HTML real de SILpy (`tests/fixtures/silpy/104208.html`) y una copia con un voto
   alterado, verifica que la votación que no cuadra con el sumario no llega a silver/ y que `reparsear` falla.
 - `test_circunscripciones.py`: con fichas reales de un senador y un diputado, el departamento se lee bien (Concepción
@@ -363,7 +384,8 @@ rompe; cambiar la lógica sí. Los datos vivos (`salidas/`, `site/datos/`) se re
   los estados quedaron «EN TRAMITE»; la «Lista de Datos» dice «actualizados al 31/05/2023»). No sirve para
   2024-2026. Trae además email y teléfono de los legisladores: no publicarlos. La pestaña «Expedientes/Proyectos»
   de la ficha de SILpy se carga por AJAX y, reproducida, devolvió «No hay expedientes». Exploración guardada en
-  `bronze/silpy/exploracion/` y `bronze/datoscongreso/exploracion/`. Camino vigente: la copia de SILpy de un tercero.
+  `bronze/silpy/exploracion/` y `bronze/datoscongreso/exploracion/`. Camino vigente (21/11/2026): la búsqueda
+  avanzada de SILpy (`pipeline/silpy_expedientes.py`), que trae los ids de autores; ya no hace falta la copia de un tercero.
 - SILpy no publica el historial de bancadas con fecha (la pestaña «Trayectoria Legislativa» solo da el partido
   por período de 5 años): se reconstruye con fotos de la nómina (ver Comandos). Un cambio se ubica entre dos
   fotos, no en un día exacto. `analisis.py` todavía usa la bancada actual; la disciplina de bloque por fecha
