@@ -1447,3 +1447,15 @@ h3 { font-size: var(--t-md); line-height: 1.3; margin: 0 0 var(--e-2); }
 .trayecto.es-seleccionado .trayecto__punto { opacity: 1; stroke: var(--texto); stroke-width: 1.4; }
 .fila-disciplina.es-seleccionado, .fila-ganador.es-seleccionado { background: var(--acento-suave); border-radius: var(--radio); }
 .fila-decisiva .fila-sala__sel { margin: var(--e-1) 0 0; }
+/* Votómetro: posición por partido (una fila por partido, raya en la mediana) y mapa completo plegado */
+.eje__texto--fuerte { fill: var(--texto-suave); font-weight: 650; }
+.fila-posicion__titulo { fill: var(--texto); font-size: 13px; font-weight: 650; font-family: var(--fuente); }
+.fila-posicion__mediana { fill: var(--texto-suave); font-weight: 400; }
+.fila-posicion__base { stroke: var(--borde); stroke-width: 1; }
+.mediana-partido { stroke: var(--texto); stroke-width: 3; stroke-linecap: round; cursor: help; }
+.mediana-partido:hover, .mediana-partido:focus-visible { stroke-width: 4.5; outline: none; }
+.etiqueta-guia { stroke: var(--texto-tenue); stroke-width: 0.8; opacity: 0.7; }
+.posicion-filas { display: block; max-width: 100%; height: auto; overflow: visible; }
+.mapa-completo { margin-top: var(--e-5); border-top: 1px solid var(--borde); padding-top: var(--e-4); }
+.mapa-completo > summary { cursor: pointer; font-weight: 650; display: flex; align-items: center; gap: var(--e-2); flex-wrap: wrap; }
+.mapa-completo > .nota { margin: var(--e-3) 0; }

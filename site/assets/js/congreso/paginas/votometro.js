@@ -11,7 +11,7 @@ import { crearBuscador, resaltar } from "../lib/buscador.js";
 import { anchoDe, escala } from "../lib/graficos.js";
 import { segmentado } from "./perfil-analisis.js";
 
-const DEFECTOS = { camara: "senado", periodo: "mandato", partido: "", aparto: "", seleccionado: "" };
+const DEFECTOS = { camara: "senado", periodo: "mandato", partido: "", aparto: "", seleccionado: "", medida: "anr" };
 const sel = () => leerEstado(DEFECTOS).seleccionado;
 const pct = (x) => (x === null || x === undefined ? "—" : `${Math.round(x * 100)} %`);
 const MESES = ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"];
@@ -170,31 +170,66 @@ function decisivas(pp) {
   }));
 }
 
+// ---------- Medidas de posición (las mismas en «Mapa en el tiempo», «Posición y asistencia» y «Posición política») ----------
+const MEDIDAS = {
+  anr: { nombre: "Coincidencia con la ANR", corto: "Coincidencia", fmt: (x) => pct(x) },
+  mds: { nombre: "Escalamiento (MDS)", corto: "Escalamiento", fmt: (x) => x.toFixed(2).replace(".", ",").replace("-", "−") },
+};
+// Extremos del eje en palabras (versión corta en pantallas angostas)
+const extremos = (ancho) => (ancho < 640
+  ? ["← más distinto a la ANR", "más como la ANR →"]
+  : ["← vota más distinto a la mayoría de la ANR", "vota más como la mayoría de la ANR →"]);
+/** Los dos extremos del eje en palabras; si no entran en una línea, uno debajo del otro. Devuelve [nodos, alto]. */
+function textosExtremos(x0, x1, y, ancho) {
+  const [izq, der] = extremos(ancho);
+  const apilar = (izq.length + der.length) * 6.4 + 24 > x1 - x0;
+  return [[el("svg:text", { x: x0, y, class: "eje__texto eje__texto--fuerte" }, izq),
+    el("svg:text", { x: x1, y: apilar ? y + 14 : y, "text-anchor": "end", class: "eje__texto eje__texto--fuerte" }, der)], apilar ? 14 : 0];
+}
+const textoMedida = (medida, x) => (medida === "anr" ? `Votó como la mayoría de la ANR en el ${pct(x)} de las votaciones divididas` : `Escalamiento: ${MEDIDAS.mds.fmt(x)}`);
+/** Dominio del eje según la medida: la coincidencia va en %, redondeada a décimas; el escalamiento, con margen. */
+function dominio(medida, xs) {
+  const lo = Math.min(...xs), hi = Math.max(...xs);
+  if (medida === "anr") return [Math.max(0, Math.floor(lo * 10 - 1e-9) / 10), Math.min(1, Math.ceil(hi * 10 - 1e-9) / 10) || 1];
+  const pad = (hi - lo) * 0.05 || 0.1;
+  return [lo - pad, hi + pad];
+}
+const ticksAnr = ([a, b]) => { const out = []; const paso = b - a > 0.5 ? 0.2 : 0.1; for (let v = a; v <= b + 1e-9; v += paso) out.push(Math.round(v * 100) / 100); return out; };
+function selectorMedida(caja, e) {
+  vaciar(caja, segmentado("Medida", Object.entries(MEDIDAS).map(([k, m]) => [k, m.nombre]), e.medida, (v) => cambiar({ medida: v })));
+}
+
 // ---------- 3. Mapa político en el tiempo ----------
-function trayectoria(tr, ancho) {
+function trayectoria(tr, medida, ancho) {
   if (tr.ventanas.length < 2) return el("p", { class: "vacio" }, "Todavía no hay ventanas suficientes para ver la evolución.");
-  const ml = 44, mr = ancho < 560 ? 12 : 130, mt = 16, mb = 36;
+  const datos = tr[medida];
+  const ml = 44, mr = ancho < 560 ? 12 : 130, mt = 22, mb = medida === "mds" ? 52 : 40;
   const alto = ancho < 560 ? 320 : 400;
   const x = escala(0, tr.ventanas.length - 1, ml, ancho - mr);
-  const y = escala(-1, 1, alto - mb, mt);
-  const destacados = new Set(tr.movimiento.slice(0, 5).map((m) => String(m.id)));
+  const valores = Object.values(datos.posiciones).flat().filter((v) => v !== null);
+  const [y0, y1] = medida === "mds" ? [-1, 1] : dominio("anr", valores);
+  const y = escala(y0, y1, alto - mb, mt);
+  const destacados = new Set(datos.movimiento.slice(0, 5).map((m) => String(m.id)));
   const svg = el("svg:svg", { class: "trayectoria", viewBox: `0 0 ${ancho} ${alto}`, width: ancho, height: alto, role: "group",
-    "aria-label": "Posición estimada de cada legislador en cada ventana de 12 meses" });
+    "aria-label": `${MEDIDAS[medida].nombre} de cada legislador en cada ventana de 12 meses` });
   const eje = el("svg:g", { class: "eje", "aria-hidden": "true" });
-  for (const v of [-1, -0.5, 0, 0.5, 1]) {
-    eje.append(el("svg:line", { x1: ml, x2: ancho - mr, y1: y(v), y2: y(v), class: v === 0 ? "eje__guia eje__guia--anio" : "eje__guia" }));
+  const guias = medida === "mds" ? [-1, -0.5, 0, 0.5, 1] : ticksAnr([y0, y1]);
+  for (const v of guias) {
+    eje.append(el("svg:line", { x1: ml, x2: ancho - mr, y1: y(v), y2: y(v), class: medida === "mds" && v === 0 ? "eje__guia eje__guia--anio" : "eje__guia" }));
+    if (medida === "anr") eje.append(el("svg:text", { x: ml - 5, y: y(v) + 4, "text-anchor": "end", class: "eje__texto" }, `${Math.round(v * 100)}%`));
   }
   tr.ventanas.forEach((w, i) => {
     const [a, m] = w.desde.split("-");
-    eje.append(el("svg:text", { x: x(i), y: alto - mb + 16, "text-anchor": "middle", class: "eje__texto" }, `${MESES[Number(m) - 1]} ${a.slice(2)}`),
-      el("svg:text", { x: x(i), y: alto - mb + 29, "text-anchor": "middle", class: "eje__texto" }, `${pct(w.var1)}`));
+    eje.append(el("svg:text", { x: x(i), y: alto - mb + 16, "text-anchor": "middle", class: "eje__texto" }, `${MESES[Number(m) - 1]} ${a.slice(2)}`));
+    if (medida === "mds") eje.append(el("svg:text", { x: x(i), y: alto - mb + 29, "text-anchor": "middle", class: "eje__texto" }, `${pct(w.var1)}`));
   });
-  eje.append(el("svg:text", { x: 12, y: (mt + alto - mb) / 2, "text-anchor": "middle", class: "eje__titulo", transform: `rotate(-90 12 ${(mt + alto - mb) / 2})` }, "posición estimada a partir de los votos"),
-    el("svg:text", { x: ml + 4, y: mt + 2, class: "eje__texto" }, "↑ lado donde se ubica la mayoría del ANR"));
+  const corto = ancho < 640;
+  eje.append(el("svg:text", { x: ml + 4, y: mt - 8, class: "eje__texto eje__texto--fuerte" }, corto ? "↑ más como la ANR" : "↑ vota más como la mayoría de la ANR"),
+    el("svg:text", { x: ml + 4, y: alto - mb + (medida === "mds" ? 44 : 32), class: "eje__texto eje__texto--fuerte" }, corto ? "↓ más distinto a la ANR" : "↓ vota más distinto a la mayoría de la ANR"));
   svg.append(eje);
   const capaFondo = el("svg:g"), capaFrente = el("svg:g");
   const etiquetas = [];
-  for (const [id, serie] of Object.entries(tr.posiciones)) {
+  for (const [id, serie] of Object.entries(datos.posiciones)) {
     const l = persona(id);
     let d = "";
     serie.forEach((p, i) => { if (p !== null) d += `${d && serie[i - 1] !== null && serie[i - 1] !== undefined ? "L" : "M"}${x(i).toFixed(1)},${y(p).toFixed(1)}`; });
@@ -203,9 +238,9 @@ function trayectoria(tr, ancho) {
     const g = el("svg:g", { class: ["trayecto", partidoClase(l.partido), dest && "trayecto--destacado"] },
       el("svg:path", { d, class: "trayecto__linea" }),
       serie.map((p, i) => (p === null ? null : el("svg:circle", { cx: x(i).toFixed(1), cy: y(p).toFixed(1), r: dest ? 3.5 : 2, class: "trayecto__punto" }))));
-    const mov = tr.movimiento.find((m) => String(m.id) === id);
-    conectarPersona(g, l, [`Posición por ventana: ${serie.map((p) => (p === null ? "—" : p.toFixed(2).replace(".", ","))).join(" → ")}`,
-      mov ? `Rango recorrido: ${mov.rango.toFixed(2).replace(".", ",")}` : "Aparece en una sola ventana"]);
+    const mov = datos.movimiento.find((m) => String(m.id) === id);
+    conectarPersona(g, l, [`${MEDIDAS[medida].corto} por ventana: ${serie.map((p) => (p === null ? "—" : MEDIDAS[medida].fmt(p))).join(" → ")}`,
+      mov ? `Rango recorrido: ${medida === "anr" ? `${Math.round(mov.rango * 100)} puntos` : MEDIDAS.mds.fmt(mov.rango)}` : "Aparece en una sola ventana"]);
     (dest ? capaFrente : capaFondo).append(g);
     if (dest && ancho >= 560) {
       const ult = serie.findLastIndex((p) => p !== null);
@@ -216,7 +251,9 @@ function trayectoria(tr, ancho) {
   let ultimo = -Infinity;
   for (const e of etiquetas) { const ty = Math.max(e.y + 4, ultimo + 13); ultimo = ty; capaFrente.append(el("svg:text", { x: e.x, y: ty, class: ["etiqueta-dato", "etiqueta-dato--halo"] }, e.texto)); }
   svg.append(capaFondo, capaFrente);
-  return [svg, el("p", { class: "nota" }, "Debajo de cada ventana, cuánto de las diferencias de voto resume la posición (varianza explicada). Se resaltan los 5 que más se movieron.")];
+  return [svg, el("p", { class: "nota" }, medida === "mds"
+    ? "Debajo de cada ventana, cuánto de las diferencias de voto resume el escalamiento. Se resaltan los 5 que más se movieron."
+    : "Porcentaje de votaciones divididas de cada ventana en las que votó como la mayoría de la ANR. Se resaltan los 5 que más se movieron.")];
 }
 
 // ---------- Ausentismo selectivo ----------
@@ -289,25 +326,126 @@ function resumenSeleccion(pp) {
   if (!$("#f-buscar").value) $("#f-buscar").value = l.nombre;
 }
 
+// ---------- Posición política estimada: una fila por partido ----------
+/** Enjambre en una fila: desplazamiento vertical de cada punto (en px) para que no se superpongan. */
+function enjambre(xs, r) {
+  const orden = xs.map((x, i) => [x, i]).sort((a, b) => a[0] - b[0]);
+  const puestos = [];
+  const off = new Array(xs.length).fill(0);
+  const d = 2 * r + 0.8;
+  for (const [x, i] of orden) {
+    for (let k = 0; ; k++) {
+      const dy = k === 0 ? 0 : (k % 2 ? 1 : -1) * Math.ceil(k / 2) * (d * 0.86);
+      if (puestos.every(([px, py]) => (px - x) ** 2 + (py - dy) ** 2 >= d * d - 0.01)) { puestos.push([x, dy]); off[i] = dy; break; }
+    }
+  }
+  return off;
+}
+
+function graficoPosicion(pm, medida, ancho) {
+  const pts = pm.puntos;
+  if (!pts.length) return el("p", { class: "vacio" }, "No hay legisladores con votaciones suficientes en el período.");
+  const ml = 12, mr = 12, r = ancho < 560 ? 3.4 : 5;
+  const angosto = ancho < 640;
+  const [x0, x1] = dominio(medida, pts.map((p) => p.valor));
+  const x = escala(x0, x1, ml, ancho - mr);
+  const porId = new Map(pts.map((p) => [String(p.id), p]));
+  const cruzados = new Set(pm.cruzados.map((c) => String(c.id)));
+  const cercaDe = new Map(pm.cruzados.map((c) => [String(c.id), c.cerca_de]));
+  const elegido = sel();
+  const capas = [];
+  let yBase = 0;
+  for (const f of pm.filas) {
+    const miembros = pts.filter((p) => pm.grupo[String(p.id)] === f.grupo);
+    const off = enjambre(miembros.map((p) => x(p.valor)), r);
+    const arriba = Math.max(0, ...off.map((o) => -o)) + r + 4, abajo = Math.max(0, ...off) + r + 4;
+    const yTitulo = yBase + 16, yCentro = yTitulo + 8 + arriba;
+    const g = el("svg:g", { class: "fila-posicion" });
+    const titulo = f.grupo === "Otros" ? `Otros (${f.partidos.join(", ")})` : angosto ? f.grupo : `${partidoNombre(f.grupo).replace(/ \(.*\)$/, "")}`;
+    g.append(el("svg:text", { x: ml, y: yTitulo, class: "fila-posicion__titulo" }, `${titulo} · ${numero(f.integrantes)}`,
+      el("svg:tspan", { class: "fila-posicion__mediana" }, f.grupo === "Otros" ? "" : ` · mediana ${MEDIDAS[medida].fmt(f.mediana)}`)));
+    g.append(el("svg:line", { x1: ml, x2: ancho - mr, y1: yCentro, y2: yCentro, class: "fila-posicion__base" }));
+    // la mediana del partido como raya (no para «Otros», que mezcla partidos)
+    if (f.grupo !== "Otros") {
+      const raya = el("svg:line", { x1: x(f.mediana), x2: x(f.mediana), y1: yCentro - arriba + 2, y2: yCentro + abajo - 2, class: ["mediana-partido", partidoClase(f.grupo)] });
+      raya.setAttribute("aria-label", `Mediana de ${titulo}: ${MEDIDAS[medida].fmt(f.mediana)}`);
+      conectar(raya, { contenido: () => [el("strong", {}, `Mediana de ${titulo}`), el("p", { class: "tooltip__linea" }, textoMedida(medida, f.mediana))] });
+      g.append(raya);
+    }
+    const etiquetas = [];
+    miembros.forEach((p, k) => {
+      const l = persona(p.id);
+      const cy = yCentro + off[k];
+      const c = el("svg:circle", { cx: x(p.valor).toFixed(1), cy: cy.toFixed(1), r, class: ["punto-dato", partidoClase(l.partido)] });
+      const lineas = [textoMedida(medida, p.valor)];
+      if (cruzados.has(String(p.id))) lineas.push(`Más cerca de la mediana de ${cercaDe.get(String(p.id))} que de la de su partido`);
+      conectarPersona(c, l, lineas);
+      g.append(c);
+      if (cruzados.has(String(p.id)) || String(p.id) === elegido) etiquetas.push({ p, l, cx: x(p.valor), cy, sel: String(p.id) === elegido });
+    });
+    // Etiquetas fijas debajo del enjambre, en carriles para que no se superpongan, con una línea al punto
+    const carriles = [];
+    etiquetas.sort((a, b) => a.cx - b.cx);
+    const yEtiquetas = yCentro + abajo + 12;
+    const guias = el("svg:g"), textos = el("svg:g");   // las líneas detrás de todos los nombres
+    for (const e of etiquetas) {
+      const texto = nombreCorto(e.l);
+      const w = texto.length * 6.6 + 6;
+      const tx = Math.min(Math.max(ml, e.cx - w / 2), ancho - mr - w);
+      let c = carriles.findIndex((fin) => fin + 4 <= tx);
+      if (c < 0) { carriles.push(0); c = carriles.length - 1; }
+      carriles[c] = tx + w;
+      const ty = yEtiquetas + c * 15;
+      guias.append(el("svg:line", { x1: e.cx.toFixed(1), x2: (tx + w / 2).toFixed(1), y1: (e.cy + r).toFixed(1), y2: (ty - 10).toFixed(1), class: "etiqueta-guia" }));
+      textos.append(el("svg:text", { x: (tx + 3).toFixed(1), y: ty.toFixed(1), class: ["etiqueta-dato", "etiqueta-dato--halo", e.sel && "etiqueta-dato--sel"] }, texto));
+    }
+    g.prepend(guias);
+    g.append(textos);
+    yBase = (carriles.length ? yEtiquetas + (carriles.length - 1) * 15 + 6 : yCentro + abajo) + 10;
+    capas.push(g);
+  }
+  // eje común abajo: marcas (en % para la coincidencia) y extremos en palabras
+  const yEje = yBase + 4;
+  const [nodosExt, extra] = textosExtremos(ml, ancho - mr, yEje + 32, ancho);
+  const alto = yEje + 40 + extra;
+  const svg = el("svg:svg", { class: "posicion-filas", viewBox: `0 0 ${ancho} ${alto}`, width: ancho, height: alto, role: "group",
+    "aria-label": `${MEDIDAS[medida].nombre}: una fila por partido, un punto por legislador` });
+  const eje = el("svg:g", { class: "eje", "aria-hidden": "true" });
+  const marcas = medida === "anr" ? ticksAnr([x0, x1]) : (x0 < 0 && x1 > 0 ? [0] : []);
+  for (const v of marcas) {
+    eje.append(el("svg:line", { x1: x(v), x2: x(v), y1: 0, y2: yEje, class: medida === "mds" ? "eje__guia eje__guia--anio" : "eje__guia" }));
+    eje.append(el("svg:text", { x: x(v), y: yEje + 14, "text-anchor": "middle", class: "eje__texto" }, medida === "anr" ? `${Math.round(v * 100)}%` : "centro de la cámara"));
+  }
+  eje.append(...nodosExt);
+  svg.append(eje, ...capas);
+  return svg;
+}
+
 // ---------- 4 y 5. Dispersión genérica ----------
-function dispersion(puntos, ancho, { ejeX, ejeY, valX, valY, dominioY, lineas, etiqueta }) {
-  const ml = 46, mr = 14, mt = 12, mb = 42;
+function dispersion(puntos, ancho, { ejeX, ejeY, valX, valY, dominioX, dominioY, marcasX, lineas, etiqueta, extremosX }) {
+  const ml = 46, mr = 14, mt = 12;
+  const apilar = extremosX && textosExtremos(ml, ancho - mr, 0, ancho)[1] > 0;
+  const mb = extremosX ? (apilar ? 70 : 56) : 42;
   const alto = Math.round(Math.min(Math.max(ancho * 0.66, 280), 440));
   const xs = puntos.map(valX), ys = puntos.map(valY);
   const pad = (a, b) => [a - (b - a) * 0.05, b + (b - a) * 0.05];
-  const [x0, x1] = pad(Math.min(...xs), Math.max(...xs));
+  const [x0, x1] = dominioX || pad(Math.min(...xs), Math.max(...xs));
   const [y0, y1] = dominioY || pad(Math.min(...ys), Math.max(...ys));
   const x = escala(x0, x1, ml, ancho - mr);
   const y = escala(y0, y1, alto - mb, mt);
   const svg = el("svg:svg", { class: "dispersion", viewBox: `0 0 ${ancho} ${alto}`, width: ancho, height: alto, role: "group", "aria-label": etiqueta });
   const eje = el("svg:g", { class: "eje", "aria-hidden": "true" });
-  // La línea del 0 es el centro de la cámara (el escalamiento está centrado en el promedio): se rotula
-  eje.append(el("svg:line", { x1: x(0), x2: x(0), y1: mt, y2: alto - mb, class: "eje__guia eje__guia--anio" }),
-    el("svg:text", { x: x(0) + 4, y: mt + 10, class: "eje__texto" }, "centro de la cámara"));
+  if (marcasX) {
+    for (const v of marcasX) eje.append(el("svg:line", { x1: x(v), x2: x(v), y1: mt, y2: alto - mb, class: "eje__guia" }), el("svg:text", { x: x(v), y: alto - mb + 14, "text-anchor": "middle", class: "eje__texto" }, `${Math.round(v * 100)}%`));
+  } else if (x0 < 0 && x1 > 0) {
+    // La línea del 0 es el centro de la cámara (el escalamiento está centrado en el promedio): se rotula
+    eje.append(el("svg:line", { x1: x(0), x2: x(0), y1: mt, y2: alto - mb, class: "eje__guia eje__guia--anio" }),
+      el("svg:text", { x: x(0) + 4, y: mt + 10, class: "eje__texto" }, "centro de la cámara"));
+  }
   if (!dominioY) eje.append(el("svg:line", { x1: ml, x2: ancho - mr, y1: y(0), y2: y(0), class: "eje__guia eje__guia--anio" }));
   else for (let v = 0; v <= 1; v += 0.25) eje.append(el("svg:line", { x1: ml, x2: ancho - mr, y1: y(v), y2: y(v), class: "eje__guia" }), el("svg:text", { x: ml - 5, y: y(v) + 4, "text-anchor": "end", class: "eje__texto" }, `${v * 100}%`));
+  if (extremosX) eje.append(...textosExtremos(ml, ancho - mr, alto - mb + 32, ancho)[0]);
   eje.append(el("svg:text", { x: (ml + ancho - mr) / 2, y: alto - 8, "text-anchor": "middle", class: "eje__titulo" }, ejeX),
-    el("svg:text", { x: ancho - mr, y: alto - mb + 14, "text-anchor": "end", class: "eje__texto" }, "lado donde se ubica la mayoría del ANR →"),
     el("svg:text", { x: 12, y: (mt + alto - mb) / 2, "text-anchor": "middle", class: "eje__titulo", transform: `rotate(-90 12 ${(mt + alto - mb) / 2})` }, ejeY));
   svg.append(eje);
   const r = ancho < 560 ? 4.5 : 5.5;
@@ -318,6 +456,19 @@ function dispersion(puntos, ancho, { ejeX, ejeY, valX, valY, dominioY, lineas, e
     svg.append(c);
   }
   return svg;
+}
+
+/** El mapa 2D va dentro de un <details>: se dibuja cuando está abierto (cerrado no tiene ancho). */
+function dibujarMapaCompleto(pp) {
+  const caja = $("#g-experimental");
+  if (!$("#mapa-completo").open) { vaciar(caja); return; }
+  const mapa = pp.mapa;
+  vaciar(caja, dispersion(mapa.puntos, Math.min(anchoDe(caja), 820), {
+    ejeX: `Diferencia principal entre legisladores (${pct(mapa.var1)})`, ejeY: `Segunda diferencia (${pct(mapa.var2)}, explica poco)`,
+    valX: (p) => p.d1, valY: (p) => p.d2, extremosX: true,
+    lineas: (p) => [`Diferencia principal: ${MEDIDAS.mds.fmt(p.d1)}`, `Segunda diferencia: ${MEDIDAS.mds.fmt(p.d2)}`],
+    etiqueta: "Mapa completo del escalamiento en dos dimensiones (experimental)" }));
+  resaltar(sel());
 }
 
 // ---------- página ----------
@@ -342,18 +493,24 @@ function dibujar() {
   cohesionBarras(pp);
   vaciar($("#g-cohesion-mensual"), cohesionMensual(pp, anchoDe($("#g-cohesion-mensual"))));
   decisivas(pp);
-  vaciar($("#g-trayectoria"), trayectoria(D.vm.trayectoria, anchoDe($("#g-trayectoria"))));
-  const mapa = pp.mapa;
-  $("#nota-mapa").textContent = `La posición resume el ${pct(mapa.var1)} de las diferencias de voto en ${numero(mapa.divididas)} votaciones divididas del período. Aparecen quienes votaron en al menos ${numero(mapa.minimo_votos)} de ellas (${numero(mapa.puntos.length)} legisladores).`;
-  $("#var-ejes").textContent = `el eje horizontal, el ${pct(mapa.var1)}; el vertical, el ${pct(mapa.var2)}`;
-  const lineas = (p) => [`Posición: ${p.d1.toFixed(2).replace(".", ",")}`, `Votó en el ${pct(p.voto)} de las votaciones del período en el cargo`];
-  vaciar($("#g-pos-pres"), dispersion(mapa.puntos, Math.min(anchoDe($("#g-pos-pres")), 820), {
-    ejeX: "posición estimada a partir de los votos", ejeY: "votaciones en las que votó", valX: (p) => p.d1, valY: (p) => p.voto, dominioY: [0, 1], lineas,
-    etiqueta: "Posición estimada (horizontal) y porcentaje de votaciones en las que votó (vertical)" }));
-  vaciar($("#g-experimental"), dispersion(mapa.puntos, Math.min(anchoDe($("#g-experimental")), 820), {
-    ejeX: `dimensión 1 (${pct(mapa.var1)})`, ejeY: `dimensión 2 (${pct(mapa.var2)})`, valX: (p) => p.d1, valY: (p) => p.d2,
-    lineas: (p) => [`Dimensión 1: ${p.d1.toFixed(2).replace(".", ",")}`, `Dimensión 2: ${p.d2.toFixed(2).replace(".", ",")}`],
-    etiqueta: "Mapa de dos dimensiones del escalamiento (experimental)" }));
+  if (!MEDIDAS[e.medida]) e.medida = "anr";
+  for (const c of ["#medida-tiempo", "#medida-pos-pres", "#medida-posicion"]) selectorMedida($(c), e);
+  vaciar($("#g-trayectoria"), trayectoria(D.vm.trayectoria, e.medida, anchoDe($("#g-trayectoria"))));
+  const pm = pp.posicion[e.medida];
+  const m = MEDIDAS[e.medida];
+  const quienes = `Aparecen quienes votaron en al menos ${numero(pm.minimo_votos)} de las ${numero(pm.divididas)} votaciones divididas del período (${numero(pm.puntos.length)} legisladores).`;
+  $("#nota-mapa").textContent = e.medida === "anr" ? quienes : `El escalamiento resume el ${pct(pp.mapa.var1)} de las diferencias de voto. ${quienes}`;
+  $("#nota-posicion").textContent = quienes;
+  const r = pp.posicion.correlacion;
+  $("#correlacion-texto").textContent = r === null ? "" : `Correlación entre las dos medidas en el período: ${r.toFixed(2).replace(".", ",")}${r > 0.9 ? ": las dos medidas ordenan casi igual." : "."}`;
+  const marcas = e.medida === "anr" ? ticksAnr(dominio("anr", pm.puntos.map((p) => p.valor))) : null;
+  vaciar($("#g-pos-pres"), dispersion(pm.puntos, Math.min(anchoDe($("#g-pos-pres")), 820), {
+    ejeX: m.nombre, ejeY: "votaciones en las que votó", valX: (p) => p.valor, valY: (p) => p.voto, dominioY: [0, 1], extremosX: true,
+    dominioX: e.medida === "anr" ? dominio("anr", pm.puntos.map((p) => p.valor)) : null, marcasX: marcas,
+    lineas: (p) => [textoMedida(e.medida, p.valor), `Votó en el ${pct(p.voto)} de las votaciones del período en el cargo`],
+    etiqueta: `${m.nombre} (horizontal) y porcentaje de votaciones en las que votó (vertical)` }));
+  vaciar($("#g-posicion"), graficoPosicion(pm, e.medida, Math.min(anchoDe($("#g-posicion")), 980)));
+  dibujarMapaCompleto(pp);
   resumenSeleccion(pp);
   resaltar(e.seleccionado);
   if (e.aparto) document.getElementById(`aparto-${e.aparto}`)?.scrollIntoView({ block: "nearest" });
@@ -384,6 +541,7 @@ crearBuscador({
   alElegir: (o) => { soltar(false); escribirEstado({ ...leerEstado(DEFECTOS), camara: o.camara, seleccionado: String(o.l.id), partido: "", aparto: "" }, DEFECTOS); aplicar(); },
   alLimpiar: () => { if (sel()) { soltar(false); cambiar({ seleccionado: "" }); } },
 });
+$("#mapa-completo").addEventListener("toggle", () => { if (D) { const e = leerEstado(DEFECTOS); dibujarMapaCompleto(D.vm.por_periodo[D.vm.periodos.some((p) => p.clave === e.periodo) ? e.periodo : "mandato"]); } });
 $("#f-partido").addEventListener("change", () => cambiar({ partido: $("#f-partido").value, aparto: "" }));
 let anchoPrevio = 0;
 new ResizeObserver(([x]) => {

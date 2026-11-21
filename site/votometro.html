@@ -131,17 +131,18 @@
       <div class="tarjeta__cabecera">
         <div>
           <h2 id="t-tiempo">Mapa político en el tiempo</h2>
-          <p class="tarjeta__descripcion">Posición de cada legislador estimada a partir de sus votos, en ventanas de 12 meses que avanzan cada 6. Se resaltan quienes más se movieron. Tocá una línea para ver el detalle.</p>
+          <p class="tarjeta__descripcion">Dónde quedó cada legislador en ventanas de 12 meses que avanzan cada 6: arriba, quienes votan más como la mayoría de la ANR. Se resaltan quienes más se movieron. Tocá una línea para ver el detalle.</p>
         </div>
+        <div class="tarjeta__acciones" id="medida-tiempo"></div>
       </div>
       <div class="tarjeta__cuerpo"><div class="grafico" id="g-trayectoria"></div></div>
       <details class="tarjeta__metodologia">
         <summary>Metodología</summary>
         <ul>
-          <li>Para cada ventana se toman las votaciones divididas (la minoría tiene al menos el 2,5 %) y los legisladores que votaron en suficientes de ellas (el 25 % de las divididas, entre 10 y 25). Con las coincidencias de voto entre cada par se calcula un escalamiento multidimensional (MDS) y se usa su primera dimensión.</li>
-          <li>La posición se normaliza en cada ventana (de −1 a 1) para poder compararlas. El lado positivo es el lado donde se ubica la mayoría del ANR: es una orientación del gráfico, no una etiqueta de oposición u oficialismo.</li>
-          <li>Las ventanas se superponen 6 meses: el movimiento sale suavizado. Una ventana entra solo con al menos 15 votaciones divididas y 10 legisladores.</li>
-          <li>Es una posición relativa a los demás en esa ventana: si alguien «se mueve» puede ser porque cambió su voto o porque cambiaron los demás.</li>
+          <li>Dos medidas, elegibles arriba a la derecha. <strong>Coincidencia con la ANR</strong>: porcentaje de votaciones divididas (la minoría tiene al menos el 2,5 %) en las que votó igual que la mayoría de los legisladores del ANR presentes; solo cuentan Sí, No y Abstención, y a un legislador del ANR no se lo cuenta en esa mayoría. Si los del ANR empataron, la votación no cuenta. <strong>Escalamiento (MDS)</strong>: la primera dimensión de un escalamiento multidimensional de las coincidencias de voto entre todos los pares de legisladores, con el lado de la mayoría del ANR a la derecha.</li>
+          <li>En cada ventana entran las votaciones divididas y quienes votaron en suficientes de ellas (el 25 % de las divididas, entre 10 y 25). Una ventana entra solo con al menos 15 votaciones divididas y 10 legisladores.</li>
+          <li>Con el escalamiento, la posición se normaliza en cada ventana (de −1 a 1) para poder compararlas; debajo de cada ventana va cuánto de las diferencias de voto resume.</li>
+          <li>Las ventanas se superponen 6 meses: el movimiento sale suavizado. Es una posición relativa: si alguien «se mueve» puede ser porque cambió su voto o porque cambiaron los demás.</li>
         </ul>
       </details>
     </section>
@@ -150,14 +151,15 @@
       <div class="tarjeta__cabecera">
         <div>
           <h2 id="t-pos-pres">Posición y asistencia</h2>
-          <p class="tarjeta__descripcion">Posición estimada a partir de los votos (horizontal) y porcentaje de votaciones del período en las que votó (vertical). La asistencia se mide en votaciones nominales, no en sesiones.</p>
+          <p class="tarjeta__descripcion">Hacia la derecha, quienes votan más como la mayoría de la ANR; hacia arriba, quienes votaron en más votaciones del período. La asistencia se mide en votaciones nominales, no en sesiones.</p>
         </div>
+        <div class="tarjeta__acciones" id="medida-pos-pres"></div>
       </div>
       <div class="tarjeta__cuerpo"><p class="nota" id="nota-mapa"></p><div class="grafico grafico--dispersion" id="g-pos-pres"></div></div>
       <details class="tarjeta__metodologia">
         <summary>Metodología</summary>
         <ul>
-          <li>Posición: primera dimensión del MDS del período, con el lado donde se ubica la mayoría del ANR a la derecha.</li>
+          <li>Dos medidas, elegibles arriba a la derecha. <strong>Coincidencia con la ANR</strong>: porcentaje de votaciones divididas (la minoría tiene al menos el 2,5 %) en las que votó igual que la mayoría de los legisladores del ANR presentes; solo cuentan Sí, No y Abstención, y a un legislador del ANR no se lo cuenta en esa mayoría. Si los del ANR empataron, la votación no cuenta. <strong>Escalamiento (MDS)</strong>: la primera dimensión de un escalamiento multidimensional de las coincidencias de voto entre todos los pares de legisladores, con el lado de la mayoría del ANR a la derecha.</li>
           <li>Votó: votaciones del período en el cargo en las que registró Sí, No, Abstención o una moción (no figura como ausente ni como presente sin votar).</li>
         </ul>
       </details>
@@ -166,22 +168,31 @@
     <section class="tarjeta" aria-labelledby="t-experimental">
       <div class="tarjeta__cabecera">
         <div>
-          <h2 id="t-experimental">Posición política estimada <span class="chip chip-experimental">Experimental</span></h2>
-          <p class="tarjeta__descripcion">El mapa completo del escalamiento: dos dimensiones que resumen en qué votaciones cada legislador coincide con los demás.</p>
+          <h2 id="t-experimental">Posición política estimada</h2>
+          <p class="tarjeta__descripcion">Una fila por partido, un punto por legislador y una raya en la mediana del partido. Con nombre, quienes quedan más cerca de otro partido que del suyo.</p>
         </div>
+        <div class="tarjeta__acciones" id="medida-posicion"></div>
       </div>
       <div class="tarjeta__cuerpo">
         <div class="aviso-nota aviso-nota--arriba">
-          <p><strong>Qué es:</strong> un dibujo en el que quedan cerca los legisladores que votan parecido y lejos los que votan distinto. Cada eje dice cuánto de esas diferencias resume (<span id="var-ejes">—</span>).</p>
-          <p><strong>Qué no es:</strong> no es una medida de ideología declarada ni de izquierda y derecha. Depende de qué se votó en el período: si cambian los temas, cambia el mapa. La segunda dimensión explica poco y conviene leerla con cuidado.</p>
+          <p><strong>Qué es:</strong> ordena a los legisladores según con quién coinciden al votar: cerca de los que votan parecido.</p>
+          <p><strong>Qué no es:</strong> no es ideología ni izquierda/derecha; cambia si cambian los temas votados.</p>
         </div>
-        <div class="grafico grafico--dispersion" id="g-experimental"></div>
+        <p class="nota" id="nota-posicion"></p>
+        <div class="grafico" id="g-posicion"></div>
+        <details class="mapa-completo" id="mapa-completo">
+          <summary>Ver el mapa completo <span class="chip chip-experimental">Experimental</span></summary>
+          <p class="nota">Las dos diferencias principales del escalamiento. La segunda explica poco: conviene no sacar conclusiones de la altura de un punto.</p>
+          <div class="grafico grafico--dispersion" id="g-experimental"></div>
+        </details>
       </div>
       <details class="tarjeta__metodologia">
         <summary>Metodología</summary>
         <ul>
-          <li>Escalamiento multidimensional clásico sobre la matriz de coincidencias de voto (Sí = 1, No = −1; abstenciones y ausencias no cuentan) en las votaciones divididas del período, como en el prototipo del proyecto.</li>
-          <li>Las dimensiones se orientan para que el promedio del ANR quede del lado positivo de cada eje.</li>
+          <li>Dos medidas, elegibles arriba a la derecha. <strong>Coincidencia con la ANR</strong>: porcentaje de votaciones divididas (la minoría tiene al menos el 2,5 %) en las que votó igual que la mayoría de los legisladores del ANR presentes; solo cuentan Sí, No y Abstención, y a un legislador del ANR no se lo cuenta en esa mayoría. Si los del ANR empataron, la votación no cuenta. <strong>Escalamiento (MDS)</strong>: la primera dimensión de un escalamiento multidimensional de las coincidencias de voto entre todos los pares de legisladores, con el lado de la mayoría del ANR a la derecha.</li>
+          <li>Entran quienes votaron en suficientes votaciones divididas del período (el 25 % de ellas, entre 10 y 25; en el mandato, 25). <span id="correlacion-texto"></span></li>
+          <li>Filas: ANR, PLRA y cada partido con al menos 3 legisladores en el gráfico; los demás van juntos en «Otros». Con nombre: quien queda más cerca de la mediana de otro partido que de la del suyo (no se calcula para «Otros», que mezcla partidos).</li>
+          <li>Mapa completo: escalamiento multidimensional clásico sobre las coincidencias de voto (Sí = 1, No = −1; abstenciones y ausencias no cuentan), como en el prototipo del proyecto. Los ejes se orientan con el promedio del ANR del lado positivo.</li>
         </ul>
       </details>
     </section>
