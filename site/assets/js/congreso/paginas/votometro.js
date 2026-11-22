@@ -10,6 +10,7 @@ import { conectar, soltar } from "../lib/tooltip.js";
 import { crearBuscador, resaltar } from "../lib/buscador.js";
 import { anchoDe, escala } from "../lib/graficos.js";
 import { segmentado } from "./perfil-analisis.js";
+import { montarAnimacionMapa } from "../lib/animacion-mapa.js";
 
 const DEFECTOS = { camara: "senado", periodo: "mandato", partido: "", aparto: "", seleccionado: "", medida: "anr" };
 const sel = () => leerEstado(DEFECTOS).seleccionado;
@@ -21,15 +22,18 @@ const persona = (id) => D.cam.porId.get(Number(id)) || { id: Number(id), nombre:
 const nombreCorto = (l) => l.nombre_corto || l.nombre;
 
 /** Tooltip de una persona con «Ver perfil» al fijarlo (click o Enter). */
-function conectarPersona(nodo, l, lineas) {
+function conectarPersona(nodo, l, lineas, { foco = true } = {}) {
   nodo.dataset.persona = l.id;   // para resaltar al elegido en el buscador
-  nodo.setAttribute("role", "button");
-  nodo.setAttribute("aria-label", `${l.nombre}, ${partidoNombre(l.partido)}. ${lineas.join(". ")}`);
+  // Sin foco (los puntos de la animación): solo mouse o toque; el teclado recorre las líneas del gráfico real
+  if (foco) {
+    nodo.setAttribute("role", "button");
+    nodo.setAttribute("aria-label", `${l.nombre}, ${partidoNombre(l.partido)}. ${lineas.join(". ")}`);
+  }
   conectar(nodo, { contenido: (fijo) => [
     el("div", { class: "tooltip__persona" }, avatar(l), el("div", {}, el("strong", {}, apellidoNombre(l.nombre, l.nombre_corto)), el("div", {}, chipPartido(l.partido)))),
     lineas.map((t) => el("p", { class: "tooltip__linea" }, t)),
     fijo && el("p", { class: "tooltip__acciones" }, el("a", { class: "boton", href: enlaceLegislador(l, D.cam.clave) }, "Ver perfil ", el("span", { "aria-hidden": "true" }, "→"))),
-  ] });
+  ], foco });
 }
 
 function cambiar(cambios) {
@@ -318,12 +322,12 @@ function resumenSeleccion(pp) {
   if (pp.decisivas.votaciones.length) partes.push(`del lado ganador en ${numero(ga ? ga.veces : 0)} de ${numero(pp.decisivas.votaciones.length)} votaciones decisivas`);
   if (!partes.length) partes.push("no tiene votaciones suficientes en este período para estos análisis");
   const quitar = el("button", { type: "button", class: "seleccion__quitar", "aria-label": `Quitar a ${l.nombre}` }, "×");
-  quitar.addEventListener("click", () => { soltar(false); $("#f-buscar").value = ""; cambiar({ seleccionado: "" }); });
+  quitar.addEventListener("click", () => { soltar(false); $("#f-buscar").value = ""; $("#f-seguir").value = ""; cambiar({ seleccionado: "" }); });
   caja.replaceChildren(avatar(l), el("div", { class: "seleccion__texto" }, el("strong", {}, apellidoNombre(l.nombre, l.nombre_corto)), " ", chipPartido(l.partido),
     el("span", { class: "seleccion__dato" }, `En el período: ${partes.join(" · ")}.`)),
   el("a", { class: "boton", href: enlaceLegislador(l, D.cam.clave) }, "Ver perfil"), quitar);
   caja.hidden = false;
-  if (!$("#f-buscar").value) $("#f-buscar").value = l.nombre;
+  for (const campo of [$("#f-buscar"), $("#f-seguir")]) if (!campo.value && document.activeElement !== campo) campo.value = l.nombre;
 }
 
 // ---------- Posición política estimada: una fila por partido ----------
@@ -513,7 +517,43 @@ function dibujar() {
   dibujarMapaCompleto(pp);
   resumenSeleccion(pp);
   resaltar(e.seleccionado);
+  actualizarAnimacion(e);
   if (e.aparto) document.getElementById(`aparto-${e.aparto}`)?.scrollIntoView({ block: "nearest" });
+}
+
+// «¿Cómo se lee este gráfico?»: animación con los datos reales de la cámara (coincidencia con la ANR por ventana,
+// la misma serie, eje y semestres que el gráfico de abajo). Sigue a la persona elegida en el buscador.
+const animacion = montarAnimacionMapa($("#como-se-lee"), $("#animacion-mapa"), {
+  persona: (id) => persona(id),
+  clasePartido: (l) => partidoClase(l.partido),
+  conectarPersona: (nodo, l, lineas) => conectarPersona(nodo, l, lineas, { foco: false }),
+  alFinal: () => {
+    const destino = $("#g-trayectoria");
+    destino.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
+    destino.focus({ preventScroll: true });
+  },
+});
+const fuentes = new WeakMap();   // una fuente por trayectoria cargada: la animación se rearma solo si cambia
+function actualizarAnimacion(e) {
+  const tr = D.vm.trayectoria;
+  $("#como-se-lee").hidden = tr.ventanas.length < 2;
+  if (tr.ventanas.length < 2) return;
+  if (!fuentes.has(tr)) {
+    const valores = Object.values(tr.anr.posiciones).flat().filter((v) => v !== null);
+    const dom = dominio("anr", valores);
+    fuentes.set(tr, { etiquetas: tr.ventanas.map((w) => { const [a, m] = w.desde.split("-"); return `${MESES[Number(m) - 1]} ${a.slice(2)}`; }),
+      posiciones: tr.anr.posiciones, zonas: tr.anr.zonas || {}, dominio: dom, marcas: ticksAnr(dom) });
+  }
+  animacion.actualizar(fuentes.get(tr), e.seleccionado);
+}
+
+/** «Ver su recorrido» (desde el perfil) llega con seccion=tiempo: se baja al mapa en el tiempo una sola vez. */
+function irASeccion() {
+  const todo = leerEstado(DEFECTOS);
+  if (todo.seccion !== "tiempo") return;
+  delete todo.seccion;
+  escribirEstado(todo, DEFECTOS);
+  requestAnimationFrame(() => $("section[aria-labelledby='t-tiempo']").scrollIntoView({ block: "start" }));
 }
 
 let cargada = "";
@@ -527,19 +567,27 @@ async function aplicar() {
     D = { cam, vm };
     cargada = e.camara;
     dibujar();
+    irASeccion();
   } catch (err) {
     mostrarError($("#g-disciplina"), `No se pudieron cargar los datos: ${err.message}`);
   }
 }
 
 for (const b of document.querySelectorAll("#selector-camara button")) {
-  b.addEventListener("click", () => { $("#f-buscar").value = ""; escribirEstado({ ...leerEstado(DEFECTOS), camara: b.dataset.camara, partido: "", aparto: "", seleccionado: "" }, DEFECTOS); aplicar(); });
+  b.addEventListener("click", () => { $("#f-buscar").value = ""; $("#f-seguir").value = ""; escribirEstado({ ...leerEstado(DEFECTOS), camara: b.dataset.camara, partido: "", aparto: "", seleccionado: "" }, DEFECTOS); aplicar(); });
 }
 crearBuscador({
   entrada: $("#f-buscar"),
   lista: $("#buscador-lista"),
-  alElegir: (o) => { soltar(false); escribirEstado({ ...leerEstado(DEFECTOS), camara: o.camara, seleccionado: String(o.l.id), partido: "", aparto: "" }, DEFECTOS); aplicar(); },
-  alLimpiar: () => { if (sel()) { soltar(false); cambiar({ seleccionado: "" }); } },
+  alElegir: (o) => { soltar(false); $("#f-seguir").value = o.l.nombre; escribirEstado({ ...leerEstado(DEFECTOS), camara: o.camara, seleccionado: String(o.l.id), partido: "", aparto: "" }, DEFECTOS); aplicar(); },
+  alLimpiar: () => { $("#f-seguir").value = ""; if (sel()) { soltar(false); cambiar({ seleccionado: "" }); } },
+});
+// «Seguir a un legislador» (en el mapa en el tiempo): el mismo estado que el buscador de arriba
+crearBuscador({
+  entrada: $("#f-seguir"),
+  lista: $("#seguir-lista"),
+  alElegir: (o) => { soltar(false); $("#f-buscar").value = o.l.nombre; escribirEstado({ ...leerEstado(DEFECTOS), camara: o.camara, seleccionado: String(o.l.id), partido: "", aparto: "" }, DEFECTOS); aplicar(); },
+  alLimpiar: () => { $("#f-buscar").value = ""; if (sel()) { soltar(false); cambiar({ seleccionado: "" }); } },
 });
 $("#mapa-completo").addEventListener("toggle", () => { if (D) { const e = leerEstado(DEFECTOS); dibujarMapaCompleto(D.vm.por_periodo[D.vm.periodos.some((p) => p.clave === e.periodo) ? e.periodo : "mandato"]); } });
 $("#f-partido").addEventListener("change", () => cambiar({ partido: $("#f-partido").value, aparto: "" }));

@@ -135,7 +135,21 @@
         </div>
         <div class="tarjeta__acciones" id="medida-tiempo"></div>
       </div>
-      <div class="tarjeta__cuerpo"><div class="grafico" id="g-trayectoria"></div></div>
+      <div class="tarjeta__cuerpo">
+        <div class="buscador buscador--seguir" role="search">
+          <label class="filtro buscador__etiqueta" for="f-seguir">Seguir a un legislador</label>
+          <div class="buscador__campo">
+            <input type="search" id="f-seguir" placeholder="Nombre o apellido" autocomplete="off"
+              role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="seguir-lista">
+            <ul class="buscador__lista" id="seguir-lista" role="listbox" aria-label="Legisladores que coinciden" hidden></ul>
+          </div>
+        </div>
+        <details class="como-se-lee" id="como-se-lee">
+          <summary>¿Cómo se lee este gráfico? <span class="como-se-lee__icono" aria-hidden="true">▶</span></summary>
+          <div class="como-se-lee__cuerpo" id="animacion-mapa"></div>
+        </details>
+        <div class="grafico" id="g-trayectoria" tabindex="-1"></div>
+      </div>
       <details class="tarjeta__metodologia">
         <summary>Metodología</summary>
         <ul>

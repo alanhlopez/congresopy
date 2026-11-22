@@ -28,6 +28,8 @@ function cabecera(d, l) {
         l.estado !== "activos" ? el("span", { class: "chip" }, "Ya no está en el cargo") : null),
       el("p", { class: "nota" }, l.bancada || "Sin bancada declarada", l.cargo_bancada ? ` · ${l.cargo_bancada.toLowerCase()} de bancada` : ""),
       el("p", { class: "perfil-cabecera__acciones" },
+        el("a", { class: "boton", href: enlace("votometro.html", { camara: d.clave, seleccionado: l.id, seccion: "tiempo" }) }, "Ver su recorrido ", el("span", { "aria-hidden": "true" }, "→")),
+        " ",
         el("a", { class: "boton", href: `https://silpy.congreso.gov.py/web/legislador/${l.id}`, rel: "noopener" }, "Ficha en SILpy ", el("span", { "aria-hidden": "true" }, "↗")))),
     el("div", { class: "perfil-cabecera__presencia" }, anillo(pres, "Presencia en votaciones nominales"),
       el("div", {},
