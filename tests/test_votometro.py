@@ -76,7 +76,7 @@ def test_mapa_igual_al_metodo_del_prototipo(exportado, cam):
 
 @pytest.mark.parametrize("cam", CAMARAS)
 def test_ventanas_de_12_meses_cada_6(exportado, cam):
-    vm, _, _, _ = datos(exportado, cam)
+    vm, _, _, leg = datos(exportado, cam)
     vs = vm["trayectoria"]["ventanas"]
     assert vs[0]["desde"] == "2023-07"
     for v in vs:
@@ -87,6 +87,15 @@ def test_ventanas_de_12_meses_cada_6(exportado, cam):
         assert len(serie) == len(vs) and all(x is None or -1 <= x <= 1 for x in serie)
     for i, serie in vm["trayectoria"]["anr"]["posiciones"].items():
         assert len(serie) == len(vs) and all(x is None or 0 <= x <= 1 for x in serie)
+    # franjas de la animación: P25–P75 del ANR y del resto, con todas las ventanas juntas
+    anr = [x for i, s in vm["trayectoria"]["anr"]["posiciones"].items() for x in s
+           if x is not None and leg.get(int(i), {}).get("partido") == "ANR"]
+    resto = [x for i, s in vm["trayectoria"]["anr"]["posiciones"].items() for x in s
+             if x is not None and leg.get(int(i), {}).get("partido") != "ANR"]
+    z = vm["trayectoria"]["anr"]["zonas"]
+    assert z["anr"] == pytest.approx(list(np.percentile(anr, [25, 75])), abs=1e-4)
+    assert z["resto"] == pytest.approx(list(np.percentile(resto, [25, 75])), abs=1e-4)
+    assert z["resto"][0] < z["anr"][0] and z["resto"][1] < z["anr"][1]
 
 
 @pytest.mark.parametrize("cam", CAMARAS)

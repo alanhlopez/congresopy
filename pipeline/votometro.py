@@ -428,4 +428,16 @@ def trayectoria(votaciones, cadenas, partido, ids, cron):
                 movimiento.append({"id": int(i), "rango": r4(max(presentes) - min(presentes)), "ventanas": len(presentes)})
         movimiento.sort(key=lambda x: (-x["rango"], x["id"]))
         return {"posiciones": puntos, "movimiento": movimiento}
-    return {"ventanas": salida_v, "mds": series(posiciones), "anr": series(pos_anr)}
+    anr = series(pos_anr)
+    anr["zonas"] = zonas(pos_anr, partido)
+    return {"ventanas": salida_v, "mds": series(posiciones), "anr": anr}
+
+
+def zonas(pos, partido):
+    """Franjas de fondo de la animación «¿Cómo se lee?»: rango intercuartílico (P25–P75) de la coincidencia con la
+    mayoría del ANR, de los legisladores del ANR y del resto, juntando todas las ventanas."""
+    def iqr(xs):
+        return [r4(np.percentile(xs, 25)), r4(np.percentile(xs, 75))] if xs else None
+    anr = [v for i, s in pos.items() for v in s.values() if partido.get(i) == "ANR"]
+    resto = [v for i, s in pos.items() for v in s.values() if partido.get(i) != "ANR"]
+    return {"anr": iqr(anr), "resto": iqr(resto)}
