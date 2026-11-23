@@ -1,6 +1,6 @@
 {
   "proyecto": "Hesakã · Congreso del Paraguay",
-  "generado": "2026-11-22T22:15:11Z",
+  "generado": "2026-11-23T22:38:58Z",
   "fuente": {
     "nombre": "SILpy – Sistema de Información Legislativa, Congreso Nacional del Paraguay",
     "url": "https://silpy.congreso.gov.py/",
@@ -35,10 +35,10 @@
   "archivos": [
     {
       "archivo": "senado/legisladores.json",
-      "generado": "2026-11-16T21:02:29Z",
+      "generado": "2026-11-23T22:38:58Z",
       "filas": 55,
       "bytes": 28286,
-      "sha256": "4c58190eb05af99fa263231edd396c26231e5fab92bc64dffcb00a741d214498"
+      "sha256": "cbb0bc0fc52df1d70bead41e292231fd1294ce3a97a1a6e9ace15ea35acb0eef"
     },
     {
       "archivo": "senado/votaciones.json",
@@ -84,10 +84,10 @@
     },
     {
       "archivo": "diputados/legisladores.json",
-      "generado": "2026-11-16T21:02:29Z",
+      "generado": "2026-11-23T22:38:58Z",
       "filas": 86,
       "bytes": 43102,
-      "sha256": "02ebe7beea804906d1e063b082fa2396253d63d4848a6c8dea88ba077ca18ea5"
+      "sha256": "d353bd8734b8a3246f2e23e69d44855be8d77b53e34134da46203dd45c000c43"
     },
     {
       "archivo": "diputados/votaciones.json",
